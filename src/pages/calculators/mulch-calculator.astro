@@ -1,0 +1,242 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import MulchCalculator from '../../components/calculators/MulchCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('mulch-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-05';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+const shareImage = new URL('/mulch-calculator-bed-depth-example.svg', Astro.site).href;
+
+const intro =
+  'Figure out exactly how much mulch you need for any garden bed, border, or landscape area. Enter your bed size and desired depth, and the tool converts it into cubic feet, cubic yards, and standard 2-cubic-foot bags — the units you actually buy mulch in. Built for gardeners, landscapers, and anyone standing in a store aisle doing long division on their phone.';
+
+const tocItems = [
+  { id: 'how-much-mulch-do-i-actually-need', label: 'How Much Mulch Do I Need', icon: 'leaf' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mulch-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'mulch-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+// FAQ data — FAQBlock component injects FAQPage schema automatically.
+const faqs = [
+  {
+    q: 'How many bags of mulch do I need?',
+    a: 'Take your bed\u2019s square footage, multiply by your depth in inches divided by 12 to get cubic feet, then divide by 2 (the size of a standard bag). A 4\u00d78 bed at 3 inches deep needs 8 cubic feet, which is 4 bags. The calculator above does this live as you type.',
+  },
+  {
+    q: 'How often should I reapply mulch?',
+    a: 'Most beds need a top-up every 1\u20132 years because mulch decomposes and settles. You don\u2019t always need a full depth \u2014 a 1-inch refresh is usually enough to keep weed suppression and moisture retention where they should be. Pull back the old mulch first if it has matted into a dense layer.',
+  },
+  {
+    q: 'Does mulch depth differ for trees vs flower beds?',
+    a: 'Yes. Flower and vegetable beds do well at 2\u20133 inches. Trees and shrubs want 2\u20134 inches spread evenly to the drip line, but keep a 3\u20136 inch gap around the trunk so the bark can breathe. Going deeper than 4 inches around a tree suffocates roots and invites rot.',
+  },
+  {
+    q: 'Bagged or bulk mulch \u2014 which is cheaper?',
+    a: 'Bulk (sold by the cubic yard) usually wins past about 3 cubic yards, which is roughly 40 standard bags. Below that, bags are easier and not much more expensive once you factor in delivery fees. Get a bulk quote if your calculator output is over 14 bags.',
+  },
+  {
+    q: 'How much does mulch coverage vary by type (wood chips vs shredded vs rubber)?',
+    a: 'Coverage is set by depth, not material \u2014 a 3-inch layer of wood chips, shredded hardwood, or rubber mulch all covers the same square footage per cubic yard. What changes is settling: shredded mulch compacts 10\u201315% in the first rain, so buy a little extra. Rubber and stone don\u2019t settle and don\u2019t decompose, so one application lasts years.',
+  },
+  {
+    q: 'How do I calculate mulch for a circular bed or tree ring?',
+    a: 'Measure the radius (distance from the center to the outer edge, i.e. half the diameter). Square the radius and multiply by \u03c0 (3.14159) to get square feet, then multiply by depth in feet. Use the Circle toggle in the calculator above \u2014 just enter the radius and it handles the \u03c0 \u00d7 r\u00b2 math for you. For a tree ring, the radius is the distance from the trunk to the outer edge of the mulched area. A 6-foot-diameter ring has a 3-foot radius, giving 3\u00b2 \u00d7 \u03c0 \u2248 28.3 square feet \u2014 which many people significantly underestimate when buying bags.',
+  },
+];
+
+const faqJsonLd = undefined; // FAQBlock injects FAQPage schema automatically — kept as no-op
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate how much mulch you need',
+  description:
+    'Use the mulch calculator to figure out how many cubic feet, cubic yards, or 2-cubic-foot bags of mulch to buy for any garden bed or landscape area.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Enter your bed dimensions',
+      text: 'Type the length and width of your bed in feet, or switch to total square feet if you already know the area.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enter the desired mulch depth',
+      text: 'Set the depth in inches. 2\u20133 inches is typical for most garden beds; 3\u20134 inches for new beds or heavy weed pressure.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Read the result',
+      text: 'The calculator shows cubic feet, cubic yards, and the number of 2-cubic-foot bags needed, updating live as you type.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://plantcalculators.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Calculators',
+      item: 'https://plantcalculators.com/clusters/soil-and-amendments/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Mulch Calculator',
+      item: 'https://plantcalculators.com/calculators/mulch-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Mulch Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/mulch-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Left column content: calculator → mobile TOC → lead magnet → article -->
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <MulchCalculator client:load />
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-much-mulch-do-i-actually-need">How Much Mulch Do I Actually Need?</h2>
+    <p>
+      The rule of thumb is simple: <strong>2&ndash;3 inches of mulch</strong> over most garden beds, refreshed every year or two. That depth is enough to suppress weeds, hold moisture, and regulate soil temperature without smothering the roots underneath. Go thinner and you&rsquo;ll be re-weeding within a month; go thicker than 4 inches and you start blocking water and air from reaching the root zone.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/mulch-calculator-bed-depth-example.svg"
+        alt="Mulch spread at proper 3-inch depth around a garden bed."
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        A 3-inch layer over a garden bed — deep enough to suppress weeds, shallow enough to let water through.
+      </figcaption>
+    </figure>
+    <p>
+      Depth matters more than people give it credit for. Every extra inch over a 100-square-foot bed is another 8 cubic feet of mulch &mdash; roughly 4 extra bags. Most gardeners underestimate depth, buy too few bags, and end up with a thin layer that doesn&rsquo;t do its job. Measure depth before you order, not after. If you&rsquo;re filling a brand-new raised bed, <a href="/calculators/topsoil-calculator/">start by calculating your topsoil needs</a> first &mdash; then come back here to figure out how much mulch to add on top.
+    </p>
+    <p>
+      Bag size vs. bulk delivery changes the math too. Bagged mulch is sold in 2-cubic-foot bags (sometimes 1.5), while bulk is sold by the cubic yard (27 cubic feet, or about 13.5 standard bags). <strong>Mulch coverage</strong> per cubic yard at 3 inches deep is roughly 100 square feet. Past about 3 cubic yards &mdash; call it 40 bags &mdash; bulk almost always wins on price. Below that, bags are easier and not much more expensive once you factor in delivery fees. The calculator gives you all three <strong>cubic yards</strong>, cubic feet, and bag counts so you can compare apples-to-apples at the register.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Let&rsquo;s say you have a <strong>10 &times; 20 foot bed</strong> and you want a <strong>3-inch layer</strong> of mulch. Here&rsquo;s the math, step by step:
+    </p>
+    <ol>
+      <li><strong>Area:</strong> 10 ft &times; 20 ft = <strong>200 square feet</strong>.</li>
+      <li><strong>Convert depth to feet:</strong> 3 inches &divide; 12 = 0.25 feet.</li>
+      <li><strong>Cubic feet:</strong> 200 sq ft &times; 0.25 ft = <strong>50 cubic feet</strong> of mulch.</li>
+      <li><strong>Cubic yards:</strong> 50 &divide; 27 = <strong>1.85 cubic yards</strong> (round to 2 yards if you&rsquo;re buying bulk).</li>
+      <li><strong>2-cubic-foot bags:</strong> 50 &divide; 2 = <strong>25 bags</strong> (round up, since you can&rsquo;t buy a partial bag).</li>
+    </ol>
+    <p>
+      So for a 10&times;20 bed at 3 inches deep, you need <strong>50 cubic feet</strong>, <strong>1.85 cubic yards</strong>, or <strong>25 standard 2-cubic-foot bags</strong>. If you&rsquo;re buying bulk, round up to 2 yards &mdash; it&rsquo;s always better to have a little extra for settling and touch-ups than to come up half a bag short.
+    </p>
+
+    <h2 id="common-mulch-mistakes">Common Mulch Mistakes</h2>
+    <ul>
+      <li><strong>Volcano mulching around tree trunks.</strong> Piling mulch against the bark rots the trunk and invites disease. Keep a 3&ndash;6 inch gap around the base of every tree and shrub.</li>
+      <li><strong>Applying too deep and suffocating roots.</strong> Anything over 4 inches blocks water and air from reaching the root zone. Stick to 2&ndash;3 inches on beds and 3&ndash;4 inches around trees, max.</li>
+      <li><strong>Using the wrong mulch type for the bed.</strong> Dyed hardwood looks sharp but isn&rsquo;t always food-safe; arborist chips and natural hardwood are better for edibles. Rubber and stone don&rsquo;t decompose, so they&rsquo;re fine for paths but wrong for beds that need organic matter.</li>
+      <li><strong>Not accounting for settling over the season.</strong> Bagged and shredded mulch can settle 10&ndash;15% after the first rain. Round up, not down, or you&rsquo;ll be back at the store in a month.</li>
+      <li><strong>Buying bagged when bulk is cheaper.</strong> Past about 3 cubic yards (roughly 40 bags), bulk delivery almost always wins on price. Run the calculator first and get a bulk quote if you&rsquo;re over that line.</li>
+    </ul>
+
+    <FAQBlock id="mulch-calculator-faq" heading="Mulch Calculator FAQ" faqs={faqs} />
+
+    <LeadMagnet variant="compact" />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Mulch depth and coverage guidance in this article draws on general recommendations from university cooperative extension services (such as your state&rsquo;s land-grant extension office) and the USDA Natural Resources Conservation Service. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>. For region-specific guidance &mdash; especially on mulch type, fire risk, and pest considerations &mdash; search &ldquo;<a href="https://extension.org/search/?q=mulch">mulch</a>&rdquo; on Extension.org or your local extension office&rsquo;s website. For a deeper walk-through of the math, see our upcoming post on <a href="/blog/how-much-mulch-do-you-really-need/">how much mulch you really need</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'same idea, for raised beds and round pots. Use it to figure out how much soil to put under the mulch.' },
+      { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'figure out how many plants fit in the bed you just mulched around.' },
+      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'for the lawn parts of the yard.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      This page was last updated on {formattedDate}. The calculator itself is unchanged &mdash; only the surrounding guidance is updated as mulch best practices evolve.
+    </p>
+  </article>
+</CalculatorLayout>

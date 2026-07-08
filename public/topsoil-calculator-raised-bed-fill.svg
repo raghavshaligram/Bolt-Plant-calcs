@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="Topsoil being added to a raised garden bed, for calculating fill volume">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+
+  <!-- Distant hills -->
+  <path d="M0 190 Q200 155 400 175 T800 180 V210 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+
+  <!-- Raised bed frame - larger, showing depth clearly -->
+  <g>
+    <!-- Side walls -->
+    <path d="M100 320 L100 420 L700 420 L700 320" stroke="#A87F4A" stroke-width="2" fill="none"/>
+    <!-- Front face -->
+    <rect x="100" y="400" width="600" height="28" rx="4" fill="#A87F4A"/>
+    <!-- Back board top edge -->
+    <rect x="100" y="310" width="600" height="14" rx="3" fill="#B8975C"/>
+    <!-- Wood plank fills -->
+    <rect x="100" y="318" width="600" height="86" fill="#C8A87C"/>
+    <!-- Wood grain lines -->
+    <line x1="220" y1="326" x2="220" y2="398" stroke="#A8855A" stroke-width="1.5" opacity="0.4"/>
+    <line x1="360" y1="326" x2="360" y2="398" stroke="#A8855A" stroke-width="1.5" opacity="0.4"/>
+    <line x1="490" y1="326" x2="490" y2="398" stroke="#A8855A" stroke-width="1.5" opacity="0.4"/>
+    <line x1="610" y1="326" x2="610" y2="398" stroke="#A8855A" stroke-width="1.5" opacity="0.4"/>
+    <!-- Corner posts -->
+    <rect x="86" y="305" width="18" height="118" rx="4" fill="#8B6535"/>
+    <rect x="696" y="305" width="18" height="118" rx="4" fill="#8B6535"/>
+  </g>
+
+  <!-- Soil fill inside the bed (partially filled, showing the fill process) -->
+  <!-- Empty space at top (unfilled portion) -->
+  <rect x="114" y="326" width="572" height="40" fill="#E8E0D0" opacity="0.5"/>
+  <!-- Filled soil (darker) -->
+  <rect x="114" y="366" width="572" height="34" fill="#6B4F35"/>
+  <!-- Soil surface texture -->
+  <g fill="#7A5C3E" opacity="0.8">
+    <circle cx="140" cy="374" r="3.5"/>
+    <circle cx="168" cy="370" r="3"/>
+    <circle cx="195" cy="376" r="3.5"/>
+    <circle cx="225" cy="372" r="3"/>
+    <circle cx="255" cy="374" r="3.5"/>
+    <circle cx="285" cy="370" r="3"/>
+    <circle cx="315" cy="376" r="3.5"/>
+    <circle cx="345" cy="372" r="3"/>
+    <circle cx="375" cy="374" r="3.5"/>
+    <circle cx="405" cy="370" r="3"/>
+    <circle cx="435" cy="376" r="3.5"/>
+    <circle cx="465" cy="372" r="3"/>
+    <circle cx="495" cy="374" r="3.5"/>
+    <circle cx="525" cy="370" r="3"/>
+    <circle cx="555" cy="376" r="3.5"/>
+    <circle cx="585" cy="372" r="3"/>
+    <circle cx="615" cy="374" r="3.5"/>
+    <circle cx="640" cy="370" r="3"/>
+    <circle cx="668" cy="376" r="3.5"/>
+  </g>
+
+  <!-- Fresh topsoil pile on the edge of the bed being poured in -->
+  <!-- Topsoil mound/pile shape (darker earthy brown) -->
+  <ellipse cx="580" cy="308" rx="80" ry="28" fill="#7A5C3E" opacity="0.9"/>
+  <path d="M520 310 Q550 270 580 265 Q610 270 640 310" fill="#8B6535" stroke="#7A5C3E" stroke-width="1"/>
+  <!-- Soil falling/streaming into the bed -->
+  <path d="M565 300 Q562 320 558 340 Q555 360 552 370" stroke="#6B4F35" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+  <path d="M580 298 Q578 318 576 338 Q574 358 572 368" stroke="#7A5C3E" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M595 302 Q592 322 589 342 Q586 360 584 370" stroke="#6B4F35" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Shovel scooping topsoil -->
+  <g transform="translate(620, 220) rotate(40)">
+    <!-- Handle -->
+    <rect x="-4" y="0" width="8" height="90" rx="4" fill="#9B7B55"/>
+    <!-- Blade -->
+    <path d="M-10 88 Q-12 110 -8 125 Q0 130 8 125 Q12 110 10 88 Z" fill="#7A8090"/>
+    <path d="M-8 88 Q-10 108 -6 122 Q0 126 6 122 Q10 108 8 88 Z" fill="#9AA0AC" opacity="0.6"/>
+  </g>
+
+  <!-- Depth measurement indicator -->
+  <g>
+    <line x1="730" y1="326" x2="730" y2="400" stroke="#3A4A2A" stroke-width="2" stroke-dasharray="4 3"/>
+    <line x1="724" y1="326" x2="736" y2="326" stroke="#3A4A2A" stroke-width="2" stroke-linecap="round"/>
+    <line x1="724" y1="400" x2="736" y2="400" stroke="#3A4A2A" stroke-width="2" stroke-linecap="round"/>
+    <!-- Label -->
+    <rect x="740" y="350" width="50" height="22" rx="4" fill="#3A4A2A"/>
+    <text x="765" y="365" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#F5F1E8" text-anchor="middle">depth</text>
+  </g>
+
+  <!-- Small measuring tape on the bed edge -->
+  <g transform="translate(130, 300)">
+    <rect x="0" y="0" width="52" height="12" rx="3" fill="#E8C060"/>
+    <rect x="0" y="0" width="52" height="6" rx="2" fill="#F0D070"/>
+    <line x1="8" y1="0" x2="8" y2="8" stroke="#8B7040" stroke-width="1" opacity="0.7"/>
+    <line x1="16" y1="0" x2="16" y2="6" stroke="#8B7040" stroke-width="1" opacity="0.7"/>
+    <line x1="24" y1="0" x2="24" y2="8" stroke="#8B7040" stroke-width="1" opacity="0.7"/>
+    <line x1="32" y1="0" x2="32" y2="6" stroke="#8B7040" stroke-width="1" opacity="0.7"/>
+    <line x1="40" y1="0" x2="40" y2="8" stroke="#8B7040" stroke-width="1" opacity="0.7"/>
+    <line x1="48" y1="0" x2="48" y2="6" stroke="#8B7040" stroke-width="1" opacity="0.7"/>
+  </g>
+
+  <!-- Ground -->
+  <rect x="0" y="428" width="800" height="72" fill="#C8D9A8"/>
+  <!-- Grass -->
+  <g fill="#9AB870" opacity="0.7">
+    <path d="M40 428 Q38 420 40 414 Q42 420 40 428 Z"/>
+    <path d="M200 428 Q198 422 200 416 Q202 422 200 428 Z"/>
+    <path d="M205 428 Q203 418 205 412 Q207 418 205 428 Z"/>
+    <path d="M400 428 Q398 422 400 416 Q402 422 400 428 Z"/>
+    <path d="M600 428 Q598 420 600 414 Q602 420 600 428 Z"/>
+    <path d="M760 428 Q758 422 760 416 Q762 422 760 428 Z"/>
+  </g>
+
+  <!-- Sun -->
+  <circle cx="720" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="720" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Small label: "topsoil fill" -->
+  <rect x="160" y="372" width="70" height="18" rx="4" fill="#3A4A2A" opacity="0.85"/>
+  <text x="195" y="384" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="#F5F1E8" text-anchor="middle">topsoil fill</text>
+</svg>

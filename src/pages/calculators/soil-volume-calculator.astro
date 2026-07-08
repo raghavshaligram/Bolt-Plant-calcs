@@ -1,0 +1,252 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import SoilVolumeCalculator from '../../components/calculators/SoilVolumeCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('soil-volume-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-08';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'Calculate soil volume for pots, containers, raised beds, or any rectangular or cylindrical space \u2014 in cubic feet, cubic yards, and liters. This multi-shape tool covers both round pots and rectangular beds in one place, with liters output for container growing alongside cubic feet and cubic yards for ordering. For rectangular raised beds with presets, see our Raised Bed Soil Calculator; for bulk topsoil by the truckload, see the Topsoil Calculator.';
+
+const tocItems = [
+  { id: 'how-much-soil-do-i-need', label: 'How Much Soil Do I Need', icon: 'leaf' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-soil-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'soil-volume-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/soil-volume-calculator-pot-and-bed.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How much soil do I need for a pot or container?',
+    a: 'Measure the pot\u2019s diameter, halve it for the radius, and calculate \u03c0 \u00d7 radius\u00b2 \u00d7 fill depth to get volume. A 12-inch pot filled 8 inches deep needs about 0.52 cubic feet (14.8 liters). Use the Cylinder toggle above and enter the diameter \u2014 the calculator handles the rest. Always subtract 1\u20132 inches from the pot\u2019s measured depth for drainage material and watering headspace; fill depth is less than the pot\u2019s total height. For square or rectangular planters, switch to Rectangle and enter the inner dimensions.',
+  },
+  {
+    q: 'How many cubic feet are in a yard of soil?',
+    a: 'There are exactly 27 cubic feet in one cubic yard \u2014 a cubic yard is a 3-foot cube: 3 \u00d7 3 \u00d7 3 = 27. Bulk soil delivered by truck is sold by the cubic yard; bags are sold by the cubic foot. A standard 2-cubic-foot bag is 1/13.5th of a cubic yard. If you need 3 or more cubic yards, bulk delivery almost always costs less than buying bags, even after accounting for delivery fees.',
+  },
+  {
+    q: 'How much does a cubic foot of soil weigh?',
+    a: 'It varies a lot by mix and moisture. Dry potting mix: 20\u201325 lbs per cubic foot. Moist all-purpose garden or raised bed mix: 35\u201350 lbs. Dense topsoil: 70\u201380 lbs. This calculator estimates ~40 lbs/cu ft as a midpoint \u2014 useful for planning, not for ordering by weight. If you\u2019re ordering topsoil by the ton, use the Topsoil Calculator, which uses the industry standard of ~88.9 lbs/cu ft (1.2 tons per cubic yard) for moist topsoil delivery.',
+  },
+  {
+    q: 'Can I convert cubic feet to square feet?',
+    a: 'Not directly \u2014 cubic feet measure volume (three dimensions) and square feet measure area (two dimensions). To convert, you need depth: square feet = cubic feet \u00f7 depth in feet. Example: 25 cu ft with 6-inch (0.5 ft) depth covers 50 square feet. This is the most common source of confusion when ordering soil. If a supplier quotes in cubic yards and you want to know the coverage, divide by depth in feet. The calculator handles this in reverse: enter your area and depth to get volume.',
+  },
+  {
+    q: 'How do I calculate soil volume for an irregular-shaped area?',
+    a: 'Break the area into rectangles or cylinders, calculate each section separately, then add the volumes. For a curved or freeform bed, divide it into rough rectangles on graph paper, calculate each, sum them, and add 10\u201315% for irregular edges. For a very irregular shape, measure the longest length and widest width as a bounding rectangle, calculate that volume, then subtract 20\u201330% for the portions outside the actual bed. This \u201covercount then subtract\u201d approach usually gets you within a bag or two.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate soil volume for a pot or raised bed',
+  description:
+    'Use the soil volume calculator to figure out how many cubic feet, cubic yards, or liters of soil to buy for containers, raised beds, or any rectangular or cylindrical space.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Choose the shape',
+      text: 'Toggle between Rectangle (for beds, boxes, and rectangular planters) and Cylinder / Pot (for round pots, fabric grow bags, and tree ring planters).',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enter your dimensions',
+      text: 'For a rectangle, type length and width in feet. For a cylinder, type the diameter in feet (12-inch pot = 1 ft, 16-inch = 1.33 ft).',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Set the fill depth',
+      text: 'Enter how deep you want to fill the space in inches. For pots, this is the soil depth from the drainage layer to 1\u20132 inches below the rim. The calculator updates cubic feet, liters, cubic yards, and estimated weight live as you type.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://plantcalculators.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Soil & Amendments',
+      item: 'https://plantcalculators.com/clusters/soil-and-amendments/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Soil Volume Calculator',
+      item: 'https://plantcalculators.com/calculators/soil-volume-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Soil Volume Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/soil-volume-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <SoilVolumeCalculator client:load />
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-much-soil-do-i-need">How Much Soil Do I Need?</h2>
+    <p>
+      The right amount depends entirely on <strong>what you&rsquo;re filling and how deep</strong>. For a rectangular raised bed, it&rsquo;s length &times; width &times; depth. For a round pot or cylindrical container, it&rsquo;s the base area (&pi; &times; radius&sup2;) times the fill depth. The tricky part is that volume is three-dimensional &mdash; one extra inch of depth over a 4&times;8 bed adds 2.7 cubic feet, roughly an extra bag of soil.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/soil-volume-calculator-pot-and-bed.svg"
+        alt="Soil volume being calculated for both a round pot and a rectangular bed"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Same depth, very different shapes &mdash; the calculator handles both.
+      </figcaption>
+    </figure>
+    <p>
+      Use this calculator when you&rsquo;re filling containers (cylindrical pots, fabric grow bags, half-barrels) or when you need liters alongside cubic feet. If you&rsquo;re only filling standard rectangular raised beds, a dedicated Raised Bed Soil Calculator offers common size presets. If you&rsquo;re ordering bulk topsoil by the truckload and need tons &mdash; the unit suppliers actually quote in &mdash; the <a href="/calculators/topsoil-calculator/">Topsoil Calculator</a> is the right tool.
+    </p>
+    <p>
+      Weight varies widely by mix: dry potting mix runs 20&ndash;25 lbs per cubic foot, while moist garden soil can hit 70&ndash;80 lbs. Plan for this if you&rsquo;re moving bags up stairs, onto a roof deck, or into a container that can&rsquo;t bear much load. The weight estimate in this calculator uses ~40 lbs/cu ft as a midpoint &mdash; useful for planning logistics, not for ordering by the ton.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Here are two side-by-side examples &mdash; one rectangular bed and one round pot &mdash; so you can see exactly how the math differs.
+    </p>
+
+    <h3>Example 1: Rectangular raised bed (4 &times; 8 ft, 10&Prime; deep)</h3>
+    <ol>
+      <li><strong>Area:</strong> 4 ft &times; 8 ft = <strong>32 square feet</strong>.</li>
+      <li><strong>Convert depth to feet:</strong> 10 inches &divide; 12 = 0.833 ft.</li>
+      <li><strong>Cubic feet:</strong> 32 &times; 0.833 = <strong>26.7 cu ft</strong>.</li>
+      <li><strong>Cubic yards:</strong> 26.7 &divide; 27 = <strong>0.99 cu yd</strong> (round to 1 yard for bulk ordering).</li>
+      <li><strong>Liters:</strong> 26.7 &times; 28.32 = <strong>755 L</strong>.</li>
+      <li><strong>Est. weight:</strong> 26.7 &times; 40 lbs &asymp; <strong>1,067 lbs</strong> (varies by mix).</li>
+    </ol>
+
+    <h3>Example 2: Round pot (12&Prime; diameter, 8&Prime; fill depth)</h3>
+    <ol>
+      <li><strong>Radius in feet:</strong> 12&Prime; &divide; 2 = 6&Prime; = 0.5 ft.</li>
+      <li><strong>Area:</strong> &pi; &times; 0.5&sup2; = <strong>0.785 sq ft</strong>.</li>
+      <li><strong>Convert depth to feet:</strong> 8 inches &divide; 12 = 0.667 ft.</li>
+      <li><strong>Cubic feet:</strong> 0.785 &times; 0.667 = <strong>0.52 cu ft</strong>.</li>
+      <li><strong>Liters:</strong> 0.52 &times; 28.32 = <strong>14.8 L</strong>.</li>
+      <li><strong>Est. weight:</strong> 0.52 &times; 40 lbs &asymp; <strong>21 lbs</strong> of potting mix.</li>
+    </ol>
+    <p>
+      The pot example shows why liters matter: &ldquo;0.52 cubic feet&rdquo; is hard to visualize at a store, but a 16&ndash;20 L bag of potting mix is exactly what you&rsquo;re looking for. The calculator outputs all three so you can match whatever units your supplier uses.
+    </p>
+
+    <LeadMagnet variant="compact" />
+
+    <h2 id="common-soil-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Confusing volume with area.</strong> Square feet tells you how much ground you cover; cubic feet tells you how much material you need. You cannot order soil in square feet &mdash; you always need to include depth. See FAQ #4 for the conversion.</li>
+      <li><strong>Not accounting for settling.</strong> Loose potting mix and garden soil can settle 10&ndash;15% after the first watering. Round your order up, not down, or you&rsquo;ll be topping up within a week. The calculator footer reminds you to add 10&ndash;15%.</li>
+      <li><strong>Using the wrong shape.</strong> A round pot calculated as a rectangle will give you 27% too much soil (a circle inscribed in a square covers &pi;/4 &asymp; 78.5% of the area, meaning the rectangle overestimates by &asymp; 27%). For round pots and fabric grow bags, always use the Cylinder toggle.</li>
+      <li><strong>Forgetting the drainage layer.</strong> If you put 1&ndash;2 inches of gravel, perlite, or landscape fabric at the bottom of a pot, that reduces the soil volume needed. Subtract that layer from your fill depth before calculating.</li>
+      <li><strong>Unit conversion errors.</strong> The most common: entering depth in feet instead of inches (or cm instead of m in metric mode). A 6-inch depth is 0.5 ft &mdash; typing &ldquo;6&rdquo; in a feet field gives you a 6-foot-deep bed, 12&times; too much soil.</li>
+    </ul>
+
+    <FAQBlock id="soil-volume-calculator-faq" heading="Soil Volume Calculator FAQ" faqs={faqs} />
+
+    <LeadMagnet variant="compact" />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Depth recommendations, weight ranges, and settling percentages in this article draw on general guidance from university cooperative extension services and the USDA Natural Resources Conservation Service. For our approach to formula sourcing and peer review, see our <a href="/methodology/">methodology page</a>. For region-specific guidance on soil type, drainage, and amendments, search &ldquo;<a href="https://extension.org/search/?q=soil+volume">soil volume</a>&rdquo; on Extension.org.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Soil & Amendments cluster', url: '/clusters/soil-and-amendments/', anchorText: 'Soil & Amendments cluster', note: 'the full set of soil, mulch, and compost calculators on this site.' },
+      { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'ordering in bulk or bags? Use this for cubic yards, tons, and 40 lb bag counts for raised beds and lawn topdressing.' },
+      { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'once your bed is filled with soil, use this to calculate how much mulch to add on top.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      This page was last updated on {formattedDate}. The calculator itself is unchanged &mdash; only the surrounding guidance is updated as soil-mix best practices evolve.
+    </p>
+  </article>
+</CalculatorLayout>

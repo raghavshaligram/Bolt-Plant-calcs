@@ -1,0 +1,104 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lastUpdated = '2026-07-05';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const description =
+  'The Plant Calculators privacy policy. What we collect (email for the newsletter, anonymous traffic analytics), what we do not collect (any calculator inputs), and how to unsubscribe or request deletion.';
+---
+
+<Layout title="Privacy Policy" description={description}>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Privacy Policy</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        Privacy Policy
+      </h1>
+      <p class="mt-3 text-sm text-bark-500">
+        Last updated <time datetime={lastUpdated}>{formattedDate}</time>
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+        <p>
+          We built Plant Calculators to be a small, honest, useful site. That goes for privacy too. This page explains, in plain English, what we collect, what we don&rsquo;t, and how to get rid of anything we have on you.
+        </p>
+
+        <h2 id="what-we-collect">What we collect</h2>
+        <p>
+          Not much. Two things, and only when you choose to share them:
+        </p>
+        <ul>
+          <li>
+            <strong>Your email address</strong> &mdash; only when you voluntarily type it into the newsletter or lead magnet signup form. We use it to send the resource you asked for and the occasional related email. That&rsquo;s it.
+          </li>
+          <li>
+            <strong>Anonymous traffic data</strong> &mdash; things like which pages were visited, roughly where the visitor came from, and general device type (phone vs. desktop, browser family). No name, no email, no exact location, no search history.
+          </li>
+        </ul>
+
+        <h2 id="what-we-do-not-collect">What we do <em>not</em> collect</h2>
+        <p>
+          Every calculator on this site runs entirely in your browser. The numbers you type into the mulch calculator, soil calculator, spacing calculator, and every other tool never leave your device. They are not sent to our server, not stored in a database, not logged, not looked at by anyone. Close the tab and they&rsquo;re gone. We couldn&rsquo;t read your garden inputs even if we wanted to &mdash; we don&rsquo;t build that kind of system because we don&rsquo;t want that kind of responsibility.
+        </p>
+
+        <h2 id="how-we-use-your-email">How we use your email</h2>
+        <p>
+          When you sign up for the newsletter or a lead magnet, we use your email to:
+        </p>
+        <ul>
+          <li>Send the resource you requested.</li>
+          <li>Send occasional related emails &mdash; new calculators, seasonal gardening tips, and updates to the site. One email a month, sometimes less.</li>
+        </ul>
+        <p>
+          We <strong>never sell, rent, or share</strong> your email with third parties. We don&rsquo;t buy email lists. We don&rsquo;t run ads that follow you around the internet based on your email. If we ever partner with a sponsor for a specific email, we&rsquo;ll make that explicit and you&rsquo;ll be able to opt out before it goes out.
+        </p>
+
+        <h2 id="analytics">Analytics</h2>
+        <p>
+          We use <strong>Plausible Analytics</strong> for anonymous traffic analytics. Plausible is privacy-friendly by design: it doesn&rsquo;t use cookies, doesn&rsquo;t collect personal data, and doesn&rsquo;t track people across the web. It gives us aggregate numbers &mdash; total page views, rough country, and the general site that sent a visitor here &mdash; so we know which calculators are useful and which pages need work. That&rsquo;s the full picture. We can&rsquo;t identify you from it.
+        </p>
+
+        <h2 id="cookies">Cookies</h2>
+        <p>
+          This site uses cookies <strong>for analytics only</strong>. We don&rsquo;t run ads, so there are no advertising cookies, no cross-site tracking pixels, and no remarketing tags. If you block cookies in your browser, the site works exactly the same &mdash; you&rsquo;ll just be invisible to our analytics, which is fine by us.
+        </p>
+
+        <h2 id="unsubscribe-and-data-deletion">Unsubscribing and deleting your data</h2>
+        <p>
+          Two things you can do at any time, no questions asked:
+        </p>
+        <ul>
+          <li>
+            <strong>Unsubscribe from emails.</strong> Every email we send has an unsubscribe link at the bottom. Click it and you&rsquo;re off the list immediately.
+          </li>
+          <li>
+            <strong>Request that we delete your email.</strong> If you want us to remove your email address from our system entirely, <a href="/contact/">contact us</a> and we&rsquo;ll delete it within 30 days. You don&rsquo;t need to give a reason.
+          </li>
+        </ul>
+
+        <h2 id="changes-to-this-policy">Changes to this policy</h2>
+        <p>
+          If we change anything material about how we handle data, we&rsquo;ll update this page and bump the &ldquo;last updated&rdquo; date at the top. We won&rsquo;t make a change quietly and hope nobody notices.
+        </p>
+
+        <h2 id="contact">Questions?</h2>
+        <p>
+          If anything here is unclear or you want to ask about your specific data, <a href="/contact/">reach out</a>. We&rsquo;re a small site and a real person reads every message.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

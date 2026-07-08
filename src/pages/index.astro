@@ -1,0 +1,151 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ClusterCard from '../components/ClusterCard.astro';
+import { clusters, calculators } from '../data/calculators';
+
+const liveCalculators = calculators.filter((c) => c.status === 'live');
+
+const description =
+  'Free garden and plant calculators for soil, mulch, fertilizer, watering, spacing, lawns, indoor plants, and hydroponics. Fast, mobile-friendly, no sign-up.';
+---
+
+<Layout title="Plant Calculators" description={description}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-moss-50 via-sand-50 to-sand-50"></div>
+    <div class="absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-moss-200 to-transparent"></div>
+
+    <div class="container-wide py-16 sm:py-20 lg:py-24">
+      <div class="mx-auto max-w-3xl text-center">
+        <span class="inline-flex items-center gap-2 rounded-full bg-moss-100 px-3 py-1 text-xs font-medium text-moss-700">
+          <span class="h-1.5 w-1.5 rounded-full bg-moss-500"></span>
+          {liveCalculators.length} live calculators, more on the way
+        </span>
+        <h1 class="mt-5 font-display text-4xl font-semibold tracking-tight text-bark-900 sm:text-5xl lg:text-6xl">
+          Garden math, <span class="text-moss-700">done for you</span>.
+        </h1>
+        <p class="mt-5 text-lg leading-relaxed text-bark-600">
+          Free, fast, mobile-friendly calculators for mulch, soil, fertilizer, watering, plant spacing, lawns, and more. No sign-up, no fluff — just the numbers you need to buy the right amount and grow more.
+        </p>
+        <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href="/calculators/mulch-calculator/" class="btn-primary">
+            Try the Mulch Calculator
+          </a>
+          <a href="#all-calculators" class="btn-secondary">
+            Browse all calculators
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- All calculators / clusters -->
+  <section id="all-calculators" class="container-wide scroll-mt-20 py-16 sm:py-20">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
+        Pick a cluster
+      </h2>
+      <p class="mt-3 text-base text-bark-600">
+        Seven clusters of calculators covering everything from soil and amendments to hydroponics and greenhouse growing.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {clusters.map((cluster) => <ClusterCard cluster={cluster} />)}
+    </div>
+  </section>
+
+  <!-- Live calculators quick links -->
+  <section class="bg-moss-50/60 py-16 sm:py-20">
+    <div class="container-wide">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
+          Live now
+        </h2>
+        <p class="mt-3 text-base text-bark-600">
+          Start with a working calculator. More are landing every week.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {liveCalculators.map((calc) => (
+          <a
+            href={calc.href}
+            class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+          >
+            <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Live</span>
+            <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
+              {calc.title}
+            </h3>
+            <p class="text-sm leading-relaxed text-bark-600">{calc.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why us -->
+  <section class="container-wide py-16 sm:py-20">
+    <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+      <div>
+        <h2 class="font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
+          Built for the way you actually garden
+        </h2>
+        <p class="mt-4 text-base leading-relaxed text-bark-600">
+          Most gardening sites bury the calculator under ads and life-story prose. We put the tool first, the explanation second, and nothing else in the way. Every calculator updates live as you type, works offline on your phone, and gives you the answer in the units you actually buy in — bags, cubic feet, pounds.
+        </p>
+        <ul class="mt-6 space-y-3 text-sm text-bark-700">
+          <li class="flex gap-3">
+            <svg class="mt-0.5 h-5 w-5 shrink-0 text-moss-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 10.7a1 1 0 1 1 1.4-1.4l3.3 3.3 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd"/></svg>
+            <span><strong class="font-semibold text-bark-900">Live results.</strong> No submit button. Type your numbers, get your answer.</span>
+          </li>
+          <li class="flex gap-3">
+            <svg class="mt-0.5 h-5 w-5 shrink-0 text-moss-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 10.7a1 1 0 1 1 1.4-1.4l3.3 3.3 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd"/></svg>
+            <span><strong class="font-semibold text-bark-900">Buyable units.</strong> Cubic feet, cubic yards, 2-cu-ft bags, pounds — what the store actually sells.</span>
+          </li>
+          <li class="flex gap-3">
+            <svg class="mt-0.5 h-5 w-5 shrink-0 text-moss-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 10.7a1 1 0 1 1 1.4-1.4l3.3 3.3 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd"/></svg>
+            <span><strong class="font-semibold text-bark-900">Mobile-first.</strong> Big tap targets, no zooming, no popups. Pinterest-friendly.</span>
+          </li>
+          <li class="flex gap-3">
+            <svg class="mt-0.5 h-5 w-5 shrink-0 text-moss-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 10.7a1 1 0 1 1 1.4-1.4l3.3 3.3 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd"/></svg>
+            <span><strong class="font-semibold text-bark-900">No sign-up.</strong> No account, no email wall, no upsell. Just the math.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-br from-moss-100 to-sand-100 blur-2xl"></div>
+        <div class="card">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-moss-100 text-moss-700">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14h18M5 14l1.5-5h13L21 14M5 14v5h14v-5"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-medium uppercase tracking-wider text-bark-500">Example output</p>
+              <p class="font-display text-base font-semibold text-bark-900">Mulch for a 4'x8' bed at 3" deep</p>
+            </div>
+          </div>
+          <dl class="mt-5 grid grid-cols-3 gap-3 text-center">
+            <div class="rounded-lg bg-sand-50 p-3">
+              <dt class="text-xs text-bark-500">Cubic feet</dt>
+              <dd class="font-display text-xl font-semibold text-moss-800">8.0</dd>
+            </div>
+            <div class="rounded-lg bg-sand-50 p-3">
+              <dt class="text-xs text-bark-500">Cubic yards</dt>
+              <dd class="font-display text-xl font-semibold text-moss-800">0.30</dd>
+            </div>
+            <div class="rounded-lg bg-sand-50 p-3">
+              <dt class="text-xs text-bark-500">2-cu-ft bags</dt>
+              <dd class="font-display text-xl font-semibold text-moss-800">4</dd>
+            </div>
+          </dl>
+          <a href="/calculators/mulch-calculator/" class="mt-5 inline-flex items-center text-sm font-medium text-moss-700 hover:text-moss-800">
+            Open the Mulch Calculator
+            <svg class="ml-1 h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

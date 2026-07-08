@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lastUpdated = '2026-07-06';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const description =
+  'How Plant Calculators builds its formulas and recommendations — drawn from university extension services and standard horticultural reference material, not proprietary research. General guidance, not a substitute for local knowledge.';
+---
+
+<Layout title="Methodology" description={description}>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Methodology</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        How These Calculators Are Built
+      </h1>
+      <p class="mt-3 text-sm text-bark-500">
+        Last updated <time datetime={lastUpdated}>{formattedDate}</time>
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+        <p>
+          Every calculator on this site is built to save you the part of gardening that&rsquo;s just math &mdash; cubic feet of mulch, square feet of bed, teaspoons of fertilizer per gallon. The numbers behind them aren&rsquo;t proprietary research. They&rsquo;re the same commonly cited guidance you&rsquo;d find if you dug into the sources yourself.
+        </p>
+
+        <h2 id="where-the-numbers-come-from">Where the numbers come from</h2>
+        <p>
+          The formulas and recommendations on this site &mdash; soil ratios, mulch depth, plant spacing, fertilizer rates, watering volumes, and the rest &mdash; reflect commonly cited guidance from:
+        </p>
+        <ul>
+          <li><strong>University cooperative extension services</strong> (the land-grant system &mdash; Cornell, Penn State, UC ANR, your state&rsquo;s own extension office). These are the public-facing ag and horticulture research bodies that publish growing guides for home gardeners.</li>
+          <li><strong>Standard horticultural reference material</strong> &mdash; the kind you&rsquo;d find in a master gardener manual or a university greenhouse-management course.</li>
+          <li><strong>Established industry rules of thumb</strong> that have been around long enough to be uncontroversial (e.g. 2&ndash;3 inches of mulch, 27 cubic feet per cubic yard).</li>
+        </ul>
+        <p>
+          We don&rsquo;t run our own field trials. We read the same public guidance everyone else can, translate it into calculators that do the arithmetic for you, and link out to the sources on each calculator page so you can check for yourself.
+        </p>
+
+        <h2 id="general-guidance-not-a-guarantee">General guidance, not a guarantee</h2>
+        <p>
+          The results these calculators give you are <strong>general guidance meant to save you time on the math</strong>, not a prescription. Local climate, soil conditions, and the specific plant variety you&rsquo;re growing can shift the ideal numbers &mdash; sometimes a lot. A mulch depth that&rsquo;s right for a humid East Coast bed is too much for a dry-climate xeriscape; a fertilizer rate that&rsquo;s safe for one tomato variety burns another.
+        </p>
+        <p>
+          Treat the output as a starting point, then adjust for your conditions. When in doubt, your local extension office knows your region better than any website does.
+        </p>
+
+        <h2 id="how-often-pages-are-updated">How often pages are updated</h2>
+        <p>
+          Calculator pages are reviewed periodically &mdash; when guidance shifts, when a reader flags something, or when we notice an explanation that could be clearer. Every calculator page shows a <strong>&ldquo;Last updated&rdquo; date</strong> near the top so you can see how current the guidance is at a glance. If a page hasn&rsquo;t been touched in a while, that usually means the underlying guidance hasn&rsquo;t changed, not that we&rsquo;ve forgotten about it.
+        </p>
+
+        <h2 id="spot-an-error">Spot an error?</h2>
+        <p>
+          If you see a formula that looks wrong, a recommendation that&rsquo;s out of date, or a calculator that&rsquo;s missing a factor it should account for, please <a href="/contact/">tell us</a>. We&rsquo;d rather hear about it and fix it than leave a bad number up. Every correction makes the next gardener&rsquo;s math a little more trustworthy.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

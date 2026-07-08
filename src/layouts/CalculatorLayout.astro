@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BylineRow from '../components/BylineRow.astro';
+import type { Calculator, Cluster } from '../data/calculators';
+
+export interface Props {
+  calculator: Calculator;
+  cluster: Cluster;
+  /** Short intro paragraph shown in the left column, alongside the sidebar. */
+  intro: string;
+  /** ISO date string (YYYY-MM-DD) shown in the byline row. */
+  lastUpdated?: string;
+  /** Author display name in the byline row. */
+  authorName?: string;
+  /** URL the author name links to (typically /about/). */
+  authorUrl?: string;
+  /** Absolute URL to the share/Pinterest image. */
+  shareImage?: string;
+}
+
+const {
+  calculator,
+  cluster,
+  intro,
+  lastUpdated,
+  authorName = 'SoilMath Editors',
+  authorUrl = '/about/',
+  shareImage,
+} = Astro.props;
+
+const pageTitle = calculator.seoTitle ?? calculator.title;
+---
+
+<Layout title={pageTitle} description={calculator.metaDescription} rawTitle={Boolean(calculator.seoTitle)}>
+  <slot name="head" slot="head" />
+
+  <!-- Hero band: breadcrumb + H1 + byline row -->
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-7 sm:py-9">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <a href={`/clusters/${cluster.slug}/`} class="hover:text-moss-800">{cluster.name}</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">{calculator.shortTitle}</span>
+      </nav>
+
+      <h1 class="mt-3 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
+        {calculator.title}
+      </h1>
+
+      <BylineRow
+        authorName={authorName}
+        authorUrl={authorUrl}
+        lastUpdated={lastUpdated}
+        shareTitle={calculator.title}
+        shareDescription={calculator.metaDescription}
+        shareImage={shareImage}
+      />
+    </div>
+  </section>
+
+  <!-- Two-column main area: intro+content left, sidebar right -->
+  <div class="container-wide py-6 sm:py-8">
+    <div class="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+      <!-- Left column: intro + default slot (calculator, article, etc.) -->
+      <div class="min-w-0">
+        <p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg">
+          {intro}
+        </p>
+        <slot />
+      </div>
+
+      <!-- Right column: sticky sidebar -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+          <slot name="sidebar" />
+        </div>
+      </aside>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const description =
+  'Gardening guides and how-tos that pair with our calculators. Mulch, soil, fertilizer, watering, spacing, and more — written for real gardeners, not SEO bots.';
+---
+
+<Layout title="Blog" description={description}>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Blog</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        The Plant Calculators blog
+      </h1>
+      <p class="mt-3 max-w-2xl text-base leading-relaxed text-bark-600 sm:text-lg">
+        {description}
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-2xl rounded-2xl border border-dashed border-moss-200 bg-white p-10 text-center">
+      <p class="font-display text-xl font-semibold text-bark-900">Articles landing soon.</p>
+      <p class="mt-2 text-sm text-bark-600">
+        We&rsquo;re publishing deep-dive guides on mulch, soil, fertilizer, and plant spacing as we ship each calculator. Check back shortly.
+      </p>
+      <a href="/" class="btn-secondary mt-6">&larr; Back to calculators</a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,434 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import PlantSpacingCalculator from '../../components/calculators/PlantSpacingCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('plant-spacing-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-08';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+const shareImage = new URL('/plant-spacing-calculator-garden-grid.svg', Astro.site).href;
+
+const intro =
+  'Figure out exactly how many plants fit in any bed using real crop spacing recommendations. Select your crop, enter bed dimensions, and the plant spacing calculator shows total plant count for row gardening or square foot gardening — plus a full spacing chart for 20+ common vegetables, herbs, and flowers below.';
+
+const tocItems = [
+  { id: 'how-much-space-do-plants-need', label: 'How Much Space Do Plants Need?', icon: 'leaf' as const },
+  { id: 'plant-spacing-chart', label: 'Plant Spacing Chart', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'plant-spacing-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const faqs = [
+  {
+    q: 'How do I calculate plant spacing?',
+    a: 'Divide your bed length by the in-row spacing to get plants per row, then divide bed width by between-row spacing to get number of rows. Multiply those two numbers for total plants. For a 4×8 ft bed with tomatoes at 24-inch spacing: 8÷2 = 4 plants per row, 4÷3 = 1.3 → 1 row, total 4 plants. The calculator above does this automatically.',
+  },
+  {
+    q: 'How far apart should I plant vegetables?',
+    a: 'It depends on the crop. Compact vegetables like radishes and carrots need 2–4 inches in-row; mid-size crops like lettuce and peppers need 6–18 inches; large spreading plants like squash and tomatoes need 24–48 inches. Always use both in-row and between-row spacing — they are usually different. See the spacing chart below for specific crops.',
+  },
+  {
+    q: 'How far apart does corn need to be planted?',
+    a: 'Corn needs 12 inches in-row and 30 inches between rows. Plant it in blocks of at least 4 rows, not single long rows — corn is wind-pollinated, and a single row produces poor ear fill. A 4×8 ft bed fits about 4 corn plants in one row, which is not enough for reliable pollination; corn is better suited to larger plots.',
+  },
+  {
+    q: 'How many plants can I fit per square foot?',
+    a: 'It varies by crop. In square foot gardening: large plants like tomatoes and peppers get 1 plant per sq ft; medium plants like lettuce get 1–4 per sq ft; small plants like carrots get 16 per sq ft; tiny seeds like radishes get 16 per sq ft. The square foot gardening mode in the calculator uses these presets automatically.',
+  },
+  {
+    q: "What's the difference between in-row and between-row spacing?",
+    a: 'In-row spacing is the distance between individual plants along a single row. Between-row spacing (also called row spacing) is the distance between one row and the next. Both are required to plan a bed — using only one number will either overcrowd plants or waste space. Most seed packets list both values.',
+  },
+];
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate plant spacing for a garden bed',
+  description:
+    'Use the plant spacing calculator to figure out how many plants fit in a raised bed or row garden based on your crop selection and bed dimensions.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Select your crop',
+      text: 'Choose from the crop dropdown. The calculator auto-fills recommended in-row and between-row spacing for that crop. Select "Custom" to enter your own spacing.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Choose garden style',
+      text: 'Select "Row Garden" for traditional row-based planting, or "Square Foot Gardening" for grid-based intensive planting.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Enter your bed dimensions',
+      text: 'Type the length and width of your bed in feet (or meters). The calculator uses these to determine how many rows and plants per row fit.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the result',
+      text: 'The calculator shows total plants, the row-by-row layout, and scaled estimates for larger areas — updating live as you type.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://plantcalculators.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Calculators',
+      item: 'https://plantcalculators.com/clusters/spacing-and-planting/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Spacing & Planting',
+      item: 'https://plantcalculators.com/clusters/spacing-and-planting/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 4,
+      name: 'Plant Spacing Calculator',
+      item: 'https://plantcalculators.com/calculators/plant-spacing-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Plant Spacing Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/plant-spacing-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <PlantSpacingCalculator client:load />
+
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet
+    variant="full"
+    headline="Get the free Plant Spacing & Garden Planner Cheat Sheet"
+    clusterTag="spacing-cluster"
+  />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-much-space-do-plants-need">How Much Space Do Plants Need?</h2>
+    <p>
+      Every plant has two spacing requirements: <strong>in-row spacing</strong> (the gap between individual plants within a single row) and <strong>between-row spacing</strong> (the gap from one row to the next). Both numbers come from how large the plant grows at maturity — roots competing underground, leaves competing for light above, and air movement between plants that slows down fungal disease.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/plant-spacing-calculator-garden-grid.svg"
+        alt="Vegetables planted in a grid pattern showing proper spacing between rows"
+        width="400"
+        height="300"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Proper grid spacing between vegetable rows improves airflow and reduces disease pressure.
+      </figcaption>
+    </figure>
+    <p>
+      Airflow matters more than most gardeners realize. Crowded plants create humid microclimates that accelerate powdery mildew, blight, and other fungal diseases. Proper spacing lets air circulate around leaves, drying them faster after rain or irrigation. This is why tomatoes at 24&ndash;36 inches apart dramatically outperform tomatoes crammed at 12 inches, even in the same soil.
+    </p>
+    <p>
+      Competition for nutrients and root space is the other factor. Tightly packed plants fight for the same water and mineral supply, resulting in smaller yields from every plant. It&rsquo;s almost always better to plant fewer, well-spaced plants than to fill every inch of bed and have all of them underperform.
+    </p>
+    <p>
+      Square foot gardening uses a slightly different framework: each plant is assigned a square-foot block (e.g., 1 sq ft for a pepper, 4 sq ft for a tomato), and the bed is treated as a grid. This simplifies planning but uses the same underlying principle &mdash; each plant gets the area it needs at maturity.
+    </p>
+
+    <h2 id="plant-spacing-chart">Plant Spacing Chart</h2>
+    <p>
+      Reference spacing for 20+ common vegetables, herbs, and flowers. &ldquo;In-row&rdquo; is the space between individual plants; &ldquo;between-row&rdquo; is the space between rows. SFG column is square feet per plant for square foot gardening.
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Plant Spacing Reference — common vegetables, herbs &amp; flowers
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Crop</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">In-row spacing</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Between-row spacing</th>
+            <th scope="col" class="py-2.5 font-semibold">SFG (sq ft/plant)</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Basil</th>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2 pr-4">18 in</td>
+            <td class="py-2">1</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Bean (bush)</th>
+            <td class="py-2 pr-4">4 in</td>
+            <td class="py-2 pr-4">18 in</td>
+            <td class="py-2">0.25 (9/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Bean (pole)</th>
+            <td class="py-2 pr-4">6 in</td>
+            <td class="py-2 pr-4">24 in</td>
+            <td class="py-2">0.25 (9/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Beet</th>
+            <td class="py-2 pr-4">4 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.25 (9/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Broccoli</th>
+            <td class="py-2 pr-4">18 in</td>
+            <td class="py-2 pr-4">24 in</td>
+            <td class="py-2">1</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Carrot</th>
+            <td class="py-2 pr-4">3 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.0625 (16/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Cilantro</th>
+            <td class="py-2 pr-4">6 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.25 (4/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Corn</th>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2 pr-4">30 in</td>
+            <td class="py-2">1</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Cucumber</th>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2 pr-4">36 in</td>
+            <td class="py-2">1</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Garlic</th>
+            <td class="py-2 pr-4">6 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.25 (4/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Kale</th>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2 pr-4">18 in</td>
+            <td class="py-2">1</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Lettuce (head)</th>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">1</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Lettuce (leaf)</th>
+            <td class="py-2 pr-4">6 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.25 (4/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Marigold</th>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2 pr-4">18 in</td>
+            <td class="py-2">1</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Onion</th>
+            <td class="py-2 pr-4">4 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.25 (4/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Parsley</th>
+            <td class="py-2 pr-4">8 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.25 (4/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Pepper</th>
+            <td class="py-2 pr-4">18 in</td>
+            <td class="py-2 pr-4">24 in</td>
+            <td class="py-2">1</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Radish</th>
+            <td class="py-2 pr-4">2 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.0625 (16/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Spinach</th>
+            <td class="py-2 pr-4">6 in</td>
+            <td class="py-2 pr-4">12 in</td>
+            <td class="py-2">0.25 (4/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Squash (summer)</th>
+            <td class="py-2 pr-4">24 in</td>
+            <td class="py-2 pr-4">36 in</td>
+            <td class="py-2">4</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Squash (winter)</th>
+            <td class="py-2 pr-4">36 in</td>
+            <td class="py-2 pr-4">48 in</td>
+            <td class="py-2">9</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Swiss Chard</th>
+            <td class="py-2 pr-4">6 in</td>
+            <td class="py-2 pr-4">18 in</td>
+            <td class="py-2">0.25 (4/sq ft)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Tomato (determinate)</th>
+            <td class="py-2 pr-4">24 in</td>
+            <td class="py-2 pr-4">36 in</td>
+            <td class="py-2">4</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Tomato (indeterminate)</th>
+            <td class="py-2 pr-4">24 in</td>
+            <td class="py-2 pr-4">48 in</td>
+            <td class="py-2">4</td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Zucchini</th>
+            <td class="py-2 pr-4">24 in</td>
+            <td class="py-2 pr-4">36 in</td>
+            <td class="py-2">4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-xs text-bark-500">
+      Spacing values reflect standard extension service recommendations at full plant maturity. Seed packet spacing may suggest tighter starts — thin to these values as plants grow.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      You have a <strong>4&times;8 ft raised bed</strong> and want to grow <strong>tomatoes (determinate)</strong> at the recommended spacing of 24 inches in-row and 36 inches between rows. Here&rsquo;s the math:
+    </p>
+    <ol>
+      <li><strong>Plants per row:</strong> 8 ft &divide; (24&Prime; &divide; 12) = 8 &divide; 2 = <strong>4 plants per row</strong>.</li>
+      <li><strong>Number of rows:</strong> 4 ft &divide; (36&Prime; &divide; 12) = 4 &divide; 3 = 1.33 &rarr; <strong>1 row</strong> (floor to whole rows).</li>
+      <li><strong>Total plants:</strong> 4 &times; 1 = <strong>4 tomato plants</strong>.</li>
+    </ol>
+    <p>
+      Four plants is a reasonable crop for a standard 4&times;8 bed. If you switched to square foot gardening mode, each tomato takes 4 sq ft, so 32 sq ft &divide; 4 = also 8 plants — but SFG typically uses the entire bed area without row paths, which is why the count differs. The calculator handles both methods automatically.
+    </p>
+    <p>
+      Need to prep the soil first? Use the <a href="/calculators/raised-bed-soil-calculator/">raised bed soil calculator</a> to figure out how many cubic feet of mix you need before you plant.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Planting at transplant size, not mature size.</strong> A 4-inch tomato seedling looks tiny at 24-inch spacing. Plant it anyway. The spacing is for the mature plant, not the seedling you can barely see in week one.</li>
+      <li><strong>Ignoring between-row spacing.</strong> Most gardeners use in-row spacing only and crowd rows together. The result is poor airflow down the row and fungal problems by midsummer. Both dimensions matter.</li>
+      <li><strong>Using the same spacing for every crop.</strong> A universal 12-inch spacing is fine for mid-size crops but disastrously tight for squash and far too loose for carrots. Always use crop-specific numbers.</li>
+      <li><strong>Mixing up row garden and square foot gardening math.</strong> Row garden spacing includes path space between rows; SFG doesn&rsquo;t. Using row spacing numbers in an SFG grid leads to overcrowding.</li>
+      <li><strong>Forgetting to account for paths and borders.</strong> The calculator assumes the full bed area is planted. If you leave a border or a central stepping path, deduct that area from your dimensions first.</li>
+    </ul>
+
+    <FAQBlock id="plant-spacing-calculator-faq" heading="Plant Spacing Calculator FAQ" faqs={faqs} />
+
+    <LeadMagnet
+      variant="compact"
+      headline="Get the free Plant Spacing & Garden Planner Cheat Sheet"
+      clusterTag="spacing-cluster"
+    />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Spacing values in the chart above are based on recommendations from university cooperative extension services. For plant quantity formulas, see Iowa State University Extension&rsquo;s <a href="https://yardandgarden.extension.iastate.edu/how-to/how-determine-plant-quantity-planting-beds" rel="noopener noreferrer">&ldquo;How to Determine Plant Quantity for Planting Beds&rdquo;</a>. For more on how we source and validate the formulas used on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Spacing & Planting Calculators', url: '/clusters/spacing-and-planting/', note: 'all spacing and layout tools in one place.' },
+      { name: 'Raised Bed Soil Calculator', url: '/calculators/raised-bed-soil-calculator/', note: 'figure out how much soil you need before you plant.' },
+      { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'for pots, containers, and irregular beds.' },
+      { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'calculate how much mulch to add around your planted beds.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}
+    </p>
+  </article>
+</CalculatorLayout>

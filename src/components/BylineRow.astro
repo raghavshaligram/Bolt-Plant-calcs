@@ -1,0 +1,77 @@
+---
+// BylineRow — author credit + date + share icons in a single compact row.
+// Use on every calculator and article page. No author photo per site policy.
+//
+// Usage:
+//   <BylineRow
+//     authorName="SoilMath Editors"
+//     authorUrl="/about/"
+//     lastUpdated="2026-07-08"
+//     shareTitle="Page title"
+//     shareDescription="Short share description"
+//     shareImage="https://example.com/image.svg"
+//   />
+
+import ShareButtons from './ShareButtons.astro';
+
+export interface Props {
+  /** Display name for the author. */
+  authorName: string;
+  /** URL the author name links to. Typically /about/. */
+  authorUrl?: string;
+  /** ISO date string YYYY-MM-DD — shown as formatted text and <time datetime>. */
+  lastUpdated?: string;
+  /** Page title for share URLs. */
+  shareTitle: string;
+  /** Short description for Pinterest/X share text. */
+  shareDescription?: string;
+  /** Absolute URL to the image Pinterest should pin. */
+  shareImage?: string;
+}
+
+const {
+  authorName,
+  authorUrl = '/about/',
+  lastUpdated,
+  shareTitle,
+  shareDescription = '',
+  shareImage,
+} = Astro.props;
+
+const formattedDate = lastUpdated
+  ? new Date(lastUpdated).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+---
+
+<div class="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-bark-500">
+  <span>
+    By{' '}
+    {authorUrl ? (
+      <a href={authorUrl} class="font-medium text-bark-700 hover:text-moss-800">
+        {authorName}
+      </a>
+    ) : (
+      <span class="font-medium text-bark-700">{authorName}</span>
+    )}
+  </span>
+
+  {formattedDate && (
+    <>
+      <span class="text-bark-300" aria-hidden="true">&bull;</span>
+      <time datetime={lastUpdated} class="text-bark-500">{formattedDate}</time>
+    </>
+  )}
+
+  <span class="text-bark-300" aria-hidden="true">&bull;</span>
+  <span class="font-medium text-bark-500">Share:</span>
+  <ShareButtons
+    title={shareTitle}
+    description={shareDescription}
+    image={shareImage}
+    compact
+  />
+</div>

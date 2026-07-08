@@ -1,0 +1,55 @@
+---
+// FAQBlock — renders an FAQ section from a data array with definition-first
+// formatting. Automatically injects FAQPage JSON-LD schema into <head>.
+//
+// Each answer should open with a direct answer under 45 words before elaborating.
+//
+// Usage:
+//   ---
+//   const faqs = [
+//     { q: 'How much soil do I need?', a: 'Multiply length × width × depth...' },
+//   ];
+//   ---
+//   <FAQBlock id="my-calculator-faq" faqs={faqs} />
+
+export interface FAQItem {
+  q: string;
+  a: string;
+}
+
+export interface Props {
+  /** The id attribute placed on the wrapping <section>. Used for TOC anchor links. */
+  id: string;
+  /** Array of question/answer pairs. */
+  faqs: FAQItem[];
+  /** Optional heading override. Defaults to "FAQ". */
+  heading?: string;
+}
+
+const { id, faqs, heading = 'FAQ' } = Astro.props;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: f.a,
+    },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<section id={id} aria-labelledby={`${id}-heading`}>
+  <h2 id={`${id}-heading`}>{heading}</h2>
+  {faqs.map((f) => (
+    <Fragment>
+      <h3>{f.q}</h3>
+      <p>{f.a}</p>
+    </Fragment>
+  ))}
+</section>

@@ -1,0 +1,56 @@
+---
+// RelatedCalculatorsList — renders a "Related calculators" section with a
+// standardised heading and link list. Pass an array of related tools; each
+// item can carry a short anchor text snippet that appears after the link.
+//
+// Usage:
+//   <RelatedCalculatorsList
+//     id="related-calculators"
+//     items={[
+//       {
+//         name: 'Topsoil Calculator',
+//         url: '/calculators/topsoil-calculator/',
+//         anchorText: 'compare with our Topsoil Calculator',
+//         note: 'for bulk topsoil by the yard or ton',
+//       },
+//     ]}
+//   />
+
+export interface RelatedItem {
+  /** Display name shown as the link text. */
+  name: string;
+  /** Absolute or root-relative URL. */
+  url: string;
+  /**
+   * Optional short anchor text to use instead of `name` as the link label.
+   * Useful when the surrounding sentence gives context ("use our Topsoil Calculator").
+   */
+  anchorText?: string;
+  /** Optional trailing note shown after the link in the list item. */
+  note?: string;
+}
+
+export interface Props {
+  /** id placed on the <section> element — must match the TOC anchor. */
+  id?: string;
+  items: RelatedItem[];
+  /** Optional heading override. Defaults to "Related calculators". */
+  heading?: string;
+}
+
+const { id = 'related-calculators', items, heading = 'Related calculators' } = Astro.props;
+---
+
+<section id={id} aria-labelledby={`${id}-heading`}>
+  <h2 id={`${id}-heading`}>{heading}</h2>
+  <ul>
+    {items.map((item) => (
+      <li>
+        <a href={item.url}>{item.anchorText ?? item.name}</a>
+        {item.note && (
+          <> &mdash; {item.note}</>
+        )}
+      </li>
+    ))}
+  </ul>
+</section>

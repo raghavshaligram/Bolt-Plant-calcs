@@ -1,0 +1,112 @@
+---
+// Table of contents — two render modes:
+// "sidebar": sticky panel shown on desktop (lg+), hidden on mobile
+// "accordion": collapsed <details> shown on mobile/tablet, hidden on desktop (lg+)
+// Each item may carry an optional icon name to render a colored icon badge.
+
+type IconName = 'leaf' | 'table' | 'warning' | 'question' | 'grid';
+
+export interface TocItem {
+  id: string;
+  label: string;
+  icon?: IconName;
+}
+
+export interface Props {
+  items: TocItem[];
+  variant: 'sidebar' | 'accordion';
+}
+
+const { items, variant } = Astro.props;
+
+// Icon SVG paths + background colors, keyed by icon name.
+const iconMeta: Record<IconName, { path: string; bg: string; color: string }> = {
+  leaf: {
+    bg: 'bg-moss-100',
+    color: 'text-moss-700',
+    path: 'M12 2C9 6 7 9 7 13a5 5 0 0 0 10 0c0-4-2-7-5-11ZM12 26c-2-3-4-5-4-8a4 4 0 0 1 8 0c0 3-2 5-4 8Z',
+  },
+  table: {
+    bg: 'bg-moss-100',
+    color: 'text-moss-700',
+    path: 'M3 5h18v14H3V5zm0 4h18M3 13h18M8 5v14M14 5v14',
+  },
+  warning: {
+    bg: 'bg-sand-100',
+    color: 'text-sand-700',
+    path: 'M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4m0 4h.01',
+  },
+  question: {
+    bg: 'bg-moss-100',
+    color: 'text-moss-600',
+    path: 'M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3m.08 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+  grid: {
+    bg: 'bg-bark-100',
+    color: 'text-bark-600',
+    path: 'M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z',
+  },
+};
+---
+
+{variant === 'sidebar' ? (
+  <nav aria-label="On this page">
+    <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-bark-400">
+      On this page
+    </p>
+    <ol class="space-y-0.5">
+      {items.map((item) => {
+        const meta = item.icon ? iconMeta[item.icon] : null;
+        return (
+          <li>
+            <a
+              href={`#${item.id}`}
+              class="group flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-bark-600 transition hover:bg-moss-50 hover:text-moss-800"
+            >
+              {meta && (
+                <span class={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${meta.bg} ${meta.color}`}>
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d={meta.path} />
+                  </svg>
+                </span>
+              )}
+              <span class="leading-tight">{item.label}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ol>
+  </nav>
+) : (
+  <details class="toc-accordion group my-5 rounded-xl border border-moss-100 bg-moss-50/40 lg:hidden">
+    <summary class="flex cursor-pointer list-none items-center justify-between gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-bark-700 transition hover:bg-moss-50">
+      <span class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-moss-700" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M2 3.5h12M2 8h12M2 12.5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        On this page
+      </span>
+      <svg class="h-4 w-4 shrink-0 text-bark-500 transition group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </summary>
+    <nav class="px-4 pb-3" aria-label="On this page">
+      <ol class="grid gap-1 text-sm text-bark-600 sm:grid-cols-2">
+        {items.map((item, i) => (
+          <li>
+            <a
+              href={`#${item.id}`}
+              class="block rounded-md py-1.5 text-bark-600 transition hover:text-moss-800"
+            >
+              <span class="mr-2 text-bark-400">{i + 1}.</span>{item.label}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </details>
+)}
+
+<style>
+  .toc-accordion summary::-webkit-details-marker { display: none; }
+</style>

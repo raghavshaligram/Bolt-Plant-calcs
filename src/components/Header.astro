@@ -1,0 +1,69 @@
+---
+import { clusters } from '../data/calculators';
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  pathname === href || pathname.startsWith(href + '/');
+---
+
+<header class="sticky top-0 z-40 border-b border-moss-100 bg-sand-50/90 backdrop-blur supports-[backdrop-filter]:bg-sand-50/75">
+  <nav class="container-wide flex h-16 items-center justify-between" aria-label="Primary">
+    <a href="/" class="flex items-center gap-2 text-moss-800">
+      <svg class="h-7 w-7" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M16 4c-3 4-5 7-5 11a5 5 0 0 0 10 0c0-4-2-7-5-11Z" fill="currentColor" />
+        <path d="M16 26c-2-3-4-5-4-8a4 4 0 0 1 8 0c0 3-2 5-4 8Z" fill="currentColor" opacity="0.6" />
+        <path d="M6 22c4 0 7 1 9 3M26 22c-4 0-7 1-9 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+      <span class="font-display text-lg font-semibold tracking-tight">Plant Calculators</span>
+    </a>
+
+    <div class="hidden items-center gap-1 md:flex">
+      <a
+        href="/"
+        class={`rounded-md px-3 py-2 text-sm font-medium transition ${
+          pathname === '/' ? 'text-moss-800' : 'text-bark-600 hover:text-moss-800'
+        }`}
+      >Home</a>
+
+      <div class="group relative">
+        <button class="rounded-md px-3 py-2 text-sm font-medium text-bark-600 transition hover:text-moss-800" aria-haspopup="true">
+          Calculators
+          <svg class="ml-0.5 inline h-3 w-3" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="invisible absolute left-0 top-full w-64 translate-y-1 rounded-xl border border-moss-100 bg-white p-2 opacity-0 shadow-card transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+          {clusters.map((cluster) => (
+            <a
+              href={`/clusters/${cluster.slug}/`}
+              class="block rounded-lg px-3 py-2 text-sm text-bark-700 transition hover:bg-moss-50 hover:text-moss-800"
+            >
+              {cluster.name}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <a
+        href="/blog/"
+        class={`rounded-md px-3 py-2 text-sm font-medium transition ${
+          isActive('/blog/') ? 'text-moss-800' : 'text-bark-600 hover:text-moss-800'
+        }`}
+      >Blog</a>
+
+      <a
+        href="/about/"
+        class={`rounded-md px-3 py-2 text-sm font-medium transition ${
+          isActive('/about/') ? 'text-moss-800' : 'text-bark-600 hover:text-moss-800'
+        }`}
+      >About</a>
+
+      <a
+        href="/contact/"
+        class={`rounded-md px-3 py-2 text-sm font-medium transition ${
+          isActive('/contact/') ? 'text-moss-800' : 'text-bark-600 hover:text-moss-800'
+        }`}
+      >Contact</a>
+    </div>
+
+    <a href="/#all-calculators" class="btn-primary md:hidden">Browse</a>
+  </nav>
+</header>

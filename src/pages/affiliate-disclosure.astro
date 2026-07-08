@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lastUpdated = '2026-07-05';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const description =
+  'SoilMath.com is reader-supported. Some links are affiliate links — if you click and buy, we may earn a small commission at no extra cost to you. Recommendations are based on fit, not commission.';
+---
+
+<Layout title="Affiliate Disclosure" description={description}>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Affiliate Disclosure</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        Affiliate Disclosure
+      </h1>
+      <p class="mt-3 text-sm text-bark-500">
+        Last updated <time datetime={lastUpdated}>{formattedDate}</time>
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+        <p>
+          <strong>SoilMath.com is reader-supported.</strong> Some links on this site are affiliate links &mdash; for example, links to gardening tools, soil, fertilizer, grow lights, and other supplies on Amazon or similar retailers. If you click one of those links and make a purchase, this site may earn a small commission. It costs you nothing extra &mdash; you pay the same price you would have paid anyway.
+        </p>
+
+        <h2 id="how-we-pick-products">How we pick products</h2>
+        <p>
+          Recommendations are based on what actually fits the task &mdash; the right tool for the job, the right soil for the plant, the right grow light for the space. We don&rsquo;t recommend something because it pays a higher commission. If two products do the same job and one pays us less, we still recommend whichever one we&rsquo;d actually use ourselves.
+        </p>
+
+        <h2 id="where-this-applies">Where this applies</h2>
+        <p>
+          Affiliate links can appear anywhere on the site: on calculator pages, in resource guides, and inside blog articles. The same rule applies everywhere &mdash; we only link to things we think are worth your money, and we tell you when a link is affiliate.
+        </p>
+
+        <h2 id="questions">Questions?</h2>
+        <p>
+          If you want to know whether a specific link is affiliate, or if you have questions about how we choose products, <a href="/contact/">reach out</a>. We&rsquo;re happy to answer.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="Mulch spread at proper 3-inch depth around a garden bed">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+
+  <!-- Sky / upper area -->
+  <rect x="0" y="0" width="800" height="180" fill="#EDE7D6"/>
+
+  <!-- Distant hills -->
+  <path d="M0 180 Q150 140 300 165 T600 155 T800 170 V200 H0 Z" fill="#D4DCC4" opacity="0.6"/>
+
+  <!-- Garden bed - raised wooden frame -->
+  <g>
+    <!-- Bed back wall -->
+    <rect x="120" y="240" width="560" height="140" rx="6" fill="#C8A87C"/>
+    <!-- Bed top edge -->
+    <rect x="120" y="232" width="560" height="16" rx="4" fill="#B8975C"/>
+    <!-- Bed front face -->
+    <path d="M120 380 L120 400 Q120 408 128 408 L672 408 Q680 408 680 400 L680 380 Z" fill="#A87F4A"/>
+    <!-- Wood grain lines -->
+    <line x1="200" y1="250" x2="200" y2="370" stroke="#A8855A" stroke-width="1.5" opacity="0.5"/>
+    <line x1="350" y1="250" x2="350" y2="370" stroke="#A8855A" stroke-width="1.5" opacity="0.5"/>
+    <line x1="500" y1="250" x2="500" y2="370" stroke="#A8855A" stroke-width="1.5" opacity="0.5"/>
+    <line x1="620" y1="250" x2="620" y2="370" stroke="#A8855A" stroke-width="1.5" opacity="0.5"/>
+  </g>
+
+  <!-- Soil layer (dark brown) inside bed -->
+  <rect x="136" y="248" width="528" height="120" rx="3" fill="#6B4F35"/>
+
+  <!-- Mulch layer (reddish-brown) on top of soil - showing proper 3-inch depth -->
+  <rect x="136" y="248" width="528" height="42" rx="3" fill="#8B5E3C"/>
+  <!-- Mulch texture - small chunks -->
+  <g fill="#A47551" opacity="0.9">
+    <circle cx="160" cy="262" r="4"/>
+    <circle cx="185" cy="270" r="3.5"/>
+    <circle cx="210" cy="258" r="4.5"/>
+    <circle cx="235" cy="268" r="3"/>
+    <circle cx="260" cy="262" r="4"/>
+    <circle cx="288" cy="272" r="3.5"/>
+    <circle cx="315" cy="260" r="4"/>
+    <circle cx="340" cy="268" r="3"/>
+    <circle cx="365" cy="264" r="4.5"/>
+    <circle cx="392" cy="270" r="3.5"/>
+    <circle cx="420" cy="260" r="4"/>
+    <circle cx="448" cy="268" r="3"/>
+    <circle cx="475" cy="262" r="4.5"/>
+    <circle cx="502" cy="270" r="3.5"/>
+    <circle cx="530" cy="258" r="4"/>
+    <circle cx="558" cy="268" r="3"/>
+    <circle cx="585" cy="262" r="4.5"/>
+    <circle cx="612" cy="270" r="3.5"/>
+    <circle cx="640" cy="260" r="4"/>
+  </g>
+  <g fill="#7A4F2E" opacity="0.7">
+    <circle cx="172" cy="278" r="3"/>
+    <circle cx="198" cy="282" r="2.5"/>
+    <circle cx="222" cy="276" r="3"/>
+    <circle cx="248" cy="282" r="2.5"/>
+    <circle cx="275" cy="278" r="3"/>
+    <circle cx="302" cy="284" r="2.5"/>
+    <circle cx="328" cy="276" r="3"/>
+    <circle cx="355" cy="282" r="2.5"/>
+    <circle cx="382" cy="278" r="3"/>
+    <circle cx="408" cy="284" r="2.5"/>
+    <circle cx="435" cy="276" r="3"/>
+    <circle cx="462" cy="282" r="2.5"/>
+    <circle cx="488" cy="278" r="3"/>
+    <circle cx="515" cy="284" r="2.5"/>
+    <circle cx="542" cy="276" r="3"/>
+    <circle cx="568" cy="282" r="2.5"/>
+    <circle cx="595" cy="278" r="3"/>
+    <circle cx="622" cy="284" r="2.5"/>
+  </g>
+
+  <!-- Plants growing through mulch -->
+  <g>
+    <!-- Plant 1 - left -->
+    <ellipse cx="200" cy="248" rx="18" ry="6" fill="#5A8C3F" opacity="0.3"/>
+    <path d="M200 248 Q195 220 190 200 Q188 195 192 195 Q196 210 200 225 Q204 210 208 195 Q212 195 210 200 Q205 220 200 248 Z" fill="#4A7C2F"/>
+    <path d="M200 248 Q190 235 178 225 Q175 222 178 220 Q188 228 200 248 Z" fill="#5A8C3F"/>
+    <path d="M200 248 Q210 235 222 225 Q225 222 222 220 Q212 228 200 248 Z" fill="#5A8C3F"/>
+    <circle cx="192" cy="198" r="3" fill="#E8A0C8"/>
+    <circle cx="208" cy="200" r="3" fill="#E8A0C8"/>
+
+    <!-- Plant 2 - center-left -->
+    <ellipse cx="340" cy="248" rx="22" ry="7" fill="#5A8C3F" opacity="0.3"/>
+    <path d="M340 248 Q330 215 325 190 Q323 185 327 185 Q333 205 340 230 Q347 205 353 185 Q357 185 355 190 Q350 215 340 248 Z" fill="#4A7C2F"/>
+    <path d="M340 248 Q325 230 310 218 Q307 215 310 213 Q325 225 340 248 Z" fill="#5A8C3F"/>
+    <path d="M340 248 Q355 230 370 218 Q373 215 370 213 Q355 225 340 248 Z" fill="#5A8C3F"/>
+    <path d="M340 248 Q335 225 332 200 Q330 195 334 195 Q338 215 340 248 Z" fill="#3A6B1F" opacity="0.6"/>
+    <circle cx="333" cy="195" r="3.5" fill="#F0B050"/>
+    <circle cx="347" cy="198" r="3.5" fill="#F0B050"/>
+
+    <!-- Plant 3 - center-right (taller shrub) -->
+    <ellipse cx="480" cy="248" rx="24" ry="7" fill="#5A8C3F" opacity="0.3"/>
+    <path d="M480 248 Q465 200 460 165 Q458 160 462 160 Q472 185 480 220 Q488 185 498 160 Q502 160 500 165 Q495 200 480 248 Z" fill="#4A7C2F"/>
+    <path d="M480 248 Q460 215 445 200 Q442 197 445 195 Q465 210 480 248 Z" fill="#5A8C3F"/>
+    <path d="M480 248 Q500 215 515 200 Q518 197 515 195 Q495 210 480 248 Z" fill="#5A8C3F"/>
+    <path d="M480 248 Q472 210 468 180 Q466 175 470 175 Q476 200 480 248 Z" fill="#3A6B1F" opacity="0.5"/>
+    <path d="M480 248 Q488 210 492 180 Q494 175 490 175 Q484 200 480 248 Z" fill="#3A6B1F" opacity="0.5"/>
+
+    <!-- Plant 4 - right -->
+    <ellipse cx="600" cy="248" rx="20" ry="6" fill="#5A8C3F" opacity="0.3"/>
+    <path d="M600 248 Q590 220 585 200 Q583 195 587 195 Q593 210 600 228 Q607 210 613 195 Q617 195 615 200 Q610 220 600 248 Z" fill="#4A7C2F"/>
+    <path d="M600 248 Q588 232 575 222 Q572 219 575 217 Q588 225 600 248 Z" fill="#5A8C3F"/>
+    <path d="M600 248 Q612 232 625 222 Q628 219 625 217 Q612 225 600 248 Z" fill="#5A8C3F"/>
+    <circle cx="590" cy="200" r="3" fill="#E8A0C8"/>
+    <circle cx="610" cy="202" r="3" fill="#E8A0C8"/>
+  </g>
+
+  <!-- Depth annotation - showing 3 inches -->
+  <g>
+    <!-- Bracket -->
+    <path d="M700 248 L708 248 L708 290 L700 290" stroke="#3A4A2A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="708" y1="269" x2="730" y2="269" stroke="#3A4A2A" stroke-width="2" stroke-linecap="round"/>
+    <!-- Label background -->
+    <rect x="730" y="258" width="56" height="22" rx="4" fill="#3A4A2A"/>
+    <text x="758" y="273" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F1E8" text-anchor="middle">3 in.</text>
+  </g>
+
+  <!-- A hand trowel resting on the bed edge -->
+  <g transform="translate(540, 320) rotate(-15)">
+    <!-- Handle -->
+    <rect x="0" y="0" width="80" height="10" rx="5" fill="#8B5E3C"/>
+    <rect x="0" y="0" width="80" height="5" rx="2.5" fill="#A47551"/>
+    <!-- Ferrule -->
+    <rect x="78" y="-2" width="10" height="14" rx="2" fill="#6B6B6B"/>
+    <!-- Blade -->
+    <path d="M88 5 Q95 5 98 12 Q100 25 95 35 Q90 38 85 35 Q82 25 85 12 Q86 5 88 5 Z" fill="#9AA0A8"/>
+    <path d="M88 5 Q92 8 95 12 Q97 22 93 32 Q90 34 87 32 Q84 22 86 12 Q87 8 88 5 Z" fill="#B8BEC6" opacity="0.6"/>
+  </g>
+
+  <!-- Ground / grass in front of bed -->
+  <rect x="0" y="408" width="800" height="92" fill="#C8D9A8"/>
+  <!-- Grass tufts -->
+  <g fill="#9AB870" opacity="0.7">
+    <path d="M50 408 Q48 400 50 395 Q52 400 50 408 Z"/>
+    <path d="M55 408 Q53 398 55 392 Q57 398 55 408 Z"/>
+    <path d="M120 408 Q118 402 120 397 Q122 402 120 408 Z"/>
+    <path d="M280 408 Q278 400 280 395 Q282 400 280 408 Z"/>
+    <path d="M285 408 Q283 398 285 392 Q287 398 285 408 Z"/>
+    <path d="M450 408 Q448 402 450 397 Q452 402 450 408 Z"/>
+    <path d="M620 408 Q618 400 620 395 Q622 400 620 408 Z"/>
+    <path d="M625 408 Q623 398 625 392 Q627 398 625 408 Z"/>
+    <path d="M750 408 Q748 402 750 397 Q752 402 750 408 Z"/>
+  </g>
+
+  <!-- Small mulch pieces scattered on ground (spillover) -->
+  <g fill="#8B5E3C" opacity="0.6">
+    <circle cx="100" cy="420" r="3"/>
+    <circle cx="115" cy="425" r="2.5"/>
+    <circle cx="250" cy="422" r="3"/>
+    <circle cx="265" cy="428" r="2"/>
+    <circle cx="540" cy="420" r="3"/>
+    <circle cx="555" cy="426" r="2.5"/>
+    <circle cx="690" cy="422" r="3"/>
+  </g>
+
+  <!-- Sun -->
+  <circle cx="700" cy="80" r="32" fill="#F0D878" opacity="0.8"/>
+  <circle cx="700" cy="80" r="24" fill="#F0C850" opacity="0.6"/>
+</svg>

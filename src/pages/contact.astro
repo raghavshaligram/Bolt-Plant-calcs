@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const description =
+  'Contact SoilMath.com — questions, bug reports, calculator suggestions, or partnership inquiries. A real person reads every message.';
+---
+
+<Layout title="Contact" description={description}>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Contact</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        Contact
+      </h1>
+      <p class="mt-3 max-w-2xl text-base leading-relaxed text-bark-600 sm:text-lg">
+        Got a question about a calculator, found a bug, have an idea for a new tool, or want to talk partnerships? Send a message &mdash; a real person reads every one.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-2xl">
+      <div class="card">
+        <form class="flex flex-col gap-4" aria-label="Contact form">
+          <div>
+            <label htmlFor="contact-name" class="label-field">Name <span class="text-bark-500">(optional)</span></label>
+            <input id="contact-name" name="name" type="text" class="input-field mt-1.5" autocomplete="name" />
+          </div>
+          <div>
+            <label htmlFor="contact-email" class="label-field">Email</label>
+            <input id="contact-email" name="email" type="email" required class="input-field mt-1.5" autocomplete="email" />
+          </div>
+          <div>
+            <label htmlFor="contact-message" class="label-field">Message</label>
+            <textarea id="contact-message" name="message" rows="5" required class="input-field mt-1.5"></textarea>
+          </div>
+          <button type="submit" class="btn-primary self-start">Send message</button>
+          <p class="text-xs text-bark-500">
+            This form is a UI placeholder for now &mdash; it doesn&rsquo;t submit anywhere yet. For a real reply, email <a href="mailto:hello@soilmath.com" class="text-moss-700 hover:text-moss-800">hello@soilmath.com</a>. See our <a href="/privacy-policy/" class="text-moss-700 hover:text-moss-800">Privacy Policy</a>.
+          </p>
+        </form>
+      </div>
+
+      <p class="mt-6 text-sm text-bark-500">
+        Typical response time is within a few days. If it&rsquo;s taken longer than a week, your message may have gotten lost &mdash; please send it again.
+      </p>
+    </div>
+  </section>
+</Layout>

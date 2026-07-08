@@ -1,0 +1,105 @@
+---
+// Compact share buttons. Pinterest is the primary traffic source for this site,
+// so it gets the most prominent treatment. Also includes Facebook, X, and a
+// copy-link button. All buttons open in a small popup window.
+// Usage: <ShareButtons title="Page title" description="Pin description" image="/path/to/image.webp" />
+
+export interface Props {
+  title: string;
+  description?: string;
+  /** Absolute or root-relative URL to the page being shared. Defaults to current page. */
+  url?: string;
+  /** Absolute URL to the image Pinterest should pin. Required for Pinterest. */
+  image?: string;
+  /** Compact variant: smaller buttons in a single row. */
+  compact?: boolean;
+}
+
+const { title, description = '', url, image, compact = false } = Astro.props;
+
+const pageUrl = url ?? new URL(Astro.url.pathname, Astro.site).href;
+const encodedUrl = encodeURIComponent(pageUrl);
+const encodedTitle = encodeURIComponent(title);
+const encodedDesc = encodeURIComponent(description);
+const encodedImage = image ? encodeURIComponent(image) : '';
+
+const pinterestUrl = `https://pinterest.com/pin/create/button/?url=${encodedUrl}&media=${encodedImage}&description=${encodedDesc}`;
+const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+const xUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+
+const btnClass = compact
+  ? 'inline-flex h-8 w-8 items-center justify-center rounded-full text-bark-500 transition hover:bg-moss-50 hover:text-moss-800'
+  : 'inline-flex h-9 w-9 items-center justify-center rounded-full text-bark-500 transition hover:bg-moss-50 hover:text-moss-800';
+---
+
+<div class="flex items-center gap-1.5" aria-label="Share this page">
+  <a
+    href={pinterestUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Save to Pinterest"
+    class={`${btnClass} bg-[#E60023]/5 text-[#E60023] hover:bg-[#E60023]/10`}
+  >
+    <svg class={compact ? 'h-4 w-4' : 'h-5 w-5'} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.872.182-.78 1.172-4.971 1.172-4.971s-.299-.598-.299-1.482c0-1.388.806-2.425 1.808-2.425.853 0 1.265.641 1.265 1.41 0 .858-.546 2.14-.828 3.331-.236.995.499 1.807 1.481 1.807 1.777 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.067-4.177-4.067-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.281a.3.3 0 0 1 .069.283c-.073.305-.233.959-.265 1.093-.042.175-.14.217-.322.13-1.197-.557-1.945-2.307-1.945-3.713 0-3.022 2.196-5.797 6.335-5.797 3.326 0 5.913 2.371 5.913 5.541 0 3.302-2.083 5.962-4.974 5.962-.971 0-1.884-.504-2.197-1.101l-.598 2.282c-.216.832-.801 1.873-1.194 2.51A10.034 10.034 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2Z" />
+    </svg>
+  </a>
+
+  <a
+    href={facebookUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Share on Facebook"
+    class={btnClass}
+  >
+    <svg class={compact ? 'h-4 w-4' : 'h-5 w-5'} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073Z" />
+    </svg>
+  </a>
+
+  <a
+    href={xUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Share on X"
+    class={btnClass}
+  >
+    <svg class={compact ? 'h-4 w-4' : 'h-5 w-5'} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+    </svg>
+  </a>
+
+  <button
+    type="button"
+    data-copy-url={pageUrl}
+    aria-label="Copy link to this page"
+    class={`${btnClass} copy-link-btn`}
+  >
+    <svg class={compact ? 'h-4 w-4' : 'h-5 w-5'} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+    </svg>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll('.copy-link-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const url = btn.getAttribute('data-copy-url');
+      if (!url) return;
+      try {
+        await navigator.clipboard.writeText(url);
+        const original = btn.getAttribute('aria-label');
+        btn.setAttribute('aria-label', 'Link copied!');
+        btn.classList.add('text-moss-700');
+        setTimeout(() => {
+          btn.setAttribute('aria-label', original);
+          btn.classList.remove('text-moss-700');
+        }, 2000);
+      } catch {
+        // Clipboard API not available — fall back to a prompt.
+        window.prompt('Copy this link:', url);
+      }
+    });
+  });
+</script>

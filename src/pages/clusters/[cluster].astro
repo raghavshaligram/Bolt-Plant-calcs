@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { clusters, getCluster, getCalculatorsForCluster } from '../../data/calculators';
+
+export function getStaticPaths() {
+  return clusters.map((cluster) => ({
+    params: { cluster: cluster.slug },
+    props: { cluster },
+  }));
+}
+
+const { cluster } = Astro.props;
+const clusterCalculators = getCalculatorsForCluster(cluster.slug);
+const liveCalculators = clusterCalculators.filter((c) => c.status === 'live');
+const plannedCalculators = clusterCalculators.filter((c) => c.status === 'coming-soon');
+
+const iconPaths: Record<string, string> = {
+  soil: 'M3 14h18M5 14l1.5-5h13L21 14M5 14v5h14v-5',
+  fertilizer: 'M12 3v18M8 7l4-4 4 4M7 12h10M6 17h12',
+  water: 'M12 3c3 4 5 7 5 10a5 5 0 0 1-10 0c0-3 2-6 5-10Z',
+  spacing: 'M4 4h16v16H4zM4 10h16M4 16h16M10 4v16M16 4v16',
+  lawn: 'M4 20h16M6 20v-6M10 20v-8M14 20v-6M18 20v-10M4 8l4-3 4 3 4-3 4 3',
+  indoor: 'M12 3v18M5 8h14M5 8c0 5 3 8 7 8s7-3 7-8',
+  hydro: 'M12 3v18M5 7h14v6H5zM7 13v4h10v-4',
+};
+---
+
+<Layout title={`${cluster.name} Calculators`} description={cluster.metaDescription}>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">{cluster.name}</span>
+      </nav>
+
+      <div class="mt-6 flex items-start gap-5">
+        <div class="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-moss-100 text-moss-700 sm:flex">
+          <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d={iconPaths[cluster.icon] ?? iconPaths.soil} />
+          </svg>
+        </div>
+        <div>
+          <h1 class="font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+            {cluster.name} Calculators
+          </h1>
+          <p class="mt-3 max-w-2xl text-base leading-relaxed text-bark-600 sm:text-lg">
+            {cluster.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    {liveCalculators.length > 0 && (
+      <div>
+        <h2 class="font-display text-2xl font-semibold text-bark-900">Live calculators</h2>
+        <p class="mt-2 text-sm text-bark-600">Ready to use right now.</p>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {liveCalculators.map((calc) => (
+            <a
+              href={calc.href}
+              class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+            >
+              <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Live</span>
+              <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
+                {calc.title}
+              </h3>
+              <p class="text-sm leading-relaxed text-bark-600">{calc.description}</p>
+              <span class="mt-auto inline-flex items-center text-sm font-medium text-moss-700">
+                Open
+                <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {plannedCalculators.length > 0 && (
+      <div class={liveCalculators.length > 0 ? 'mt-12' : ''}>
+        <h2 class="font-display text-2xl font-semibold text-bark-900">Coming soon</h2>
+        <p class="mt-2 text-sm text-bark-600">In the queue — these are next on the build list.</p>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {plannedCalculators.map((calc) => (
+            <div class="flex flex-col gap-2 rounded-2xl bg-sand-50 p-6 ring-1 ring-moss-100/40">
+              <span class="text-xs font-medium uppercase tracking-wider text-bark-400">Coming soon</span>
+              <h3 class="font-display text-lg font-semibold text-bark-700">{calc.title}</h3>
+              <p class="text-sm leading-relaxed text-bark-500">{calc.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+</Layout>

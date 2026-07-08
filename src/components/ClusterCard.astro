@@ -1,0 +1,53 @@
+---
+import type { Cluster } from '../data/calculators';
+import { getCalculatorsForCluster } from '../data/calculators';
+
+interface Props {
+  cluster: Cluster;
+}
+
+const { cluster } = Astro.props;
+const clusterCalculators = getCalculatorsForCluster(cluster.slug);
+const liveCount = clusterCalculators.filter((c) => c.status === 'live').length;
+const totalCount = clusterCalculators.length;
+
+const iconPaths: Record<string, string> = {
+  soil: 'M3 14h18M5 14l1.5-5h13L21 14M5 14v5h14v-5',
+  fertilizer: 'M12 3v18M8 7l4-4 4 4M7 12h10M6 17h12',
+  water: 'M12 3c3 4 5 7 5 10a5 5 0 0 1-10 0c0-3 2-6 5-10Z',
+  spacing: 'M4 4h16v16H4zM4 10h16M4 16h16M10 4v16M16 4v16',
+  lawn: 'M4 20h16M6 20v-6M10 20v-8M14 20v-6M18 20v-10M4 8l4-3 4 3 4-3 4 3',
+  indoor: 'M12 3v18M5 8h14M5 8c0 5 3 8 7 8s7-3 7-8',
+  hydro: 'M12 3v18M5 7h14v6H5zM7 13v4h10v-4',
+};
+---
+
+<a
+  href={`/clusters/${cluster.slug}/`}
+  class="group relative flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+>
+  <div class="flex items-start justify-between">
+    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-moss-100 text-moss-700">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d={iconPaths[cluster.icon] ?? iconPaths.soil} />
+      </svg>
+    </div>
+    <span class="text-xs font-medium text-bark-400">
+      {liveCount} live{totalCount > liveCount ? ` / ${totalCount} planned` : ''}
+    </span>
+  </div>
+
+  <div>
+    <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
+      {cluster.name}
+    </h3>
+    <p class="mt-1.5 text-sm leading-relaxed text-bark-600">{cluster.blurb}</p>
+  </div>
+
+  <div class="mt-auto flex items-center text-sm font-medium text-moss-700">
+    Explore
+    <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </div>
+</a>
