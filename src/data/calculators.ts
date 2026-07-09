@@ -277,6 +277,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/seed-starting-calculator/',
     status: 'live',
   },
+  {
+    slug: 'drip-irrigation-calculator',
+    title: 'Drip Irrigation Calculator',
+    shortTitle: 'Drip Irrigation',
+    description:
+      'Calculate drip irrigation run time and total water delivered based on your emitter count, flow rate, and target water amount per plant or over an area.',
+    metaDescription:
+      'Calculate your drip irrigation run time and water delivered based on emitter flow rate. Free calculator for home gardens.',
+    seoTitle: 'Drip Irrigation Calculator - Flow Rate & Run Time',
+    cluster: 'watering-and-irrigation',
+    href: '/calculators/drip-irrigation-calculator/',
+    status: 'live',
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {

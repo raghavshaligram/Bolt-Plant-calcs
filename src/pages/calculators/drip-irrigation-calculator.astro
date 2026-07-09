@@ -1,0 +1,263 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import DripIrrigationCalculator from '../../components/calculators/DripIrrigationCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('drip-irrigation-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-09';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This drip irrigation calculator works out your run time and total water delivered from your emitter count and flow rate — enter what you have, pick a target amount per plant or over an area, and get a straight answer in minutes. Built for home garden drip systems, not large-scale agricultural or professional hydraulic design.';
+
+const tocItems = [
+  { id: 'how-do-you-calculate-drip-irrigation-run-time', label: 'How It Works', icon: 'leaf' as const },
+  { id: 'common-emitter-flow-rates-reference', label: 'Flow Rates Reference', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'drip-irrigation-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/drip-irrigation-calculator-emitters.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How do I calculate drip irrigation run time?',
+    a: 'Divide the water you want delivered by your total flow rate. For a single plant on one emitter, run time = target gallons ÷ emitter GPH. For a zone covering an area, run time = total gallons needed ÷ (number of emitters × flow rate per emitter). The calculator above does this automatically for either case.',
+  },
+  {
+    q: 'What emitter flow rate should I use?',
+    a: '1 GPH is the standard default for most vegetables, perennials, and small shrubs. Use 0.5 GPH for closely spaced small plants in heavier, slower-draining soil, and 2–4 GPH for larger shrubs, young trees, or fast-draining sandy soil that needs more volume, faster.',
+  },
+  {
+    q: 'How many gallons does 1 inch of water over an area equal?',
+    a: 'About 0.623 gallons per square foot per inch of depth — so 1 inch of water over a 50 sq ft bed is roughly 31 gallons. The calculator’s Area Coverage mode uses this exact conversion to translate a target watering depth into gallons and, from there, into run time.',
+  },
+  {
+    q: 'How long should I run my drip irrigation system?',
+    a: 'It depends entirely on your emitter flow rate and target water amount — there’s no universal number of minutes that works for every setup. Enter your emitter count, flow rate, and target amount into the calculator above for a run time matched to your actual system, not a generic rule of thumb.',
+  },
+  {
+    q: 'Does this calculator handle system design for larger properties?',
+    a: 'No — this tool is scoped to homeowner-level drip systems: figuring out run time and water delivered for a zone you already have. It does not size main lines, calculate pressure loss over distance, or plan laterals for acreage — that’s professional irrigation design territory, outside what this calculator covers.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate your drip irrigation run time and water delivered',
+  description:
+    'Use the drip irrigation calculator to find your run time and total water delivered based on your emitter count, emitter flow rate, and target water amount per plant or over an area.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Enter your emitter count and flow rate',
+      text: 'Enter how many emitters are running on the line, then pick a standard flow rate (0.5, 1, 2, or 4 GPH) or enter a custom rate.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Choose Per Plant or Area Coverage',
+      text: 'Enter a target water amount per plant, or an area and target depth of water, depending on how your system is laid out.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Read your run time and water delivered',
+      text: 'The calculator shows run time in minutes or hours, total water delivered this session, and an optional weekly total.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Watering & Irrigation',
+      item: 'https://harvestmath.com/clusters/watering-and-irrigation/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Drip Irrigation Calculator',
+      item: 'https://harvestmath.com/calculators/drip-irrigation-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Drip Irrigation Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/drip-irrigation-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <DripIrrigationCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Part of the <a href="/clusters/watering-and-irrigation/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Watering & Irrigation cluster</a> — the first calculator in that cluster, with more watering and scheduling tools planned.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" headline="Get the free Watering & Irrigation Cheat Sheet" clusterTag="watering-cluster" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-do-you-calculate-drip-irrigation-run-time">How Do You Calculate Drip Irrigation Run Time?</h2>
+    <p>
+      Drip irrigation run time comes down to one relationship: how much water you want delivered, divided by how fast your emitters deliver it. If a single emitter puts out <strong>1 gallon per hour (GPH)</strong> and you want <strong>1 gallon</strong> at that plant, you run the system for <strong>1 hour</strong> &mdash; the emitter count on the rest of the line doesn&rsquo;t change that math, since every emitter on the same line runs in parallel at the same rate.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/drip-irrigation-calculator-emitters.svg"
+        alt="A drip irrigation line with emitters dripping water onto plants along a garden row"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Same flow rate, different jobs &mdash; per-plant targets and area coverage use different math.
+      </figcaption>
+    </figure>
+    <p>
+      Watering by <strong>area</strong> instead of by plant works a little differently: you&rsquo;re converting a target depth of water (like &ldquo;1 inch&rdquo;) into gallons using the area you&rsquo;re covering, then dividing that total by the combined flow rate of every emitter running on that zone. Home garden watering needs typically fall in the range of <strong>1&ndash;1.5 inches per week</strong> during the growing season, though exact needs vary by plant, soil, and climate &mdash; this calculator gets you the run time for whatever target you set, it doesn&rsquo;t prescribe the target itself.
+    </p>
+    <p>
+      Either way, this tool is scoped to <strong>home garden drip systems</strong>: figuring out run time and water delivered for a zone you already have. It doesn&rsquo;t size main-line pipe, calculate pressure loss over distance, or plan laterals per acre &mdash; that&rsquo;s professional irrigation design work, outside what a homeowner-level calculator like this one should attempt.
+    </p>
+
+    <h2 id="common-emitter-flow-rates-reference">Common Emitter Flow Rates Reference</h2>
+    <p>
+      Standard point-source drip emitters are manufactured in a handful of common flow rates. Which one to use depends mostly on plant size and soil drainage:
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Flow rate</th>
+          <th>Typical use case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>0.5 GPH</td><td>Small perennials, groundcovers, and closely spaced plants, especially in clay or loam soil that holds moisture &mdash; often paired two-per-plant for redundancy.</td></tr>
+        <tr><td>1 GPH</td><td>The standard default for most vegetables, annuals, and small shrubs in average garden soil.</td></tr>
+        <tr><td>2 GPH</td><td>Larger shrubs, young trees, and larger containers that need more volume per session.</td></tr>
+        <tr><td>4 GPH</td><td>Mature shrubs and small trees with an established root zone, or any planting in fast-draining sandy soil that needs water delivered quickly before it drains past the root zone.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      As a tree or shrub matures, it&rsquo;s common to add emitters or step up to a higher flow rate rather than just running the original emitter longer &mdash; a bigger root zone needs water spread over a wider area, not just more time in one spot.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Say you have <strong>10 emitters</strong> rated at <strong>1 GPH</strong>, one per tomato plant, and you want to deliver <strong>1 gallon per plant</strong> this session.
+    </p>
+    <ol>
+      <li><strong>Run time:</strong> 1 gallon &divide; 1 GPH = <strong>1 hour</strong>.</li>
+      <li><strong>Total system flow:</strong> 10 emitters &times; 1 GPH = <strong>10 GPH</strong>.</li>
+      <li><strong>Water delivered this session:</strong> 10 plants &times; 1 gallon = <strong>10 gallons</strong>.</li>
+    </ol>
+    <p>
+      Switch to <strong>Area Coverage</strong> mode with the same 10 emitters covering a 50 sq ft bed, targeting 1 inch of water: the calculator converts that to roughly <strong>31 gallons</strong> (50 sq ft &times; 1 in &times; 0.623), divides by the 10 GPH total system flow, and returns a run time of about <strong>3 hours 7 minutes</strong> instead. Same emitters, same flow rate &mdash; a very different run time because the target is defined differently.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Mixing emitter flow rates on one line.</strong> A 0.5 GPH and a 4 GPH emitter on the same zone, run for the same amount of time, deliver wildly different amounts of water &mdash; match flow rates within a zone, or run mismatched plants on separate zones.</li>
+      <li><strong>Not accounting for soil type and drainage.</strong> The same run time delivers water very differently in clay versus sand &mdash; slower flow rates and longer run times suit clay, while sandy soil needs faster delivery before water drains below the root zone.</li>
+      <li><strong>Running too short or too long.</strong> A short run time can leave water sitting in the top inch of soil, encouraging shallow roots; an overly long one can waterlog the root zone or waste water past what the plant can use. Match run time to an actual target amount, not a habit.</li>
+      <li><strong>Ignoring seasonal adjustment.</strong> A run time that&rsquo;s right in July heat is very likely too much in cooler spring or fall weather &mdash; recalculate for the season instead of leaving the timer on one setting year-round.</li>
+    </ul>
+
+    <LeadMagnet variant="compact" clusterTag="watering-cluster" />
+
+    <FAQBlock id="drip-irrigation-calculator-faq" heading="Drip Irrigation Calculator FAQ" faqs={faqs} />
+
+    <LeadMagnet variant="compact" clusterTag="watering-cluster" />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      The area-based water conversion used in this calculator (gallons = area in square feet &times; depth in inches &times; 0.623) comes from <a href="https://extension.usu.edu/cwel/landscape-irrigation-calculator" rel="noopener">Utah State University Extension&rsquo;s Center for Water-Efficient Landscaping</a>, which also offers a full landscape irrigation calculator with location-specific evapotranspiration data for Utah. Standard emitter flow rates and their typical plant-size use cases follow widely used drip irrigation design guidance from cooperative extension sources. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Watering & Irrigation cluster', url: '/clusters/watering-and-irrigation/', anchorText: 'Watering & Irrigation cluster', note: 'the first calculator in this cluster — more watering and scheduling tools are planned.' },
+      { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'figure out how many emitters you need based on your plant spacing.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>
