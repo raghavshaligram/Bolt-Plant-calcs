@@ -1,0 +1,258 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import FrostDateCalculator from '../../components/calculators/FrostDateCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('frost-date-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-09';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This frost date calculator does more than hand you a date &mdash; enter your ZIP code or hardiness zone and it builds a full planting timeline around your estimated frost dates: when to start seeds indoors, when it&rsquo;s safe to transplant, and when to start fall crops. Dates are zone-based estimates, not exact station data.';
+
+const tocItems = [
+  { id: 'how-do-you-find-your-frost-date', label: 'Finding Your Frost Date', icon: 'leaf' as const },
+  { id: 'your-planting-timeline', label: 'Your Planting Timeline', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'frost-date-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/frost-date-calculator-planting-calendar.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How do I find my last frost date?',
+    a: 'Enter your ZIP code or USDA hardiness zone into the calculator above to get an estimated date range, not a single exact day. For a precise, station-level date, cross-check with your local extension office, Purdue&rsquo;s county-level Freeze Date Tool, or the National Gardening Association&rsquo;s ZIP-code frost lookup.',
+  },
+  {
+    q: 'When should I start seeds indoors based on my frost date?',
+    a: 'Most warm-season crops like tomatoes and peppers are started indoors 6&ndash;8 weeks before the last frost date; cold-hardy crops like broccoli and cabbage can start on the same general timeline. The calculator above computes this window automatically once you enter your ZIP or zone &mdash; always double-check the specific crop&rsquo;s seed packet, since timing varies by a couple of weeks between species.',
+  },
+  {
+    q: 'When is it safe to plant after the last frost?',
+    a: 'Tender, frost-sensitive crops (tomatoes, peppers, basil, squash, beans) are generally safe to transplant or direct-sow once you&rsquo;re past the end of your estimated last-frost date range. Many experienced gardeners add another week of buffer beyond that for extra safety, especially for the most cold-sensitive crops, and keep an eye on the extended forecast right before planting.',
+  },
+  {
+    q: 'How accurate are frost date estimates?',
+    a: 'Zone-based estimates like this calculator&rsquo;s are useful for planning but not exact &mdash; they&rsquo;re built from general USDA hardiness zone patterns, not your specific address&rsquo;s climate station history. Actual frost timing at your exact location can differ by one to three weeks due to elevation, nearby water, urban heat, and other microclimate effects. Treat the date range as a planning window, not a guarantee.',
+  },
+  {
+    q: 'When should I start planting my vegetable garden?',
+    a: 'It depends entirely on the crop: cold-hardy vegetables (lettuce, peas, broccoli) can go in several weeks before your last frost, while tender crops (tomatoes, peppers, squash) need to wait until after it. Use the planting timeline generated above for the general schedule, then check each specific crop&rsquo;s frost tolerance before committing it to the ground.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Estimate your frost dates and build a planting timeline',
+  description:
+    'Use the frost date calculator to estimate your last spring frost and first fall frost date range by ZIP code or USDA hardiness zone, and get a full planting timeline built around those dates.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Enter your ZIP code or hardiness zone',
+      text: 'Choose ZIP Code for a quick estimate matched to the nearest reference location, or Hardiness Zone if you already know your exact USDA zone.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Read your estimated frost date range',
+      text: 'The calculator shows an estimated last spring frost date range, first fall frost date range, and approximate growing season length for your zone.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Follow the generated planting timeline',
+      text: 'The calculator translates your frost dates into a full timeline: when to start seeds indoors, when to transplant, and when to start fall crops.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://soilmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Spacing & Planting',
+      item: 'https://soilmath.com/clusters/spacing-and-planting/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Frost Date Calculator',
+      item: 'https://soilmath.com/calculators/frost-date-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Frost Date Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/frost-date-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <FrostDateCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Part of the <a href="/clusters/spacing-and-planting/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Spacing & Planting cluster</a> — pairs well with a seed-starting calculator once that&rsquo;s built.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" headline="Get the free Spacing & Planting Cheat Sheet" clusterTag="spacing-cluster" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-do-you-find-your-frost-date">How Do You Find Your Frost Date?</h2>
+    <p>
+      This calculator estimates your frost dates from your <strong>USDA Plant Hardiness Zone</strong> &mdash; the same zone system used on seed packets and plant tags. Enter a ZIP code and it&rsquo;s matched to the nearest of a set of real reference locations to estimate your zone, or select your zone directly if you already know it. Either way, the output is a <em>zone-level approximation</em>, not your exact address&rsquo;s climate history.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/frost-date-calculator-planting-calendar.svg"
+        alt="A seasonal timeline showing last frost, transplant, and first frost markers with planting actions at each stage"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Every date on this calculator is a range, not a single day &mdash; that&rsquo;s honest, not vague.
+      </figcaption>
+    </figure>
+    <p>
+      That distinction matters. <strong>Exact, station-level frost data</strong> &mdash; the kind built from decades of a specific weather station&rsquo;s temperature records, like NOAA&rsquo;s 1991&ndash;2020 Climate Normals &mdash; can pin down a probability curve for your specific town (see the Sources section below for tools that do this). Hardiness-zone-based estimates like this one are coarser by design: they group broad regions into the same zone, so two towns in the same zone can still have somewhat different real frost timing due to elevation, nearby water, or how exposed the land is.
+    </p>
+    <p>
+      The trade-off is worth it for planning purposes: a zone-based estimate gets you a usable planting window in seconds, with no need to look up station-level climate data. Just don&rsquo;t treat the date as exact down to the day &mdash; treat it as the center of a few-week window, and confirm with your local extension office as a real planting deadline approaches.
+    </p>
+
+    <h2 id="your-planting-timeline">Your Planting Timeline</h2>
+    <p>
+      A bare frost date only tells you when the risk of frost passes &mdash; it doesn&rsquo;t tell you what to actually <em>do</em> with that information. This calculator translates your estimated frost dates into a full sequence of planting actions:
+    </p>
+    <ul>
+      <li><strong>Start cold-hardy seeds indoors</strong> (broccoli, cabbage, lettuce) &mdash; roughly 6&ndash;8 weeks before your last frost date, so seedlings are ready to go out while it&rsquo;s still cool.</li>
+      <li><strong>Start warm-season seeds indoors</strong> (tomatoes, peppers) &mdash; also around 6&ndash;8 weeks before last frost for most varieties, though some crops (peppers especially) can want closer to 8&ndash;10 &mdash; check the seed packet.</li>
+      <li><strong>Transplant cold-hardy seedlings outdoors</strong> &mdash; a few weeks before your last frost date, since these crops tolerate a light frost.</li>
+      <li><strong>Transplant tender crops outdoors</strong> &mdash; only after your last frost date has passed, since tomatoes, peppers, and similar crops have essentially no frost tolerance.</li>
+      <li><strong>Start fall crop seeds</strong> &mdash; roughly 10&ndash;12 weeks before your first fall frost date, timed so they mature before the cold returns.</li>
+      <li><strong>Protect or harvest tender crops</strong> &mdash; by your first fall frost date, since that&rsquo;s when the growing season for frost-sensitive plants effectively ends.</li>
+    </ul>
+    <p>
+      This is the same general week-offset logic widely taught by cooperative extension services, applied automatically to your specific estimated dates rather than left as a generic rule you have to do the math on yourself.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Say the calculator estimates you&rsquo;re in <strong>Zone 6b</strong> (common across much of the northern Mid-Atlantic and lower Midwest, including cities like Chicago and Boston).
+    </p>
+    <ol>
+      <li><strong>Estimated last spring frost:</strong> roughly <strong>March 29 &ndash; April 12</strong>.</li>
+      <li><strong>Estimated first fall frost:</strong> roughly <strong>October 18 &ndash; November 1</strong>.</li>
+      <li><strong>Approximate growing season:</strong> around <strong>200 days</strong> between those two windows.</li>
+    </ol>
+    <p>
+      From there, the planting timeline follows automatically: start cold-hardy and warm-season seeds indoors around <strong>late January to mid-February</strong> (6&ndash;8 weeks before the last-frost window), transplant cold-hardy seedlings outdoors in <strong>mid-to-late March</strong>, and hold tender crops like tomatoes until <strong>after April 12</strong> to be safe. On the back end, fall crop seeds go in around <strong>late July to early August</strong> (10&ndash;12 weeks before the first-frost window), with tender crops needing protection or harvest by <strong>mid-to-late October</strong>. The calculator above computes all of this instantly for any ZIP code or zone &mdash; this Zone 6b walkthrough is just one example of the pattern.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Planting tender crops too early.</strong> A warm stretch in March or early April doesn&rsquo;t mean frost risk is over &mdash; it just means the average window hasn&rsquo;t arrived yet. Wait until you&rsquo;re past your last-frost date range, not just past a few nice days.</li>
+      <li><strong>Ignoring microclimates.</strong> Low spots where cold air pools, spots shaded from morning sun, and open areas away from buildings or pavement all frost earlier and harder than the general zone estimate suggests. Know your yard&rsquo;s specific cold spots, not just your zone.</li>
+      <li><strong>Treating the estimate as exact.</strong> A zone-based date range is a planning tool, not a guarantee &mdash; it&rsquo;s built from broad regional patterns, not your address&rsquo;s specific climate history. Check the extended forecast before a real planting deadline.</li>
+      <li><strong>Not accounting for fall frost when succession planting.</strong> Gardeners plan carefully around the spring frost date but often forget to count backward from the fall frost date for a second round of crops &mdash; missing the fall planting window is just as common a mistake as planting too early in spring.</li>
+    </ul>
+
+    <LeadMagnet variant="compact" clusterTag="spacing-cluster" />
+
+    <FAQBlock id="frost-date-calculator-faq" heading="Frost Date Calculator FAQ" faqs={faqs} />
+
+    <LeadMagnet variant="compact" clusterTag="spacing-cluster" />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      General frost-timing guidance and the importance of the last and first frost dates for garden planning draw on <a href="https://gardening.ces.ncsu.edu/weather-2-2/average-first-and-last-frost-dates/" rel="noopener">NC State Extension&rsquo;s average first and last freeze dates resource</a> and the <a href="https://extension.umd.edu/resource/spring-frost-or-freeze-dates-maryland" rel="noopener">University of Maryland Extension&rsquo;s frost and freeze dates guide</a>, both of which also point to station-level tools (Purdue&rsquo;s county Freeze Date Tool, the National Gardening Association&rsquo;s ZIP-code frost lookup) for more precise, address-level data than the zone-based estimate here provides. Hardiness zone reference points were checked against the USDA Plant Hardiness Zone Map. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Spacing & Planting cluster', url: '/clusters/spacing-and-planting/', anchorText: 'Spacing & Planting cluster', note: 'more layout and timing calculators as this cluster grows — a seed-starting calculator is planned next.' },
+      { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'once you know your planting window, figure out how many plants actually fit your bed.' },
+      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'seeding a new lawn instead? Timing matters there too — pair it with your frost dates.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

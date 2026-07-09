@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A seasonal planting calendar timeline showing seed starting, transplanting, and frost dates across spring and fall">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+  <path d="M0 190 Q200 155 400 175 T800 180 V210 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+  <circle cx="700" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+
+  <!-- Calendar timeline bar -->
+  <g transform="translate(80,240)">
+    <rect x="0" y="0" width="640" height="26" rx="13" fill="#E4DCC6"/>
+    <!-- winter/frost segment -->
+    <rect x="0" y="0" width="140" height="26" rx="13" fill="#A9C7E0" opacity="0.7"/>
+    <!-- growing season segment -->
+    <rect x="140" y="0" width="360" height="26" fill="#8FBF6E"/>
+    <!-- fall/frost segment -->
+    <rect x="500" y="0" width="140" height="26" rx="13" fill="#A9C7E0" opacity="0.7"/>
+
+    <!-- last frost marker -->
+    <line x1="140" y1="-14" x2="140" y2="40" stroke="#3A4A2A" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="140" cy="13" r="6" fill="#3A4A2A"/>
+    <text x="140" y="-22" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#3A4A2A" text-anchor="middle">Last frost</text>
+
+    <!-- first frost marker -->
+    <line x1="500" y1="-14" x2="500" y2="40" stroke="#3A4A2A" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="500" cy="13" r="6" fill="#3A4A2A"/>
+    <text x="500" y="-22" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#3A4A2A" text-anchor="middle">First frost</text>
+
+    <!-- seed starting marker (before last frost) -->
+    <g transform="translate(60,60)">
+      <circle r="16" fill="#F5F1E8" stroke="#6B8E4E" stroke-width="2"/>
+      <path d="M-6 4 Q-6 -6 0 -8 Q6 -6 6 4" stroke="#6B8E4E" stroke-width="1.8" fill="none"/>
+    </g>
+    <text x="60" y="98" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">Start seeds</text>
+    <text x="60" y="112" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">indoors</text>
+
+    <!-- transplant marker (after last frost) -->
+    <g transform="translate(220,60)">
+      <circle r="16" fill="#F5F1E8" stroke="#6B8E4E" stroke-width="2"/>
+      <path d="M0 8 V-8 M-6 -2 L0 -8 L6 -2" stroke="#6B8E4E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="220" y="98" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">Transplant</text>
+    <text x="220" y="112" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">outdoors</text>
+
+    <!-- fall crop marker (before first frost) -->
+    <g transform="translate(420,60)">
+      <circle r="16" fill="#F5F1E8" stroke="#B5652F" stroke-width="2"/>
+      <path d="M-6 -4 Q0 6 6 -4" stroke="#B5652F" stroke-width="1.8" fill="none"/>
+    </g>
+    <text x="420" y="98" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">Start fall</text>
+    <text x="420" y="112" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">crops</text>
+  </g>
+
+  <g>
+    <rect x="290" y="30" width="220" height="30" rx="6" fill="#3A4A2A" opacity="0.9"/>
+    <text x="400" y="50" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F1E8" text-anchor="middle">Frost dates to planting timeline</text>
+  </g>
+</svg>

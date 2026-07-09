@@ -201,15 +201,16 @@ export const calculators: Calculator[] = [
   },
   {
     slug: 'frost-date-calculator',
-    title: 'Frost Date Lookup',
+    title: 'Frost Date Calculator',
     shortTitle: 'Frost Dates',
     description:
-      'Look up estimated spring and fall frost dates for your ZIP code to plan your planting calendar.',
+      'Estimate your last spring frost and first fall frost date range by ZIP code or hardiness zone, then get a full planting timeline built around it.',
     metaDescription:
-      'Frost date lookup by US ZIP code. Find your estimated last spring frost and first fall frost dates to plan your planting calendar.',
+      'Estimate your last and first frost dates by zone, and get a full planting timeline — when to start seeds, transplant, and more.',
+    seoTitle: 'Frost Date Calculator - Planting Timeline by Zone',
     cluster: 'spacing-and-planting',
     href: '/calculators/frost-date-calculator/',
-    status: 'coming-soon',
+    status: 'live',
   },
   {
     slug: 'tree-age-calculator',
