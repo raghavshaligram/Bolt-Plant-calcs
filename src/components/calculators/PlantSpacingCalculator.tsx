@@ -214,7 +214,7 @@ export default function PlantSpacingCalculator() {
     const dateStr = new Date().toLocaleDateString('en-US', {
       year: 'numeric', month: 'long', day: 'numeric',
     });
-    doc.text(`Generated ${dateStr} — PlantCalculators.com`, margin, y);
+    doc.text(`Generated ${dateStr} — SoilMath.com`, margin, y);
     y += 28;
 
     doc.setTextColor(40, 40, 40);

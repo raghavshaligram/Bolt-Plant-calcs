@@ -6,6 +6,6 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://plantcalculators.com',
+  site: 'https://soilmath.com',
   integrations: [react(), mdx(), sitemap()],
 });

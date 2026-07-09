@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 export interface Props {
   title: string;
   description: string;
-  /** When true, use `title` verbatim for the <title> tag instead of appending "| Plant Calculators". */
+  /** When true, use `title` verbatim for the <title> tag instead of appending "| SoilMath". */
   rawTitle?: boolean;
   ogImage?: string;
   canonical?: string;
@@ -22,7 +22,7 @@ const {
   noindex = false,
 } = Astro.props;
 
-const siteName = 'Plant Calculators';
+const siteName = 'SoilMath';
 const fullTitle = rawTitle ? title : (title.includes(siteName) ? title : `${title} | ${siteName}`);
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 ---

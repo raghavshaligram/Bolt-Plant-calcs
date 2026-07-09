@@ -1,5 +1,5 @@
 /**
- * Design system tokens — locked palette and typography for Plant Calculators.
+ * Design system tokens — locked palette and typography for SoilMath.
  *
  * All hex values pulled directly from tailwind.config.js. Import these when
  * you need values in TypeScript/TSX; in Astro/HTML use the Tailwind class names
