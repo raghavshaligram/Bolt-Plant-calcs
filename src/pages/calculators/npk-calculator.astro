@@ -1,0 +1,313 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import NpkCalculator from '../../components/calculators/NpkCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('npk-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-09';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This NPK calculator handles three jobs: figuring out how much granular fertilizer to spread at a target application rate, mixing a liquid feed to a target PPM or dilution ratio, and blending two or three different fertilizers to approximate a target N-P-K ratio. Pick a mode, enter your fertilizer’s N-P-K numbers, and get exact amounts instead of guessing.';
+
+const tocItems = [
+  { id: 'how-do-you-calculate-npk-fertilizer-rates', label: 'How to Calculate NPK Rates', icon: 'leaf' as const },
+  { id: 'common-fertilizer-application-rates', label: 'Common Application Rates', icon: 'table' as const },
+  { id: 'worked-example-application-rate', label: 'Worked Example: Rate', icon: 'table' as const },
+  { id: 'worked-example-blending-two-fertilizers', label: 'Worked Example: Blending', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'npk-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/npk-calculator-fertilizer-bag.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How do I calculate NPK fertilizer application rate?',
+    a: 'Multiply your target rate (lb of actual N per 1,000 sq ft) by your area in thousands of square feet, then divide by the fertilizer’s N percentage. A 10-10-10 product at a 1 lb N/1,000 sq ft target on a 5,000 sq ft lawn works out to 50 lb of product — the calculator above does this instantly for any fertilizer and area.',
+  },
+  {
+    q: 'How much fertilizer do I need per acre or per square foot?',
+    a: 'Convert your area to thousands of square feet (1 acre = 43.56), multiply by your target lb-N-per-1,000-sq-ft rate, then divide by the fertilizer’s N percentage. The calculator’s granular mode accepts any square footage directly, so you can enter acreage converted to square feet or use the metric toggle for m².',
+  },
+  {
+    q: 'How do I make a liquid NPK fertilizer solution?',
+    a: 'Dissolve fertilizer into water at a rate (oz or grams per gallon/liter) that produces your target PPM: rate = target PPM ÷ (fertilizer N% × 74.9) for gallons, or ÷ (N% × 10) for liters. The calculator’s liquid mode does this automatically from either a target PPM or a dilution ratio you already know.',
+  },
+  {
+    q: 'Can I use regular garden fertilizer for hydroponics?',
+    a: 'Only if it’s fully water-soluble and free of fillers or micronutrient gaps — most granular lawn and garden fertilizers contain insoluble carriers or lack the micronutrients hydroponic systems need. Purpose-made hydroponic nutrient lines are formulated for complete solubility and balanced micronutrients; this calculator’s PPM math applies either way, but product choice matters more than the math.',
+  },
+  {
+    q: 'How do I read my soil test’s N-P-K recommendations?',
+    a: 'A soil test report typically recommends pounds of actual N, P₂O₅, and K₂O per 1,000 sq ft or per acre — plug those numbers directly into this calculator’s target rate field per nutrient. If your test gives a suggested product ratio instead, use blend mode to combine what you have on hand toward that ratio.',
+  },
+  {
+    q: 'Can I blend two fertilizers to hit an exact target ratio?',
+    a: 'Sometimes, but not always — two arbitrary fertilizers can only hit an exact N-P-K ratio if the math happens to work out, which is the exception rather than the rule. The calculator checks this for you: if an exact match isn’t possible with your two products, it says so and shows the closest achievable result instead of a misleading number. Adding a third, well-chosen product usually makes an exact match achievable.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate fertilizer NPK application rate, liquid dilution, or a multi-product blend',
+  description:
+    'Use the NPK calculator to find granular application rates, liquid feed dilution and PPM, or the mix ratio to blend multiple fertilizers toward a target N-P-K ratio.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Choose a calculation mode',
+      text: 'Select Granular for a dry fertilizer application rate, Liquid for a dissolved feed solution, or Blend to combine multiple fertilizers toward a target ratio.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enter your fertilizer’s N-P-K percentages',
+      text: 'Type the three numbers from the fertilizer label (e.g. 10-10-10) into the N%, P%, and K% fields for each product.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Enter your target rate, strength, or ratio',
+      text: 'Depending on the mode, enter a target lb-N-per-1,000-sq-ft rate and area, a target PPM or dilution ratio and container size, or a target N-P-K ratio, rate, and area.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the result',
+      text: 'The calculator shows the exact amount of fertilizer product needed, updating live as you type. Blend mode also flags when an exact target ratio isn’t mathematically achievable with the chosen products.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://plantcalculators.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Fertilizer & Nutrients',
+      item: 'https://plantcalculators.com/clusters/fertilizer-and-nutrients/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'NPK Calculator',
+      item: 'https://plantcalculators.com/calculators/npk-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'NPK Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/npk-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <NpkCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    This is the first calculator in the <a href="/clusters/fertilizer-and-nutrients/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Fertilizer & Nutrients cluster</a> — more feeding-rate tools are on the way.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" headline="Get the free Fertilizer & Nutrients Cheat Sheet" clusterTag="fertilizer-cluster" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-do-you-calculate-npk-fertilizer-rates">How Do You Calculate NPK Fertilizer Rates?</h2>
+    <p>
+      Every fertilizer label shows three numbers, like <strong>10-10-10</strong> or <strong>24-8-16</strong>. These are the percentage, by weight, of <strong>nitrogen (N)</strong>, <strong>available phosphate (P&#8322;O&#8325;, shown as &ldquo;P&rdquo;)</strong>, and <strong>soluble potash (K&#8322;O, shown as &ldquo;K&rdquo;)</strong> in the bag. A 50 lb bag of 10-10-10 contains 5 lb of actual nitrogen (10% of 50), 5 lb of phosphate, and 5 lb of potash &mdash; the rest is filler and carrier material.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/npk-calculator-fertilizer-bag.svg"
+        alt="A fertilizer bag showing N-P-K numbers next to a measuring scoop"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        The three numbers on every bag are percent N, P&#8322;O&#8325;, and K&#8322;O by weight.
+      </figcaption>
+    </figure>
+    <p>
+      Application rates are conventionally expressed as <strong>pounds of actual nitrogen per 1,000 sq ft</strong> &mdash; not pounds of product. That&rsquo;s the standard unit turf and garden guides use, and it&rsquo;s why the calculator above asks for a target N rate rather than a target bag weight: two different fertilizers with different N percentages need very different amounts of <em>product</em> to deliver the same amount of actual nitrogen.
+    </p>
+    <p>
+      For liquid feeding, the equivalent standard is <strong>parts per million (PPM)</strong> of nitrogen in the final solution &mdash; common hydroponic and container-feeding programs target a specific PPM (often 100&ndash;250 for N depending on the crop and growth stage). For blending, the same underlying math applies: you&rsquo;re solving for how much of each product delivers your target absolute amount of N, P, and K, in the right proportion. All of this is an estimate that should be adjusted based on plant response and, ideally, a current soil test &mdash; it is not a substitute for lab-based recommendations.
+    </p>
+
+    <h2 id="common-fertilizer-application-rates">Common Fertilizer Application Rates</h2>
+    <p>
+      General starting-point ranges for actual nitrogen. Always defer to a current soil test or product label where available &mdash; these are typical ranges, not prescriptions for your specific soil.
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Common Nitrogen Application Rates by Use
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Use</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Rate (lb N / 1,000 sq ft)</th>
+            <th scope="col" class="py-2.5 font-semibold">Frequency</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Established lawn (maintenance)</th>
+            <td class="py-2 pr-4">0.5&ndash;1 lb per application</td>
+            <td class="py-2">2&ndash;4 applications/year (2&ndash;4 lb/year total)</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">New lawn (at seeding)</th>
+            <td class="py-2 pr-4">~1 lb, plus starter P</td>
+            <td class="py-2">Once, at seeding</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Vegetable garden (pre-plant)</th>
+            <td class="py-2 pr-4">1&ndash;2 lb</td>
+            <td class="py-2">Once before planting, plus side-dressing</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Established trees &amp; shrubs (root zone)</th>
+            <td class="py-2 pr-4">1&ndash;3 lb</td>
+            <td class="py-2">Annually, over the root zone area</td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Containers / hydroponic feed (liquid)</th>
+            <td class="py-2 pr-4">100&ndash;250 PPM N</td>
+            <td class="py-2">Every watering or per feeding schedule</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="worked-example-application-rate">Worked Example: Application Rate</h2>
+    <p>
+      Let&rsquo;s size a <strong>10-10-10</strong> bag for a <strong>5,000 sq ft lawn</strong> at a target of <strong>1 lb actual N per 1,000 sq ft</strong>.
+    </p>
+    <ol>
+      <li><strong>Total N needed:</strong> 1 lb &times; (5,000 &divide; 1,000) = <strong>5 lb of actual nitrogen</strong>.</li>
+      <li><strong>Fertilizer needed:</strong> 5 lb &divide; (10 &divide; 100) = <strong>50 lb of 10-10-10</strong>.</li>
+    </ol>
+    <p>
+      So a 5,000 sq ft lawn needs <strong>50 lb of 10-10-10</strong> to deliver 1 lb of actual N per 1,000 sq ft. That same 50 lb also delivers 5 lb of P&#8322;O&#8325; and 5 lb of K&#8322;O, since all three percentages are equal in a 10-10-10 product &mdash; with an unbalanced fertilizer like 24-8-16, the phosphate and potash delivered would scale differently.
+    </p>
+
+    <h2 id="worked-example-blending-two-fertilizers">Worked Example: Blending Two Fertilizers</h2>
+    <p>
+      Say you have <strong>Urea (46-0-0)</strong> and a <strong>10-10-10</strong> complete fertilizer on hand, and want to approximate a <strong>3-1-2 ratio</strong> (a common lawn-program target) over that same 5,000 sq ft at 1 lb N/1,000 sq ft.
+    </p>
+    <ol>
+      <li><strong>Targets:</strong> 5 lb N, 1.67 lb P (5 &times; 1&frasl;3), 3.33 lb K (5 &times; 2&frasl;3).</li>
+      <li><strong>Solving for N and P exactly:</strong> ~7.25 lb Urea + ~16.67 lb of 10-10-10 hits 5 lb N and 1.67 lb P precisely.</li>
+      <li><strong>Check K:</strong> that combination only supplies 16.67 &times; 10% = <strong>1.67 lb K</strong> &mdash; short of the 3.33 lb target.</li>
+    </ol>
+    <p>
+      The calculator flags this automatically: with only these two products, you cannot hit a 3-1-2 ratio exactly, because neither product supplies extra potassium without also changing the N and P amounts. Adding a third, potassium-only product (like muriate of potash, 0-0-60) makes an exact match solvable &mdash; the calculator&rsquo;s 3-product blend mode handles that case directly.
+    </p>
+
+    <LeadMagnet variant="compact" clusterTag="fertilizer-cluster" />
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Confusing the three numbers.</strong> N-P-K percentages are not interchangeable, and none of them is "the fertilizer strength" on its own &mdash; each governs a different nutrient with a different role (N for leaf growth, P for roots/flowers, K for overall plant health and stress tolerance).</li>
+      <li><strong>Over-applying nitrogen.</strong> More N doesn&rsquo;t mean more growth past the plant&rsquo;s ability to use it &mdash; excess nitrogen leaches into groundwater, burns roots at high concentrations, and can push soft, disease-prone growth. Stick to the recommended rate range and split it across multiple applications rather than applying it all at once.</li>
+      <li><strong>Ignoring soil test results.</strong> A soil test might show you already have adequate or excess phosphorus, in which case a high-P starter fertilizer is wasted money and, in some states, restricted by law near waterways. Test before you guess.</li>
+      <li><strong>Using lawn rates for vegetables (or vice versa).</strong> Turf and vegetable gardens have different nutrient demand curves and different tolerance for salt buildup from fertilizer. Match the rate to the crop, not just to what&rsquo;s in the shed.</li>
+      <li><strong>Assuming any two fertilizers can hit any target ratio exactly.</strong> As the blending example above shows, two arbitrary products usually cannot be combined to hit an arbitrary target ratio precisely &mdash; the math only works out for specific combinations. A third, complementary product (or accepting an approximation) is often required.</li>
+    </ul>
+
+    <FAQBlock id="npk-calculator-faq" heading="NPK Calculator FAQ" faqs={faqs} />
+
+    <LeadMagnet variant="compact" clusterTag="fertilizer-cluster" />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Application rate conventions and nutrient recommendation guidance in this article draw on the USDA Natural Resources Conservation Service&rsquo;s <a href="https://www.nrcs.usda.gov/sites/default/files/2023-06/EC750_2023.pdf" rel="noopener">Fertilizer Recommendations Guide</a>. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Fertilizer & Nutrients cluster', url: '/clusters/fertilizer-and-nutrients/', anchorText: 'Fertilizer & Nutrients cluster', note: 'more feeding and nutrient calculators as this cluster grows.' },
+      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'starting a new lawn? Figure out seed first, then use this to plan your starter fertilizer.' },
+      { name: 'Raised Bed Soil Calculator', url: '/calculators/raised-bed-soil-calculator/', note: 'filling a new bed? Get your soil volume right before you fertilize it.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

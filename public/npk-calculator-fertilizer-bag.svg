@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A fertilizer bag showing N-P-K numbers next to a measuring scoop and a lawn spreader">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+  <path d="M0 190 Q200 155 400 175 T800 180 V210 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+  <circle cx="700" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+  <g fill="#9AB870" opacity="0.7">
+    <path d="M60 420 Q58 410 60 402 Q62 410 60 420Z"/>
+    <path d="M740 420 Q738 410 740 402 Q742 410 740 420Z"/>
+  </g>
+
+  <!-- Fertilizer bag -->
+  <g transform="translate(220,230)">
+    <path d="M0 0 L180 0 L195 260 L-15 260 Z" fill="#4E8A4E"/>
+    <path d="M0 0 L180 0 L184 40 L-4 40 Z" fill="#3A6B3A"/>
+    <rect x="-4" y="-14" width="188" height="16" rx="4" fill="#2F5C33"/>
+    <!-- label panel -->
+    <rect x="18" y="60" width="144" height="150" rx="8" fill="#F5F1E8"/>
+    <text x="90" y="90" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#3A4A2A" text-anchor="middle">FERTILIZER</text>
+    <text x="90" y="150" font-family="Inter, sans-serif" font-size="38" font-weight="800" fill="#2F5C33" text-anchor="middle">10-10-10</text>
+    <text x="90" y="180" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#6B8E4E" text-anchor="middle">N &#8211; P &#8211; K</text>
+    <!-- bag bottom fold -->
+    <path d="M-15 260 L195 260 L188 280 L-8 280 Z" fill="#3A6B3A"/>
+  </g>
+
+  <!-- Measuring scoop with granules -->
+  <g transform="translate(470,320)">
+    <path d="M0 40 Q0 80 40 80 L120 80 Q140 80 140 60 L140 40 Z" fill="#8B8F94"/>
+    <path d="M0 40 Q0 30 20 30 L120 30 Q140 30 140 40 Z" fill="#A5A9AE"/>
+    <line x1="120" y1="30" x2="165" y2="0" stroke="#8B8F94" stroke-width="10" stroke-linecap="round"/>
+    <!-- granules -->
+    <g fill="#D9AE4A">
+      <circle cx="30" cy="45" r="4"/>
+      <circle cx="48" cy="40" r="3.5"/>
+      <circle cx="66" cy="46" r="4"/>
+      <circle cx="84" cy="41" r="3.5"/>
+      <circle cx="102" cy="45" r="4"/>
+      <circle cx="40" cy="55" r="3"/>
+      <circle cx="60" cy="58" r="3.5"/>
+      <circle cx="80" cy="55" r="3"/>
+      <circle cx="100" cy="58" r="3.5"/>
+    </g>
+  </g>
+
+  <!-- Liquid measuring cup for reference -->
+  <g transform="translate(600,260)">
+    <path d="M0 0 L60 0 L54 120 L6 120 Z" fill="#DCE9F5" opacity="0.85" stroke="#8FAFC9" stroke-width="2"/>
+    <path d="M8 60 L52 60 L48 118 L12 118 Z" fill="#A9C7E0" opacity="0.7"/>
+    <line x1="4" y1="30" x2="14" y2="30" stroke="#5C7A94" stroke-width="1.5"/>
+    <line x1="4" y1="60" x2="16" y2="60" stroke="#5C7A94" stroke-width="1.5"/>
+    <line x1="4" y1="90" x2="18" y2="90" stroke="#5C7A94" stroke-width="1.5"/>
+  </g>
+
+  <!-- Ratio callout -->
+  <g>
+    <rect x="330" y="20" width="140" height="30" rx="6" fill="#3A4A2A" opacity="0.9"/>
+    <text x="400" y="40" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#F5F1E8" text-anchor="middle">N &#8211; P &#8211; K ratio</text>
+  </g>
+</svg>

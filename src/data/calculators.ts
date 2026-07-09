@@ -224,6 +224,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/tree-age-calculator/',
     status: 'live',
   },
+  {
+    slug: 'npk-calculator',
+    title: 'NPK Calculator',
+    shortTitle: 'NPK',
+    description:
+      'Calculate fertilizer application rates, mix a liquid feed solution, or blend multiple fertilizers to approximate a target N-P-K ratio.',
+    metaDescription:
+      'Calculate fertilizer application rates, liquid dilution, or blend multiple fertilizers to hit a target N-P-K ratio. Free calculator.',
+    seoTitle: 'NPK Calculator - Rate, Liquid & Blend (Free)',
+    cluster: 'fertilizer-and-nutrients',
+    href: '/calculators/npk-calculator/',
+    status: 'live',
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {
