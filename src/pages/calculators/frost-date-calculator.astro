@@ -21,7 +21,7 @@ const authorName = 'SoilMath Editors';
 const authorUrl = '/about/';
 
 const intro =
-  'This frost date calculator does more than hand you a date &mdash; enter your ZIP code or hardiness zone and it builds a full planting timeline around your estimated frost dates: when to start seeds indoors, when it&rsquo;s safe to transplant, and when to start fall crops. Dates are zone-based estimates, not exact station data.';
+  'This frost date calculator does more than hand you a date — enter your ZIP code or hardiness zone and it builds a full planting timeline around your estimated frost dates: when to start seeds indoors, when it’s safe to transplant, and when to start fall crops. Dates are zone-based estimates, not exact station data.';
 
 const tocItems = [
   { id: 'how-do-you-find-your-frost-date', label: 'Finding Your Frost Date', icon: 'leaf' as const },
@@ -37,23 +37,23 @@ const shareImage = new URL('/frost-date-calculator-planting-calendar.svg', Astro
 const faqs = [
   {
     q: 'How do I find my last frost date?',
-    a: 'Enter your ZIP code or USDA hardiness zone into the calculator above to get an estimated date range, not a single exact day. For a precise, station-level date, cross-check with your local extension office, Purdue&rsquo;s county-level Freeze Date Tool, or the National Gardening Association&rsquo;s ZIP-code frost lookup.',
+    a: 'Enter your ZIP code or USDA hardiness zone into the calculator above to get an estimated date range, not a single exact day. For a precise, station-level date, cross-check with your local extension office, Purdue’s county-level Freeze Date Tool, or the National Gardening Association’s ZIP-code frost lookup.',
   },
   {
     q: 'When should I start seeds indoors based on my frost date?',
-    a: 'Most warm-season crops like tomatoes and peppers are started indoors 6&ndash;8 weeks before the last frost date; cold-hardy crops like broccoli and cabbage can start on the same general timeline. The calculator above computes this window automatically once you enter your ZIP or zone &mdash; always double-check the specific crop&rsquo;s seed packet, since timing varies by a couple of weeks between species.',
+    a: 'Most warm-season crops like tomatoes and peppers are started indoors 6–8 weeks before the last frost date; cold-hardy crops like broccoli and cabbage can start on the same general timeline. The calculator above computes this window automatically once you enter your ZIP or zone — always double-check the specific crop’s seed packet, since timing varies by a couple of weeks between species.',
   },
   {
     q: 'When is it safe to plant after the last frost?',
-    a: 'Tender, frost-sensitive crops (tomatoes, peppers, basil, squash, beans) are generally safe to transplant or direct-sow once you&rsquo;re past the end of your estimated last-frost date range. Many experienced gardeners add another week of buffer beyond that for extra safety, especially for the most cold-sensitive crops, and keep an eye on the extended forecast right before planting.',
+    a: 'Tender, frost-sensitive crops (tomatoes, peppers, basil, squash, beans) are generally safe to transplant or direct-sow once you’re past the end of your estimated last-frost date range. Many experienced gardeners add another week of buffer beyond that for extra safety, especially for the most cold-sensitive crops, and keep an eye on the extended forecast right before planting.',
   },
   {
     q: 'How accurate are frost date estimates?',
-    a: 'Zone-based estimates like this calculator&rsquo;s are useful for planning but not exact &mdash; they&rsquo;re built from general USDA hardiness zone patterns, not your specific address&rsquo;s climate station history. Actual frost timing at your exact location can differ by one to three weeks due to elevation, nearby water, urban heat, and other microclimate effects. Treat the date range as a planning window, not a guarantee.',
+    a: 'Zone-based estimates like this calculator’s are useful for planning but not exact — they’re built from general USDA hardiness zone patterns, not your specific address’s climate station history. Actual frost timing at your exact location can differ by one to three weeks due to elevation, nearby water, urban heat, and other microclimate effects. Treat the date range as a planning window, not a guarantee.',
   },
   {
     q: 'When should I start planting my vegetable garden?',
-    a: 'It depends entirely on the crop: cold-hardy vegetables (lettuce, peas, broccoli) can go in several weeks before your last frost, while tender crops (tomatoes, peppers, squash) need to wait until after it. Use the planting timeline generated above for the general schedule, then check each specific crop&rsquo;s frost tolerance before committing it to the ground.',
+    a: 'It depends entirely on the crop: cold-hardy vegetables (lettuce, peas, broccoli) can go in several weeks before your last frost, while tender crops (tomatoes, peppers, squash) need to wait until after it. Use the planting timeline generated above for the general schedule, then check each specific crop’s frost tolerance before committing it to the ground.',
   },
 ];
 
@@ -163,7 +163,7 @@ const softwareAppJsonLd = {
   <FrostDateCalculator client:load />
 
   <p class="mt-3 text-sm text-bark-500">
-    Part of the <a href="/clusters/spacing-and-planting/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Spacing & Planting cluster</a> — pairs well with a seed-starting calculator once that&rsquo;s built.
+    Part of the <a href="/clusters/spacing-and-planting/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Spacing & Planting cluster</a> — pairs directly with our <a href="/calculators/seed-starting-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Seed Starting Calendar</a>, which uses this same frost estimate.
   </p>
 
   <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
@@ -210,7 +210,7 @@ const softwareAppJsonLd = {
       <li><strong>Protect or harvest tender crops</strong> &mdash; by your first fall frost date, since that&rsquo;s when the growing season for frost-sensitive plants effectively ends.</li>
     </ul>
     <p>
-      This is the same general week-offset logic widely taught by cooperative extension services, applied automatically to your specific estimated dates rather than left as a generic rule you have to do the math on yourself.
+      This is the same general week-offset logic widely taught by cooperative extension services, applied automatically to your specific estimated dates rather than left as a generic rule you have to do the math on yourself. Want the per-crop breakdown instead of the general rule &mdash; exact start-indoors, transplant, and direct-sow dates for tomatoes, peppers, broccoli, and more? <a href="/calculators/seed-starting-calculator/">Get your full seed starting calendar</a>, built on this same frost estimate.
     </p>
 
     <h2 id="worked-example">Worked Example</h2>
@@ -246,7 +246,8 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Spacing & Planting cluster', url: '/clusters/spacing-and-planting/', anchorText: 'Spacing & Planting cluster', note: 'more layout and timing calculators as this cluster grows — a seed-starting calculator is planned next.' },
+      { name: 'Seed Starting Calendar', url: '/calculators/seed-starting-calculator/', note: 'takes this exact frost estimate and turns it into a full per-crop planting calendar — indoor start, transplant, or direct sow dates.' },
+      { name: 'Spacing & Planting cluster', url: '/clusters/spacing-and-planting/', anchorText: 'Spacing & Planting cluster', note: 'more layout and timing calculators for planning your garden.' },
       { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'once you know your planting window, figure out how many plants actually fit your bed.' },
       { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'seeding a new lawn instead? Timing matters there too — pair it with your frost dates.' },
     ]} />

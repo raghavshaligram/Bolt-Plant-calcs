@@ -1,0 +1,271 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import SeedStartingCalculator from '../../components/calculators/SeedStartingCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('seed-starting-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-09';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'Enter your ZIP code or hardiness zone and pick a crop to get a full seed starting calendar: when to start seeds indoors, when to transplant outdoors, or when to direct sow, built on the same zone-based frost date estimate as our Frost Date Calculator — not a separate system, just the next step after it.';
+
+const tocItems = [
+  { id: 'how-does-a-seed-starting-calendar-work', label: 'How It Works', icon: 'leaf' as const },
+  { id: 'seed-starting-timeline-by-crop', label: 'Timeline by Crop', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'seed-starting-calendar-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/seed-starting-calculator-calendar.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'When should I start seeds indoors?',
+    a: 'It depends on your crop and your last frost date. Most warm-season crops like tomatoes and peppers start 6–10 weeks before your last frost date; cold-hardy crops like broccoli and cabbage are usually started 6–8 weeks before. Enter your ZIP code or zone into the calculator above and it computes the exact window for whichever crop you pick.',
+  },
+  {
+    q: 'How do I get a seed starting calendar for my ZIP code or zone?',
+    a: 'Use the calculator above — enter your ZIP code (matched to the nearest of a set of real reference locations) or select your USDA hardiness zone directly if you know it, then pick a crop from the dropdown. It returns a personalized calendar: indoor start date, transplant date, or direct sow date, all built from the same zone-based estimate as our Frost Date Calculator.',
+  },
+  {
+    q: "What's the difference between starting seeds indoors and direct sowing?",
+    a: "Starting indoors means germinating seeds inside, under lights or on a warm windowsill, then transplanting the seedlings outside once conditions are safe — this gives tender, slow-growing crops like tomatoes and peppers a head start. Direct sowing means planting the seed straight into the garden soil where it will grow. Crops that resent root disturbance or grow quickly from seed, like beans, carrots, and zinnias, generally do better direct sown than transplanted.",
+  },
+  {
+    q: 'When is it safe to transplant seedlings outdoors?',
+    a: "It depends on the crop's frost tolerance. Cold-hardy seedlings like broccoli and cabbage can go outside a few weeks before your last frost date, once they've been hardened off. Tender crops like tomatoes and peppers have essentially no frost tolerance and need to wait until after your last frost date range has passed. The calculator above computes the right window automatically for whichever crop you select.",
+  },
+  {
+    q: 'What happens if I start seeds too early or too late?',
+    a: "Starting too early usually means leggy, root-bound seedlings sitting in small containers for weeks longer than they should, waiting on a planting date — they stretch toward the light, develop weak stems, and transplant poorly. Starting too late compresses the growing season and can push harvest past your first fall frost date for longer-season crops. The calculator's date ranges are built to avoid both problems, but a few days of flexibility either way is normal.",
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Build a personalized seed starting calendar',
+  description:
+    'Use the seed starting calculator to get a personalized planting calendar — when to start seeds indoors, transplant outdoors, or direct sow — based on your ZIP code or USDA hardiness zone and the crop you choose.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Enter your ZIP code or hardiness zone',
+      text: 'Choose ZIP Code for a quick estimate matched to the nearest reference location, or Hardiness Zone if you already know your exact USDA zone — the same estimate used by the Frost Date Calculator.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Pick your crop',
+      text: 'Select a crop from the dropdown. Each crop carries its own real weeks-before-or-after-last-frost timing, since a tomato and a pea behave nothing alike.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Read your personalized calendar',
+      text: 'The calculator shows either an indoor start date and transplant date, or a direct sow window, depending on how that crop is normally grown.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://soilmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Spacing & Planting',
+      item: 'https://soilmath.com/clusters/spacing-and-planting/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Seed Starting Calendar',
+      item: 'https://soilmath.com/calculators/seed-starting-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Seed Starting Calendar',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/seed-starting-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <SeedStartingCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Part of the <a href="/clusters/spacing-and-planting/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Spacing & Planting cluster</a> — uses the same zone-based estimate as our <a href="/calculators/frost-date-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Frost Date Calculator</a>.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" headline="Get the free Spacing & Planting Cheat Sheet" clusterTag="spacing-cluster" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-does-a-seed-starting-calendar-work">How Does a Seed Starting Calendar Work?</h2>
+    <p>
+      This calculator builds directly on our <a href="/calculators/frost-date-calculator/">Frost Date Calculator</a> &mdash; it uses the exact same <strong>USDA Plant Hardiness Zone</strong>-based estimate to find your last spring frost date range, then works backward or forward from that range using each crop&rsquo;s own <strong>weeks-before-or-after-last-frost</strong> timing. A tomato started 6&ndash;8 weeks before frost and a pea direct sown 4&ndash;6 weeks before frost are governed by the same zone estimate, just different offsets.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/seed-starting-calculator-calendar.svg"
+        alt="A seed tray and calendar illustration showing indoor seed starting, transplanting, and direct sow stages timed against the last frost date"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Same zone estimate as the Frost Date Calculator &mdash; just translated into per-crop dates.
+      </figcaption>
+    </figure>
+    <p>
+      Enter your ZIP code (matched to the nearest of a set of real, verified reference locations) or your zone directly, then pick a crop. Crops that are normally started indoors return an <strong>indoor start date</strong> and a <strong>transplant date</strong>; crops that are normally direct sown &mdash; because they resent root disturbance or grow too quickly to bother transplanting &mdash; return a single <strong>direct sow window</strong> instead.
+    </p>
+    <p>
+      As with the Frost Date Calculator, every date is shown as a range, not a single falsely precise day. Zone-level estimates are useful for planning but coarser than station-level climate data for your exact address &mdash; treat these dates as a planning window, and nudge them earlier or later based on your own yard&rsquo;s microclimate and the current year&rsquo;s forecast.
+    </p>
+
+    <h2 id="seed-starting-timeline-by-crop">Seed Starting Timeline by Crop</h2>
+    <p>
+      Timing relative to your last frost date, by crop. Indoor-start crops show a start window followed by a transplant window; direct-sow crops show a single planting window relative to last frost.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Crop</th>
+          <th>Method</th>
+          <th>Timing relative to last frost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Tomato</td><td>Start indoors</td><td>6&ndash;8 weeks before; transplant 1&ndash;2 weeks after</td></tr>
+        <tr><td>Pepper</td><td>Start indoors</td><td>8&ndash;10 weeks before; transplant 1&ndash;2 weeks after</td></tr>
+        <tr><td>Eggplant</td><td>Start indoors</td><td>8&ndash;10 weeks before; transplant 1&ndash;2 weeks after</td></tr>
+        <tr><td>Broccoli / Cabbage / Cauliflower</td><td>Start indoors</td><td>6&ndash;8 weeks before; transplant 2&ndash;4 weeks before</td></tr>
+        <tr><td>Lettuce (head)</td><td>Start indoors</td><td>4&ndash;6 weeks before; transplant 2&ndash;3 weeks before</td></tr>
+        <tr><td>Marigold</td><td>Start indoors</td><td>6&ndash;8 weeks before; transplant 1&ndash;2 weeks after</td></tr>
+        <tr><td>Cucumber / Summer squash</td><td>Direct sow</td><td>1&ndash;2 weeks after last frost</td></tr>
+        <tr><td>Beans / Zinnia</td><td>Direct sow</td><td>1&ndash;2 weeks after last frost</td></tr>
+        <tr><td>Carrots / Lettuce (leaf)</td><td>Direct sow</td><td>2&ndash;4 weeks before last frost</td></tr>
+        <tr><td>Peas / Spinach</td><td>Direct sow</td><td>4&ndash;6 weeks before last frost</td></tr>
+        <tr><td>Radishes</td><td>Direct sow</td><td>2&ndash;4 weeks before last frost</td></tr>
+      </tbody>
+    </table>
+    <p>
+      These figures follow standard cooperative extension guidance (see Sources below) and are what the calculator uses internally &mdash; the full crop list in the tool includes a few more varieties with the same logic applied.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Say the calculator estimates you&rsquo;re in <strong>Zone 6b</strong>, with an estimated last frost date range of roughly <strong>March 29 &ndash; April 12</strong>, and you select <strong>Tomato</strong>.
+    </p>
+    <ol>
+      <li><strong>Last frost midpoint:</strong> around <strong>April 5</strong> (the calculator uses the midpoint of your range as the anchor for crop math).</li>
+      <li><strong>Start seeds indoors:</strong> 6&ndash;8 weeks before that midpoint &mdash; roughly <strong>February 8 &ndash; 22</strong>.</li>
+      <li><strong>Transplant outdoors:</strong> 1&ndash;2 weeks after that midpoint, once the frost risk has passed &mdash; roughly <strong>April 12 &ndash; 19</strong>.</li>
+    </ol>
+    <p>
+      Switch the crop to <strong>Broccoli</strong> with the same Zone 6b location and the indoor start window stays similar (6&ndash;8 weeks before, so <strong>February 8 &ndash; 22</strong>), but the transplant window moves <em>earlier</em>, to roughly <strong>March 8 &ndash; 22</strong> &mdash; because broccoli tolerates a light frost and doesn&rsquo;t need to wait for it to pass. Switch to <strong>Peas</strong> and the calculator returns a single direct-sow window instead, around <strong>February 22 &ndash; March 8</strong>, well before last frost. Same zone, same underlying frost estimate, three different real calendars.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Starting seeds too early.</strong> Seedlings started far ahead of their transplant window sit in small containers too long, get root-bound, and stretch into weak, leggy growth reaching for light. If your transplant date is still 8+ weeks out, wait.</li>
+      <li><strong>Skipping hardening off before transplant.</strong> Seedlings grown indoors haven&rsquo;t felt real wind, direct sun, or temperature swings. Moving them straight from a windowsill to the garden can shock or scorch them &mdash; harden off over 7&ndash;10 days by setting them outside for gradually longer stretches first.</li>
+      <li><strong>Ignoring the indoor-start vs. direct-sow difference.</strong> Crops like beans, cucumbers, and carrots resent having their roots disturbed and generally do worse transplanted than direct sown. Starting them indoors "for extra time" often backfires &mdash; check the method column in the timeline table above before deciding.</li>
+    </ul>
+
+    <LeadMagnet variant="compact" clusterTag="spacing-cluster" />
+
+    <FAQBlock id="seed-starting-calendar-faq" heading="Seed Starting Calendar FAQ" faqs={faqs} />
+
+    <LeadMagnet variant="compact" clusterTag="spacing-cluster" />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Crop-by-crop indoor seed starting and transplant timing draws on the <a href="https://extension.missouri.edu/publications/g6570" rel="noopener">University of Missouri Extension&rsquo;s "Starting Plants Indoors From Seeds" (G6570)</a> and the <a href="https://extension.umd.edu/resource/vegetable-planting-calendar" rel="noopener">University of Maryland Extension&rsquo;s Vegetable Planting Calendar</a>, both of which list weeks-before-or-after-last-frost windows by crop. Frost date estimates themselves use the same USDA Plant Hardiness Zone approach as our Frost Date Calculator &mdash; see that page for the underlying sourcing. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Frost Date Calculator', url: '/calculators/frost-date-calculator/', note: 'this calculator uses the exact same zone-based frost estimate — start there if you just need the raw frost date range.' },
+      { name: 'Spacing & Planting cluster', url: '/clusters/spacing-and-planting/', anchorText: 'Spacing & Planting cluster', note: 'more layout and timing calculators for planning your garden.' },
+      { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'once your seedlings are ready to go in, figure out how many actually fit your bed.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

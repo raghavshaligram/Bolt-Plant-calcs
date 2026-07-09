@@ -264,6 +264,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/compost-calculator/',
     status: 'live',
   },
+  {
+    slug: 'seed-starting-calculator',
+    title: 'Seed Starting Calendar',
+    shortTitle: 'Seed Starting',
+    description:
+      'Get a personalized seed starting calendar based on your frost date — when to start seeds indoors, when to transplant, and when to direct sow, by crop.',
+    metaDescription:
+      'Get a personalized seed starting calendar based on your frost date — when to start seeds indoors, transplant, and more. Free tool.',
+    seoTitle: 'Seed Starting Calendar - By Zone or Zip (Free)',
+    cluster: 'spacing-and-planting',
+    href: '/calculators/seed-starting-calculator/',
+    status: 'live',
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {

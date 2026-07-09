@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A seed tray calendar showing indoor seed starting, transplanting, and direct sow stages timed against the last frost date">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+  <path d="M0 190 Q200 155 400 175 T800 180 V210 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+  <circle cx="700" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+
+  <!-- Calendar timeline bar -->
+  <g transform="translate(80,240)">
+    <rect x="0" y="0" width="640" height="26" rx="13" fill="#E4DCC6"/>
+    <!-- indoor start segment -->
+    <rect x="0" y="0" width="220" height="26" rx="13" fill="#D9C79E" opacity="0.8"/>
+    <!-- last frost window -->
+    <rect x="220" y="0" width="100" height="26" fill="#A9C7E0" opacity="0.7"/>
+    <!-- growing season segment -->
+    <rect x="320" y="0" width="320" height="26" rx="13" fill="#8FBF6E"/>
+
+    <!-- indoor start marker -->
+    <g transform="translate(40,60)">
+      <rect x="-18" y="-4" width="36" height="18" rx="3" fill="#F5F1E8" stroke="#6B8E4E" stroke-width="2"/>
+      <line x1="-10" y1="-4" x2="-10" y2="-14" stroke="#6B8E4E" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="0" y1="-4" x2="0" y2="-16" stroke="#6B8E4E" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="10" y1="-4" x2="10" y2="-13" stroke="#6B8E4E" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+    <text x="40" y="98" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">Start seeds</text>
+    <text x="40" y="112" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">indoors</text>
+
+    <!-- last frost marker -->
+    <line x1="270" y1="-14" x2="270" y2="40" stroke="#3A4A2A" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="270" cy="13" r="6" fill="#3A4A2A"/>
+    <text x="270" y="-22" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#3A4A2A" text-anchor="middle">Last frost</text>
+
+    <!-- transplant marker (after last frost) -->
+    <g transform="translate(360,60)">
+      <circle r="16" fill="#F5F1E8" stroke="#6B8E4E" stroke-width="2"/>
+      <path d="M0 8 V-8 M-6 -2 L0 -8 L6 -2" stroke="#6B8E4E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="360" y="98" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">Transplant</text>
+    <text x="360" y="112" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">outdoors</text>
+
+    <!-- direct sow marker -->
+    <g transform="translate(500,60)">
+      <circle r="16" fill="#F5F1E8" stroke="#B5652F" stroke-width="2"/>
+      <circle cx="-5" cy="3" r="2.5" fill="#B5652F"/>
+      <circle cx="4" cy="5" r="2.5" fill="#B5652F"/>
+      <circle cx="0" cy="-4" r="2.5" fill="#B5652F"/>
+    </g>
+    <text x="500" y="98" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">Direct sow</text>
+    <text x="500" y="112" font-family="Inter, sans-serif" font-size="12" fill="#5C6B4A" text-anchor="middle">outdoors</text>
+  </g>
+
+  <!-- Seed tray illustration, bottom left -->
+  <g transform="translate(90,330)">
+    <rect x="0" y="0" width="170" height="90" rx="8" fill="#B5652F" opacity="0.85"/>
+    <rect x="10" y="10" width="150" height="70" rx="4" fill="#8C4A22"/>
+    <g fill="#6B8E4E">
+      <rect x="22" y="22" width="20" height="20" rx="3"/>
+      <rect x="55" y="22" width="20" height="20" rx="3"/>
+      <rect x="88" y="22" width="20" height="20" rx="3"/>
+      <rect x="121" y="22" width="20" height="20" rx="3"/>
+      <rect x="22" y="50" width="20" height="20" rx="3"/>
+      <rect x="55" y="50" width="20" height="20" rx="3"/>
+      <rect x="88" y="50" width="20" height="20" rx="3"/>
+      <rect x="121" y="50" width="20" height="20" rx="3"/>
+    </g>
+    <!-- little sprouts poking out of a few cells -->
+    <g stroke="#3A4A2A" stroke-width="2" stroke-linecap="round" fill="none">
+      <path d="M32 22 Q28 12 32 6 Q36 12 32 22"/>
+      <path d="M98 22 Q94 10 98 4 Q102 10 98 22"/>
+      <path d="M131 50 Q127 40 131 34 Q135 40 131 50"/>
+    </g>
+  </g>
+
+  <!-- Sun/calendar page illustration, bottom right -->
+  <g transform="translate(560,320)">
+    <rect x="0" y="0" width="150" height="110" rx="10" fill="#F5F1E8" stroke="#3A4A2A" stroke-width="2"/>
+    <rect x="0" y="0" width="150" height="26" rx="10" fill="#6B8E4E"/>
+    <rect x="0" y="16" width="150" height="10" fill="#6B8E4E"/>
+    <line x1="30" y1="-8" x2="30" y2="16" stroke="#3A4A2A" stroke-width="4" stroke-linecap="round"/>
+    <line x1="120" y1="-8" x2="120" y2="16" stroke="#3A4A2A" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#3A4A2A" opacity="0.8">
+      <circle cx="30" cy="50" r="4"/>
+      <circle cx="55" cy="50" r="4"/>
+      <circle cx="80" cy="50" r="4"/>
+      <circle cx="105" cy="50" r="4"/>
+      <circle cx="30" cy="72" r="4"/>
+      <circle cx="55" cy="72" r="4"/>
+      <circle cx="105" cy="72" r="4"/>
+      <circle cx="30" cy="94" r="4"/>
+    </g>
+    <circle cx="80" cy="72" r="7" fill="#B5652F"/>
+    <circle cx="55" cy="94" r="7" fill="#B5652F"/>
+  </g>
+</svg>
