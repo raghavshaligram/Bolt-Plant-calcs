@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A tape measure wrapped around a tree trunk at breast height to measure circumference for age estimation">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+
+  <!-- Distant hills -->
+  <path d="M0 190 Q200 155 400 175 T800 180 V210 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+
+  <!-- Sun -->
+  <circle cx="690" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="690" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+  <g fill="#9AB870" opacity="0.7">
+    <path d="M60 420 Q58 410 60 402 Q62 410 60 420Z"/>
+    <path d="M700 420 Q698 410 700 402 Q702 410 700 420Z"/>
+    <path d="M120 420 Q118 412 120 405 Q122 412 120 420Z"/>
+  </g>
+
+  <!-- Tree trunk -->
+  <g>
+    <path d="M340 500 L330 260 Q328 220 345 195 Q360 175 400 172 Q440 175 455 195 Q472 220 470 260 L460 500 Z" fill="#7A5C3E"/>
+    <!-- Bark texture -->
+    <line x1="360" y1="300" x2="356" y2="480" stroke="#634A30" stroke-width="4" opacity="0.4"/>
+    <line x1="390" y1="220" x2="386" y2="480" stroke="#634A30" stroke-width="5" opacity="0.4"/>
+    <line x1="420" y1="230" x2="424" y2="480" stroke="#634A30" stroke-width="4" opacity="0.4"/>
+    <line x1="445" y1="290" x2="448" y2="480" stroke="#634A30" stroke-width="3" opacity="0.4"/>
+  </g>
+
+  <!-- Canopy -->
+  <g>
+    <ellipse cx="400" cy="130" rx="150" ry="95" fill="#5C7A42"/>
+    <ellipse cx="330" cy="110" rx="90" ry="65" fill="#6B8E4E" opacity="0.9"/>
+    <ellipse cx="470" cy="115" rx="95" ry="68" fill="#6B8E4E" opacity="0.9"/>
+    <ellipse cx="400" cy="90" rx="100" ry="70" fill="#7A9C5E" opacity="0.85"/>
+  </g>
+
+  <!-- Measuring tape wrapped around trunk at breast height -->
+  <g>
+    <path d="M320 305 Q400 325 480 305" stroke="#E8C060" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <path d="M320 305 Q400 290 480 305" stroke="#F0D070" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <!-- tick marks -->
+    <g stroke="#8B7040" stroke-width="1.5" opacity="0.7">
+      <line x1="340" y1="300" x2="340" y2="312"/>
+      <line x1="365" y1="313" x2="365" y2="325"/>
+      <line x1="400" y1="317" x2="400" y2="329"/>
+      <line x1="435" y1="313" x2="435" y2="325"/>
+      <line x1="460" y1="300" x2="460" y2="312"/>
+    </g>
+    <!-- Tape end / buckle -->
+    <rect x="470" y="296" width="26" height="18" rx="3" fill="#D9AE4A"/>
+  </g>
+
+  <!-- Height indicator: 4.5 ft breast height marker -->
+  <g>
+    <line x1="240" y1="305" x2="290" y2="305" stroke="#3A4A2A" stroke-width="2" stroke-dasharray="4 3"/>
+    <line x1="240" y1="500" x2="290" y2="500" stroke="#3A4A2A" stroke-width="2" stroke-dasharray="4 3"/>
+    <line x1="255" y1="305" x2="255" y2="500" stroke="#3A4A2A" stroke-width="2" stroke-dasharray="4 3"/>
+    <rect x="150" y="392" width="96" height="24" rx="4" fill="#3A4A2A"/>
+    <text x="198" y="408" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F1E8" text-anchor="middle">4.5 ft (DBH)</text>
+  </g>
+
+  <!-- Diameter callout -->
+  <g>
+    <rect x="520" y="295" width="110" height="24" rx="4" fill="#3A4A2A" opacity="0.9"/>
+    <text x="575" y="311" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#F5F1E8" text-anchor="middle">circumference</text>
+  </g>
+</svg>

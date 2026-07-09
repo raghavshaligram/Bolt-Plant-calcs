@@ -1,0 +1,324 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import TreeAgeCalculator from '../../components/calculators/TreeAgeCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('tree-age-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-09';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This tree age calculator lets you estimate age without cutting the tree down. Wrap a tape measure around the trunk at breast height, pick the species, and it converts circumference into diameter and then into an estimated age range — using the same growth-factor method arborists use in the field.';
+
+const tocItems = [
+  { id: 'how-do-you-calculate-a-trees-age', label: 'How to Calculate Tree Age', icon: 'leaf' as const },
+  { id: 'growth-factor-reference-table', label: 'Growth Factor Reference Table', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'tree-age-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/tree-age-calculator-dbh-measurement.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How do you calculate the age of a tree?',
+    a: 'Measure the trunk circumference at 4.5 ft (breast height), divide by π to get diameter, then multiply diameter by the species’ growth factor. That gives an estimated age in years. This is the standard non-destructive method used by arborists and foresters.',
+  },
+  {
+    q: 'How do I calculate tree age without cutting it down?',
+    a: 'Use the circumference-to-diameter-to-growth-factor method above — no cutting or coring needed. The only fully exact alternative is counting growth rings, which requires either felling the tree or taking a small core sample with an increment borer.',
+  },
+  {
+    q: 'How accurate is a tree age calculator?',
+    a: 'Expect roughly ±20% accuracy for a healthy, typically-grown tree — this calculator shows a range, not a single number, for that reason. Stressed urban trees, deep shade, drought, or poor soil can push the true age further outside that range, usually older than the estimate suggests.',
+  },
+  {
+    q: 'How do I measure my tree for this age of tree calculator?',
+    a: 'Wrap a flexible tape measure around the trunk at 4.5 ft (1.4 m) above ground level — standard "breast height." If the trunk forks or bulges there, measure just below the irregularity instead. Enter that circumference and select the closest species match.',
+  },
+  {
+    q: 'Does calculating tree age work the same for every species?',
+    a: 'No — growth factors vary widely by species, from about 1–2 years per inch of diameter for fast growers like cottonwood and pecan, up to 7–10+ for slow growers like hemlock and redwood. Always select the closest species match; using the wrong one can throw off the estimate by years or decades.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Estimate the age of a tree from its trunk circumference',
+  description:
+    'Use the tree age calculator to estimate a tree’s age from trunk circumference and species, without cutting it down or taking a core sample.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Measure the trunk circumference',
+      text: 'Wrap a tape measure around the trunk at 4.5 ft (breast height) above the ground and record the circumference in inches or centimeters.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Select the tree species',
+      text: 'Choose the closest species match from the dropdown. The calculator loads that species’ growth factor automatically.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Read the diameter and estimated age',
+      text: 'The calculator divides circumference by π to show trunk diameter, then multiplies by the growth factor to show an estimated age range.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://plantcalculators.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Trees',
+      item: 'https://plantcalculators.com/clusters/trees/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Tree Age Calculator',
+      item: 'https://plantcalculators.com/calculators/tree-age-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Tree Age Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/tree-age-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <TreeAgeCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Curious what else is in this cluster? Browse the <a href="/clusters/trees/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Trees calculators</a>.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" headline="Get the free Tree Care Cheat Sheet" clusterTag="trees-cluster" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-do-you-calculate-a-trees-age">How Do You Calculate a Tree&rsquo;s Age?</h2>
+    <p>
+      The standard non-destructive method comes from the <strong>circumference &rarr; diameter &rarr; growth factor</strong> chain. First, measure the trunk&rsquo;s circumference at <strong>4.5 ft above the ground</strong> &mdash; the standard forestry measurement point known as &ldquo;breast height,&rdquo; or DBH (diameter at breast height). Divide that circumference by &pi; (about 3.14159) to get the diameter.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/tree-age-calculator-dbh-measurement.svg"
+        alt="A tape measure wrapped around a tree trunk at breast height to measure circumference"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Measure circumference at 4.5 ft above the ground &mdash; the standard DBH point.
+      </figcaption>
+    </figure>
+    <p>
+      Next, multiply that diameter by a <strong>species-specific growth factor</strong> &mdash; a number, in years per inch of diameter, that reflects how fast that species typically thickens. Slow-growing species like beech or hemlock have high growth factors (6&ndash;7+); fast growers like cottonwood or pecan have low ones (1&ndash;2). Using the wrong species can throw an estimate off by decades.
+    </p>
+    <p>
+      It&rsquo;s important to be upfront about what this method is: <strong>an estimate, not an exact measurement</strong>. Growth factors are averages compiled from typical trees of that species; any individual tree&rsquo;s actual growth rate depends on soil quality, climate, sunlight, competition, and care. That&rsquo;s why the calculator above shows a <strong>range</strong> rather than one falsely-precise number. The only fully exact method is counting annual growth rings, which requires cutting the tree down or extracting a small core sample.
+    </p>
+
+    <h2 id="growth-factor-reference-table">Growth Factor Reference Table</h2>
+    <p>
+      Growth factor is expressed as <strong>years of age per inch of trunk diameter</strong>. Lower numbers mean faster growth. Factors for common landscape and forest species (Oak, Maple, Pine, Sycamore, Beech, and Cottonwood) follow the widely-used International Society of Arboriculture reference chart; species without an official ISA factor (Redwood, Magnolia, Live Oak, Apple, Cedar, Hemlock, Olive, Pecan) are estimated from published diameter-growth-rate research and should be treated as rougher approximations.
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Tree Growth Factor Reference &mdash; years of age per inch of trunk diameter
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Species</th>
+            <th scope="col" class="py-2.5 font-semibold">Growth factor (yrs/in)</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Oak</th>
+            <td class="py-2">5</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Maple</th>
+            <td class="py-2">4.5</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Pine</th>
+            <td class="py-2">5</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Redwood</th>
+            <td class="py-2">10</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Sycamore</th>
+            <td class="py-2">4</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Magnolia</th>
+            <td class="py-2">4</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Live Oak</th>
+            <td class="py-2">4</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Apple</th>
+            <td class="py-2">3</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Beech</th>
+            <td class="py-2">6</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Cedar</th>
+            <td class="py-2">3</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Cottonwood</th>
+            <td class="py-2">2</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Hemlock</th>
+            <td class="py-2">7</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Olive</th>
+            <td class="py-2">4</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Pecan</th>
+            <td class="py-2">1</td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Average / Unknown species</th>
+            <td class="py-2">4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Let&rsquo;s walk through an <strong>oak tree with a 60-inch trunk circumference</strong>.
+    </p>
+    <ol>
+      <li><strong>Diameter:</strong> 60 in &divide; &pi; (3.14159) = <strong>~19.1 inches</strong>.</li>
+      <li><strong>Growth factor:</strong> Oak = <strong>5 years per inch</strong>.</li>
+      <li><strong>Midpoint age:</strong> 19.1 &times; 5 = <strong>~95 years</strong>.</li>
+      <li><strong>Estimated range (&plusmn;20%):</strong> roughly <strong>75&ndash;110 years</strong>.</li>
+    </ol>
+    <p>
+      So a 60-inch-circumference oak is most likely somewhere between <strong>75 and 110 years old</strong>, with ~95 years as the midpoint estimate. That range &mdash; not a single number &mdash; is the honest answer: soil, sun exposure, competition from nearby trees, and past stress (drought, storm damage, disease) can all push the real age toward either end.
+    </p>
+
+    <LeadMagnet variant="compact" clusterTag="trees-cluster" />
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Measuring at the wrong height.</strong> The standard point is 4.5 ft (1.4 m) above ground. Measuring at the base or at chest height on a slope gives a larger, misleading circumference. On sloped ground, measure from the uphill side.</li>
+      <li><strong>Ignoring species differences.</strong> A cottonwood (growth factor 2) and a hemlock (growth factor 7) with identical trunk diameters can differ in age by a factor of 3&ndash;4&times;. Always pick the closest species match, not just any tree.</li>
+      <li><strong>Treating the estimate as exact.</strong> This method is a well-established approximation, not a precise measurement. Only ring counting &mdash; via a core sample or a cut cross-section &mdash; gives an exact age.</li>
+      <li><strong>Confusing circumference with diameter.</strong> Circumference is the distance <em>around</em> the trunk; diameter is the distance <em>across</em> it. Skipping the &divide; &pi; step and plugging circumference straight into the growth-factor formula overestimates age by roughly 3&times;.</li>
+    </ul>
+
+    <FAQBlock id="tree-age-calculator-faq" heading="Tree Age Calculator FAQ" faqs={faqs} />
+
+    <LeadMagnet variant="compact" clusterTag="trees-cluster" />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      For background on why ring counting (dendrochronology) remains the only exact way to age a tree, and how modern arborists use non-destructive tools like the increment borer, see NIST&rsquo;s <a href="https://www.nist.gov/how-do-you-measure-it/how-do-you-measure-age-tree" rel="noopener">&ldquo;How Do You Measure the Age of a Tree?&rdquo;</a>. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Trees cluster', url: '/clusters/trees/', anchorText: 'Trees cluster', note: 'the full set of tree calculators on this site.' },
+      { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'once you know your tree, use this to figure out mulch for the root zone.' },
+      { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'planning new plantings nearby? Check spacing so new trees and beds have room to grow.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

@@ -106,6 +106,18 @@ export const clusters: Cluster[] = [
     icon: 'hydro',
     accent: 'moss',
   },
+  {
+    slug: 'trees',
+    name: 'Trees',
+    description:
+      'Tree age, size, and value calculators for estimating how old a tree is, how much it has grown, and what it is worth — without cutting it down.',
+    metaDescription:
+      'Free tree calculators for estimating tree age, growth, and value from simple trunk measurements. No cutting required.',
+    blurb:
+      'Understand your trees without cutting them down. Estimate age, growth, and value from a simple trunk measurement.',
+    icon: 'tree',
+    accent: 'leaf',
+  },
 ];
 
 export const calculators: Calculator[] = [
@@ -198,6 +210,19 @@ export const calculators: Calculator[] = [
     cluster: 'spacing-and-planting',
     href: '/calculators/frost-date-calculator/',
     status: 'coming-soon',
+  },
+  {
+    slug: 'tree-age-calculator',
+    title: 'Tree Age Calculator',
+    shortTitle: 'Tree Age',
+    description:
+      'Estimate how old a tree is from its trunk circumference and species — no cutting or coring required.',
+    metaDescription:
+      'Estimate a tree\'s age from its trunk circumference — no cutting required. Free calculator for oak, maple, pine, and more species.',
+    seoTitle: 'Tree Age Calculator - Estimate Age Without Cutting',
+    cluster: 'trees',
+    href: '/calculators/tree-age-calculator/',
+    status: 'live',
   },
 ];
 
