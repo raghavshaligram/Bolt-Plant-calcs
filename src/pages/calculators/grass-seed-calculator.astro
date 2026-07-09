@@ -1,0 +1,318 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import GrassSeedCalculator from '../../components/calculators/GrassSeedCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('grass-seed-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-09';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'Use this grass seed calculator to find exactly how many pounds and 50 lb bags of seed you need — in total, per 1,000 sq ft, or per acre. Seeding rates vary a lot by grass type, so pick your species (Kentucky Bluegrass, Tall Fescue, Bermuda, Zoysia, Perennial Ryegrass, or Fine Fescue) and whether you’re starting a new lawn or overseeding, and the numbers update instantly.';
+
+const tocItems = [
+  { id: 'how-much-grass-seed-do-i-need', label: 'How Much Grass Seed Do I Need?', icon: 'leaf' as const },
+  { id: 'grass-seed-rate-chart', label: 'Grass Seed Rate Chart', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'grass-seed-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/grass-seed-calculator-broadcast-spreader.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How much grass seed do I need?',
+    a: 'It depends on your lawn area, grass type, and whether you’re seeding bare soil or overseeding existing turf. As a rule of thumb, new lawns need roughly 1.5–8 lb of seed per 1,000 sq ft depending on species, while overseeding uses about half that. Enter your area and grass type in the calculator above for an exact number.',
+  },
+  {
+    q: 'How much grass seed do I need per 1,000 square feet?',
+    a: 'Rates range from about 1.5 lb (Zoysia, new lawn) up to 8 lb (Perennial Ryegrass, new lawn) per 1,000 sq ft. Tall Fescue, a common cool-season lawn grass, runs about 7 lb per 1,000 sq ft for a new lawn and 3.5 lb for overseeding. See the rate chart above for all six common types.',
+  },
+  {
+    q: 'How many 50 lb bags of grass seed do I need per acre?',
+    a: 'It depends on grass type. Tall Fescue at a new-lawn rate needs roughly 305 lb per acre — about six 50 lb bags. Perennial Ryegrass needs closer to seven bags per acre; Zoysia needs a little over one. Use the acres mode in the calculator above to get an exact bag count for your grass type.',
+  },
+  {
+    q: 'How much grass seed do I need per acre?',
+    a: 'Multiply the per-1,000-sq-ft rate by 43.56 (since 1 acre = 43,560 sq ft). For a new lawn, that’s about 87 lb/acre for Kentucky Bluegrass, 305 lb/acre for Tall Fescue, and 348 lb/acre for Perennial Ryegrass. The full per-acre chart is above, and the calculator computes it automatically when you switch to acres mode.',
+  },
+  {
+    q: 'Do I need less seed when overseeding than for a new lawn?',
+    a: 'Yes — overseeding rates are roughly half the new-lawn rate for the same grass type. Existing turf already covers most of the ground, so you’re filling gaps and thickening the stand rather than establishing an entire lawn from bare soil. Using a new-lawn rate when overseeding wastes seed and can cause overcrowding.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate how much grass seed you need',
+  description:
+    'Use the grass seed calculator to find pounds, 50 lb bags, and per-acre rates of seed for a new lawn or for overseeding, by grass type.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Choose new lawn or overseeding',
+      text: 'Toggle between “New lawn” and “Overseeding” — overseeding uses roughly half the seed of a new lawn for the same grass type.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Select your grass type',
+      text: 'Pick Kentucky Bluegrass, Tall Fescue, Perennial Ryegrass, Fine Fescue, Bermuda, or Zoysia. The recommended seeding rate updates automatically.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Enter your lawn area',
+      text: 'Type length and width, total square feet, or acres — whichever you know. The calculator converts everything to square feet internally.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the results',
+      text: 'The calculator shows total pounds of seed, the number of 50 lb bags, and the rate per 1,000 sq ft and per acre, updating live as you type.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://plantcalculators.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Lawn & Landscaping',
+      item: 'https://plantcalculators.com/clusters/lawn-and-landscaping/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Grass Seed Calculator',
+      item: 'https://plantcalculators.com/calculators/grass-seed-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Grass Seed Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/grass-seed-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <GrassSeedCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Laying sod instead of seeding? Check our <a href="/clusters/lawn-and-landscaping/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Lawn & Landscaping calculators</a> for the rest of the lineup.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" headline="Get the free Lawn Seeding Cheat Sheet" clusterTag="lawn-cluster" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-much-grass-seed-do-i-need">How Much Grass Seed Do I Need?</h2>
+    <p>
+      The right amount of grass seed depends on three things: your <strong>lawn area</strong>, your <strong>grass type</strong>, and whether you&rsquo;re seeding <strong>bare soil</strong> or <strong>overseeding</strong> an existing lawn. Grass species vary enormously in seed size and germination habit &mdash; a pound of tiny Bermuda seed covers far more ground than a pound of larger Perennial Ryegrass seed &mdash; so there is no single &ldquo;correct&rdquo; rate that works for every lawn.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/grass-seed-calculator-broadcast-spreader.svg"
+        alt="A broadcast spreader sowing grass seed evenly across a lawn"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Even coverage matters more than raw seed weight &mdash; a calibrated spreader beats guessing by hand.
+      </figcaption>
+    </figure>
+    <p>
+      New lawn establishment needs the highest rates because every seed has to survive and every square inch of soil has to be covered from scratch. Overseeding an already-established lawn needs roughly <strong>half</strong> that rate &mdash; existing turf is already holding most of the ground, so you&rsquo;re filling in thin spots and thickening the stand rather than starting over.
+    </p>
+    <p>
+      That&rsquo;s why the calculator above asks for your grass type first: selecting <strong>Kentucky Bluegrass</strong>, <strong>Tall Fescue</strong>, <strong>Perennial Ryegrass</strong>, <strong>Fine Fescue</strong>, <strong>Bermuda</strong>, or <strong>Zoysia</strong> automatically loads the recommended seeding rate for that species, in both new-lawn and overseeding modes. Enter your area in whatever unit you know &mdash; length &times; width, total square feet, or acres &mdash; and the total pounds and 50 lb bag count update immediately.
+    </p>
+
+    <h2 id="grass-seed-rate-chart">Grass Seed Rate Chart</h2>
+    <p>
+      Reference seeding rates for six common lawn grasses, in pounds per 1,000 sq ft and pounds per acre. These are general midpoints drawn from university turfgrass extension guidance &mdash; always check the rate printed on your specific seed bag, since blends and cultivars shift it slightly.
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Grass Seed Rate Reference &mdash; new lawn vs. overseeding, per 1,000 sq ft and per acre
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Grass type</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">New lawn (lb/1,000 sq ft)</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Overseeding (lb/1,000 sq ft)</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">New lawn (lb/acre)</th>
+            <th scope="col" class="py-2.5 font-semibold">Overseeding (lb/acre)</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Kentucky Bluegrass</th>
+            <td class="py-2 pr-4">2 lb</td>
+            <td class="py-2 pr-4">1 lb</td>
+            <td class="py-2 pr-4">~87 lb</td>
+            <td class="py-2">~44 lb</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Tall Fescue</th>
+            <td class="py-2 pr-4">7 lb</td>
+            <td class="py-2 pr-4">3.5 lb</td>
+            <td class="py-2 pr-4">~305 lb</td>
+            <td class="py-2">~152 lb</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Perennial Ryegrass</th>
+            <td class="py-2 pr-4">8 lb</td>
+            <td class="py-2 pr-4">4 lb</td>
+            <td class="py-2 pr-4">~348 lb</td>
+            <td class="py-2">~174 lb</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Fine Fescue</th>
+            <td class="py-2 pr-4">5 lb</td>
+            <td class="py-2 pr-4">2.5 lb</td>
+            <td class="py-2 pr-4">~218 lb</td>
+            <td class="py-2">~109 lb</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Bermuda (hulled)</th>
+            <td class="py-2 pr-4">2 lb</td>
+            <td class="py-2 pr-4">1 lb</td>
+            <td class="py-2 pr-4">~87 lb</td>
+            <td class="py-2">~44 lb</td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Zoysia</th>
+            <td class="py-2 pr-4">1.5 lb</td>
+            <td class="py-2 pr-4">0.75 lb</td>
+            <td class="py-2 pr-4">~65 lb</td>
+            <td class="py-2">~33 lb</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Let&rsquo;s walk through a <strong>5,000 sq ft new lawn</strong> being seeded with <strong>Tall Fescue</strong>.
+    </p>
+    <ol>
+      <li><strong>Area:</strong> 5,000 sq ft &divide; 1,000 = <strong>5</strong> (thousand-sq-ft units).</li>
+      <li><strong>Rate:</strong> Tall Fescue, new lawn = <strong>7 lb per 1,000 sq ft</strong>.</li>
+      <li><strong>Total seed:</strong> 5 &times; 7 lb = <strong>35 lb</strong> of seed.</li>
+      <li><strong>50 lb bags:</strong> 35 &divide; 50 = 0.7 &rarr; round up to <strong>1 bag</strong> (you&rsquo;ll have about 15 lb left over for touch-ups or next season).</li>
+      <li><strong>Per-acre reference:</strong> at the same rate, a full acre of Tall Fescue would need 7 &times; 43.56 = <strong>~305 lb</strong>, or about <strong>six 50 lb bags</strong>.</li>
+    </ol>
+    <p>
+      So for a 5,000 sq ft new lawn of Tall Fescue, you need roughly <strong>35 lb of seed</strong>, which rounds up to <strong>one 50 lb bag</strong>. If this were an overseeding job instead of a new lawn, the rate drops to 3.5 lb per 1,000 sq ft &mdash; just 17.5 lb total, still under half a bag.
+    </p>
+
+    <LeadMagnet variant="compact" clusterTag="lawn-cluster" />
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Over-seeding the lawn.</strong> More seed isn&rsquo;t better past the recommended rate &mdash; seedlings crowd each other, compete for light and water, and you get thinner, weaker turf instead of a thicker lawn. Stick to the rate for your grass type and seeding mode.</li>
+      <li><strong>Ignoring grass type.</strong> Using a Perennial Ryegrass rate (8 lb/1,000 sq ft) for Zoysia (1.5 lb/1,000 sq ft) means applying more than <strong>5&times;</strong> too much seed. Always match the rate to the species you&rsquo;re actually planting.</li>
+      <li><strong>Skipping soil-to-seed contact.</strong> Seed broadcast onto hard, unprepped soil or thick thatch has poor germination no matter how accurate the rate is. Rake or aerate first so seed reaches bare soil, then lightly cover and keep it consistently moist until germination.</li>
+      <li><strong>Using a new-lawn rate for overseeding (or vice versa).</strong> Overseeding at a full new-lawn rate wastes seed and can smother existing turf; using an overseeding rate to establish a lawn from bare soil leaves it too thin and open to weeds and erosion. Set the correct mode in the calculator above before you buy seed.</li>
+      <li><strong>Not accounting for waste at the edges.</strong> Beds, curves, and borders always use a bit more seed per square foot than open, rectangular lawn. Round your bag count up rather than down.</li>
+    </ul>
+
+    <LeadMagnet variant="compact" clusterTag="lawn-cluster" />
+
+    <FAQBlock id="grass-seed-calculator-faq" heading="Grass Seed Calculator FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Seeding rate guidance in this article draws on general recommendations from university cooperative extension turfgrass programs, including UMass Extension&rsquo;s <a href="https://www.umass.edu/agriculture-food-environment/home-lawn-garden/fact-sheets/seeding-rate-considerations" rel="noopener">&ldquo;Seeding Rate Considerations&rdquo;</a> fact sheet. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Lawn & Landscaping cluster', url: '/clusters/lawn-and-landscaping/', anchorText: 'Lawn & Landscaping cluster', note: 'the full set of grass seed, sod, mulch, and landscape material calculators on this site.' },
+      { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'once your new lawn or beds are seeded, use this to figure out mulch for surrounding borders.' },
+      { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'if you need to level or add topsoil before seeding, check volumes here first.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>
+  

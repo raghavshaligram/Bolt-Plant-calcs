@@ -179,12 +179,13 @@ export const calculators: Calculator[] = [
     title: 'Grass Seed Calculator',
     shortTitle: 'Grass Seed',
     description:
-      'Calculate how many pounds of grass seed you need for a new lawn or for overseeding an existing one.',
+      'Calculate how many pounds and 50 lb bags of grass seed you need by grass type, for a new lawn or for overseeding an existing one.',
     metaDescription:
-      'Free grass seed calculator. Enter your lawn area in square feet and choose new lawn or overseeding to get pounds of seed needed.',
+      'Calculate exactly how much grass seed you need by grass type, in pounds, bags, and per acre or per 1,000 sq ft. Free calculator.',
+    seoTitle: 'Grass Seed Calculator - Lbs & Bags Per Acre (Free)',
     cluster: 'lawn-and-landscaping',
     href: '/calculators/grass-seed-calculator/',
-    status: 'coming-soon',
+    status: 'live',
   },
   {
     slug: 'frost-date-calculator',
