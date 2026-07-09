@@ -107,14 +107,14 @@ export const clusters: Cluster[] = [
     accent: 'moss',
   },
   {
-    slug: 'trees',
-    name: 'Trees',
+    slug: 'trees-and-shrubs',
+    name: 'Trees & Shrubs',
     description:
-      'Tree age, size, and value calculators for estimating how old a tree is, how much it has grown, and what it is worth — without cutting it down.',
+      'Tree and shrub age, size, and value calculators for estimating how old a tree is, how much it has grown, and what it is worth — without cutting it down.',
     metaDescription:
-      'Free tree calculators for estimating tree age, growth, and value from simple trunk measurements. No cutting required.',
+      'Free tree and shrub calculators for estimating age, growth, and value from simple trunk measurements. No cutting required.',
     blurb:
-      'Understand your trees without cutting them down. Estimate age, growth, and value from a simple trunk measurement.',
+      'Understand your trees and shrubs without cutting them down. Estimate age, growth, and value from a simple trunk measurement.',
     icon: 'tree',
     accent: 'leaf',
   },
@@ -220,7 +220,7 @@ export const calculators: Calculator[] = [
     metaDescription:
       'Estimate a tree\'s age from its trunk circumference — no cutting required. Free calculator for oak, maple, pine, and more species.',
     seoTitle: 'Tree Age Calculator - Estimate Age Without Cutting',
-    cluster: 'trees',
+    cluster: 'trees-and-shrubs',
     href: '/calculators/tree-age-calculator/',
     status: 'live',
   },
