@@ -32,6 +32,16 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google Analytics (GA4) — loaded site-wide from this shared layout only. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L7SK0FES3Q"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-L7SK0FES3Q');
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{fullTitle}</title>
