@@ -251,6 +251,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/pot-size-calculator/',
     status: 'live',
   },
+  {
+    slug: 'compost-calculator',
+    title: 'Compost Calculator',
+    shortTitle: 'Compost',
+    description:
+      'Calculate how much compost you need in cubic feet, cubic yards, bags, and estimated weight — for top-dressing beds, containers, or mixing into new soil.',
+    metaDescription:
+      'Calculate how much compost you need in cubic feet, cubic yards, bags, and weight — for beds, containers, or top-dressing. Free.',
+    seoTitle: 'Compost Calculator - Volume, Bags & Weight (Free)',
+    cluster: 'soil-and-amendments',
+    href: '/calculators/compost-calculator/',
+    status: 'live',
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {
