@@ -209,7 +209,7 @@ export default function RaisedBedSoilCalculator() {
     doc.setFontSize(11);
     doc.setTextColor(90, 90, 90);
     const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    doc.text(`Generated ${dateStr} — SoilMath.com`, margin, y);
+    doc.text(`Generated ${dateStr} — HarvestMath.com`, margin, y);
     y += 28;
 
     doc.setTextColor(40, 40, 40);
