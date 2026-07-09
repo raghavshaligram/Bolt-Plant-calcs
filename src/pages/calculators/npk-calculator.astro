@@ -27,6 +27,7 @@ const tocItems = [
   { id: 'how-do-you-calculate-npk-fertilizer-rates', label: 'How to Calculate NPK Rates', icon: 'leaf' as const },
   { id: 'common-fertilizer-application-rates', label: 'Common Application Rates', icon: 'table' as const },
   { id: 'worked-example-application-rate', label: 'Worked Example: Rate', icon: 'table' as const },
+  { id: 'worked-example-liquid-fertilizer-dilution', label: 'Worked Example: Liquid', icon: 'table' as const },
   { id: 'worked-example-blending-two-fertilizers', label: 'Worked Example: Blending', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'npk-calculator-faq', label: 'FAQ', icon: 'question' as const },
@@ -46,7 +47,7 @@ const faqs = [
   },
   {
     q: 'How do I make a liquid NPK fertilizer solution?',
-    a: 'Dissolve fertilizer into water at a rate (oz or grams per gallon/liter) that produces your target PPM: rate = target PPM ÷ (fertilizer N% × 74.9) for gallons, or ÷ (N% × 10) for liters. The calculator’s liquid mode does this automatically from either a target PPM or a dilution ratio you already know.',
+    a: 'Dissolve fertilizer into water at a rate that hits your target PPM of nitrogen — divide target PPM by (fertilizer N% × 74.9) for ounces per gallon, or by (N% × 10) for grams per liter. For example, a 10-10-10 liquid concentrate dissolved at about 0.2 oz per gallon delivers roughly 150 PPM N, a common general feeding strength for houseplants and containers. Most edible and ornamental plants do well in the 100–250 PPM N range: seedlings and delicate container plants are usually fed toward the lower end, while heavy feeders like tomatoes or hydroponic crops in active growth are fed toward the higher end — always check your specific crop’s recommendation before settling on a number. If you already know a dilution ratio you’ve used before (say, "1 oz per gallon") rather than a target PPM, switch the calculator’s liquid mode to Dilution Ratio and it solves in the other direction, showing you the resulting PPM for that mix so you can compare it against label guidance or a feeding chart. One practical note: always dissolve fertilizer into the full volume of water, stirring as you add it, rather than adding water to a concentrated fertilizer solution — this avoids transient over-concentration that can stress roots.',
   },
   {
     q: 'Can I use regular garden fertilizer for hydroponics?',
@@ -265,6 +266,19 @@ const softwareAppJsonLd = {
     </ol>
     <p>
       So a 5,000 sq ft lawn needs <strong>50 lb of 10-10-10</strong> to deliver 1 lb of actual N per 1,000 sq ft. That same 50 lb also delivers 5 lb of P&#8322;O&#8325; and 5 lb of K&#8322;O, since all three percentages are equal in a 10-10-10 product &mdash; with an unbalanced fertilizer like 24-8-16, the phosphate and potash delivered would scale differently.
+    </p>
+
+    <h2 id="worked-example-liquid-fertilizer-dilution">Worked Example: Liquid Fertilizer Dilution</h2>
+    <p>
+      Say you have a <strong>10-10-10 liquid concentrate</strong> and want to feed at <strong>150 PPM nitrogen</strong> &mdash; a common general-purpose houseplant and container strength &mdash; mixed up in a <strong>2-gallon</strong> watering can.
+    </p>
+    <ol>
+      <li><strong>Rate needed:</strong> 150 &divide; (10 &times; 74.9) = <strong>~0.20 oz of concentrate per gallon</strong> of water.</li>
+      <li><strong>Total for a 2-gallon container:</strong> 0.20 oz &times; 2 = <strong>~0.4 oz of concentrate</strong>.</li>
+      <li><strong>Check:</strong> 0.20 oz/gal &times; 10% N &times; 74.9 = <strong>150 PPM</strong> &mdash; confirms the math.</li>
+    </ol>
+    <p>
+      So for a 2-gallon can at 150 PPM N, you&rsquo;d measure out roughly <strong>0.4 oz</strong> of the 10-10-10 concentrate. That&rsquo;s a small enough amount that a syringe or a marked measuring cap &mdash; the kind that ships with most liquid concentrates &mdash; is far more accurate than trying to eyeball a fraction of an ounce in a kitchen measuring spoon. If you wanted a stronger feed for a heavy-feeding vegetable instead, say 250 PPM, the same fertilizer would need about 0.33 oz per gallon (0.67 oz for the 2-gallon can) &mdash; the calculator&rsquo;s liquid mode recalculates this instantly for any target PPM, container size, or fertilizer strength.
     </p>
 
     <h2 id="worked-example-blending-two-fertilizers">Worked Example: Blending Two Fertilizers</h2>

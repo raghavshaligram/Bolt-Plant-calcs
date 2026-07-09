@@ -231,7 +231,7 @@ export const calculators: Calculator[] = [
     description:
       'Calculate fertilizer application rates, mix a liquid feed solution, or blend multiple fertilizers to approximate a target N-P-K ratio.',
     metaDescription:
-      'Calculate fertilizer application rates, liquid dilution, or blend multiple fertilizers to hit a target N-P-K ratio. Free calculator.',
+      'Free NPK calculator and liquid fertilizer calculator. Find application rates, dilution PPM, or blend fertilizers to a target ratio.',
     seoTitle: 'NPK Calculator - Rate, Liquid & Blend (Free)',
     cluster: 'fertilizer-and-nutrients',
     href: '/calculators/npk-calculator/',
