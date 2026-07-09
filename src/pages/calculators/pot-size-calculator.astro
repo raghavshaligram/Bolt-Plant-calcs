@@ -1,0 +1,411 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import PotSizeCalculator from '../../components/calculators/PotSizeCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('pot-size-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-09';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'SoilMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This pot size calculator converts container sizes between inches, gallons, and liters, recommends the next size up when it&rsquo;s time to repot, and looks up the minimum container size for a specific plant or vegetable. It&rsquo;s built for garden and plant containers — not kitchen cookware sizing.';
+
+const tocItems = [
+  { id: 'how-do-you-determine-the-right-pot-size', label: 'Finding the Right Size', icon: 'leaf' as const },
+  { id: 'pot-size-conversion-chart', label: 'Conversion Chart', icon: 'table' as const },
+  { id: 'container-size-guide-by-plant', label: 'Guide by Plant', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'pot-size-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/pot-size-calculator-nesting-pots.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'What size pot do I need for my plant?',
+    a: 'It depends on the plant&rsquo;s mature size and root system, not its current size. As a rough rule: 1&ndash;3 gal for small herbs and salad greens, 4&ndash;6 gal for medium vegetables, and 8&ndash;10 gal or more for large fruiting vegetables like tomatoes and peppers &mdash; check the Container Size Guide above for houseplants and specific crops.',
+  },
+  {
+    q: 'How do I convert pot size from inches to gallons?',
+    a: 'Diameter alone doesn&rsquo;t determine volume &mdash; you also need height, since a wide, shallow pot and a narrow, tall pot of the same diameter hold very different amounts of soil. Use the calculator&rsquo;s Unit Converter mode above: pick a standard nursery size to see its real gallon and liter equivalent, or enter a custom diameter and height to calculate volume directly.',
+  },
+  {
+    q: 'Is a &ldquo;1-gallon&rdquo; pot actually one gallon?',
+    a: 'No &mdash; nursery &ldquo;gallon&rdquo; sizing is a trade convention, not a literal liquid gallon. A standard 1-gallon nursery container typically holds closer to 0.7&ndash;0.8 actual gallons, and exact dimensions vary by manufacturer with no single enforced industry standard. Treat &ldquo;gallon&rdquo; labels as a size category rather than a precise volume, and check the conversion chart above if you need the real number.',
+  },
+  {
+    q: 'What size container do vegetables need?',
+    a: 'It depends on the vegetable&rsquo;s mature size. Per University of Maryland Extension guidance, large fruiting vegetables like tomatoes, peppers, eggplant, and cucumbers need a minimum of 8&ndash;10 gallons; medium vegetables like summer squash and cole crops need 4&ndash;6 gallons; and small vegetables and herbs like lettuce, basil, and radishes do fine in 1&ndash;3 gallons.',
+  },
+  {
+    q: 'When should I repot my plant into a larger container?',
+    a: 'Repot once roots start growing out of the drainage holes, circle visibly around the inside of the root ball, or the plant dries out unusually fast between waterings. Size up by roughly 2 inches of diameter at a time rather than jumping several sizes at once &mdash; an oversized jump surrounds the roots with more soil than they can use, which is a common cause of root rot.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Find the right pot size, convert units, or plan a repotting size-up',
+  description:
+    'Use the pot size calculator to convert container sizes between inches, gallons, and liters, find the recommended next size up when repotting, or look up the minimum container size for a plant or vegetable.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Choose a calculation mode',
+      text: 'Select Unit Converter to convert a pot size, Repotting Size-Up to find the next container size, or Plant Guide to look up a minimum container size by plant.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enter your pot size or select a plant',
+      text: 'Depending on the mode, pick a standard nursery size or enter custom dimensions, select your current pot size, or choose a plant or vegetable from the list.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Read the result',
+      text: 'The calculator shows the converted diameter and volume, the recommended next size up, or the minimum recommended container size and depth, updating live as you change your selection.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://plantcalculators.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Indoor Plants',
+      item: 'https://plantcalculators.com/clusters/indoor-plants/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Pot Size Calculator',
+      item: 'https://plantcalculators.com/calculators/pot-size-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Pot Size Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/pot-size-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'SoilMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <PotSizeCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    This is the first calculator in the <a href="/clusters/indoor-plants/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Indoor Plants cluster</a> — more houseplant-focused tools are on the way.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnet variant="full" headline="Get the free Indoor Plants Cheat Sheet" clusterTag="indoor-plants-cluster" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-do-you-determine-the-right-pot-size">How Do You Determine the Right Pot Size?</h2>
+    <p>
+      Container size matters because it directly limits root development, and root development limits everything else the plant does above the soil line. A pot that&rsquo;s too small restricts roots before the plant reaches its potential, forces more frequent watering as the small soil volume dries out fast, and can leave a plant permanently stunted or root-bound. A pot that&rsquo;s too large has the opposite problem: roots can&rsquo;t draw water from all that extra soil fast enough, so it stays wet for days after watering, starving roots of oxygen and inviting root rot.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/pot-size-calculator-nesting-pots.svg"
+        alt="A row of nursery pots in increasing sizes, from a small starter pot to a large gallon container"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Size up gradually — the horticulture industry&rsquo;s own container ladder moves in small steps for a reason.
+      </figcaption>
+    </figure>
+    <p>
+      The right size, then, is the smallest container that comfortably fits the plant&rsquo;s <em>current</em> root system with a little room to grow into &mdash; not the size it will eventually need at full maturity. That&rsquo;s why repotting is a gradual, staged process (see the Repotting Size-Up mode above) rather than a one-time decision, and why the Container Size Guide below gives a <em>minimum</em> size for each plant&rsquo;s mature form rather than a size to start it in as a seedling.
+    </p>
+    <p>
+      Depth matters as much as width for many plants. A wide, shallow pot and a narrow, tall pot can hold the same volume of soil but suit very different root structures &mdash; taprooted vegetables like carrots need depth, while shallow-rooted plants like lettuce and most succulents do better in a wider, shorter container.
+    </p>
+
+    <h2 id="pot-size-conversion-chart">Pot Size Conversion Chart</h2>
+    <p>
+      Standard nursery containers, sorted by diameter. The industry has no single enforced sizing standard, so treat these as typical figures rather than exact universal dimensions &mdash; always measure your actual pot if precision matters. Rows marked with an asterisk are estimated (small starter pots are conventionally sold by diameter only, with no rated volume).
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Standard Nursery Pot Sizes
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Size</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Diameter</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Volume (gal)</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Volume (qt)</th>
+            <th scope="col" class="py-2.5 font-semibold">Volume (L)</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">2 in*</th>
+            <td class="py-2 pr-4">2 in / 5.1 cm</td>
+            <td class="py-2 pr-4">~0.03</td>
+            <td class="py-2 pr-4">~0.1</td>
+            <td class="py-2">~0.1</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">3 in*</th>
+            <td class="py-2 pr-4">3 in / 7.6 cm</td>
+            <td class="py-2 pr-4">~0.09</td>
+            <td class="py-2 pr-4">~0.4</td>
+            <td class="py-2">~0.3</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">4 in*</th>
+            <td class="py-2 pr-4">4 in / 10.2 cm</td>
+            <td class="py-2 pr-4">~0.22</td>
+            <td class="py-2 pr-4">~0.9</td>
+            <td class="py-2">~0.8</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">1 quart</th>
+            <td class="py-2 pr-4">4.25 in square</td>
+            <td class="py-2 pr-4">0.25</td>
+            <td class="py-2 pr-4">1</td>
+            <td class="py-2">0.95</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">6 in / 1 gal (#1)</th>
+            <td class="py-2 pr-4">6 in / 15.2 cm</td>
+            <td class="py-2 pr-4">0.76</td>
+            <td class="py-2 pr-4">3</td>
+            <td class="py-2">2.88</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">8 in / 2 gal (#2)</th>
+            <td class="py-2 pr-4">8.5 in / 21.6 cm</td>
+            <td class="py-2 pr-4">1.6</td>
+            <td class="py-2 pr-4">6.4</td>
+            <td class="py-2">6.06</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">3 gal (#3)</th>
+            <td class="py-2 pr-4">10.5 in / 26.7 cm</td>
+            <td class="py-2 pr-4">2.5</td>
+            <td class="py-2 pr-4">10</td>
+            <td class="py-2">9.46</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">5 gal (#5)</th>
+            <td class="py-2 pr-4">10.5 in / 26.7 cm</td>
+            <td class="py-2 pr-4">3.6</td>
+            <td class="py-2 pr-4">14.4</td>
+            <td class="py-2">13.63</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">7 gal (#7)</th>
+            <td class="py-2 pr-4">12 in / 30.5 cm</td>
+            <td class="py-2 pr-4">6.5</td>
+            <td class="py-2 pr-4">26</td>
+            <td class="py-2">24.61</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">10 gal (#10)</th>
+            <td class="py-2 pr-4">14.75 in / 37.5 cm</td>
+            <td class="py-2 pr-4">8</td>
+            <td class="py-2 pr-4">32</td>
+            <td class="py-2">30.28</td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">15 gal (#15)</th>
+            <td class="py-2 pr-4">17.5 in / 44.5 cm</td>
+            <td class="py-2 pr-4">12</td>
+            <td class="py-2 pr-4">48</td>
+            <td class="py-2">45.42</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="container-size-guide-by-plant">Container Size Guide by Plant</h2>
+    <p>
+      Minimum container sizes below for vegetables and herbs draw on University of Maryland Extension guidance; houseplant categories reflect general nursery sizing convention rather than a single per-species standard.
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Minimum Container Size by Plant Category
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Category</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Examples</th>
+            <th scope="col" class="py-2.5 font-semibold">Minimum Size</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Large vegetables</th>
+            <td class="py-2 pr-4">Tomato, pepper, eggplant, cucumber, winter squash</td>
+            <td class="py-2">8&ndash;10 gal, 12&ndash;16 in deep</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Medium vegetables</th>
+            <td class="py-2 pr-4">Dwarf tomato/pepper, summer squash, cole crops, beans, root veg, large herbs</td>
+            <td class="py-2">4&ndash;6 gal, 8&ndash;12 in deep</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Small vegetables &amp; herbs</th>
+            <td class="py-2 pr-4">Basil, cilantro, thyme, lettuce, radish, spinach, peas</td>
+            <td class="py-2">1&ndash;3 gal, 4&ndash;6 in deep</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Succulents &amp; cacti</th>
+            <td class="py-2 pr-4">Echeveria, jade, most cacti</td>
+            <td class="py-2">2&ndash;4 in diameter (snug fit preferred)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Small houseplants</th>
+            <td class="py-2 pr-4">Pothos, small ferns</td>
+            <td class="py-2">4&ndash;6 in diameter</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Medium houseplants</th>
+            <td class="py-2 pr-4">Peace lily, snake plant, small monstera</td>
+            <td class="py-2">6&ndash;10 in diameter (~2&ndash;3 gal)</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Large houseplants</th>
+            <td class="py-2 pr-4">Fiddle leaf fig, large monstera, floor palms</td>
+            <td class="py-2">10&ndash;14 in+ diameter (~5&ndash;15 gal)</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Potatoes</th>
+            <td class="py-2 pr-4">&mdash;</td>
+            <td class="py-2">30 gal (deep, for hilling)</td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Dwarf fruit trees / shrubs</th>
+            <td class="py-2 pr-4">&mdash;</td>
+            <td class="py-2">25&ndash;30 gal</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Say you started a <strong>tomato seedling</strong> in a <strong>6-inch pot</strong> (about 0.76 gal, per the conversion chart above) and it&rsquo;s now filling that pot with roots.
+    </p>
+    <ol>
+      <li><strong>Check the target:</strong> per the Container Size Guide above, a full-size tomato needs a minimum of <strong>8&ndash;10 gal</strong> at maturity.</li>
+      <li><strong>Compare to the size-up ladder:</strong> a 6-inch pot is several rungs below that &mdash; the standard ladder runs 6 in/1 gal &rarr; 8 in/2 gal &rarr; 3 gal &rarr; 5 gal &rarr; 7 gal &rarr; 10 gal.</li>
+      <li><strong>Decide on a strategy:</strong> for a slow-growing houseplant, the usual advice is to size up gradually, about one rung (roughly 2 in of diameter) at a time. But a tomato is a fast-growing annual with only one season to reach full size — most growers move it directly from its seedling pot into its final 8&ndash;10 gal container once it outgrows the 6-inch pot and before it becomes root-bound, typically 3&ndash;4 weeks after transplanting and well before flowering.</li>
+    </ol>
+    <p>
+      So the practical move here is a single jump straight to a <strong>10-gallon container</strong> with good drainage, rather than working through every intermediate size &mdash; the gradual, one-rung-at-a-time approach in the Repotting Size-Up mode above is the right call for houseplants and perennials, but fast-growing annual vegetables are usually better served by sizing up directly to their mature minimum.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Potting up too large, too fast.</strong> Per University of Illinois Extension, choose a new container only about 2 inches larger in diameter than the current one for most houseplants — an oversized jump surrounds the roots with more soil than they can use, and that excess wet soil is one of the most common causes of root rot.</li>
+      <li><strong>Ignoring drainage at larger sizes.</strong> Every container needs drainage holes, but the stakes go up as pot size increases — a large pot with poor drainage holds a large volume of standing water against the roots. Don&rsquo;t compensate for a bigger pot by watering less; fix the drainage instead.</li>
+      <li><strong>Confusing nursery &ldquo;gallon&rdquo; sizing with literal liquid gallons.</strong> As the conversion chart above shows, a &ldquo;1-gallon&rdquo; nursery pot holds closer to 0.76 actual gallons, and sizes vary by manufacturer. Don&rsquo;t assume the label is a precise volume measurement.</li>
+      <li><strong>Not accounting for the plant&rsquo;s mature size.</strong> Sizing a container to a seedling&rsquo;s current size, rather than its eventual mature root system, sets up multiple rounds of stressful repotting. Check the Container Size Guide above for the plant&rsquo;s minimum mature container size before you buy a &ldquo;forever pot.&rdquo;</li>
+    </ul>
+
+    <LeadMagnet variant="compact" clusterTag="indoor-plants-cluster" />
+
+    <FAQBlock id="pot-size-calculator-faq" heading="Pot Size Calculator FAQ" faqs={faqs} />
+
+    <LeadMagnet variant="compact" clusterTag="indoor-plants-cluster" />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Vegetable container size guidance draws on the <a href="https://extension.umd.edu/resource/types-containers-growing-vegetables" rel="noopener">University of Maryland Extension&rsquo;s guide to container vegetable gardening</a>. Repotting size-up guidance draws on the <a href="https://extension.illinois.edu/blogs/good-growing/2018-03-19-tips-repotting-houseplants" rel="noopener">University of Illinois Extension&rsquo;s tips for repotting houseplants</a>. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Indoor Plants cluster', url: '/clusters/indoor-plants/', anchorText: 'Indoor Plants cluster', note: 'more houseplant-focused calculators as this cluster grows.' },
+      { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'need the exact soil volume for an oddly-shaped or very large container? This one handles any dimensions.' },
+      { name: 'NPK Calculator', url: '/calculators/npk-calculator/', note: 'once your plant is potted, dial in a liquid feeding rate for its container size.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

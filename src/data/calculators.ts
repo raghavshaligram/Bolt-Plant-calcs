@@ -237,6 +237,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/npk-calculator/',
     status: 'live',
   },
+  {
+    slug: 'pot-size-calculator',
+    title: 'Pot Size Calculator',
+    shortTitle: 'Pot Size',
+    description:
+      'Convert pot sizes between inches, gallons, and liters, find the recommended next size up when repotting, or look up the minimum container size for a plant or vegetable.',
+    metaDescription:
+      'Convert pot sizes between inches, gallons, and liters, find the right container size for your plant, and know when to repot. Free.',
+    seoTitle: 'Plant Pot Size Calculator - Inches, Gallons & Liters',
+    cluster: 'indoor-plants',
+    href: '/calculators/pot-size-calculator/',
+    status: 'live',
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {
