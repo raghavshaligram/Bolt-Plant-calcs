@@ -2,13 +2,14 @@
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 import CompostCalculator from '../../components/calculators/CompostCalculator.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnet from '../../components/LeadMagnet.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
 
 const calculator = getCalculator('compost-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
 
 const lastUpdated = '2026-07-09';
 const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
@@ -171,7 +172,11 @@ const softwareAppJsonLd = {
   <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
   <TableOfContents items={tocItems} variant="accordion" />
 
-  <LeadMagnet variant="full" />
+  <div class="card my-10 border-moss-200/60 bg-moss-50/40 p-6">
+    <h3 class="font-display text-lg font-semibold text-bark-900">Get the free cheat sheet</h3>
+    <p class="mt-1 mb-4 text-sm text-bark-600">A one-page PDF of the {cluster.name.toLowerCase()} math from this site, emailed once.</p>
+    <LeadMagnetForm client:load listId={leadMagnet.listId} clusterName={leadMagnet.clusterName} />
+  </div>
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
@@ -291,11 +296,7 @@ const softwareAppJsonLd = {
       <li><strong>Over-applying.</strong> More compost isn&rsquo;t automatically better &mdash; piling on several inches every season can throw off soil nutrient balance and, in containers, crowd out the mineral component the roots also need. Stick to the recommended depth for the job you&rsquo;re actually doing.</li>
     </ul>
 
-    <LeadMagnet variant="compact" />
-
     <FAQBlock id="compost-calculator-faq" heading="Compost Calculator FAQ" faqs={faqs} />
-
-    <LeadMagnet variant="compact" />
 
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>

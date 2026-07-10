@@ -2,13 +2,14 @@
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 import SoilVolumeCalculator from '../../components/calculators/SoilVolumeCalculator.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnet from '../../components/LeadMagnet.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
 
 const calculator = getCalculator('soil-volume-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
 
 const lastUpdated = '2026-07-08';
 const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
@@ -164,7 +165,11 @@ const softwareAppJsonLd = {
   <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
   <TableOfContents items={tocItems} variant="accordion" />
 
-  <LeadMagnet variant="full" />
+  <div class="card my-10 border-moss-200/60 bg-moss-50/40 p-6">
+    <h3 class="font-display text-lg font-semibold text-bark-900">Get the free cheat sheet</h3>
+    <p class="mt-1 mb-4 text-sm text-bark-600">A one-page PDF of the {cluster.name.toLowerCase()} math from this site, emailed once.</p>
+    <LeadMagnetForm client:load listId={leadMagnet.listId} clusterName={leadMagnet.clusterName} />
+  </div>
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
     <h2 id="how-much-soil-do-i-need">How Much Soil Do I Need?</h2>
@@ -225,8 +230,6 @@ const softwareAppJsonLd = {
       The pot example shows why liters matter: &ldquo;0.52 cubic feet&rdquo; is hard to visualize at a store, but a 16&ndash;20 L bag of potting mix is exactly what you&rsquo;re looking for. The calculator outputs all three so you can match whatever units your supplier uses.
     </p>
 
-    <LeadMagnet variant="compact" />
-
     <h2 id="common-soil-mistakes">Common Mistakes</h2>
     <ul>
       <li><strong>Confusing volume with area.</strong> Square feet tells you how much ground you cover; cubic feet tells you how much material you need. You cannot order soil in square feet &mdash; you always need to include depth. See FAQ #4 for the conversion.</li>
@@ -237,8 +240,6 @@ const softwareAppJsonLd = {
     </ul>
 
     <FAQBlock id="soil-volume-calculator-faq" heading="Soil Volume Calculator FAQ" faqs={faqs} />
-
-    <LeadMagnet variant="compact" />
 
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>

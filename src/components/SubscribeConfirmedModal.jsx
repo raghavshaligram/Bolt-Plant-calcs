@@ -1,18 +1,31 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Site-wide "you're confirmed" modal. Brevo's double opt-in redirectionUrl
- * always points here (the homepage) with ?subscribed=true, since the person
- * confirming may have signed up from any of the 7 cluster pages. This is a
- * separate, later confirmation from LeadMagnetForm's own inline "Check your
- * inbox!" message, which fires immediately on form submit, before the email
- * is actually confirmed.
+ * Site-wide "you're confirmed" modal, mounted once in Layout.astro so it
+ * works no matter which page someone signs up from (any of the 15 calculator
+ * pages or 7 cluster pages).
+ *
+ * Fires two ways:
+ *  1. A 'leadmagnet:subscribed' window event, dispatched by LeadMagnetForm
+ *     the moment /api/subscribe returns success -- this is the live path now
+ *     that Brevo signup is single opt-in (contact is added to the list
+ *     immediately, no confirmation email to click).
+ *  2. A ?subscribed=true URL param, kept as a fallback in case a future flow
+ *     redirects back here (e.g. if double opt-in is ever reintroduced) --
+ *     currently unused in practice since nothing sets this param anymore.
  */
 export default function SubscribeConfirmedModal() {
   const [open, setOpen] = useState(false);
+  const [clusterName, setClusterName] = useState(null);
   const cardRef = useRef(null);
 
   useEffect(() => {
+    function handleSubscribed(event) {
+      setClusterName(event.detail?.clusterName ?? null);
+      setOpen(true);
+    }
+    window.addEventListener('leadmagnet:subscribed', handleSubscribed);
+
     const params = new URLSearchParams(window.location.search);
     if (params.get('subscribed') === 'true') {
       setOpen(true);
@@ -24,6 +37,8 @@ export default function SubscribeConfirmedModal() {
       const cleanUrl = window.location.pathname + (query ? `?${query}` : '') + window.location.hash;
       window.history.replaceState({}, '', cleanUrl);
     }
+
+    return () => window.removeEventListener('leadmagnet:subscribed', handleSubscribed);
   }, []);
 
   function close() {
@@ -72,7 +87,7 @@ export default function SubscribeConfirmedModal() {
           You’re confirmed!
         </h2>
         <p className="mt-2 font-sans text-sm leading-relaxed text-[#5C4433]">
-          Your cheat sheet is on its way — check your inbox.
+          {clusterName ? `Your ${clusterName} Cheat Sheet is on its way` : 'Your cheat sheet is on its way'} — check your inbox.
         </p>
 
         <button

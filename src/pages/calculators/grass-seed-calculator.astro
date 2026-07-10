@@ -2,13 +2,14 @@
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 import GrassSeedCalculator from '../../components/calculators/GrassSeedCalculator.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnet from '../../components/LeadMagnet.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
 
 const calculator = getCalculator('grass-seed-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
 
 const lastUpdated = '2026-07-09';
 const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
@@ -175,7 +176,11 @@ const softwareAppJsonLd = {
   <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
   <TableOfContents items={tocItems} variant="accordion" />
 
-  <LeadMagnet variant="full" headline="Get the free Lawn Seeding Cheat Sheet" clusterTag="lawn-cluster" />
+  <div class="card my-10 border-moss-200/60 bg-moss-50/40 p-6">
+    <h3 class="font-display text-lg font-semibold text-bark-900">Get the free cheat sheet</h3>
+    <p class="mt-1 mb-4 text-sm text-bark-600">A one-page PDF of the {cluster.name.toLowerCase()} math from this site, emailed once.</p>
+    <LeadMagnetForm client:load listId={leadMagnet.listId} clusterName={leadMagnet.clusterName} />
+  </div>
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
@@ -284,8 +289,6 @@ const softwareAppJsonLd = {
       So for a 5,000 sq ft new lawn of Tall Fescue, you need roughly <strong>35 lb of seed</strong>, which rounds up to <strong>one 50 lb bag</strong>. If this were an overseeding job instead of a new lawn, the rate drops to 3.5 lb per 1,000 sq ft &mdash; just 17.5 lb total, still under half a bag.
     </p>
 
-    <LeadMagnet variant="compact" clusterTag="lawn-cluster" />
-
     <h2 id="common-mistakes">Common Mistakes</h2>
     <ul>
       <li><strong>Over-seeding the lawn.</strong> More seed isn&rsquo;t better past the recommended rate &mdash; seedlings crowd each other, compete for light and water, and you get thinner, weaker turf instead of a thicker lawn. Stick to the rate for your grass type and seeding mode.</li>
@@ -296,8 +299,6 @@ const softwareAppJsonLd = {
       <li><strong>Using a new-lawn rate for overseeding (or vice versa).</strong> Overseeding at a full new-lawn rate wastes seed and can smother existing turf; using an overseeding rate to establish a lawn from bare soil leaves it too thin and open to weeds and erosion. Set the correct mode in the calculator above before you buy seed.</li>
       <li><strong>Not accounting for waste at the edges.</strong> Beds, curves, and borders always use a bit more seed per square foot than open, rectangular lawn. Round your bag count up rather than down.</li>
     </ul>
-
-    <LeadMagnet variant="compact" clusterTag="lawn-cluster" />
 
     <FAQBlock id="grass-seed-calculator-faq" heading="Grass Seed Calculator FAQ" faqs={faqs} />
 
@@ -317,4 +318,3 @@ const softwareAppJsonLd = {
     </p>
   </article>
 </CalculatorLayout>
-  

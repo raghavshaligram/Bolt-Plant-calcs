@@ -2,8 +2,9 @@ import { useId, useState } from 'react';
 
 /**
  * Custom-styled email capture form that posts to our own /api/subscribe route,
- * which calls Brevo's double opt-in API server-side. No Brevo embed script,
- * iframe, or default form markup is used anywhere here.
+ * which adds the contact straight to Brevo (single opt-in, no confirmation
+ * email required) server-side. No Brevo embed script, iframe, or default
+ * form markup is used anywhere here.
  *
  * Brand spec (used exactly, per design):
  *   soil brown #5C4433 · leaf green #4A7C59 · deep forest green #3D6647
@@ -32,6 +33,12 @@ export default function LeadMagnetForm({ listId, clusterName }) {
 
       if (res.ok && data.success) {
         setStatus('success');
+        // Tell the site-wide SubscribeConfirmedModal (mounted once in
+        // Layout.astro) to pop up right now. Single opt-in means there's no
+        // confirmation-email click to redirect back from, so the modal can't
+        // rely on a ?subscribed=true URL param anymore -- it fires directly
+        // off this event instead, the moment the signup actually succeeds.
+        window.dispatchEvent(new CustomEvent('leadmagnet:subscribed', { detail: { clusterName } }));
         return;
       }
 

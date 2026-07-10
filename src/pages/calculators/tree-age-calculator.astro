@@ -2,13 +2,14 @@
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 import TreeAgeCalculator from '../../components/calculators/TreeAgeCalculator.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnet from '../../components/LeadMagnet.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
 
 const calculator = getCalculator('tree-age-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
 
 const lastUpdated = '2026-07-09';
 const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
@@ -169,7 +170,11 @@ const softwareAppJsonLd = {
   <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
   <TableOfContents items={tocItems} variant="accordion" />
 
-  <LeadMagnet variant="full" headline="Get the free Tree Care Cheat Sheet" clusterTag="trees-cluster" />
+  <div class="card my-10 border-moss-200/60 bg-moss-50/40 p-6">
+    <h3 class="font-display text-lg font-semibold text-bark-900">Get the free cheat sheet</h3>
+    <p class="mt-1 mb-4 text-sm text-bark-600">A one-page PDF of the {cluster.name.toLowerCase()} math from this site, emailed once.</p>
+    <LeadMagnetForm client:load listId={leadMagnet.listId} clusterName={leadMagnet.clusterName} />
+  </div>
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
@@ -295,8 +300,6 @@ const softwareAppJsonLd = {
       So a 60-inch-circumference oak is most likely somewhere between <strong>75 and 110 years old</strong>, with ~95 years as the midpoint estimate. That range &mdash; not a single number &mdash; is the honest answer: soil, sun exposure, competition from nearby trees, and past stress (drought, storm damage, disease) can all push the real age toward either end.
     </p>
 
-    <LeadMagnet variant="compact" clusterTag="trees-cluster" />
-
     <h2 id="common-mistakes">Common Mistakes</h2>
     <ul>
       <li><strong>Measuring at the wrong height.</strong> The standard point is 4.5 ft (1.4 m) above ground. Measuring at the base or at chest height on a slope gives a larger, misleading circumference. On sloped ground, measure from the uphill side.</li>
@@ -320,8 +323,6 @@ const softwareAppJsonLd = {
         Note: ring counting only works on a felled stump or an increment borer core sample &mdash; it is not the method this calculator uses. The circumference method above estimates age without touching the living tree.
       </p>
     </aside>
-
-    <LeadMagnet variant="compact" clusterTag="trees-cluster" />
 
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
