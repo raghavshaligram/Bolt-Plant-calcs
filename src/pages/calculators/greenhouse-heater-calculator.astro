@@ -2,12 +2,14 @@
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 import GreenhouseHeaterCalculator from '../../components/calculators/GreenhouseHeaterCalculator.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
 
 const calculator = getCalculator('greenhouse-heater-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
 
 const lastUpdated = '2026-07-11';
 const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
@@ -170,6 +172,14 @@ const softwareAppJsonLd = {
 
   <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
   <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnetForm
+    client:load
+    listId={leadMagnet.listId}
+    clusterName={leadMagnet.clusterName}
+    icon={leadMagnet.icon}
+    description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+  />
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
     <h2 id="how-is-greenhouse-heat-loss-calculated">How Is Greenhouse Heat Loss Calculated?</h2>

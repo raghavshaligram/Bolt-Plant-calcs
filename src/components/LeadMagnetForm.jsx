@@ -1,5 +1,5 @@
 import { useId, useState } from 'react';
-import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous } from 'lucide-react';
+import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous, Thermometer } from 'lucide-react';
 
 // Maps the string icon name coming from leadMagnetConfig (src/data/calculators.ts)
 // to the actual lucide-react component. A string is what crosses the Astro
@@ -13,6 +13,7 @@ const iconMap = {
   Sprout,
   Flower2,
   TreeDeciduous,
+  Thermometer,
 };
 
 /**

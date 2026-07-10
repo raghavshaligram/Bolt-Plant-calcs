@@ -334,8 +334,7 @@ export const calculators: Calculator[] = [
 // Brevo lead-magnet listId + display label per cluster, shared by both the
 // cluster landing pages and the individual calculator pages so every signup
 // form on the site (regardless of which page it renders on) submits to the
-// same list for a given cluster. hydroponics-and-greenhouse is intentionally
-// excluded -- it has zero live calculators and no cluster page form yet.
+// same list for a given cluster.
 // `icon` is a lucide-react export name (string, not a component reference --
 // Astro can only serialize JSON-safe prop values across the client:load
 // hydration boundary, so LeadMagnetForm.jsx looks this string up in its own
@@ -348,6 +347,7 @@ export const leadMagnetConfig: Record<string, { listId: number; clusterName: str
   'lawn-and-landscaping': { listId: 9, clusterName: 'Lawn & Landscaping', icon: 'Sprout' },
   'indoor-plants': { listId: 10, clusterName: 'Indoor Plants', icon: 'Flower2' },
   'trees-and-shrubs': { listId: 11, clusterName: 'Trees & Shrubs', icon: 'TreeDeciduous' },
+  'hydroponics-and-greenhouse': { listId: 12, clusterName: 'Hydroponics & Greenhouse', icon: 'Thermometer' },
 };
 
 export function getCluster(slug: string): Cluster | undefined {
