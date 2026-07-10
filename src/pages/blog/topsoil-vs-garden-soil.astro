@@ -1,0 +1,195 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BylineRow from '../../components/BylineRow.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+
+const title = 'Topsoil vs. Garden Soil: What’s the Difference?';
+const description =
+  "Topsoil and garden soil aren't the same thing. Here's the real difference, and which one your project actually needs.";
+
+const lastUpdated = '2026-07-10';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const ogImagePath = '/topsoil-vs-garden-soil-comparison.webp';
+const shareImage = new URL(ogImagePath, Astro.site).href;
+const canonicalUrl = new URL('/blog/topsoil-vs-garden-soil/', Astro.site).href;
+
+const tocItems = [
+  { id: 'what-is-topsoil', label: 'What Is Topsoil?', icon: 'leaf' as const },
+  { id: 'what-is-garden-soil', label: 'What Is Garden Soil?', icon: 'leaf' as const },
+  { id: 'when-should-you-use-each-one', label: 'When to Use Each', icon: 'grid' as const },
+  { id: 'what-is-screened-topsoil', label: 'What Is Screened Topsoil?', icon: 'table' as const },
+  { id: 'how-much-do-you-need', label: 'How Much Do You Need?', icon: 'question' as const },
+];
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: shareImage,
+  datePublished: lastUpdated,
+  dateModified: lastUpdated,
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: 'https://harvestmath.com/blog/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: title,
+      item: canonicalUrl,
+    },
+  ],
+};
+---
+
+<Layout title={title} description={description} rawTitle ogImage={ogImagePath}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+
+  <!-- Hero band: breadcrumb + H1 + byline row -->
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-7 sm:py-9">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/blog/" class="hover:text-moss-800">Blog</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Topsoil vs. Garden Soil</span>
+      </nav>
+
+      <h1 class="mt-3 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
+        Topsoil vs. Garden Soil: What&rsquo;s the Difference?
+      </h1>
+
+      <BylineRow
+        authorName={authorName}
+        authorUrl={authorUrl}
+        lastUpdated={lastUpdated}
+        shareTitle={title}
+        shareDescription={description}
+        shareImage={shareImage}
+      />
+    </div>
+  </section>
+
+  <!-- Two-column main area: article content left, sidebar right -->
+  <div class="container-wide py-6 sm:py-8">
+    <div class="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+      <div class="min-w-0">
+        <p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg">
+          No &mdash; garden soil and topsoil are not the same thing. Topsoil is unamended native soil, dug or stripped from the uppermost layer of the ground. Garden soil is topsoil blended with compost and other amendments specifically so plants can grow in it. Mixing them up is the most common reason a new bed either compacts hard as concrete or costs way more than it needed to.
+        </p>
+
+        <!-- Mobile TOC accordion — shown above content on mobile, hidden on desktop -->
+        <TableOfContents items={tocItems} variant="accordion" />
+
+        <img
+          src="/topsoil-vs-garden-soil-comparison.webp"
+          alt="Side-by-side comparison of plain topsoil and amended garden soil"
+          width="1200"
+          height="675"
+          loading="eager"
+          class="mt-2 w-full rounded-2xl border border-moss-100"
+        />
+
+        <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+          <h2 id="what-is-topsoil">What Is Topsoil?</h2>
+          <p>
+            Topsoil is exactly what it sounds like &mdash; the top layer of native ground, typically the first 2&ndash;12 inches, where most biological activity and organic matter naturally accumulate. Bulk and bagged topsoil sold at garden centers is usually stripped from a field or excavation site, then sold with little to no amendment. It&rsquo;s a raw material, not a finished growing medium: it may contain clay, sand, rocks, weed seeds, or debris depending on where it was sourced, and its fertility varies widely because nothing has been added to standardize it.
+          </p>
+
+          <h2 id="what-is-garden-soil">What Is Garden Soil?</h2>
+          <p>
+            Garden soil starts from topsoil (or a similar base) and adds compost, aged manure, or other organic matter specifically to make it suitable for planting. The blending improves drainage, adds nutrients, and creates a looser structure that plant roots can actually move through. Bagged &ldquo;garden soil&rdquo; products are formulated this way on purpose &mdash; it costs more than plain topsoil because it&rsquo;s a finished, ready-to-plant product rather than a raw material.
+          </p>
+
+          <h2 id="when-should-you-use-each-one">When Should You Use Each One?</h2>
+          <p>
+            The distinction comes down to <strong>filling</strong> versus <strong>planting</strong>:
+          </p>
+          <ul>
+            <li><strong>Use topsoil</strong> for grading, filling low spots in a lawn, building up a large volume under a raised bed before a thinner layer of better soil goes on top, or anywhere you need bulk fill and plants won&rsquo;t be rooting directly in it.</li>
+            <li><strong>Use garden soil</strong> (or topsoil blended with compost yourself) for raised beds, containers, and any spot where you&rsquo;re planting directly &mdash; vegetables, annuals, perennials all do better in an amended mix than in plain topsoil alone.</li>
+          </ul>
+          <p>
+            A common, cost-effective approach for a deep raised bed: fill the bottom two-thirds with plain topsoil (cheaper, and roots won&rsquo;t reach it right away), then top the last several inches with garden soil or a topsoil-compost blend where seeds and transplants actually go in.
+          </p>
+
+          <h2 id="what-is-screened-topsoil">What Is Screened Topsoil?</h2>
+          <img
+            src="/screened-topsoil-texture-example.webp"
+            alt="Screened topsoil showing fine, debris-free texture"
+            width="1000"
+            height="750"
+            loading="lazy"
+            class="my-6 w-full rounded-2xl border border-moss-100"
+          />
+          <p>
+            Screened topsoil has been passed through a mesh screen to remove rocks, roots, clumps, and other debris, leaving a finer, more uniform texture. It costs more than unscreened topsoil because of the extra processing step, but it&rsquo;s worth it anywhere a smooth, workable finish matters &mdash; leveling a lawn before seeding, filling around delicate plantings, or any surface you&rsquo;ll be working by hand. For deep bulk fill where nobody will ever touch the material directly, unscreened topsoil does the job for less money.
+          </p>
+
+          <h2 id="how-much-do-you-need">How Much Do You Need?</h2>
+          <p>
+            Once you know which one you need, the next question is volume. If you&rsquo;re ordering plain fill topsoil in bulk, <a href="/calculators/topsoil-calculator/">our Topsoil Calculator converts your area and depth into cubic yards and tons</a>. If you&rsquo;re building a raised bed specifically for planting, <a href="/calculators/raised-bed-soil-calculator/">the Raised Bed Soil Calculator handles the standard topsoil-compost-perlite blend ratio for you</a>. And if you&rsquo;re filling containers, an irregular bed, or need the answer in liters as well as cubic feet, <a href="/calculators/soil-volume-calculator/">the Soil Volume Calculator covers rectangular and cylindrical spaces alike</a>.
+          </p>
+
+          <LeadMagnet variant="compact" clusterTag="soil-cluster" />
+
+          <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+          <p>
+            For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+          </p>
+
+          <p class="mt-12 text-sm text-bark-500">
+            Last updated: {formattedDate}.
+          </p>
+        </article>
+      </div>
+
+      <!-- Right column: sticky sidebar TOC (desktop only) -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+          <TableOfContents items={tocItems} variant="sidebar" />
+        </div>
+      </aside>
+    </div>
+  </div>
+</Layout>
