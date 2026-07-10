@@ -24,9 +24,52 @@ const iconPaths: Record<string, string> = {
   hydro: 'M12 3v18M5 7h14v6H5zM7 13v4h10v-4',
   tree: 'M12 2c-3 4-6 8-6 12a6 6 0 0 0 12 0c0-4-3-8-6-12ZM12 22v-6',
 };
+
+// The Soil & Amendments cluster has been built out into a genuine content pillar
+// (original written guide + calculator directory), not just a listing page.
+// Other clusters keep the plain directory layout for now.
+const isPillar = cluster.slug === 'soil-and-amendments';
+
+const pillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
+const pillarDescription =
+  'The complete guide to topsoil, garden soil, compost, and mulch — what each one does, when to use it, and calculators for the exact amount.';
+
+const pageTitle = isPillar ? pillarTitle : `${cluster.name} Calculators`;
+const pageDescription = isPillar ? pillarDescription : cluster.metaDescription;
+
+const clusterUrl = new URL(`/clusters/${cluster.slug}/`, Astro.site).href;
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: cluster.name, item: clusterUrl },
+  ],
+};
+
+const collectionPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: pillarTitle,
+  description: pillarDescription,
+  url: clusterUrl,
+  about: { '@type': 'Thing', name: 'Soil and garden amendments' },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: liveCalculators.map((calc, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: calc.title,
+      url: new URL(calc.href, Astro.site).href,
+    })),
+  },
+};
 ---
 
-<Layout title={`${cluster.name} Calculators`} description={cluster.metaDescription}>
+<Layout title={pageTitle} description={pageDescription} rawTitle={isPillar}>
+  {isPillar && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />}
+  {isPillar && <script type="application/ld+json" set:html={JSON.stringify(collectionPageJsonLd)} slot="head" />}
   <section class="border-b border-moss-100 bg-moss-50/60">
     <div class="container-wide py-12 sm:py-16">
       <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
@@ -52,6 +95,54 @@ const iconPaths: Record<string, string> = {
       </div>
     </div>
   </section>
+
+  {isPillar && (
+    <section class="container-wide py-12 sm:py-16">
+      <article class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+        <p>
+          Every raised bed, lawn repair, or new planting starts with the same question: what actually goes in the ground? Four materials do almost all of the work &mdash; topsoil, garden soil, compost, and mulch &mdash; and they are not interchangeable, even though garden centers sometimes blur the lines between them.
+        </p>
+        <p>
+          Topsoil is unamended native soil, the uppermost layer of the ground with no compost or other organic matter added. It&rsquo;s a raw material, used mainly for bulk fill: leveling low spots, building volume under a raised bed, or grading before sod goes down. Garden soil starts from topsoil and adds compost and other organic matter specifically so plants can root and grow in it &mdash; it&rsquo;s the material that actually goes where seeds and transplants will live. Compost is a soil amendment in its own right: fully decomposed organic matter that feeds soil biology and improves structure, whether it&rsquo;s blended into a bed at planting time or spread as a thin top-dressing on an established one. Mulch sits on top of the soil rather than in it &mdash; bark, wood chips, or a similar material spread over the surface to hold moisture, block weeds, and moderate soil temperature.
+        </p>
+        <p>
+          A real project usually uses more than one of these in sequence. A new raised bed gets filled with bulk topsoil for depth, then a topsoil-compost blend near the surface for planting; compost gets worked in seasonally to keep feeding the soil; mulch goes on top once everything&rsquo;s planted to cut down on watering and weeding. Knowing which material does which job &mdash; and how much of it you actually need &mdash; is most of what separates a bed that thrives from one that fights you all season. That&rsquo;s what the tools and guides below are built to answer.
+        </p>
+
+        <h2 id="choosing-the-right-material">Choosing the Right Material</h2>
+        <p>
+          The short version: use <strong>topsoil</strong> for bulk fill where roots won&rsquo;t be growing directly &mdash; leveling, grading, building volume under a bed. Use <strong>garden soil</strong> (topsoil blended with compost) anywhere you&rsquo;re planting directly, since straight topsoil alone compacts too hard and holds too few nutrients for most vegetables and ornamentals. Use <strong>compost</strong> on its own when you&rsquo;re feeding soil that&rsquo;s already in place &mdash; worked into the top few inches of an existing bed, or blended into new soil at a lower ratio than a full garden-soil mix.
+        </p>
+        <p>
+          For the full breakdown, including a side-by-side comparison and specific blend ratios, see our <a href="/blog/topsoil-vs-garden-soil/">complete guide to topsoil vs. garden soil</a>. Once you know which material you need, the <a href="/calculators/topsoil-calculator/">Topsoil Calculator</a> and <a href="/calculators/raised-bed-soil-calculator/">Raised Bed Soil Calculator</a> convert your area and depth into the cubic yards, tons, or bags you&rsquo;ll actually order.
+        </p>
+
+        <h2 id="filling-a-raised-bed">Filling a Raised Bed</h2>
+        <p>
+          Depth is the first decision: most raised beds want 8&ndash;12 inches of soil, though shallow crops can get away with less if the bed sits on native ground rather than a hard surface. From there it&rsquo;s a volume problem &mdash; length &times; width &times; depth, converted into whatever unit your supplier quotes in.
+        </p>
+        <p>
+          The <a href="/calculators/raised-bed-soil-calculator/">Raised Bed Soil Calculator</a> handles standard bed sizes and the topsoil-compost-perlite blend ratio directly. For containers, pots, or any bed that isn&rsquo;t a simple rectangle, the <a href="/calculators/soil-volume-calculator/">Soil Volume Calculator</a> covers rectangular and cylindrical spaces alike, including irregular footprints you can break into simpler shapes.
+        </p>
+
+        <h2 id="mulching-and-top-dressing">Mulching and Top-Dressing</h2>
+        <p>
+          Once a bed is planted, both mulch and compost can go on top of the soil rather than into it &mdash; mulch mainly for moisture retention and weed suppression, compost top-dressing to feed soil biology without disturbing roots. A standard mulch layer is 2&ndash;3 inches of bark or wood chips, kept a few inches clear of any trunk or stem. A compost top-dressing is thinner, usually 1&ndash;3 inches, since it&rsquo;s meant to be worked in gently rather than piled deep.
+        </p>
+        <p>
+          The <a href="/calculators/mulch-calculator/">Mulch Calculator</a> converts your bed size and depth into cubic yards and bags for a mulch layer. We&rsquo;re also working on a dedicated guide comparing organic mulches like bark and wood chips against inorganic options like rubber and stone &mdash; check back soon.
+        </p>
+
+        <h2 id="composting-basics">Composting Basics</h2>
+        <p>
+          Finished compost is fully decomposed organic matter &mdash; dark, crumbly, and earthy-smelling &mdash; that improves soil structure and feeds plant-available nutrients as it continues breaking down. It&rsquo;s built from a rough mix of nitrogen-rich &ldquo;greens&rdquo; (kitchen scraps, fresh grass clippings) and carbon-rich &ldquo;browns&rdquo; (dry leaves, cardboard, straw), generally 2&ndash;3 parts browns to 1 part greens by volume. Unfinished compost &mdash; still actively decomposing &mdash; should go into the soil weeks before planting, not right at transplant time, since the decomposition process temporarily ties up soil nitrogen.
+        </p>
+        <p>
+          Compost gets used two ways in this cluster: blended into new bed soil at roughly 30% of the total volume, or top-dressed onto an existing bed at 1&ndash;3 inches. The <a href="/calculators/compost-calculator/">Compost Calculator</a> handles both, along with bag counts and estimated weight for whatever you&rsquo;re hauling.
+        </p>
+      </article>
+    </section>
+  )}
 
   <section class="container-wide py-12 sm:py-16">
     {liveCalculators.length > 0 && (
