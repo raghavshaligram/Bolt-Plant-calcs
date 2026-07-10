@@ -196,6 +196,9 @@ const softwareAppJsonLd = {
     <p>
       It&rsquo;s important to be upfront about what this method is: <strong>an estimate, not an exact measurement</strong>. Growth factors are averages compiled from typical trees of that species; any individual tree&rsquo;s actual growth rate depends on soil quality, climate, sunlight, competition, and care. That&rsquo;s why the calculator above shows a <strong>range</strong> rather than one falsely-precise number. The only fully exact method is counting annual growth rings, which requires cutting the tree down or extracting a small core sample.
     </p>
+    <p>
+      One consistent bias to keep in mind: <strong>yard and urban trees tend to grow more slowly than trees of the same species in open woodland or forest conditions</strong>. Compacted soil, restricted root space, proximity to pavement and structures, and the general stress of an urban environment all limit annual diameter growth. Because most people using this calculator are measuring a yard tree, the true age is often <strong>somewhat older than the estimate</strong> &mdash; treat the upper end of the displayed range as the more likely value if your tree is in a tight, built-up setting.
+    </p>
 
     <h2 id="growth-factor-reference-table">Growth Factor Reference Table</h2>
     <p>
@@ -303,6 +306,20 @@ const softwareAppJsonLd = {
     </ul>
 
     <FAQBlock id="tree-age-calculator-faq" heading="Tree Age Calculator FAQ" faqs={faqs} />
+
+    <aside class="my-8 rounded-xl border border-moss-200 bg-moss-50/60 px-6 py-5">
+      <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-moss-700">Did you know?</p>
+      <h3 class="mt-0 mb-3 text-base font-semibold text-bark-900">How tree rings actually work</h3>
+      <p class="text-sm text-bark-700 leading-relaxed">
+        Each visible &ldquo;ring&rdquo; on a cut stump or core sample is actually <strong>two bands</strong>: a lighter, wider band of large cells laid down in spring and early summer when growth is fast, and a darker, denser band of smaller cells formed in late summer and fall as growth slows. The boundary between one year&rsquo;s dark band and the next year&rsquo;s light band is where you count the rings.
+      </p>
+      <p class="mt-3 text-sm text-bark-700 leading-relaxed">
+        Ring <strong>width</strong> is a record of growing conditions: a wide ring means the tree had a warm, wet year with plenty of resources; a thin ring points to drought, cold, or stress. This is the basis of <em>dendrochronology</em> &mdash; the science of using ring patterns to date wood and reconstruct past climates. Ring dating can even identify specific drought years or volcanic winters centuries ago.
+      </p>
+      <p class="mt-3 text-sm text-bark-500">
+        Note: ring counting only works on a felled stump or an increment borer core sample &mdash; it is not the method this calculator uses. The circumference method above estimates age without touching the living tree.
+      </p>
+    </aside>
 
     <LeadMagnet variant="compact" clusterTag="trees-cluster" />
 
