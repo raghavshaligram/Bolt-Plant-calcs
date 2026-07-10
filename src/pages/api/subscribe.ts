@@ -11,7 +11,13 @@ export const POST: APIRoute = async ({ request }) => {
   if (!email || !listId) {
     return new Response(JSON.stringify({ error: 'Missing email or listId' }), { status: 400 });
   }
-  const res = await fetch('https://api.brevo.com/v3/contacts/doubleOptinConfirmation', {
+  // Single opt-in: create/update the contact and add it straight to the list
+  // in one call, no confirmation email or click required. Switched from
+  // /v3/contacts/doubleOptinConfirmation per
+  // https://developers.brevo.com/docs/synchronise-contact-lists --
+  // updateEnabled:true makes this an upsert, so a returning email doesn't
+  // error out, it just gets re-added to the list.
+  const res = await fetch('https://api.brevo.com/v3/contacts', {
     method: 'POST',
     headers: {
       'api-key': import.meta.env.BREVO_API_KEY,
@@ -20,12 +26,11 @@ export const POST: APIRoute = async ({ request }) => {
     },
     body: JSON.stringify({
       email,
-      includeListIds: [listId],
-      templateId: 2,
-      redirectionUrl: 'https://harvestmath.com/?subscribed=true',
+      listIds: [listId],
+      updateEnabled: true,
     }),
   });
-  if (res.status === 204 || res.status === 201) {
+  if (res.status === 200 || res.status === 201 || res.status === 204) {
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   }
   const data = await res.json().catch(() => ({}));

@@ -50,10 +50,10 @@ export default function LeadMagnetForm({ listId, clusterName }) {
           className="text-lg font-semibold text-[#F5F1E8]"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
-          Check your inbox!
+          You’re subscribed!
         </p>
         <p className="mt-1.5 font-sans text-sm leading-relaxed text-[#F5F1E8]">
-          Confirm your email and we’ll send the {clusterName} Cheat Sheet.
+          The {clusterName} Cheat Sheet is on its way to your inbox.
         </p>
       </div>
     );
