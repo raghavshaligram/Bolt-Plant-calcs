@@ -323,14 +323,18 @@ export const calculators: Calculator[] = [
 // form on the site (regardless of which page it renders on) submits to the
 // same list for a given cluster. hydroponics-and-greenhouse is intentionally
 // excluded -- it has zero live calculators and no cluster page form yet.
-export const leadMagnetConfig: Record<string, { listId: number; clusterName: string }> = {
-  'soil-and-amendments': { listId: 5, clusterName: 'Soil & Raised Bed Mix' },
-  'fertilizer-and-nutrients': { listId: 6, clusterName: 'Fertilizer & Nutrients' },
-  'watering-and-irrigation': { listId: 7, clusterName: 'Watering & Irrigation' },
-  'spacing-and-planting': { listId: 8, clusterName: 'Spacing & Planting' },
-  'lawn-and-landscaping': { listId: 9, clusterName: 'Lawn & Landscaping' },
-  'indoor-plants': { listId: 10, clusterName: 'Indoor Plants' },
-  'trees-and-shrubs': { listId: 11, clusterName: 'Trees & Shrubs' },
+// `icon` is a lucide-react export name (string, not a component reference --
+// Astro can only serialize JSON-safe prop values across the client:load
+// hydration boundary, so LeadMagnetForm.jsx looks this string up in its own
+// icon map rather than receiving a component/function directly).
+export const leadMagnetConfig: Record<string, { listId: number; clusterName: string; icon: string }> = {
+  'soil-and-amendments': { listId: 5, clusterName: 'Soil & Raised Bed Mix', icon: 'Shovel' },
+  'fertilizer-and-nutrients': { listId: 6, clusterName: 'Fertilizer & Nutrients', icon: 'FlaskConical' },
+  'watering-and-irrigation': { listId: 7, clusterName: 'Watering & Irrigation', icon: 'Droplets' },
+  'spacing-and-planting': { listId: 8, clusterName: 'Spacing & Planting', icon: 'Ruler' },
+  'lawn-and-landscaping': { listId: 9, clusterName: 'Lawn & Landscaping', icon: 'Sprout' },
+  'indoor-plants': { listId: 10, clusterName: 'Indoor Plants', icon: 'Flower2' },
+  'trees-and-shrubs': { listId: 11, clusterName: 'Trees & Shrubs', icon: 'TreeDeciduous' },
 };
 
 export function getCluster(slug: string): Cluster | undefined {

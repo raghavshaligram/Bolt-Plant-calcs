@@ -1,4 +1,19 @@
 import { useId, useState } from 'react';
+import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous } from 'lucide-react';
+
+// Maps the string icon name coming from leadMagnetConfig (src/data/calculators.ts)
+// to the actual lucide-react component. A string is what crosses the Astro
+// client:load hydration boundary safely -- a component/function reference
+// can't be serialized as a prop, so the lookup happens here instead.
+const iconMap = {
+  Shovel,
+  FlaskConical,
+  Droplets,
+  Ruler,
+  Sprout,
+  Flower2,
+  TreeDeciduous,
+};
 
 /**
  * Custom-styled email capture form that posts to our own /api/subscribe route,
@@ -22,7 +37,7 @@ import { useId, useState } from 'react';
  *   cream #F5F1E8 · sun gold #E8A94A
  *   Headings: Playfair Display · Body/UI: Inter
  */
-export default function LeadMagnetForm({ listId, clusterName, description }) {
+export default function LeadMagnetForm({ listId, clusterName, description, icon }) {
   const inputId = useId();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
@@ -79,12 +94,20 @@ export default function LeadMagnetForm({ listId, clusterName, description }) {
         </div>
       ) : (
         <>
-          <h3
-            className="text-lg font-semibold text-[#3D6647]"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            Get the free cheat sheet
-          </h3>
+          <div className="flex items-center gap-3">
+            {icon && iconMap[icon] && (
+              (() => {
+                const Icon = iconMap[icon];
+                return <Icon className="h-7 w-7 shrink-0 text-[#3D6647]" aria-hidden="true" />;
+              })()
+            )}
+            <h3
+              className="text-lg font-semibold text-[#3D6647]"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              Get the free cheat sheet
+            </h3>
+          </div>
           <p className="mt-2 mb-5 font-sans text-sm leading-relaxed text-[#5C4433]">
             {cheatSheetDescription}
           </p>

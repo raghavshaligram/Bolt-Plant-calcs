@@ -1,8 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import { clusters, getCluster, getCalculatorsForCluster, leadMagnetConfig } from '../../data/calculators';
+import { clusters, getCluster, getCalculatorsForCluster } from '../../data/calculators';
 
 export function getStaticPaths() {
   return clusters.map((cluster) => ({
@@ -32,11 +31,6 @@ const iconPaths: Record<string, string> = {
 // Other clusters keep the plain directory layout for now.
 const isPillar = cluster.slug === 'soil-and-amendments';
 
-// leadMagnetConfig now lives in src/data/calculators.ts, shared with
-// CalculatorLayout.astro so cluster pages and calculator pages submit to the
-// same Brevo list per cluster. This site has no separate file per cluster
-// landing page — all 8 clusters are generated from this one dynamic route.
-const leadMagnet = leadMagnetConfig[cluster.slug];
 
 // TOC + sticky-sidebar layout (same TableOfContents component used on
 // calculator pages) -- only meaningful for the Soil & Amendments pillar
@@ -347,16 +341,4 @@ const collectionPageJsonLd = {
     </section>
   )}
 
-  {leadMagnet && (
-    <section class="border-t border-moss-100">
-      <div class="container-wide py-12 sm:py-16">
-        <LeadMagnetForm
-          client:load
-          listId={leadMagnet.listId}
-          clusterName={leadMagnet.clusterName}
-          description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
-        />
-      </div>
-    </section>
-  )}
 </Layout>
