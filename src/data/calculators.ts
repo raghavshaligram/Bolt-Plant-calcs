@@ -303,6 +303,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/grow-light-calculator/',
     status: 'live',
   },
+  {
+    slug: 'vegetable-yield-calculator',
+    title: 'Vegetable Yield Calculator',
+    shortTitle: 'Vegetable Yield',
+    description:
+      'Estimate how much food your garden will produce, by crop and either plant count or growing area, using published yield data.',
+    metaDescription:
+      'Estimate how much food your garden will produce, by crop and area, using published yield data. Free calculator.',
+    seoTitle: 'Vegetable Yield Calculator - By Crop & Area (Free)',
+    cluster: 'spacing-and-planting',
+    href: '/calculators/vegetable-yield-calculator/',
+    status: 'live',
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {

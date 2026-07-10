@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A harvest basket of tomatoes, peppers, and carrots next to a garden row, illustrating estimated vegetable yield">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+  <path d="M0 190 Q200 155 400 175 T800 180 V210 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+  <circle cx="700" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+
+  <!-- Garden row with plants, background -->
+  <g opacity="0.9">
+    <g transform="translate(120,300)">
+      <rect x="-10" y="60" width="20" height="30" fill="#6B7A56"/>
+      <path d="M0 60 Q-20 30 -16 0 Q0 20 0 60Z" fill="#6B8E4E"/>
+      <path d="M0 60 Q20 26 14 -6 Q2 16 0 60Z" fill="#7FA05C"/>
+      <circle cx="-6" cy="30" r="7" fill="#B5432F"/>
+      <circle cx="8" cy="20" r="7" fill="#C9502F"/>
+    </g>
+    <g transform="translate(230,310)">
+      <rect x="-10" y="50" width="20" height="30" fill="#6B7A56"/>
+      <path d="M0 50 Q-18 24 -12 -6 Q2 16 0 50Z" fill="#6B8E4E"/>
+      <circle cx="0" cy="14" r="10" fill="#B5652F"/>
+    </g>
+  </g>
+
+  <!-- Harvest basket, foreground center -->
+  <g transform="translate(330,280)">
+    <path d="M0 90 L30 170 H240 L270 90 Z" fill="#B5652F"/>
+    <path d="M0 90 L270 90 L255 70 H15 Z" fill="#C97A3D"/>
+    <g stroke="#8C4A22" stroke-width="3" fill="none">
+      <line x1="40" y1="90" x2="52" y2="170"/>
+      <line x1="90" y1="90" x2="96" y2="170"/>
+      <line x1="140" y1="90" x2="140" y2="170"/>
+      <line x1="190" y1="90" x2="184" y2="170"/>
+      <line x1="230" y1="90" x2="220" y2="170"/>
+    </g>
+    <!-- produce piled in basket -->
+    <circle cx="60" cy="55" r="26" fill="#C9502F"/>
+    <circle cx="110" cy="45" r="30" fill="#D65A38"/>
+    <circle cx="165" cy="52" r="27" fill="#C9502F"/>
+    <ellipse cx="205" cy="60" rx="22" ry="26" fill="#E8A23C"/>
+    <ellipse cx="45" cy="35" rx="10" ry="30" fill="#E8792E" transform="rotate(-15 45 35)"/>
+    <ellipse cx="220" cy="35" rx="9" ry="26" fill="#6B8E4E" transform="rotate(20 220 35)"/>
+    <g fill="#3A4A2A" opacity="0.7">
+      <path d="M60 30 q4 -10 10 -12" stroke="#3A4A2A" stroke-width="2" fill="none"/>
+      <path d="M110 16 q4 -10 10 -12" stroke="#3A4A2A" stroke-width="2" fill="none"/>
+      <path d="M165 26 q4 -10 10 -12" stroke="#3A4A2A" stroke-width="2" fill="none"/>
+    </g>
+  </g>
+
+  <!-- Weight/scale readout, right side -->
+  <g transform="translate(600,300)">
+    <rect x="0" y="0" width="140" height="90" rx="10" fill="#F5F1E8" stroke="#3A4A2A" stroke-width="2"/>
+    <text x="70" y="30" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#3A4A2A" text-anchor="middle">Est. yield</text>
+    <text x="70" y="62" font-family="Inter, sans-serif" font-size="26" font-weight="700" fill="#6B8E4E" text-anchor="middle">30 lbs</text>
+  </g>
+</svg>
