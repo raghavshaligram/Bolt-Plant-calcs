@@ -196,6 +196,9 @@ const softwareAppJsonLd = {
     <p>
       Either way, this tool is scoped to <strong>home garden drip systems</strong>: figuring out run time and water delivered for a zone you already have. It doesn&rsquo;t size main-line pipe, calculate pressure loss over distance, or plan laterals per acre &mdash; that&rsquo;s professional irrigation design work, outside what a homeowner-level calculator like this one should attempt.
     </p>
+    <p>
+      One important limitation to keep in mind: <strong>run time calculated from flow rate alone doesn&rsquo;t account for how fast your soil can actually absorb water</strong>. Soil has a maximum infiltration rate &mdash; the speed at which it can take in water before the surface saturates and runoff begins. Clay soil absorbs water slowly, roughly <strong>0.1&ndash;0.5 inches per hour</strong>; sandy or loamy soil absorbs much faster, often 1&ndash;3+ inches per hour. If your emitters are delivering water faster than your soil can absorb it, you&rsquo;re not watering more effectively &mdash; you&rsquo;re generating surface runoff that never reaches the root zone. In that case, the calculated run time is still correct as a total-volume target; the question is how to deliver it without exceeding the soil&rsquo;s absorption rate.
+    </p>
 
     <h2 id="common-emitter-flow-rates-reference">Common Emitter Flow Rates Reference</h2>
     <p>
@@ -235,7 +238,7 @@ const softwareAppJsonLd = {
     <h2 id="common-mistakes">Common Mistakes</h2>
     <ul>
       <li><strong>Mixing emitter flow rates on one line.</strong> A 0.5 GPH and a 4 GPH emitter on the same zone, run for the same amount of time, deliver wildly different amounts of water &mdash; match flow rates within a zone, or run mismatched plants on separate zones.</li>
-      <li><strong>Not accounting for soil type and drainage.</strong> The same run time delivers water very differently in clay versus sand &mdash; slower flow rates and longer run times suit clay, while sandy soil needs faster delivery before water drains below the root zone.</li>
+      <li><strong>Not accounting for soil infiltration rate.</strong> The same calculated run time delivers water very differently in clay versus sand. Clay soil has a low infiltration rate (roughly 0.1&ndash;0.5 inches per hour) &mdash; running emitters longer than the soil can absorb causes surface runoff rather than deeper root-zone delivery. For clay or other slow-draining soils, consider splitting the calculated run time into <strong>2&ndash;3 shorter cycles with a 30&ndash;60 minute pause in between</strong> (a &ldquo;cycle and soak&rdquo; approach). The pauses let water from the first cycle move deeper into the profile before you add more, so the full volume actually reaches the root zone instead of running off the surface. Sandy soil works in the opposite direction: it drains fast, so delivering water quickly with higher-flow emitters or more frequent short cycles prevents it from draining below the root zone before plants can use it.</li>
       <li><strong>Running too short or too long.</strong> A short run time can leave water sitting in the top inch of soil, encouraging shallow roots; an overly long one can waterlog the root zone or waste water past what the plant can use. Match run time to an actual target amount, not a habit.</li>
       <li><strong>Ignoring seasonal adjustment.</strong> A run time that&rsquo;s right in July heat is very likely too much in cooler spring or fall weather &mdash; recalculate for the season instead of leaving the timer on one setting year-round.</li>
     </ul>
