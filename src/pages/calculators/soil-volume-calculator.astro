@@ -44,7 +44,7 @@ const faqs = [
   },
   {
     q: 'How much does a cubic foot of soil weigh?',
-    a: 'It varies a lot by mix and moisture. Dry potting mix: 20\u201325 lbs per cubic foot. Moist all-purpose garden or raised bed mix: 35\u201350 lbs. Dense topsoil: 70\u201380 lbs. This calculator estimates ~40 lbs/cu ft as a midpoint \u2014 useful for planning, not for ordering by weight. If you\u2019re ordering topsoil by the ton, use the Topsoil Calculator, which uses the industry standard of ~88.9 lbs/cu ft (1.2 tons per cubic yard) for moist topsoil delivery.',
+    a: 'It varies a lot by material and moisture. Dry potting mix: 20\u201325 lbs per cubic foot. Garden soil (topsoil amended with compost and other organic matter) is lighter than most people assume \u2014 roughly 1,800\u20132,200 lbs per cubic yard, or about 67\u201381 lbs per cubic foot. Dense, unamended topsoil runs heavier than garden soil, since it\u2019s mostly mineral material with less organic matter and pore space. This calculator estimates ~40 lbs/cu ft as a midpoint, tuned toward potting mix and lighter garden-soil blends \u2014 useful for planning, not for ordering by weight. If you\u2019re ordering topsoil by the ton, use the Topsoil Calculator, which uses ~88.9 lbs/cu ft (1.2 tons per cubic yard) as its baseline estimate, with a real range up to ~1.7 tons/cu yd if wet or compacted.',
   },
   {
     q: 'Can I convert cubic feet to square feet?',
@@ -187,8 +187,14 @@ const softwareAppJsonLd = {
     <p>
       Use this calculator when you&rsquo;re filling containers (cylindrical pots, fabric grow bags, half-barrels) or when you need liters alongside cubic feet. If you&rsquo;re only filling standard rectangular raised beds, a dedicated Raised Bed Soil Calculator offers common size presets. If you&rsquo;re ordering bulk topsoil by the truckload and need tons &mdash; the unit suppliers actually quote in &mdash; the <a href="/calculators/topsoil-calculator/">Topsoil Calculator</a> is the right tool.
     </p>
+
+    <h3>Irregular, L-Shaped, or U-Shaped Beds</h3>
     <p>
-      Weight varies widely by mix: dry potting mix runs 20&ndash;25 lbs per cubic foot, while moist garden soil can hit 70&ndash;80 lbs. Plan for this if you&rsquo;re moving bags up stairs, onto a roof deck, or into a container that can&rsquo;t bear much load. The weight estimate in this calculator uses ~40 lbs/cu ft as a midpoint &mdash; useful for planning logistics, not for ordering by the ton.
+      This calculator handles simple rectangles and cylinders directly, but most L-shaped, U-shaped, or otherwise irregular beds can still be measured with it &mdash; just not in a single pass. Break the footprint into <strong>2&ndash;3 simple rectangles</strong> (an L-shaped bed is almost always just two rectangles that share an edge; a U-shape is usually three). Measure and calculate each section separately using the Rectangle mode above, then <strong>add the resulting volumes together</strong> for your total. It takes a few extra minutes of measuring, but it&rsquo;s far more accurate than trying to estimate one odd shape by eye.
+    </p>
+
+    <p>
+      Weight varies as much by material as by moisture. Light, aerated potting mix runs 20&ndash;25 lbs per cubic foot when dry. Garden soil &mdash; topsoil amended with compost and other organic matter &mdash; is denser than potting mix but still noticeably lighter than plain topsoil: roughly <strong>1,800&ndash;2,200 lbs per cubic yard</strong> (about 67&ndash;81 lbs per cubic foot). Dense, unamended topsoil runs heavier again, since it&rsquo;s mostly mineral material with less pore space; see the <a href="/calculators/topsoil-calculator/">Topsoil Calculator</a> for that range if that&rsquo;s what you&rsquo;re filling with. This calculator&rsquo;s weight estimate uses ~40 lbs/cu ft as a midpoint tuned toward potting mix &mdash; if you&rsquo;re actually calculating volume for garden soil or topsoil, expect the real weight to run higher than what&rsquo;s shown above. Useful either way for planning logistics, not for ordering by the ton.
     </p>
 
     <h2 id="worked-example">Worked Example</h2>
@@ -203,7 +209,7 @@ const softwareAppJsonLd = {
       <li><strong>Cubic feet:</strong> 32 &times; 0.833 = <strong>26.7 cu ft</strong>.</li>
       <li><strong>Cubic yards:</strong> 26.7 &divide; 27 = <strong>0.99 cu yd</strong> (round to 1 yard for bulk ordering).</li>
       <li><strong>Liters:</strong> 26.7 &times; 28.32 = <strong>755 L</strong>.</li>
-      <li><strong>Est. weight:</strong> 26.7 &times; 40 lbs &asymp; <strong>1,067 lbs</strong> (varies by mix).</li>
+      <li><strong>Est. weight:</strong> 26.7 &times; 40 lbs &asymp; <strong>1,067 lbs</strong> (this uses the calculator&rsquo;s potting-mix-weighted estimate &mdash; garden soil or topsoil filling the same bed would weigh noticeably more; see the note above).</li>
     </ol>
 
     <h3>Example 2: Round pot (12&Prime; diameter, 8&Prime; fill depth)</h3>
