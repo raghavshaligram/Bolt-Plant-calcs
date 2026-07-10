@@ -348,15 +348,14 @@ const collectionPageJsonLd = {
   )}
 
   {leadMagnet && (
-    <section class="border-t border-moss-100 bg-moss-50/60">
+    <section class="border-t border-moss-100">
       <div class="container-wide py-12 sm:py-16">
-        <h2 class="font-display text-2xl font-semibold text-bark-900">Get the free cheat sheet</h2>
-        <p class="mt-2 max-w-2xl text-sm leading-relaxed text-bark-600">
-          A one-page PDF of the {cluster.name.toLowerCase()} math from this site, emailed once.
-        </p>
-        <div class="mt-6">
-          <LeadMagnetForm client:load listId={leadMagnet.listId} clusterName={leadMagnet.clusterName} />
-        </div>
+        <LeadMagnetForm
+          client:load
+          listId={leadMagnet.listId}
+          clusterName={leadMagnet.clusterName}
+          description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+        />
       </div>
     </section>
   )}
