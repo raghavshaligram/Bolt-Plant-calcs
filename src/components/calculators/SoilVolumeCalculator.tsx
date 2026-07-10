@@ -11,6 +11,12 @@ const STORAGE_KEY = 'soil-volume-calculator-state-v1';
 const LBS_PER_CUBIC_FOOT = 40;
 const LITERS_PER_CUBIC_FOOT = 28.3168;
 
+// Standard retail potting mix bag sizes are labeled in US dry quarts.
+// 1 US dry quart = 0.038889 cu ft (1 cu ft ≈ 25.71 dry quarts) — the
+// conversion used across the potting soil industry.
+const CUFT_PER_DRY_QUART = 0.038889;
+const BAG_SIZES_QT = [8, 16, 25] as const;
+
 interface SavedState {
   shape: BedShape;
   unitSystem: UnitSystem;
@@ -131,7 +137,11 @@ export default function SoilVolumeCalculator() {
     const weightLbs = cubicFeet * LBS_PER_CUBIC_FOOT;
     const weightKg = weightLbs * 0.453592;
 
-    return { sqft, cubicFeet, cubicYards, cubicMeters, liters, weightLbs, weightKg, depthIn };
+    const bagCounts = Object.fromEntries(
+      BAG_SIZES_QT.map((qt) => [qt, cubicFeet > 0 ? Math.ceil(cubicFeet / (qt * CUFT_PER_DRY_QUART)) : 0]),
+    ) as Record<(typeof BAG_SIZES_QT)[number], number>;
+
+    return { sqft, cubicFeet, cubicYards, cubicMeters, liters, weightLbs, weightKg, depthIn, bagCounts };
   }, [shape, unitSystem, length, width, diameter, depth]);
 
   const hasResult = result.cubicFeet > 0;
@@ -203,6 +213,7 @@ export default function SoilVolumeCalculator() {
       `Cubic meters: ${round(result.cubicMeters, 3).toLocaleString()} m³`,
       `Liters: ${round(result.liters, 1).toLocaleString()} L`,
       `Est. weight: ~${round(result.weightLbs, 0).toLocaleString()} lbs (~${round(result.weightKg, 0).toLocaleString()} kg)`,
+      `Bags needed: ${BAG_SIZES_QT.map((qt) => `${result.bagCounts[qt]} × ${qt}qt`).join('  ·  ')}`,
     ];
     resultLines.forEach((line) => {
       doc.text(line, margin, y);
@@ -437,6 +448,22 @@ export default function SoilVolumeCalculator() {
                     <p className="mt-1 text-xs text-moss-300">
                       Liters useful for bag shopping
                     </p>
+                  </div>
+                </div>
+
+                <div className="border-t border-moss-100 bg-moss-50/60 px-4 py-3">
+                  <p className="text-xs font-medium uppercase tracking-wider text-bark-400">
+                    Or buy in bags (standard retail potting mix sizes)
+                  </p>
+                  <div className="mt-2 grid grid-cols-3 gap-2">
+                    {BAG_SIZES_QT.map((qt) => (
+                      <div key={qt} className="rounded-lg bg-white px-3 py-2 text-center ring-1 ring-moss-100">
+                        <p className="font-display text-lg font-bold text-moss-700">
+                          {result.bagCounts[qt].toLocaleString()}
+                        </p>
+                        <p className="text-xs text-bark-500">&times; {qt} qt bags</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
