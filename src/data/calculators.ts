@@ -318,6 +318,21 @@ export const calculators: Calculator[] = [
   },
 ];
 
+// Brevo lead-magnet listId + display label per cluster, shared by both the
+// cluster landing pages and the individual calculator pages so every signup
+// form on the site (regardless of which page it renders on) submits to the
+// same list for a given cluster. hydroponics-and-greenhouse is intentionally
+// excluded -- it has zero live calculators and no cluster page form yet.
+export const leadMagnetConfig: Record<string, { listId: number; clusterName: string }> = {
+  'soil-and-amendments': { listId: 5, clusterName: 'Soil & Raised Bed Mix' },
+  'fertilizer-and-nutrients': { listId: 6, clusterName: 'Fertilizer & Nutrients' },
+  'watering-and-irrigation': { listId: 7, clusterName: 'Watering & Irrigation' },
+  'spacing-and-planting': { listId: 8, clusterName: 'Spacing & Planting' },
+  'lawn-and-landscaping': { listId: 9, clusterName: 'Lawn & Landscaping' },
+  'indoor-plants': { listId: 10, clusterName: 'Indoor Plants' },
+  'trees-and-shrubs': { listId: 11, clusterName: 'Trees & Shrubs' },
+};
+
 export function getCluster(slug: string): Cluster | undefined {
   return clusters.find((c) => c.slug === slug);
 }
