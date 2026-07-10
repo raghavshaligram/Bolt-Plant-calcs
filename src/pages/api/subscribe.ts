@@ -22,7 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
       email,
       includeListIds: [listId],
       templateId: 2,
-      redirectionUrl: 'https://harvestmath.com/thank-you',
+      redirectionUrl: 'https://harvestmath.com/?subscribed=true',
     }),
   });
   if (res.status === 204 || res.status === 201) {
