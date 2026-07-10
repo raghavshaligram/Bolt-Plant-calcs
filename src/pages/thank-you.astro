@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const description =
+  'Thanks for subscribing to HarvestMath — confirm your email to get your free cheat sheet.';
+---
+
+<Layout title="Thank You" description={description} noindex>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-16 sm:py-24">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Thank You</span>
+      </nav>
+
+      <div class="mx-auto mt-8 max-w-xl text-center">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-moss-100 text-moss-700">
+          <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+        </div>
+
+        <h1 class="mt-5 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
+          You&rsquo;re confirmed!
+        </h1>
+        <p class="mt-3 text-base leading-relaxed text-bark-600 sm:text-lg">
+          Check your inbox for your cheat sheet. If you don&rsquo;t see it in a few minutes, take a look in spam or promotions &mdash; it comes from our sending address, not a personal email.
+        </p>
+
+        <a href="/" class="btn-primary mt-8 inline-flex">
+          Back to the homepage
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

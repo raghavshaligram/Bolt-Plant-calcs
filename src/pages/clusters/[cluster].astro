@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import { clusters, getCluster, getCalculatorsForCluster } from '../../data/calculators';
 
 export function getStaticPaths() {
@@ -29,6 +30,22 @@ const iconPaths: Record<string, string> = {
 // (original written guide + calculator directory), not just a listing page.
 // Other clusters keep the plain directory layout for now.
 const isPillar = cluster.slug === 'soil-and-amendments';
+
+// Note: this site has no separate file per cluster landing page — all 8 clusters
+// (including the 7 below) are generated from this one dynamic route. Mapping
+// slugs to their Brevo listId/label here reproduces "one form per cluster page"
+// without needing 7 separate files. hydroponics-and-greenhouse is intentionally
+// excluded (not in the requested list — it also has zero live calculators yet).
+const leadMagnetConfig: Record<string, { listId: number; clusterName: string }> = {
+  'soil-and-amendments': { listId: 5, clusterName: 'Soil & Raised Bed Mix' },
+  'fertilizer-and-nutrients': { listId: 6, clusterName: 'Fertilizer & Nutrients' },
+  'watering-and-irrigation': { listId: 7, clusterName: 'Watering & Irrigation' },
+  'spacing-and-planting': { listId: 8, clusterName: 'Spacing & Planting' },
+  'lawn-and-landscaping': { listId: 9, clusterName: 'Lawn & Landscaping' },
+  'indoor-plants': { listId: 10, clusterName: 'Indoor Plants' },
+  'trees-and-shrubs': { listId: 11, clusterName: 'Trees & Shrubs' },
+};
+const leadMagnet = leadMagnetConfig[cluster.slug];
 
 const pillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
 const pillarDescription =
@@ -186,4 +203,18 @@ const collectionPageJsonLd = {
       </div>
     )}
   </section>
+
+  {leadMagnet && (
+    <section class="border-t border-moss-100 bg-moss-50/60">
+      <div class="container-wide py-12 sm:py-16">
+        <h2 class="font-display text-2xl font-semibold text-bark-900">Get the free cheat sheet</h2>
+        <p class="mt-2 max-w-2xl text-sm leading-relaxed text-bark-600">
+          A one-page PDF of the {cluster.name.toLowerCase()} math from this site, emailed once.
+        </p>
+        <div class="mt-6">
+          <LeadMagnetForm client:load listId={leadMagnet.listId} clusterName={leadMagnet.clusterName} />
+        </div>
+      </div>
+    </section>
+  )}
 </Layout>
