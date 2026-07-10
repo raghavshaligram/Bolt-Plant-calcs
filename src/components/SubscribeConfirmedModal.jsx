@@ -84,10 +84,10 @@ export default function SubscribeConfirmedModal() {
           className="pr-6 text-xl font-semibold text-[#3D6647]"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
-          You’re confirmed!
+          Check your inbox!
         </h2>
         <p className="mt-2 font-sans text-sm leading-relaxed text-[#5C4433]">
-          {clusterName ? `Your ${clusterName} Cheat Sheet is on its way` : 'Your cheat sheet is on its way'} — check your inbox.
+          {clusterName ? `We’ll send the ${clusterName} Cheat Sheet to your email shortly.` : 'We’ll send your cheat sheet to your email shortly.'}
         </p>
 
         <button
