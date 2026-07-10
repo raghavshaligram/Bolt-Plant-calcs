@@ -80,7 +80,7 @@ const breadcrumbJsonLd = {
 };
 ---
 
-<Layout title={title} description={description} rawTitle ogImage={ogImagePath}>
+<Layout title={title} description={description} rawTitle ogImage={ogImagePath} pageType="article">
   <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
 

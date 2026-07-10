@@ -31,7 +31,7 @@ const {
 const pageTitle = calculator.seoTitle ?? calculator.title;
 ---
 
-<Layout title={pageTitle} description={calculator.metaDescription} rawTitle={Boolean(calculator.seoTitle)}>
+<Layout title={pageTitle} description={calculator.metaDescription} rawTitle={Boolean(calculator.seoTitle)} ogImage={shareImage} pageType="website">
   <slot name="head" slot="head" />
 
   <!-- Hero band: breadcrumb + H1 + byline row -->
