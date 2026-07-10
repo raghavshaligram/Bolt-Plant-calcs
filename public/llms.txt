@@ -21,6 +21,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 - [Drip Irrigation Calculator](https://harvestmath.com/calculators/drip-irrigation-calculator/): run time and water delivered based on emitter flow rate
 - [Grow Light & DLI Calculator](https://harvestmath.com/calculators/grow-light-calculator/): grow light coverage, wattage, DLI, and hanging distance
 - [Vegetable Yield Calculator](https://harvestmath.com/calculators/vegetable-yield-calculator/): estimated harvest yield by crop and area
+- [Greenhouse Heater Calculator](https://harvestmath.com/calculators/greenhouse-heater-calculator/): estimated heat loss and recommended heater size (BTU) by shape, glazing, and climate
 
 ## Guides
 

@@ -1,0 +1,264 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import GreenhouseHeaterCalculator from '../../components/calculators/GreenhouseHeaterCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster } from '../../data/calculators';
+
+const calculator = getCalculator('greenhouse-heater-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+
+const lastUpdated = '2026-07-11';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'Figure out exactly how big a heater your greenhouse needs with this greenhouse heater calculator — enter your shape, dimensions, glazing, and climate, and get your estimated heat loss and recommended heater size in BTU/hr. Passive methods like thermal mass, compost heat, and row covers can carry a greenhouse through milder nights, but once you need supplemental heat, here’s exactly what size to buy.';
+
+const tocItems = [
+  { id: 'how-is-greenhouse-heat-loss-calculated', label: 'How Heat Loss Is Calculated', icon: 'leaf' as const },
+  { id: 'u-factor-by-glazing-type', label: 'U-Factor by Glazing Type', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'greenhouse-heater-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/greenhouse-heater-calculator-hoop-house.svg', Astro.site).href;
+
+const glazingRows = [
+  { label: 'Single-layer poly film', u: 1.2 },
+  { label: 'Double-layer inflated poly', u: 0.7 },
+  { label: 'Single-pane glass', u: 1.1 },
+  { label: 'Twin-wall polycarbonate', u: 0.65 },
+  { label: 'Triple-wall polycarbonate', u: 0.55 },
+];
+
+const faqs = [
+  {
+    q: 'How can you heat an above ground greenhouse?',
+    a: 'The most common options are electric heaters, propane or natural gas heaters, and passive methods like thermal mass (water barrels, dark stone) or compost heat. Size any active heater to your calculated heat loss, not a guess — undersizing is the most common and costly mistake.',
+  },
+  {
+    q: 'What are some ways to reduce heat loss in greenhouses?',
+    a: 'Double-layer inflated poly or twin/triple-wall polycarbonate cuts heat loss roughly in half compared to single-layer film or glass. Sealing air leaks around vents, doors, and seams, adding thermal mass, and using thermal curtains at night all reduce the heater size you actually need.',
+  },
+  {
+    q: 'How can you get rid of excess heat from a greenhouse?',
+    a: 'Roof and side vents (passive or automated with thermostatic openers), exhaust fans, shade cloth, and evaporative cooling are the standard tools. Most greenhouses need active venting once outside temperatures climb, since solar gain through the glazing builds heat fast on sunny days even in cool weather.',
+  },
+  {
+    q: 'What are the options for heating a commercial greenhouse?',
+    a: 'Commercial operations typically use central boiler systems with hot water or steam distribution, forced-air propane or natural gas heaters, or geothermal systems for larger operations. The right choice depends on greenhouse size, climate, and fuel costs — the same heat-loss math on this page scales up, just at higher BTU/hr totals.',
+  },
+];
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate greenhouse heat loss and recommended heater size',
+  description:
+    'Use the greenhouse heater calculator to estimate heat loss in BTU/hr and find the recommended heater size for your greenhouse, by shape, glazing type, and climate.',
+  totalTime: 'PT2M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Choose your greenhouse shape',
+      text: 'Select Hoop/Quonset, Gable (A-frame), or Lean-to. The fields shown adjust to match the shape you pick.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enter dimensions and glazing',
+      text: 'Type your length, width, and (for gable and lean-to) wall height, then pick your glazing material to set the U-factor.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Set your temperatures and fuel type',
+      text: 'Enter your desired inside temperature, your area’s record low outside temperature, and your heater’s fuel type. The calculator updates heat loss and recommended heater size live.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Hydroponics & Greenhouse',
+      item: 'https://harvestmath.com/clusters/hydroponics-and-greenhouse/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Greenhouse Heater Calculator',
+      item: 'https://harvestmath.com/calculators/greenhouse-heater-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Greenhouse Heater Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/greenhouse-heater-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Left column content: calculator → mobile TOC → article -->
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <GreenhouseHeaterCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    New to greenhouse growing? See the full <a href="/clusters/hydroponics-and-greenhouse/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Hydroponics &amp; Greenhouse</a> calculator cluster.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-is-greenhouse-heat-loss-calculated">How Is Greenhouse Heat Loss Calculated?</h2>
+    <p>
+      Greenhouse heat loss comes down to three numbers: the greenhouse&rsquo;s <strong>surface area</strong>, the <strong>temperature difference</strong> between inside and outside, and a <strong>U-factor</strong> that describes how much heat your glazing material lets through. Multiply the three together (<strong>Q = U &times; A &times; &Delta;T</strong>) and you get the heat loss in BTU/hr &mdash; the rate at which your greenhouse loses heat to the cold outside air.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/greenhouse-heater-calculator-hoop-house.svg"
+        alt="A heated hoop-house greenhouse glowing warm inside against a cold, snowy outside"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Heat loss scales with surface area and how cold it gets outside &mdash; not just square footage.
+      </figcaption>
+    </figure>
+    <p>
+      Once you know the raw heat loss, the calculator adds a <strong>15% safety factor</strong> (a standard buffer for cold snaps and imperfect sealing) and divides by your heater&rsquo;s <strong>fuel efficiency</strong> to get the recommended heater size &mdash; the actual BTU/hr input rating you should shop for, not just the theoretical heat loss.
+    </p>
+    <p>
+      This is an estimate that assumes a <strong>well-sealed structure</strong> with no significant air leaks around vents, doors, or seams. A greenhouse with poor sealing will lose more heat than the surface-area math alone predicts &mdash; see Common Mistakes below.
+    </p>
+
+    <h2 id="u-factor-by-glazing-type">U-Factor by Glazing Type</h2>
+    <p>
+      The U-factor is the rate of heat loss through one square foot of material for every 1&deg;F difference between inside and outside air. Lower is better &mdash; it means less heat escapes through the covering.
+    </p>
+    <div class="not-prose my-6 overflow-x-auto rounded-xl border border-moss-100">
+      <table class="w-full text-left text-sm">
+        <thead>
+          <tr class="border-b border-moss-100 bg-moss-50/60 text-bark-500">
+            <th scope="col" class="px-4 py-2.5 font-medium">Glazing type</th>
+            <th scope="col" class="px-4 py-2.5 font-medium">U-factor (BTU/hr&middot;ft&sup2;&middot;&deg;F)</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          {glazingRows.map((row, i) => (
+            <tr class={i < glazingRows.length - 1 ? 'border-b border-moss-50' : ''}>
+              <th scope="row" class="px-4 py-2.5 font-medium text-bark-800">{row.label}</th>
+              <td class="px-4 py-2.5">{row.u}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Single-layer poly film and single-pane glass lose heat fastest. Double-layer inflated poly and double/triple-wall polycarbonate trap an insulating air gap between layers, roughly halving heat loss compared to a single layer &mdash; often the single biggest lever you have for cutting heating costs.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Let&rsquo;s size a heater for a <strong>20 &times; 48 ft hoop house</strong>, covered in <strong>double-layer inflated poly</strong> (U = 0.7), maintained at <strong>65&deg;F</strong> inside when the record low outside is <strong>10&deg;F</strong>, heated with a <strong>propane</strong> heater (80% efficient):
+    </p>
+    <ol>
+      <li><strong>Radius:</strong> width &divide; 2 = 20 &divide; 2 = <strong>10 ft</strong> (a semicircular hoop house&rsquo;s peak height equals its radius).</li>
+      <li><strong>Surface area:</strong> (&pi; &times; 10&sup2;) + (&pi; &times; 10 &times; 48) = 314.2 + 1,508.0 = <strong>1,822.1 sq ft</strong>.</li>
+      <li><strong>Temperature differential:</strong> 65&deg;F &minus; 10&deg;F = <strong>55&deg;F</strong>.</li>
+      <li><strong>Heat loss:</strong> 1,822.1 &times; 55 &times; 0.7 = <strong>70,152 BTU/hr</strong>.</li>
+      <li><strong>With 15% safety factor:</strong> 70,152 &times; 1.15 = <strong>80,675 BTU/hr</strong>.</li>
+      <li><strong>Recommended heater size:</strong> 80,675 &divide; 0.80 (propane efficiency) = <strong>~100,843 BTU/hr</strong> (about 29.6 kW).</li>
+    </ol>
+    <p>
+      So this hoop house needs a propane heater rated for roughly <strong>101,000 BTU/hr input</strong>. Switching to a more efficient electric heater (99%) would drop the recommended size to about 81,500 BTU/hr for the same structure &mdash; the fuel-efficiency step matters as much as the glazing choice.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Relying on record low alone.</strong> A single historical record low can be an outlier. Some professionals instead use the <strong>ASHRAE 99% design temperature</strong> &mdash; the temperature your area is at or above 99% of the time in winter &mdash; as a more rigorous sizing standard. Record low is a fine, simple default for a home greenhouse, but if you&rsquo;re heating something valuable, the ASHRAE figure is worth looking up.</li>
+      <li><strong>Undersizing for a leaky structure.</strong> This calculator assumes a well-sealed greenhouse. Air infiltration through gaps around vents, doors, and seams means actual heat loss can exceed the surface-area calculation &mdash; a well-sealed structure matters as much as heater size. Seal what you can before you buy a bigger heater.</li>
+      <li><strong>Oversizing without considering running cost.</strong> A bigger heater than you need doesn&rsquo;t just cost more upfront &mdash; it cycles on and off more, which wastes fuel and shortens equipment life. Size to your actual calculated load, not a round number that feels safe.</li>
+      <li><strong>Not accounting for wind exposure.</strong> Wind strips heat from a greenhouse&rsquo;s surface faster than still air. Add a 10&ndash;15% buffer on top of the recommended size if your greenhouse sits in a windy or exposed location.</li>
+    </ul>
+
+    <FAQBlock id="greenhouse-heater-calculator-faq" heading="Greenhouse Heater Calculator FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      The heat-loss method and worked-example approach on this page (Q = U &times; A &times; &Delta;T) follows <a href="https://www.purdue.edu/hla/sites/cea/article/calculating-greenhouse-heating-requirements/">Purdue University&rsquo;s &ldquo;Calculating Greenhouse Heating Requirements&rdquo;</a> (Controlled Environment Agriculture, Department of Horticulture &amp; Landscape Architecture), which also documents the U-factor values used here for single and double poly film and double polycarbonate glazing. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Hydroponics & Greenhouse cluster', url: '/clusters/hydroponics-and-greenhouse/', anchorText: 'Hydroponics & Greenhouse cluster', note: 'the full set of controlled-environment growing calculators on this site.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      This page was last updated on {formattedDate}. The calculator itself is unchanged &mdash; only the surrounding guidance is updated as best practices evolve.
+    </p>
+  </article>
+</CalculatorLayout>

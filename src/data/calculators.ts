@@ -304,6 +304,19 @@ export const calculators: Calculator[] = [
     status: 'live',
   },
   {
+    slug: 'greenhouse-heater-calculator',
+    title: 'Greenhouse Heater Calculator',
+    shortTitle: 'Greenhouse Heater',
+    description:
+      'Calculate your greenhouse\'s heat loss and the recommended heater size in BTU/hr, by shape, glazing type, and climate.',
+    metaDescription:
+      'Calculate your greenhouse\'s heat loss and the exact heater size (BTU) you need, by shape, glazing, and climate. Free calculator.',
+    seoTitle: 'Greenhouse Heater Calculator - BTU & Heat Loss',
+    cluster: 'hydroponics-and-greenhouse',
+    href: '/calculators/greenhouse-heater-calculator/',
+    status: 'live',
+  },
+  {
     slug: 'vegetable-yield-calculator',
     title: 'Vegetable Yield Calculator',
     shortTitle: 'Vegetable Yield',
