@@ -290,6 +290,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/drip-irrigation-calculator/',
     status: 'live',
   },
+  {
+    slug: 'grow-light-calculator',
+    title: 'DLI & Grow Light Calculator',
+    shortTitle: 'Grow Light',
+    description:
+      'Calculate Daily Light Integral (DLI) from a PPFD reading, recommended grow light wattage and electricity cost for your growing area, or recommended hanging distance for your light and growth stage.',
+    metaDescription:
+      'Calculate Daily Light Integral (DLI), grow light wattage, coverage, and hanging distance for houseplants, seedlings, and vegetables. Free calculator.',
+    seoTitle: 'DLI & Grow Light Calculator - Wattage & Distance',
+    cluster: 'indoor-plants',
+    href: '/calculators/grow-light-calculator/',
+    status: 'live',
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {

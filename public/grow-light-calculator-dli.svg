@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="An LED grow light hanging over a shelf of houseplants and seedlings, illustrating light distance and coverage" >
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+  <path d="M0 190 Q200 155 400 175 T800 180 V210 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+
+  <!-- Ground/shelf -->
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+
+  <!-- Grow light fixture -->
+  <g transform="translate(400,90)">
+    <rect x="-140" y="0" width="280" height="24" rx="6" fill="#3A4A2A"/>
+    <rect x="-130" y="6" width="260" height="12" rx="3" fill="#F0D878"/>
+    <!-- light cone -->
+    <path d="M-120 24 L-200 220 L200 220 L120 24 Z" fill="#F5E7A8" opacity="0.35"/>
+    <!-- hanging cables -->
+    <line x1="-100" y1="0" x2="-100" y2="-30" stroke="#3A4A2A" stroke-width="3"/>
+    <line x1="100" y1="0" x2="100" y2="-30" stroke="#3A4A2A" stroke-width="3"/>
+  </g>
+
+  <!-- Distance indicator -->
+  <g transform="translate(560,120)">
+    <line x1="0" y1="0" x2="0" y2="100" stroke="#3A6EA5" stroke-width="2" stroke-dasharray="5 4"/>
+    <path d="M-6 8 L0 0 L6 8 M-6 92 L0 100 L6 92" stroke="#3A6EA5" stroke-width="2" fill="none"/>
+    <text x="14" y="55" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#3A6EA5">12–18 in</text>
+  </g>
+
+  <!-- Shelf with plants -->
+  <rect x="140" y="300" width="520" height="16" rx="4" fill="#8C6A4A"/>
+  <g>
+    <!-- Seedling tray -->
+    <g transform="translate(190,240)">
+      <rect x="-40" y="40" width="80" height="20" rx="4" fill="#6B7A56"/>
+      <g fill="#6B8E4E">
+        <path d="M-24 40 Q-24 24 -18 16 Q-12 24 -12 40Z"/>
+        <path d="M0 40 Q0 22 6 14 Q12 22 12 40Z"/>
+        <path d="M20 40 Q20 26 26 18 Q32 26 32 40Z"/>
+      </g>
+    </g>
+    <!-- Houseplant -->
+    <g transform="translate(340,230)">
+      <ellipse cx="0" cy="70" rx="26" ry="10" fill="#B5652F"/>
+      <rect x="-22" y="40" width="44" height="32" rx="6" fill="#C97A3D"/>
+      <path d="M0 40 Q-30 20 -34 -10 Q-6 0 0 40Z" fill="#6B8E4E"/>
+      <path d="M0 40 Q30 14 30 -14 Q4 -6 0 40Z" fill="#7FA05C"/>
+      <path d="M0 40 Q-4 4 0 -20 Q10 6 0 40Z" fill="#5C7A44"/>
+    </g>
+    <!-- Herb pot -->
+    <g transform="translate(470,240)">
+      <ellipse cx="0" cy="60" rx="22" ry="9" fill="#B5652F"/>
+      <rect x="-18" y="34" width="36" height="26" rx="5" fill="#C97A3D"/>
+      <g stroke="#5C7A44" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <path d="M0 34 Q-10 14 -6 -2"/>
+        <path d="M0 34 Q4 12 14 0"/>
+        <path d="M0 34 Q0 10 0 -6"/>
+      </g>
+      <g fill="#6B8E4E">
+        <circle cx="-6" cy="-4" r="6"/>
+        <circle cx="14" cy="2" r="6"/>
+        <circle cx="0" cy="-8" r="6"/>
+      </g>
+    </g>
+    <!-- Fruiting vegetable (pepper plant) -->
+    <g transform="translate(590,220)">
+      <ellipse cx="0" cy="80" rx="28" ry="10" fill="#B5652F"/>
+      <rect x="-24" y="46" width="48" height="34" rx="6" fill="#C97A3D"/>
+      <path d="M0 46 Q-26 24 -20 -14 Q0 0 0 46Z" fill="#6B8E4E"/>
+      <path d="M0 46 Q26 20 22 -10 Q4 4 0 46Z" fill="#7FA05C"/>
+      <circle cx="-8" cy="10" r="7" fill="#B5432F"/>
+      <circle cx="10" cy="20" r="7" fill="#C9502F"/>
+    </g>
+  </g>
+</svg>
