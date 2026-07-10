@@ -33,12 +33,6 @@ export default function LeadMagnetForm({ listId, clusterName }) {
 
       if (res.ok && data.success) {
         setStatus('success');
-        // Tell the site-wide SubscribeConfirmedModal (mounted once in
-        // Layout.astro) to pop up right now. Single opt-in means there's no
-        // confirmation-email click to redirect back from, so the modal can't
-        // rely on a ?subscribed=true URL param anymore -- it fires directly
-        // off this event instead, the moment the signup actually succeeds.
-        window.dispatchEvent(new CustomEvent('leadmagnet:subscribed', { detail: { clusterName } }));
         return;
       }
 
