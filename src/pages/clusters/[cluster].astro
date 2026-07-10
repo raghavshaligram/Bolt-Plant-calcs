@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import TableOfContents from '../../components/TableOfContents.astro';
 import { clusters, getCluster, getCalculatorsForCluster, leadMagnetConfig } from '../../data/calculators';
 
 export function getStaticPaths() {
@@ -36,6 +37,18 @@ const isPillar = cluster.slug === 'soil-and-amendments';
 // same Brevo list per cluster. This site has no separate file per cluster
 // landing page — all 8 clusters are generated from this one dynamic route.
 const leadMagnet = leadMagnetConfig[cluster.slug];
+
+// TOC + sticky-sidebar layout (same TableOfContents component used on
+// calculator pages) -- only meaningful for the Soil & Amendments pillar
+// today, but built so the next cluster to get pillar treatment can reuse
+// this same pattern.
+const pillarTocItems = [
+  { id: 'live-calculators', label: 'Live Calculators', icon: 'grid' as const },
+  { id: 'choosing-the-right-material', label: 'Choosing the Right Material', icon: 'question' as const },
+  { id: 'filling-a-raised-bed', label: 'Filling a Raised Bed', icon: 'table' as const },
+  { id: 'mulching-and-top-dressing', label: 'Mulching and Top-Dressing', icon: 'leaf' as const },
+  { id: 'composting-basics', label: 'Composting Basics', icon: 'leaf' as const },
+];
 
 const pillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
 const pillarDescription =
@@ -105,7 +118,11 @@ const collectionPageJsonLd = {
 
   {isPillar && (
     <section class="container-wide py-12 sm:py-16">
-      <article class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+      <div class="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+        <div class="min-w-0">
+          <TableOfContents items={pillarTocItems} variant="accordion" />
+
+          <article class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
         <p>
           Every raised bed, lawn repair, or new planting starts with the same question: what actually goes in the ground? Four materials do almost all of the work &mdash; topsoil, garden soil, compost, and mulch &mdash; and they are not interchangeable, even though garden centers sometimes blur the lines between them.
         </p>
@@ -116,13 +133,118 @@ const collectionPageJsonLd = {
           A real project usually uses more than one of these in sequence. A new raised bed gets filled with bulk topsoil for depth, then a topsoil-compost blend near the surface for planting; compost gets worked in seasonally to keep feeding the soil; mulch goes on top once everything&rsquo;s planted to cut down on watering and weeding. Knowing which material does which job &mdash; and how much of it you actually need &mdash; is most of what separates a bed that thrives from one that fights you all season. That&rsquo;s what the tools and guides below are built to answer.
         </p>
 
+        <div class="not-prose overflow-x-auto">
+          <table class="w-full text-left text-sm not-prose">
+            <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+              Topsoil, Garden Soil, Compost &amp; Mulch at a Glance
+            </caption>
+            <thead>
+              <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+                <th scope="col" class="py-2.5 pr-4 font-semibold">Material</th>
+                <th scope="col" class="py-2.5 pr-4 font-semibold">Best For</th>
+                <th scope="col" class="py-2.5 pr-4 font-semibold">Typical Depth</th>
+                <th scope="col" class="py-2.5 font-semibold">Where It Goes</th>
+              </tr>
+            </thead>
+            <tbody class="text-bark-700">
+              <tr class="border-b border-moss-50">
+                <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Topsoil</th>
+                <td class="py-2 pr-4">Bulk fill &mdash; leveling, grading, building volume under a bed</td>
+                <td class="py-2 pr-4">Varies by project; the bulk of a raised bed&rsquo;s 8&ndash;12 in fill</td>
+                <td class="py-2">In the soil (fill layer, not for direct planting)</td>
+              </tr>
+              <tr class="border-b border-moss-50 bg-moss-50/30">
+                <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Garden Soil</th>
+                <td class="py-2 pr-4">Anywhere you&rsquo;re planting directly &mdash; seeds and transplants</td>
+                <td class="py-2 pr-4">Top layer of a bed, wherever roots grow</td>
+                <td class="py-2">In the soil (planting layer)</td>
+              </tr>
+              <tr class="border-b border-moss-50">
+                <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Compost</th>
+                <td class="py-2 pr-4">Feeding soil that&rsquo;s already in place, or blended into a new mix</td>
+                <td class="py-2 pr-4">1&ndash;3 in top-dressed, or ~30% of a new blend</td>
+                <td class="py-2">Both &mdash; blended in or top-dressed</td>
+              </tr>
+              <tr class="border-b border-moss-50 bg-moss-50/30">
+                <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Mulch</th>
+                <td class="py-2 pr-4">Moisture retention, weed suppression, temperature control</td>
+                <td class="py-2 pr-4">2&ndash;3 in</td>
+                <td class="py-2">On top only, never mixed in</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {liveCalculators.length > 0 && (
+          <div id="live-calculators" class="not-prose scroll-mt-24">
+            <h2 class="font-display text-2xl font-semibold text-bark-900">Live calculators</h2>
+            <p class="mt-2 text-sm text-bark-600">Ready to use right now.</p>
+            <div class="mt-6 grid gap-5 sm:grid-cols-2">
+              {liveCalculators.map((calc) => (
+                <a
+                  href={calc.href}
+                  class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+                >
+                  <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Live</span>
+                  <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
+                    {calc.title}
+                  </h3>
+                  <p class="text-sm leading-relaxed text-bark-600">{calc.description}</p>
+                  <span class="mt-auto inline-flex items-center text-sm font-medium text-moss-700">
+                    Open
+                    <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {plannedCalculators.length > 0 && (
+          <div class={liveCalculators.length > 0 ? 'not-prose mt-12' : 'not-prose'}>
+            <h2 class="font-display text-2xl font-semibold text-bark-900">Coming soon</h2>
+            <p class="mt-2 text-sm text-bark-600">In the queue &mdash; these are next on the build list.</p>
+            <div class="mt-6 grid gap-5 sm:grid-cols-2">
+              {plannedCalculators.map((calc) => (
+                <div class="flex flex-col gap-2 rounded-2xl bg-sand-50 p-6 ring-1 ring-moss-100/40">
+                  <span class="text-xs font-medium uppercase tracking-wider text-bark-400">Coming soon</span>
+                  <h3 class="font-display text-lg font-semibold text-bark-700">{calc.title}</h3>
+                  <p class="text-sm leading-relaxed text-bark-500">{calc.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <h2 id="choosing-the-right-material">Choosing the Right Material</h2>
+        <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+          <img
+            src="/soil-and-amendments-cluster-cross-section.svg"
+            alt="Cross-section of a raised bed showing mulch on top, garden soil beneath it, and bulk topsoil fill at the bottom"
+            width="400"
+            height="250"
+            loading="lazy"
+            class="rounded-xl border border-moss-100 bg-moss-50/30"
+          />
+          <figcaption class="mt-2 text-xs text-bark-500">
+            Four materials, four jobs &mdash; mulch on top, garden soil where roots grow, topsoil as bulk fill underneath.
+          </figcaption>
+        </figure>
         <p>
           The short version: use <strong>topsoil</strong> for bulk fill where roots won&rsquo;t be growing directly &mdash; leveling, grading, building volume under a bed. Use <strong>garden soil</strong> (topsoil blended with compost) anywhere you&rsquo;re planting directly, since straight topsoil alone compacts too hard and holds too few nutrients for most vegetables and ornamentals. Use <strong>compost</strong> on its own when you&rsquo;re feeding soil that&rsquo;s already in place &mdash; worked into the top few inches of an existing bed, or blended into new soil at a lower ratio than a full garden-soil mix.
         </p>
         <p>
           For the full breakdown, including a side-by-side comparison and specific blend ratios, see our <a href="/blog/topsoil-vs-garden-soil/">complete guide to topsoil vs. garden soil</a>. Once you know which material you need, the <a href="/calculators/topsoil-calculator/">Topsoil Calculator</a> and <a href="/calculators/raised-bed-soil-calculator/">Raised Bed Soil Calculator</a> convert your area and depth into the cubic yards, tons, or bags you&rsquo;ll actually order.
         </p>
+
+        <div class="not-prose my-6 flex flex-col gap-3 rounded-xl border border-moss-200 bg-moss-50/60 px-5 py-4">
+          <a href="/calculators/topsoil-calculator/" class="flex items-center gap-2 font-display text-base font-semibold text-moss-800 hover:text-moss-900">
+            <span aria-hidden="true">&rarr;</span> Use the Topsoil Calculator
+          </a>
+          <a href="/calculators/raised-bed-soil-calculator/" class="flex items-center gap-2 font-display text-base font-semibold text-moss-800 hover:text-moss-900">
+            <span aria-hidden="true">&rarr;</span> Use the Raised Bed Soil Calculator
+          </a>
+        </div>
 
         <h2 id="filling-a-raised-bed">Filling a Raised Bed</h2>
         <p>
@@ -132,6 +254,15 @@ const collectionPageJsonLd = {
           The <a href="/calculators/raised-bed-soil-calculator/">Raised Bed Soil Calculator</a> handles standard bed sizes and the topsoil-compost-perlite blend ratio directly. For containers, pots, or any bed that isn&rsquo;t a simple rectangle, the <a href="/calculators/soil-volume-calculator/">Soil Volume Calculator</a> covers rectangular and cylindrical spaces alike, including irregular footprints you can break into simpler shapes.
         </p>
 
+        <div class="not-prose my-6 flex flex-col gap-3 rounded-xl border border-moss-200 bg-moss-50/60 px-5 py-4">
+          <a href="/calculators/raised-bed-soil-calculator/" class="flex items-center gap-2 font-display text-base font-semibold text-moss-800 hover:text-moss-900">
+            <span aria-hidden="true">&rarr;</span> Use the Raised Bed Soil Calculator
+          </a>
+          <a href="/calculators/soil-volume-calculator/" class="flex items-center gap-2 font-display text-base font-semibold text-moss-800 hover:text-moss-900">
+            <span aria-hidden="true">&rarr;</span> Use the Soil Volume Calculator
+          </a>
+        </div>
+
         <h2 id="mulching-and-top-dressing">Mulching and Top-Dressing</h2>
         <p>
           Once a bed is planted, both mulch and compost can go on top of the soil rather than into it &mdash; mulch mainly for moisture retention and weed suppression, compost top-dressing to feed soil biology without disturbing roots. A standard mulch layer is 2&ndash;3 inches of bark or wood chips, kept a few inches clear of any trunk or stem. A compost top-dressing is thinner, usually 1&ndash;3 inches, since it&rsquo;s meant to be worked in gently rather than piled deep.
@@ -140,6 +271,12 @@ const collectionPageJsonLd = {
           The <a href="/calculators/mulch-calculator/">Mulch Calculator</a> converts your bed size and depth into cubic yards and bags for a mulch layer. We&rsquo;re also working on a dedicated guide comparing organic mulches like bark and wood chips against inorganic options like rubber and stone &mdash; check back soon.
         </p>
 
+        <div class="not-prose my-6 flex flex-col gap-3 rounded-xl border border-moss-200 bg-moss-50/60 px-5 py-4">
+          <a href="/calculators/mulch-calculator/" class="flex items-center gap-2 font-display text-base font-semibold text-moss-800 hover:text-moss-900">
+            <span aria-hidden="true">&rarr;</span> Use the Mulch Calculator
+          </a>
+        </div>
+
         <h2 id="composting-basics">Composting Basics</h2>
         <p>
           Finished compost is fully decomposed organic matter &mdash; dark, crumbly, and earthy-smelling &mdash; that improves soil structure and feeds plant-available nutrients as it continues breaking down. It&rsquo;s built from a rough mix of nitrogen-rich &ldquo;greens&rdquo; (kitchen scraps, fresh grass clippings) and carbon-rich &ldquo;browns&rdquo; (dry leaves, cardboard, straw), generally 2&ndash;3 parts browns to 1 part greens by volume. Unfinished compost &mdash; still actively decomposing &mdash; should go into the soil weeks before planting, not right at transplant time, since the decomposition process temporarily ties up soil nitrogen.
@@ -147,52 +284,68 @@ const collectionPageJsonLd = {
         <p>
           Compost gets used two ways in this cluster: blended into new bed soil at roughly 30% of the total volume, or top-dressed onto an existing bed at 1&ndash;3 inches. The <a href="/calculators/compost-calculator/">Compost Calculator</a> handles both, along with bag counts and estimated weight for whatever you&rsquo;re hauling.
         </p>
-      </article>
+
+        <div class="not-prose my-6 flex flex-col gap-3 rounded-xl border border-moss-200 bg-moss-50/60 px-5 py-4">
+          <a href="/calculators/compost-calculator/" class="flex items-center gap-2 font-display text-base font-semibold text-moss-800 hover:text-moss-900">
+            <span aria-hidden="true">&rarr;</span> Use the Compost Calculator
+          </a>
+        </div>
+          </article>
+        </div>
+
+        <aside class="hidden lg:block">
+          <div class="sticky top-24">
+            <TableOfContents items={pillarTocItems} variant="sidebar" />
+          </div>
+        </aside>
+      </div>
     </section>
   )}
 
-  <section class="container-wide py-12 sm:py-16">
-    {liveCalculators.length > 0 && (
-      <div>
-        <h2 class="font-display text-2xl font-semibold text-bark-900">Live calculators</h2>
-        <p class="mt-2 text-sm text-bark-600">Ready to use right now.</p>
-        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {liveCalculators.map((calc) => (
-            <a
-              href={calc.href}
-              class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
-            >
-              <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Live</span>
-              <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
-                {calc.title}
-              </h3>
-              <p class="text-sm leading-relaxed text-bark-600">{calc.description}</p>
-              <span class="mt-auto inline-flex items-center text-sm font-medium text-moss-700">
-                Open
-                <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-            </a>
-          ))}
+  {!isPillar && (
+    <section class="container-wide py-12 sm:py-16">
+      {liveCalculators.length > 0 && (
+        <div>
+          <h2 class="font-display text-2xl font-semibold text-bark-900">Live calculators</h2>
+          <p class="mt-2 text-sm text-bark-600">Ready to use right now.</p>
+          <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {liveCalculators.map((calc) => (
+              <a
+                href={calc.href}
+                class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+              >
+                <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Live</span>
+                <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
+                  {calc.title}
+                </h3>
+                <p class="text-sm leading-relaxed text-bark-600">{calc.description}</p>
+                <span class="mt-auto inline-flex items-center text-sm font-medium text-moss-700">
+                  Open
+                  <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {plannedCalculators.length > 0 && (
-      <div class={liveCalculators.length > 0 ? 'mt-12' : ''}>
-        <h2 class="font-display text-2xl font-semibold text-bark-900">Coming soon</h2>
-        <p class="mt-2 text-sm text-bark-600">In the queue — these are next on the build list.</p>
-        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {plannedCalculators.map((calc) => (
-            <div class="flex flex-col gap-2 rounded-2xl bg-sand-50 p-6 ring-1 ring-moss-100/40">
-              <span class="text-xs font-medium uppercase tracking-wider text-bark-400">Coming soon</span>
-              <h3 class="font-display text-lg font-semibold text-bark-700">{calc.title}</h3>
-              <p class="text-sm leading-relaxed text-bark-500">{calc.description}</p>
-            </div>
-          ))}
+      {plannedCalculators.length > 0 && (
+        <div class={liveCalculators.length > 0 ? 'mt-12' : ''}>
+          <h2 class="font-display text-2xl font-semibold text-bark-900">Coming soon</h2>
+          <p class="mt-2 text-sm text-bark-600">In the queue — these are next on the build list.</p>
+          <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {plannedCalculators.map((calc) => (
+              <div class="flex flex-col gap-2 rounded-2xl bg-sand-50 p-6 ring-1 ring-moss-100/40">
+                <span class="text-xs font-medium uppercase tracking-wider text-bark-400">Coming soon</span>
+                <h3 class="font-display text-lg font-semibold text-bark-700">{calc.title}</h3>
+                <p class="text-sm leading-relaxed text-bark-500">{calc.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    )}
-  </section>
+      )}
+    </section>
+  )}
 
   {leadMagnet && (
     <section class="border-t border-moss-100 bg-moss-50/60">
