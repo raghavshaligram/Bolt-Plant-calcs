@@ -26,6 +26,7 @@ const intro =
 const tocItems = [
   { id: 'how-do-you-estimate-vegetable-garden-yield', label: 'How It Works', icon: 'leaf' as const },
   { id: 'vegetable-yield-reference-chart', label: 'Yield Reference Chart', icon: 'table' as const },
+  { id: 'how-much-to-plant-per-person', label: 'Plants Per Person Guide', icon: 'table' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'vegetable-yield-calculator-faq', label: 'FAQ', icon: 'question' as const },
@@ -215,6 +216,40 @@ const softwareAppJsonLd = {
     </table>
     <p>
       Fruiting crops that vine or branch heavily (winter squash, cucumbers, indeterminate tomatoes) produce far more per plant than crops harvested as a single unit (lettuce, broccoli, radishes) &mdash; that gap is real and consistent across most yield data, not an artifact of this particular chart.
+    </p>
+    <p>
+      <strong>A note on tomato varieties:</strong> the table above uses a single ~5 lb figure for standard tomatoes, but variety type makes a significant difference. <strong>Indeterminate</strong> varieties (most heirlooms, many beefsteaks, most cherry types) keep growing and setting fruit all season &mdash; they typically yield <strong>15&ndash;25 lbs per plant</strong> over a full season, though that harvest is spread out over many weeks. <strong>Determinate</strong> varieties (Roma, most paste types, many modern slicers) stop growing at a set height and ripen their fruit in a concentrated window, typically yielding <strong>8&ndash;12 lbs per plant</strong> but delivering most of it within a few weeks. If you know which type you&rsquo;re growing, adjust your expectation accordingly &mdash; the ~5 lb default in the calculator is a conservative cross-variety average that can substantially underestimate a well-grown indeterminate plant.
+    </p>
+
+    <h2 id="how-much-to-plant-per-person">How Much to Plant Per Person</h2>
+    <p>
+      The yield calculator answers &ldquo;what will my garden produce?&rdquo; &mdash; but the companion question is &ldquo;how much should I plant to feed my family?&rdquo; These are per-person planting guidelines derived from typical garden productivity and average household consumption. They assume a reasonable growing season; succession-sown crops (marked below) require replanting every 2&ndash;3 weeks to sustain harvest through the season.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Crop</th>
+          <th>Recommended per person</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Tomato</td><td>2&ndash;3 plants</td><td>Use 2 plants of an indeterminate variety; add a third for preserving or sauce. Determinate types: 3&ndash;4 plants for equivalent fresh yield.</td></tr>
+        <tr><td>Pepper (bell)</td><td>2&ndash;3 plants</td><td>3&ndash;5 plants if you want enough for freezing.</td></tr>
+        <tr><td>Cucumber</td><td>2 plants</td><td>Cucumbers set fruit fast &mdash; 2 plants can outpace most households at peak; 1 plant is workable if space is tight.</td></tr>
+        <tr><td>Zucchini / summer squash</td><td>1&ndash;2 plants</td><td>One healthy plant routinely produces more than a single household can eat; two plants ensures backup if one underperforms.</td></tr>
+        <tr><td>Bean (bush or pole)</td><td>5 ft of row</td><td>Succession-sow every 2&ndash;3 weeks for continuous harvest rather than one large flush.</td></tr>
+        <tr><td>Lettuce</td><td>3 ft of row</td><td>Succession-sow; a single row planting bolts quickly in warm weather.</td></tr>
+        <tr><td>Carrot</td><td>2&ndash;3 ft of row</td><td>Thin to proper spacing &mdash; crowded carrots stay small regardless of row length.</td></tr>
+        <tr><td>Beet</td><td>2 ft of row</td><td>Both roots and greens are edible; factor that into your estimate if you use both.</td></tr>
+        <tr><td>Spinach</td><td>3 ft of row</td><td>Bolts quickly in heat; sow in early spring and again in fall for two usable windows.</td></tr>
+        <tr><td>Broccoli</td><td>3&ndash;5 plants</td><td>Each plant gives one main head plus smaller side shoots over several weeks.</td></tr>
+        <tr><td>Onion</td><td>25&ndash;50 sets</td><td>Scale up if storing for winter; onions keep well and bulk planting is worthwhile.</td></tr>
+        <tr><td>Corn</td><td>10&ndash;15 plants</td><td>Must be planted in a block (not a single row) for adequate pollination &mdash; minimum block size is at least 4 rows wide.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      These figures target fresh eating, not preservation. If you plan to can, freeze, or dry a crop, roughly double or triple the planting for that crop. A family of four multiplies each figure above by four, though households that eat a particular vegetable very frequently will want to scale further.
     </p>
 
     <h2 id="worked-example">Worked Example</h2>
