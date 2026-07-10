@@ -1,0 +1,38 @@
+# HarvestMath
+
+> Free, mobile-friendly gardening calculators covering soil, mulch, fertilizer, watering, spacing, lawns, trees, indoor plants, hydroponics, and greenhouses — no sign-up required.
+
+HarvestMath.com provides calculators for home gardeners, landscapers, and houseplant owners, organized into 8 clusters. Each calculator page includes a worked example, common mistakes, and an FAQ section. All calculators run entirely in the browser — no data is sent to a server.
+
+## Calculators
+
+- [Topsoil Calculator](https://harvestmath.com/calculators/topsoil-calculator/): calculates topsoil volume in cubic feet, cubic yards, tons, and bags
+- [Raised Bed Soil Calculator](https://harvestmath.com/calculators/raised-bed-soil-calculator/): soil volume and mix ratio for raised beds, with common size presets
+- [Soil Volume Calculator](https://harvestmath.com/calculators/soil-volume-calculator/): soil volume for rectangular beds and cylindrical pots/containers
+- [Mulch Calculator](https://harvestmath.com/calculators/mulch-calculator/): mulch volume for rectangular and circular beds
+- [Plant Spacing Calculator](https://harvestmath.com/calculators/plant-spacing-calculator/): plant count and layout by crop, row or square-foot method
+- [Grass Seed Calculator](https://harvestmath.com/calculators/grass-seed-calculator/): seed quantity by grass type, new lawn or overseeding
+- [Tree Age Calculator](https://harvestmath.com/calculators/tree-age-calculator/): estimates tree age from trunk circumference without cutting it down
+- [NPK Calculator](https://harvestmath.com/calculators/npk-calculator/): fertilizer application rate, liquid dilution, and multi-fertilizer blending
+- [Pot Size Calculator](https://harvestmath.com/calculators/pot-size-calculator/): pot size conversion, repotting sizing, and container guide by plant
+- [Frost Date Calculator](https://harvestmath.com/calculators/frost-date-calculator/): estimated frost dates and planting timeline by hardiness zone
+- [Compost Calculator](https://harvestmath.com/calculators/compost-calculator/): compost volume, bags, and weight for beds and top-dressing
+- [Seed Starting Calendar](https://harvestmath.com/calculators/seed-starting-calculator/): personalized seed-starting and transplant schedule by frost date
+- [Drip Irrigation Calculator](https://harvestmath.com/calculators/drip-irrigation-calculator/): run time and water delivered based on emitter flow rate
+- [Grow Light & DLI Calculator](https://harvestmath.com/calculators/grow-light-calculator/): grow light coverage, wattage, DLI, and hanging distance
+- [Vegetable Yield Calculator](https://harvestmath.com/calculators/vegetable-yield-calculator/): estimated harvest yield by crop and area
+
+## Guides
+
+- [Topsoil vs. Garden Soil: What’s the Difference?](https://harvestmath.com/blog/topsoil-vs-garden-soil/): explains how topsoil and garden soil differ and which one to use for a given project
+
+## Reference
+
+- [Methodology](https://harvestmath.com/methodology/): how calculator formulas are sourced and verified
+- [About](https://harvestmath.com/about/): who runs HarvestMath and why
+
+## Optional
+
+- [Privacy Policy](https://harvestmath.com/privacy-policy/)
+- [Affiliate Disclosure](https://harvestmath.com/affiliate-disclosure/)
+- [Contact](https://harvestmath.com/contact/)
