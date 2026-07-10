@@ -177,6 +177,9 @@ const softwareAppJsonLd = {
     <p>
       Two measurements matter for growing under artificial light: <strong>PPFD</strong> (photosynthetic photon flux density), the intensity of plant-usable light hitting a surface at a given instant, and <strong>DLI</strong> (daily light integral), the total amount of that light delivered over a full day. PPFD is measured in µmol/m&sup2;/s with a light meter; DLI is calculated from PPFD and photoperiod, and is measured in mol/m&sup2;/day.
     </p>
+    <p>
+      A related term worth distinguishing: <strong>PPF</strong> (photosynthetic photon flux) is the <em>total</em> light a fixture emits in all directions, measured at the source. <strong>PPFD</strong> is what actually reaches the plant canopy at a specific distance and position &mdash; always less than PPF, because light spreads and some of it misses the target area entirely. Fixture spec sheets sometimes list PPF; your light meter measures PPFD. The difference matters most for the Light Distance mode on this calculator: moving a light closer increases the PPFD at the canopy even though the fixture&rsquo;s PPF stays constant.
+    </p>
     <figure class="my-6 float-right ml-6 w-48 sm:w-64">
       <img
         src="/grow-light-calculator-dli.svg"
@@ -209,7 +212,7 @@ const softwareAppJsonLd = {
         </tr>
       </thead>
       <tbody>
-        <tr><td>Seedlings &amp; cuttings</td><td>5&ndash;10</td></tr>
+        <tr><td>Seedlings &amp; cuttings</td><td>6&ndash;8</td></tr>
         <tr><td>Low-light houseplants</td><td>6&ndash;10</td></tr>
         <tr><td>Leafy greens &amp; herbs</td><td>12&ndash;20</td></tr>
         <tr><td>Fruiting vegetables</td><td>20&ndash;30</td></tr>
