@@ -26,6 +26,7 @@ const intro =
 const tocItems = [
   { id: 'how-does-a-seed-starting-calendar-work', label: 'How It Works', icon: 'leaf' as const },
   { id: 'seed-starting-timeline-by-crop', label: 'Timeline by Crop', icon: 'table' as const },
+  { id: 'hardening-off', label: 'Hardening Off', icon: 'leaf' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'seed-starting-calendar-faq', label: 'FAQ', icon: 'question' as const },
@@ -196,6 +197,9 @@ const softwareAppJsonLd = {
     <p>
       As with the Frost Date Calculator, every date is shown as a range, not a single falsely precise day. Zone-level estimates are useful for planning but coarser than station-level climate data for your exact address &mdash; treat these dates as a planning window, and nudge them earlier or later based on your own yard&rsquo;s microclimate and the current year&rsquo;s forecast.
     </p>
+    <p>
+      One thing calendar dates can&rsquo;t capture: <strong>seeds germinate based on soil temperature, not the calendar alone</strong>. A seed started indoors &ldquo;on schedule&rdquo; can still stall or germinate unevenly if the potting mix is too cold. Most warm-season crops need a soil temperature of at least 60&ndash;65&deg;F (16&ndash;18&deg;C) for reliable germination; peppers and basil want 70&deg;F (21&deg;C) or warmer; cool-season crops like lettuce and spinach will sprout in soil as cool as 40&ndash;50&deg;F (4&ndash;10&deg;C). If your seed tray is sitting on a cold surface or in a cool room and germination is slow, the soil temperature is usually the culprit &mdash; a seedling heat mat under the tray solves this quickly.
+    </p>
 
     <h2 id="seed-starting-timeline-by-crop">Seed Starting Timeline by Crop</h2>
     <p>
@@ -227,6 +231,24 @@ const softwareAppJsonLd = {
       These figures follow standard cooperative extension guidance (see Sources below) and are what the calculator uses internally &mdash; the full crop list in the tool includes a few more varieties with the same logic applied.
     </p>
 
+    <h2 id="hardening-off">Hardening Off</h2>
+    <p>
+      Seedlings grown indoors live in a controlled environment with no real wind, no direct sun exposure, and no temperature swings. Moving them straight from that sheltered world into the garden &mdash; even on the &ldquo;right&rdquo; transplant date &mdash; shocks them. Leaves scorch in the sun they haven&rsquo;t adapted to, stems snap in a breeze they&rsquo;ve never felt, and cold nights slow growth for a week or more. <strong>Hardening off</strong> is the process of gradually acclimatizing seedlings to outdoor conditions before transplanting, and it&rsquo;s one of the biggest factors separating a smooth transplant from a stalled one.
+    </p>
+    <p>
+      The standard approach, starting about <strong>7&ndash;10 days before your transplant date</strong>:
+    </p>
+    <ol>
+      <li><strong>Day 1&ndash;2:</strong> Set seedlings outside in a sheltered spot with dappled shade &mdash; under a tree, on a covered porch, or anywhere shielded from direct midday sun and strong wind. Start with about <strong>one hour</strong> outdoors, then bring them back in.</li>
+      <li><strong>Days 3&ndash;4:</strong> Extend to <strong>2&ndash;3 hours</strong> outdoors, still in a sheltered spot. Watch for wilting; if they droop in the sun, move them to shade and water as needed.</li>
+      <li><strong>Days 5&ndash;6:</strong> Move to a location with <strong>morning direct sun</strong> and afternoon shade. Leave them out for <strong>4&ndash;6 hours</strong>.</li>
+      <li><strong>Days 7&ndash;8:</strong> Increase to a <strong>full morning of sun</strong>, or leave them out all day if temperatures stay above their cold threshold. Bring in if temperatures will drop near frost.</li>
+      <li><strong>Days 9&ndash;10:</strong> Leave them outside for a <strong>full day</strong>, or overnight if the forecast is safe. They should now be ready to transplant into the ground.</li>
+    </ol>
+    <p>
+      The key is gradual progression &mdash; each day adds a bit more sun, wind, and temperature range. Don&rsquo;t rush the process if you get a string of very hot, windy, or cold days; pause at the same exposure level until conditions are milder. Cold-hardy crops like broccoli and cabbage can begin hardening off earlier and tolerate a couple of light frosts during the process; tender crops like tomatoes and peppers should be brought back in any night the forecast drops near 50&deg;F (10&deg;C) or below.
+    </p>
+
     <h2 id="worked-example">Worked Example</h2>
     <p>
       Say the calculator estimates you&rsquo;re in <strong>Zone 6b</strong>, with an estimated last frost date range of roughly <strong>March 29 &ndash; April 12</strong>, and you select <strong>Tomato</strong>.
@@ -243,7 +265,7 @@ const softwareAppJsonLd = {
     <h2 id="common-mistakes">Common Mistakes</h2>
     <ul>
       <li><strong>Starting seeds too early.</strong> Seedlings started far ahead of their transplant window sit in small containers too long, get root-bound, and stretch into weak, leggy growth reaching for light. If your transplant date is still 8+ weeks out, wait.</li>
-      <li><strong>Skipping hardening off before transplant.</strong> Seedlings grown indoors haven&rsquo;t felt real wind, direct sun, or temperature swings. Moving them straight from a windowsill to the garden can shock or scorch them &mdash; harden off over 7&ndash;10 days by setting them outside for gradually longer stretches first.</li>
+      <li><strong>Skipping hardening off before transplant.</strong> Seedlings grown indoors haven&rsquo;t felt real wind, direct sun, or temperature swings, and moving them straight to the garden can scorch leaves and stall growth for a week or more. See the <a href="#hardening-off">Hardening Off</a> section above for the full step-by-step process &mdash; the short version is 7&ndash;10 days of gradually increasing outdoor exposure before transplanting.</li>
       <li><strong>Ignoring the indoor-start vs. direct-sow difference.</strong> Crops like beans, cucumbers, and carrots resent having their roots disturbed and generally do worse transplanted than direct sown. Starting them indoors "for extra time" often backfires &mdash; check the method column in the timeline table above before deciding.</li>
     </ul>
 
