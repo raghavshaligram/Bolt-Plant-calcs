@@ -24,6 +24,7 @@ const canonicalUrl = new URL('/blog/topsoil-vs-garden-soil/', Astro.site).href;
 
 const tocItems = [
   { id: 'what-is-topsoil', label: 'What Is Topsoil?', icon: 'leaf' as const },
+  { id: 'topsoil-vs-fill-dirt', label: 'Topsoil vs. Fill Dirt', icon: 'warning' as const },
   { id: 'what-is-garden-soil', label: 'What Is Garden Soil?', icon: 'leaf' as const },
   { id: 'when-should-you-use-each-one', label: 'When to Use Each', icon: 'grid' as const },
   { id: 'what-is-screened-topsoil', label: 'What Is Screened Topsoil?', icon: 'table' as const },
@@ -131,9 +132,60 @@ const breadcrumbJsonLd = {
 
         <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
+          <p>
+            The short version, side by side:
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Topsoil</th>
+                <th>Garden Soil</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Composition</th>
+                <td>Native sand, silt, and clay in whatever ratio occurs on site &mdash; no compost added</td>
+                <td>Topsoil (or a similar base) blended with compost and other organic matter</td>
+              </tr>
+              <tr>
+                <th scope="row">Moisture retention</th>
+                <td>Depends entirely on the native clay/sand mix &mdash; can drain too fast or hold too much water</td>
+                <td>Improved by organic matter, which holds moisture while still allowing drainage</td>
+              </tr>
+              <tr>
+                <th scope="row">Nutrient content</th>
+                <td>Low to moderate and unstandardized &mdash; fertility varies by where it was dug</td>
+                <td>Higher and more consistent &mdash; compost adds nutrients and evens out fertility</td>
+              </tr>
+              <tr>
+                <th scope="row">Best use</th>
+                <td>Bulk fill, grading, building volume under a bed</td>
+                <td>Direct planting &mdash; raised beds, containers, vegetable and annual beds</td>
+              </tr>
+              <tr>
+                <th scope="row">Relative cost</th>
+                <td>Lower &mdash; a raw material</td>
+                <td>Higher &mdash; a finished, ready-to-plant product</td>
+              </tr>
+            </tbody>
+          </table>
+
           <h2 id="what-is-topsoil">What Is Topsoil?</h2>
           <p>
             Topsoil is exactly what it sounds like &mdash; the top layer of native ground, typically the first 2&ndash;12 inches, where most biological activity and organic matter naturally accumulate. Bulk and bagged topsoil sold at garden centers is usually stripped from a field or excavation site, then sold with little to no amendment. It&rsquo;s a raw material, not a finished growing medium: it may contain clay, sand, rocks, weed seeds, or debris depending on where it was sourced, and its fertility varies widely because nothing has been added to standardize it.
+          </p>
+          <p>
+            As a rough composition benchmark, soil scientists generally consider a mix of about <strong>40% sand, 40% silt, and 20% clay</strong> &mdash; a texture called loam &mdash; to be ideal for plant growth: enough sand for drainage, enough clay to hold nutrients and moisture, and enough silt to bridge the two. Native topsoil rarely lands exactly on that ratio; it&rsquo;s a useful reference point for judging what you&rsquo;ve got, not a spec you should expect a truckload of raw topsoil to meet.
+          </p>
+
+          <h2 id="topsoil-vs-fill-dirt">Topsoil vs. Fill Dirt</h2>
+          <p>
+            &ldquo;Topsoil&rdquo; and &ldquo;fill dirt&rdquo; (sometimes sold as &ldquo;clean fill&rdquo;) get used interchangeably at some supply yards, but they&rsquo;re not the same material. Fill dirt is typically subsoil or excavation spoil dug from well below the surface &mdash; largely sterile mineral material with little to no organic matter or biological activity. It&rsquo;s sold cheap because its only job is occupying volume, not supporting plant life. Topsoil, even unscreened and unamended, comes from the biologically active surface layer and retains some organic matter, though far less than garden soil does.
+          </p>
+          <p>
+            If a supplier&rsquo;s listing doesn&rsquo;t specify which one you&rsquo;re getting, ask. Filling a low spot or a utility trench with fill dirt is perfectly fine &mdash; that&rsquo;s exactly what it&rsquo;s for. But using it as the top layer under new turf or plantings will leave you with dead, compacted ground that nothing establishes well in.
           </p>
 
           <h2 id="what-is-garden-soil">What Is Garden Soil?</h2>
@@ -150,7 +202,7 @@ const breadcrumbJsonLd = {
             <li><strong>Use garden soil</strong> (or topsoil blended with compost yourself) for raised beds, containers, and any spot where you&rsquo;re planting directly &mdash; vegetables, annuals, perennials all do better in an amended mix than in plain topsoil alone.</li>
           </ul>
           <p>
-            A common, cost-effective approach for a deep raised bed: fill the bottom two-thirds with plain topsoil (cheaper, and roots won&rsquo;t reach it right away), then top the last several inches with garden soil or a topsoil-compost blend where seeds and transplants actually go in.
+            A common, cost-effective approach for a deep raised bed: fill the bottom two-thirds with plain topsoil (cheaper, and roots won&rsquo;t reach it right away), then blend the top layer where roots actually live. A <strong>50/50 topsoil-to-garden-soil blend</strong> is a reasonable default for most raised beds &mdash; mixed vegetables, herbs, and annuals generally do fine in it. For heavy feeders like <strong>tomatoes and squash</strong>, shift the ratio toward <strong>60% garden soil / 40% topsoil</strong>; the extra compost and organic matter supports the higher nutrient demand those crops put on the soil over a full season.
           </p>
 
           <h2 id="what-is-screened-topsoil">What Is Screened Topsoil?</h2>
