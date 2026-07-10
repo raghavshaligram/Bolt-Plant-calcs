@@ -25,6 +25,8 @@ const intro =
 
 const tocItems = [
   { id: 'how-much-compost-do-i-need', label: 'How Much Do You Need?', icon: 'leaf' as const },
+  { id: 'compost-application-rates-by-use', label: 'Application Rates by Use', icon: 'table' as const },
+  { id: 'finished-vs-unfinished-compost', label: 'Finished vs. Unfinished', icon: 'leaf' as const },
   { id: 'what-can-and-cant-go-in-compost', label: 'What Can Go In', icon: 'table' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
@@ -197,6 +199,64 @@ const softwareAppJsonLd = {
       One practical note: compost settles after it&rsquo;s spread, especially if it&rsquo;s not fully finished or if it&rsquo;s watered in heavily. Buying the exact calculated amount with zero margin can leave you slightly short a few weeks later &mdash; see Common Mistakes below.
     </p>
 
+    <h2 id="compost-application-rates-by-use">Compost Application Rates by Use</h2>
+    <p>
+      Application depth and coverage vary significantly by use case. The table below shows typical reference rates; always use the calculator above to convert these to your exact area.
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Compost Application Rates by Use Case
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Use Case</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Depth / Rate</th>
+            <th scope="col" class="py-2.5 font-semibold">Coverage (1 cu yd)</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Incorporating into new bed soil</th>
+            <td class="py-2 pr-4">3&ndash;4 in (tilled in)</td>
+            <td class="py-2">~100&ndash;150 sq ft per cu yd<br /><span class="text-bark-500 text-xs">(~1 cu yd per 500 sq ft at 2&ndash;3 in)</span></td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Top-dressing existing garden beds</th>
+            <td class="py-2 pr-4">1&ndash;3 in</td>
+            <td class="py-2">~100&ndash;300 sq ft per cu yd</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Topdressing over grass seed / lawn</th>
+            <td class="py-2 pr-4">&frac14;&ndash;&frac12; in</td>
+            <td class="py-2">~650&ndash;1,300 sq ft per cu yd<br /><span class="text-bark-500 text-xs">(~1 cu yd per 2,000 sq ft at &frac14; in)</span></td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Raised bed mix (compost component)</th>
+            <td class="py-2 pr-4">~30% of total volume</td>
+            <td class="py-2">Depends on bed depth &mdash; use the Raised Bed Soil Calculator</td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Container potting mix (amendment)</th>
+            <td class="py-2 pr-4">20&ndash;30% by volume</td>
+            <td class="py-2">Blended into potting mix at fill time</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="finished-vs-unfinished-compost">Finished vs. Unfinished Compost</h2>
+    <p>
+      Not all compost is ready to use the moment it comes out of the bin or bag. <strong>Finished (mature) compost</strong> is dark, crumbly, and smells earthy &mdash; like forest floor, not ammonia or rotting food. It has fully broken down and is biologically stable: it can be applied at any time, even directly around established plants, without risk of harming roots or stealing nitrogen from the soil.
+    </p>
+    <p>
+      <strong>Unfinished compost</strong> is still actively decomposing. The microbes doing that decomposition consume soil nitrogen as fuel, which can <em>temporarily reduce</em> the nitrogen available to your plants &mdash; a process called nitrogen immobilization or nitrogen tie-up. Unfinished compost can also release compounds (organic acids, heat from microbial activity) that stress tender roots if applied right at planting time. The practical rule: apply unfinished compost <strong>at least 2&ndash;4 weeks before planting</strong> and work it into the soil so decomposition can continue in place and nitrogen levels can restabilize before seeds or transplants go in. For top-dressing around established plants, finished compost is strongly preferred &mdash; unfinished material sitting on the surface breaks down slowly in open air and can mat, impeding water infiltration.
+    </p>
+    <p>
+      If you&rsquo;re buying bagged compost from a garden center, most products are finished &mdash; check that the label says &ldquo;fully composted&rdquo; or &ldquo;mature compost.&rdquo; Compost from a home pile is finished when it no longer heats up when turned, has a uniform dark color and earthy smell, and you can&rsquo;t identify any of the original input materials.
+    </p>
+
     <h2 id="what-can-and-cant-go-in-compost">What Can (and Can&rsquo;t) Go in Compost</h2>
     <p>
       A working compost pile needs a rough balance of <strong>&ldquo;greens&rdquo;</strong> (nitrogen-rich material like vegetable scraps, coffee grounds, and fresh grass clippings) and <strong>&ldquo;browns&rdquo;</strong> (carbon-rich material like dry leaves, cardboard, and straw). A commonly cited starting ratio is roughly <strong>2 to 3 parts browns for every 1 part greens by volume</strong> &mdash; too many greens and the pile turns slimy and smells like ammonia; too many browns and it barely breaks down at all. You don&rsquo;t need to measure precisely, just keep adding browns whenever you add a load of kitchen scraps.
@@ -225,7 +285,7 @@ const softwareAppJsonLd = {
 
     <h2 id="common-mistakes">Common Mistakes</h2>
     <ul>
-      <li><strong>Using unfinished (&ldquo;hot&rdquo;) compost.</strong> Compost that&rsquo;s still actively decomposing generates heat and can tie up nitrogen or release compounds that burn tender roots. Finished compost is dark, crumbly, and smells earthy, not sour or ammonia-like &mdash; if it still looks like recognizable food scraps, give it more time.</li>
+      <li><strong>Applying unfinished compost right at planting time.</strong> As explained in the <a href="#finished-vs-unfinished-compost">Finished vs. Unfinished</a> section above, compost that&rsquo;s still actively decomposing temporarily ties up soil nitrogen and can stress tender roots. Finished compost is safe to apply anytime; unfinished compost needs at least 2&ndash;4 weeks worked into the soil before planting. If it still looks like recognizable food scraps or smells sour or ammonia-like, it&rsquo;s not ready.</li>
       <li><strong>Wrong greens-to-browns ratio.</strong> A pile that&rsquo;s too heavy on greens turns anaerobic and smells bad; too heavy on browns and it stalls out. If your pile smells off or isn&rsquo;t breaking down, adjust the ratio before adding anything else.</li>
       <li><strong>Not accounting for settling.</strong> Fresh compost settles as it beds in and water works through it, so a layer that looked like 2 inches on delivery day can settle to noticeably less within a few weeks. Buying 10-15% extra covers this without much added cost.</li>
       <li><strong>Over-applying.</strong> More compost isn&rsquo;t automatically better &mdash; piling on several inches every season can throw off soil nutrient balance and, in containers, crowd out the mineral component the roots also need. Stick to the recommended depth for the job you&rsquo;re actually doing.</li>
