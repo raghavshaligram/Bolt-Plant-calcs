@@ -89,13 +89,21 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
 
   {leadMagnet && (
     <div class="container-wide">
-      <LeadMagnetForm
-        client:load
-        listId={leadMagnet.listId}
-        clusterName={leadMagnet.clusterName}
-        icon={leadMagnet.icon}
-        description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
-      />
+      {/* Same lg:grid grid-cols-[1fr_240px] template as the content area
+          above -- guarantees the form's column resolves to the exact same
+          pixel width as the article/calculator column, even with no second
+          item in this grid (the 240px track still reserves its own space). */}
+      <div class="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+        <div class="min-w-0">
+          <LeadMagnetForm
+            client:load
+            listId={leadMagnet.listId}
+            clusterName={leadMagnet.clusterName}
+            icon={leadMagnet.icon}
+            description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+          />
+        </div>
+      </div>
     </div>
   )}
 </Layout>

@@ -21,16 +21,16 @@ const iconMap = {
  * email required) server-side. No Brevo embed script, iframe, or default
  * form markup is used anywhere here.
  *
- * This component owns its entire card -- width cap, border, shadow, padding,
- * heading, description, and spacing above it -- so every page that uses it
- * (7 cluster pages, 15 calculator pages) just drops in
- * <LeadMagnetForm client:load listId={...} clusterName={...} description={...} />
- * with no wrapper markup of its own. That's deliberate: a page previously
- * wrapped this in its own ad hoc card/section markup, which is how one
- * wrapper (the cluster-page bottom section) ended up full-width with no
- * border or max-width, visually breaking out of the content column next to
- * it. Centralizing the card here means that class of bug can't recur on a
- * per-page basis.
+ * This component owns its entire card -- border, shadow, padding, heading,
+ * description, and spacing above it -- so every page that uses it (15
+ * calculator pages, inline + at the bottom via CalculatorLayout) just drops
+ * in <LeadMagnetForm client:load listId={...} clusterName={...}
+ * description={...} /> with no wrapper markup of its own. It deliberately
+ * has NO max-width of its own -- it stretches to fill whatever column its
+ * parent gives it (w-full only), so it always matches the width of the
+ * article/content column beside it rather than being independently capped
+ * narrower than that column. Width is controlled entirely by the parent
+ * container on each page, not by this component.
  *
  * Brand spec (used exactly, per design):
  *   soil brown #5C4433 · leaf green #4A7C59 · deep forest green #3D6647
@@ -74,12 +74,13 @@ export default function LeadMagnetForm({ listId, clusterName, description, icon 
     description ?? `A one-page PDF of the ${clusterName} math from this site, emailed once.`;
 
   return (
-    // w-full + max-w-2xl: never wider than the surrounding article/prose
-    // column (which caps at the same max-w-2xl elsewhere on these pages),
-    // regardless of which page or cluster renders it. mt-8/sm:mt-10 gives
-    // consistent breathing room (32px/40px) above whatever content sits
-    // before it, instead of relying on each page to remember a margin.
-    <div className="mt-8 w-full max-w-2xl rounded-xl border border-[#5C4433]/15 bg-[#F5F1E8] p-6 shadow-sm sm:mt-10 sm:p-8">
+    // w-full, no max-width cap: stretches to fill the full width of
+    // whichever column its parent places it in, so it always matches the
+    // article/content column width on the page rather than being narrower.
+    // mt-8/sm:mt-10 gives consistent breathing room (32px/40px) above
+    // whatever content sits before it, instead of relying on each page to
+    // remember a margin.
+    <div className="mt-8 w-full rounded-xl border border-[#5C4433]/15 bg-[#F5F1E8] p-6 shadow-sm sm:mt-10 sm:p-8">
       {status === 'success' ? (
         <div className="rounded-md bg-[#3D6647] p-6">
           <p
