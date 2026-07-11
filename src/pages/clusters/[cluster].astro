@@ -36,7 +36,8 @@ const isIndoorPillar = cluster.slug === 'indoor-plants';
 const isWateringPillar = cluster.slug === 'watering-and-irrigation';
 const isSpacingPillar = cluster.slug === 'spacing-and-planting';
 const isTreesPillar = cluster.slug === 'trees-and-shrubs';
-const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar || isSpacingPillar || isTreesPillar;
+const isFertilizerPillar = cluster.slug === 'fertilizer-and-nutrients';
+const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar || isSpacingPillar || isTreesPillar || isFertilizerPillar;
 
 
 // TOC + sticky-sidebar layout (same TableOfContents component used on
@@ -87,6 +88,14 @@ const treesTocItems = [
   { id: 'feeding-trees-and-shrubs', label: 'Feeding Trees & Shrubs' },
 ];
 
+const fertilizerTocItems = [
+  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'what-your-plants-actually-need', label: 'What Plants Need' },
+  { id: 'soil-affects-how-much-fertilizer-you-actually-need', label: 'Soil Affects Fertilizer Needs' },
+  { id: 'organic-vs-synthetic-nutrient-sources', label: 'Organic vs. Synthetic' },
+  { id: 'common-feeding-scenarios', label: 'Common Feeding Scenarios' },
+];
+
 const pillarTocItems = isSoilPillar
   ? soilTocItems
   : isLawnPillar
@@ -99,6 +108,8 @@ const pillarTocItems = isSoilPillar
   ? spacingTocItems
   : isTreesPillar
   ? treesTocItems
+  : isFertilizerPillar
+  ? fertilizerTocItems
   : [];
 
 // Depth-ruler data for the "at a glance" visual (point 2). Topsoil/Compost/
@@ -164,6 +175,7 @@ const calculatorTint: Record<string, string> = {
   'plant-spacing-calculator': 'bg-moss-50',
   'vegetable-yield-calculator': 'bg-[#E8A94A]/10',
   'tree-age-calculator': 'bg-[#8B6535]/10',
+  'npk-calculator': 'bg-[#E8A94A]/10',
 };
 
 const soilPillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
@@ -190,6 +202,10 @@ const treesPillarTitle = 'Trees & Shrubs: Age, Watering, Mulching, and Care Guid
 const treesPillarDescription =
   'The complete guide to tree and shrub care — knowing your tree\'s age, watering by maturity, mulching correctly, and when feeding actually helps.';
 
+const fertilizerPillarTitle = 'Fertilizer & Nutrients: Plant Nutrition and NPK Guide';
+const fertilizerPillarDescription =
+  'The complete guide to plant nutrition — what N-P-K actually does, how soil type changes your feeding rate, organic vs. synthetic sources, and a calculator for the exact amount.';
+
 const pillarTitle = isSoilPillar
   ? soilPillarTitle
   : isLawnPillar
@@ -202,6 +218,8 @@ const pillarTitle = isSoilPillar
   ? spacingPillarTitle
   : isTreesPillar
   ? treesPillarTitle
+  : isFertilizerPillar
+  ? fertilizerPillarTitle
   : '';
 const pillarDescription = isSoilPillar
   ? soilPillarDescription
@@ -215,6 +233,8 @@ const pillarDescription = isSoilPillar
   ? spacingPillarDescription
   : isTreesPillar
   ? treesPillarDescription
+  : isFertilizerPillar
+  ? fertilizerPillarDescription
   : '';
 const pillarAboutName = isSoilPillar
   ? 'Soil and garden amendments'
@@ -228,6 +248,8 @@ const pillarAboutName = isSoilPillar
   ? 'Vegetable garden planning timeline'
   : isTreesPillar
   ? 'Tree and shrub care'
+  : isFertilizerPillar
+  ? 'Plant nutrition and fertilizer application'
   : '';
 
 const pageTitle = isPillar ? pillarTitle : `${cluster.name} Calculators`;
@@ -376,10 +398,18 @@ const indoorReferenceRows = [
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
-            ) : (
+            ) : isTreesPillar ? (
               <img
                 src="/trees-and-shrubs-cluster-mulch-ring-and-rings.svg"
                 alt="A mature tree with a properly mulched ring around its base showing the trunk gap, alongside an inset cross-section of its growth rings"
+                width="800"
+                height="500"
+                class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
+              />
+            ) : (
+              <img
+                src="/fertilizer-and-nutrients-cluster-npk-plant-diagram.svg"
+                alt="A plant cross-section showing nitrogen feeding leafy growth, phosphorus feeding roots and flowers, and potassium supporting overall vigor, beside a fertilizer bag with its N-P-K numbers"
                 width="800"
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
@@ -479,6 +509,20 @@ const indoorReferenceRows = [
         </p>
         <p>
           This cluster centers on the Tree Age Calculator, but age is really the starting point for the other three decisions, not a standalone fact &mdash; a newly planted sapling and a 40-year-old oak get different water schedules, different mulching attention, and different (if any) fertilizer. This page walks through all four, with the calculator as one practical tool inside that broader picture rather than the whole story.
+        </p>
+          </>
+        )}
+
+        {isFertilizerPillar && (
+          <>
+        <p>
+          Every fertilizer bag is built around three numbers &mdash; N-P-K &mdash; and each one does a genuinely different job. <strong>Nitrogen</strong> drives leafy, green growth; <strong>phosphorus</strong> builds roots, flowers, and fruit; <strong>potassium</strong> supports overall vigor and stress tolerance. None of them substitutes for the others, and none of them is &ldquo;the fertilizer strength&rdquo; on its own.
+        </p>
+        <p>
+          How much of each a plant actually needs isn&rsquo;t a fixed number &mdash; it depends on your <strong>soil</strong> (sandy soil drains nutrients fast and needs lighter, more frequent feeding; clay holds nutrients longer and needs less), your <strong>crop</strong> (a lawn, a tomato plant, and a young tree all have different demand curves), and its <strong>growth stage</strong> (a seedling and a fruiting plant want different ratios). And past a certain point, more isn&rsquo;t better: excess nitrogen leaches into groundwater and can burn roots or push soft, disease-prone growth, while excess phosphorus is often just wasted money sitting in soil that didn&rsquo;t need it.
+        </p>
+        <p>
+          This page walks through what N-P-K actually does, how your soil changes your feeding rate, how organic and synthetic sources differ, and a few common real-world feeding scenarios &mdash; with the NPK Calculator as the tool that turns any of this into an exact amount to apply.
         </p>
           </>
         )}
@@ -982,6 +1026,55 @@ const indoorReferenceRows = [
             <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
+          </>
+        )}
+
+        {isFertilizerPillar && (
+          <>
+        <h2 id="what-your-plants-actually-need">What Your Plants Actually Need</h2>
+        <p>
+          <strong>Nitrogen (N)</strong> drives leafy, green growth &mdash; it&rsquo;s the nutrient behind lush foliage and fast vegetative growth, and it&rsquo;s also the one plants scavenge from older leaves first when it&rsquo;s in short supply, which is why yellowing lower leaves are the classic deficiency sign. <strong>Phosphorus (P)</strong> goes into roots, flowers, and fruit &mdash; it matters most at planting time (for root establishment) and again at flowering and fruit-set. <strong>Potassium (K)</strong> doesn&rsquo;t drive a single visible feature the way N and P do; instead it supports overall plant vigor, water regulation, and resistance to drought, disease, and cold stress.
+        </p>
+        <p>
+          A fertilizer&rsquo;s label numbers (like 10-10-10) tell you the percentage, by weight, of each &mdash; a 50 lb bag of 10-10-10 delivers 5 lb each of actual N, P&#8322;O&#8325;, and K&#8322;O. Application rates are conventionally measured in <strong>pounds of actual nitrogen per 1,000 sq ft</strong>, not pounds of product, since two fertilizers with different N percentages need very different amounts of product to deliver the same nitrogen.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">NPK Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Find your granular application rate, mix a liquid feed to a target PPM, or blend fertilizers toward a target N-P-K ratio.</p>
+          <a
+            href="/calculators/npk-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <h2 id="soil-affects-how-much-fertilizer-you-actually-need">Soil Affects How Much Fertilizer You Actually Need</h2>
+        <p>
+          The same fertilizer rate doesn&rsquo;t work the same way in every soil. <strong>Sandy soil</strong> drains fast, and dissolved nutrients drain right along with the water &mdash; so sandy soil needs more frequent, lighter feedings to keep nutrients available rather than one large dose that leaches away before the plant can use it. <strong>Clay soil</strong> holds both water and nutrients much longer, thanks to its enormous mineral surface area, but that same holding capacity can also lock some nutrients up, making a smaller, less frequent application more appropriate.
+        </p>
+        <p>
+          Not sure what you&rsquo;re working with? Our <a href="/calculators/soil-type-calculator/">Soil Type Calculator</a> (Soil &amp; Amendments cluster) classifies your soil texture using the USDA soil texture triangle, which directly affects your feeding schedule &mdash; sandy, loamy, and clay-heavy soils each call for a different approach.
+        </p>
+
+        <h2 id="organic-vs-synthetic-nutrient-sources">Organic vs. Synthetic Nutrient Sources</h2>
+        <p>
+          <strong>Compost and manure</strong> release nutrients slowly as soil microbes break them down, and they build soil structure and water-holding capacity along the way &mdash; a genuine long-term investment in the soil itself, not just a one-time feeding. <strong>Synthetic fertilizer</strong> is fast-acting and precise: you know exactly how much N-P-K you&rsquo;re applying and roughly how quickly it&rsquo;ll be available, but it does nothing to build soil structure, organic matter, or the microbial life that supports long-term fertility.
+        </p>
+        <p>
+          Compost is a real nutrient source too, not just a soil amendment &mdash; our <a href="/calculators/compost-calculator/">Compost Calculator</a> (Soil &amp; Amendments cluster) helps you work out how much to add. Many gardeners use both: compost worked into the soil for structure and slow-release feeding, with synthetic fertilizer layered on top when a specific, fast-acting correction is needed.
+        </p>
+
+        <h2 id="common-feeding-scenarios">Common Feeding Scenarios</h2>
+        <p>
+          <strong>New and overseeded lawns</strong> both benefit from a starter fertilizer at seeding &mdash; new seedlings need available phosphorus for root development that established turf has often already depleted from the topsoil. Whether you&rsquo;re starting a lawn from scratch or filling in bare patches, pair your seeding with a starter application: see our <a href="/calculators/grass-seed-calculator/">Grass Seed Calculator</a> or <a href="/calculators/overseeding-calculator/">Overseeding Calculator</a> (Lawn &amp; Landscaping cluster) for the seeding math, then use the NPK Calculator above for the fertilizer rate.
+        </p>
+        <p>
+          <strong>Stressed or young trees</strong> are one of the few cases where an established landscape planting actually needs supplemental feeding &mdash; not as routine maintenance, but when a tree is young and establishing, showing visible nutrient deficiency, or recovering from storm or drought stress. Our <a href="/clusters/trees-and-shrubs/">Trees &amp; Shrubs guide</a> covers exactly when feeding helps and when it doesn&rsquo;t, alongside watering and mulching guidance for the rest of a tree&rsquo;s care.
+        </p>
           </>
         )}          </article>
         </div>

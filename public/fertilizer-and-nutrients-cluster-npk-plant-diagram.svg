@@ -1,0 +1,47 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#F5F1E8" rx="16"/>
+
+  <line x1="40" y1="360" x2="480" y2="360" stroke="#5C4433" stroke-width="2" stroke-opacity="0.3"/>
+
+  <line x1="260" y1="360" x2="260" y2="120" stroke="#3D6647" stroke-width="6" stroke-linecap="round"/>
+
+  <ellipse cx="200" cy="150" rx="46" ry="22" fill="#4A7C59" transform="rotate(-25 200 150)"/>
+  <ellipse cx="320" cy="140" rx="46" ry="22" fill="#4A7C59" transform="rotate(25 320 140)"/>
+  <ellipse cx="205" cy="205" rx="42" ry="20" fill="#4A7C59" transform="rotate(-20 205 205)"/>
+  <ellipse cx="315" cy="200" rx="42" ry="20" fill="#4A7C59" transform="rotate(20 315 200)"/>
+
+  <circle cx="260" cy="110" r="16" fill="#E8A94A"/>
+  <circle cx="260" cy="110" r="7" fill="#B8752E"/>
+
+  <path d="M260 360 Q230 385 205 405" stroke="#B8752E" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M260 360 Q290 385 315 405" stroke="#B8752E" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M260 360 Q260 395 260 420" stroke="#B8752E" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M260 360 Q240 380 220 390" stroke="#B8752E" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M260 360 Q280 380 300 390" stroke="#B8752E" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+  <circle cx="260" cy="240" r="150" fill="none" stroke="#4A90B8" stroke-width="2" stroke-dasharray="4 6" opacity="0.45"/>
+
+  <line x1="320" y1="140" x2="400" y2="120" stroke="#3D6647" stroke-width="1.5"/>
+  <text x="406" y="116" font-family="Georgia, serif" font-size="15" font-weight="600" fill="#3D6647">N</text>
+  <text x="406" y="134" font-family="Arial, sans-serif" font-size="12" fill="#5C4433">Nitrogen - leafy growth</text>
+
+  <line x1="270" y1="112" x2="400" y2="80" stroke="#B8752E" stroke-width="1.5"/>
+  <text x="406" y="76" font-family="Georgia, serif" font-size="15" font-weight="600" fill="#B8752E">P</text>
+  <text x="406" y="94" font-family="Arial, sans-serif" font-size="12" fill="#5C4433">Phosphorus - roots, flowers, fruit</text>
+
+  <line x1="330" y1="290" x2="400" y2="290" stroke="#4A90B8" stroke-width="1.5"/>
+  <text x="406" y="270" font-family="Georgia, serif" font-size="15" font-weight="600" fill="#4A90B8">K</text>
+  <text x="406" y="288" font-family="Arial, sans-serif" font-size="12" fill="#5C4433">Potassium - vigor,</text>
+  <text x="406" y="304" font-family="Arial, sans-serif" font-size="12" fill="#5C4433">stress tolerance</text>
+
+  <g transform="translate(560,180)">
+    <path d="M0 0 L110 0 L120 190 Q120 200 110 200 L10 200 Q0 200 0 190 Z" fill="#8B6535"/>
+    <path d="M20 0 L90 0 L90 -18 Q90 -26 82 -26 L28 -26 Q20 -26 20 -18 Z" fill="#6B4F35"/>
+    <rect x="10" y="40" width="100" height="90" rx="6" fill="#F5F1E8"/>
+    <text x="60" y="70" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#3D6647" text-anchor="middle">10</text>
+    <text x="60" y="98" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#B8752E" text-anchor="middle">10</text>
+    <text x="60" y="126" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#4A90B8" text-anchor="middle">10</text>
+    <text x="60" y="160" font-family="Arial, sans-serif" font-size="11" fill="#5C4433" text-anchor="middle">N - P - K</text>
+  </g>
+  <text x="615" y="410" font-family="Arial, sans-serif" font-size="12" fill="#5C4433" text-anchor="middle">Every bag: N-P-K by weight</text>
+</svg>
