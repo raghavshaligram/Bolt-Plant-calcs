@@ -356,6 +356,19 @@ export const calculators: Calculator[] = [
     status: 'live',
   },
   {
+    slug: 'hydroponic-nutrient-calculator',
+    title: 'Hydroponic Nutrient Calculator',
+    shortTitle: 'Nutrient Calculator',
+    description:
+      'Calculate hydroponic nutrient dosing by reservoir size and growth stage, and convert EC readings to PPM on all three common scales.',
+    metaDescription:
+      'Calculate hydroponic nutrient dosing by reservoir size and growth stage, and convert between EC and PPM (500/640/700 scales). Free calculator.',
+    seoTitle: 'Hydroponic Nutrient Calculator - Dosing & EC/PPM',
+    cluster: 'hydroponics-and-greenhouse',
+    href: '/calculators/hydroponic-nutrient-calculator/',
+    status: 'live',
+  },
+  {
     slug: 'vegetable-yield-calculator',
     title: 'Vegetable Yield Calculator',
     shortTitle: 'Vegetable Yield',

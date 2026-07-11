@@ -1,0 +1,277 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import HydroponicNutrientCalculator from '../../components/calculators/HydroponicNutrientCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+
+const calculator = getCalculator('hydroponic-nutrient-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
+
+const lastUpdated = '2026-07-11';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This hydroponic nutrient calculator works with any brand of nutrients — it scales your own product’s label dose to your reservoir size and growth stage, rather than prescribing a fixed recipe. It also untangles a common source of confusion: EC versus PPM, and which of three different PPM scales your meter actually uses.';
+
+const tocItems = [
+  { id: 'how-much-nutrient-do-you-actually-need', label: 'How Much Do You Need?', icon: 'leaf' as const },
+  { id: 'growth-stage-dosing-guide', label: 'Growth Stage Dosing', icon: 'table' as const },
+  { id: 'ec-vs-ppm-which-should-you-trust', label: 'EC vs. PPM', icon: 'warning' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'hydroponic-nutrient-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/hydroponic-nutrient-calculator-reservoir-ec-meter.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How do I make my own hydroponic nutrient solution?',
+    a: 'Mix your chosen nutrient concentrate into water at the rate its label specifies, then adjust for your plant’s growth stage (less for seedlings, more for heavy-feeding bloom). This calculator does that reservoir-size and growth-stage math for any product’s label dose — it’s a scaling tool, not a fixed recipe.',
+  },
+  {
+    q: 'How are hydroponic nutrients manufactured?',
+    a: 'Commercial hydroponic nutrients are formulated by blending mineral salts (nitrates, phosphates, sulfates, and micronutrient chelates) into concentrated liquid or powder products, each balanced to specific N-P-K and micronutrient ratios. Exact formulas are proprietary to each manufacturer, which is why this calculator scales your label’s dose rather than replicating any brand’s recipe.',
+  },
+  {
+    q: 'How much hydroponic solution do I need?',
+    a: 'Enough to fully submerge your plants’ roots or run through your system without the reservoir running dry between refills — for most home setups, that’s determined by your reservoir or tote size, not a fixed volume per plant. Check your specific system type (DWC, ebb and flow, NFT) for reservoir sizing guidance.',
+  },
+  {
+    q: 'What’s the difference between the 500, 640, and 700 PPM scales?',
+    a: 'They’re three different conversion factors applied to the same EC reading — PPM500 = EC × 500, PPM640 = EC × 640, PPM700 = EC × 700 — so the same solution shows a different PPM number depending on which scale your meter uses. None is more “accurate” than another; they’re just different units, which is why matching your meter’s scale to any chart you’re following matters.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate hydroponic nutrient dosing and convert EC to PPM',
+  description:
+    'Use the hydroponic nutrient calculator to scale any product’s label dose to your reservoir size and growth stage, and to convert an EC reading to PPM on the 500, 640, and 700 scales.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Enter your reservoir and label dose',
+      text: 'Type your reservoir volume, your product’s label dose amount and the reservoir amount it’s dosed per, and select your plant’s growth stage.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Read the scaled dosing amount',
+      text: 'The calculator shows exactly how much concentrate to add to your reservoir at that growth stage.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Convert EC to PPM',
+      text: 'In the second section, enter your EC reading to see the equivalent PPM on all three common meter scales at once.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Hydroponics & Greenhouse',
+      item: 'https://harvestmath.com/clusters/hydroponics-and-greenhouse/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Hydroponic Nutrient Calculator',
+      item: 'https://harvestmath.com/calculators/hydroponic-nutrient-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Hydroponic Nutrient Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/hydroponic-nutrient-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Both calculator sections — immediately after intro, visible without scrolling -->
+  <HydroponicNutrientCalculator client:load />
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-much-nutrient-do-you-actually-need">How Much Nutrient Do You Actually Need?</h2>
+    <p>
+      Every hydroponic nutrient product is different &mdash; concentration, N-P-K ratio, and recommended dose all vary by brand and formula. There&rsquo;s no universal number that works across products, which is exactly why the label on your specific bottle is the only reliable starting point. What <em>is</em> universal is the math for scaling that label dose to your actual setup: your reservoir size determines how many &ldquo;doses&rdquo; you&rsquo;re mixing, and your plant&rsquo;s growth stage determines what fraction of the full label dose it actually needs.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/hydroponic-nutrient-calculator-reservoir-ec-meter.svg"
+        alt="A hydroponic reservoir with a nutrient concentrate bottle dosing into the water and an EC meter probe reading the solution"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Reservoir size and growth stage do the scaling — the label dose is whatever your specific product says.
+      </figcaption>
+    </figure>
+    <p>
+      Seedlings and clones have small, undeveloped root systems and are easy to overfeed &mdash; most labels and growers use roughly a quarter to half strength at this stage. Vegetative growth calls for something close to the full label dose. Flowering and fruiting, especially for heavy feeders, can call for slightly more than the base label dose. This calculator handles that scaling automatically once you enter your product&rsquo;s label numbers and pick a growth stage &mdash; it never assumes or substitutes a brand-specific ratio of its own.
+    </p>
+
+    <h2 id="growth-stage-dosing-guide">Growth Stage Dosing Guide</h2>
+    <div class="not-prose overflow-x-auto rounded-xl border border-moss-200">
+      <table class="w-full text-left text-sm">
+        <thead>
+          <tr class="border-b border-moss-100 bg-moss-50/60 text-bark-500">
+            <th scope="col" class="px-4 py-2.5 font-medium">Growth stage</th>
+            <th scope="col" class="px-4 py-2.5 font-medium">% of label dose</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="px-4 py-2.5 font-medium text-bark-800">Seedling / Clone</th>
+            <td class="px-4 py-2.5">25&ndash;50%</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="px-4 py-2.5 font-medium text-bark-800">Vegetative</th>
+            <td class="px-4 py-2.5">75&ndash;100%</td>
+          </tr>
+          <tr>
+            <th scope="row" class="px-4 py-2.5 font-medium text-bark-800">Flowering / Fruiting</th>
+            <td class="px-4 py-2.5">100&ndash;125% (heavy feeders)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      These are general growing conventions, not brand-specific rules &mdash; the calculator above uses the midpoint of each range as a practical default. Watch your plants&rsquo; response (leaf color, growth rate, any tip burn) and adjust from there; no percentage table replaces observation.
+    </p>
+
+    <h2 id="ec-vs-ppm-which-should-you-trust">EC vs. PPM: Which Should You Trust?</h2>
+    <p>
+      <strong>EC (electrical conductivity)</strong> is the international, meter-agnostic measurement of how much dissolved nutrient is in your solution &mdash; it&rsquo;s read directly off the conductivity of the water and doesn&rsquo;t depend on any conversion. <strong>PPM (parts per million)</strong> is a derived, convenience number that estimates dissolved solids from that same EC reading &mdash; but there are three different scales in common use (500, 640, and 700), and each gives a different PPM number from the identical EC reading. Two growers with the exact same nutrient strength can read completely different PPM numbers just because their meters use different scales.
+    </p>
+    <p>
+      Because of this, EC is the more trustworthy number to track over time and compare between readings. PPM is genuinely useful when you need to translate a feeding chart, forum post, or another grower&rsquo;s numbers that were written in PPM &mdash; but only once you know which scale they used and which scale your meter uses.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      <strong>Nutrient dosing:</strong> a <strong>5-gallon reservoir</strong>, with a label dose of <strong>5 ml per gallon</strong>, during the <strong>vegetative</strong> stage.
+    </p>
+    <ol>
+      <li><strong>Units in the reservoir:</strong> 5 gallons &divide; 1 gallon (the label&rsquo;s per-unit volume) = <strong>5 units</strong>.</li>
+      <li><strong>Base dose:</strong> 5 units &times; 5 ml = <strong>25 ml</strong> at full (100%) label strength.</li>
+      <li><strong>Scale to growth stage:</strong> 25 ml &times; 87.5% (vegetative midpoint) = <strong>~21.9 ml</strong> of concentrate for this reservoir.</li>
+    </ol>
+    <p>
+      <strong>EC to PPM:</strong> a meter reads <strong>1.8 EC</strong>.
+    </p>
+    <ol>
+      <li><strong>500 scale:</strong> 1.8 &times; 500 = <strong>900 ppm</strong> (Hanna, Milwaukee, General Hydroponics, Oakton).</li>
+      <li><strong>640 scale:</strong> 1.8 &times; 640 = <strong>1,152 ppm</strong> (some European meters).</li>
+      <li><strong>700 scale:</strong> 1.8 &times; 700 = <strong>1,260 ppm</strong> (Bluelab, Eutech, Truncheon).</li>
+    </ol>
+    <p>
+      Same solution, same EC reading &mdash; three different PPM numbers depending purely on which scale is selected. This is exactly why matching your meter&rsquo;s scale to whatever chart you&rsquo;re following matters more than the PPM number itself.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Using a PPM number without knowing its scale.</strong> A PPM figure copied from a chart or forum post can be off by a substantial margin in either direction if it was written for a different scale than your meter uses &mdash; a 1.8 EC solution reads anywhere from 900 to 1,260 depending on the scale.</li>
+      <li><strong>Assuming your meter&rsquo;s scale instead of checking it.</strong> Check your meter&rsquo;s manual, or look up its brand against the reference table above &mdash; don&rsquo;t guess.</li>
+      <li><strong>Chasing an exact PPM number instead of watching your plants.</strong> Dosing tables and target ranges are starting points, not guarantees. Leaf color, growth rate, and any sign of nutrient burn or deficiency tell you more than a precise number ever will.</li>
+    </ul>
+
+    <LeadMagnetForm
+      client:load
+      listId={leadMagnet.listId}
+      clusterName={leadMagnet.clusterName}
+      icon={leadMagnet.icon}
+      description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+    />
+
+    <FAQBlock id="hydroponic-nutrient-calculator-faq" heading="Hydroponic Nutrient Calculator FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      The EC/PPM scale explanations on this page draw on Bluelab&rsquo;s technical support article, <a href="https://support.bluelab.com/hc/en-us/articles/205237090-what-are-the-different-conductivity-scales-what-do-they-mean-" rel="noopener">&ldquo;What are the different conductivity scales? What do they mean?&rdquo;</a> &mdash; a manufacturer/industry technical reference rather than a university or government source; we looked for a stronger .edu-level source specifically comparing all three PPM scales and didn&rsquo;t find one as clear or current, so we&rsquo;re flagging that distinction here. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Hydroponics & Greenhouse cluster', url: '/clusters/hydroponics-and-greenhouse/', anchorText: 'Hydroponics & Greenhouse cluster', note: 'the full set of controlled-environment growing calculators on this site.' },
+      { name: 'Greenhouse Heater Calculator', url: '/calculators/greenhouse-heater-calculator/', note: 'size the heater for the same controlled-environment space you’re dosing nutrients in.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

@@ -25,6 +25,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 - [Grow Light & DLI Calculator](https://harvestmath.com/calculators/grow-light-calculator/): grow light coverage, wattage, DLI, and hanging distance
 - [Vegetable Yield Calculator](https://harvestmath.com/calculators/vegetable-yield-calculator/): estimated harvest yield by crop and area
 - [Greenhouse Heater Calculator](https://harvestmath.com/calculators/greenhouse-heater-calculator/): estimated heat loss and recommended heater size (BTU) by shape, glazing, and climate
+- [Hydroponic Nutrient Calculator](https://harvestmath.com/calculators/hydroponic-nutrient-calculator/): scale any nutrient product's label dose by reservoir size and growth stage, plus EC-to-PPM conversion on the 500/640/700 scales
 
 ## Guides
 

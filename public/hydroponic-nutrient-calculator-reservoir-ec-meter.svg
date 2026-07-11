@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A hydroponic reservoir with a nutrient concentrate bottle dosing into the water and an EC meter probe reading the solution">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#EEF3E7"/>
+  <rect x="0" y="380" width="800" height="120" fill="#DCE7CF"/>
+
+  <!-- Reservoir tote (simplified) -->
+  <g>
+    <rect x="230" y="230" width="340" height="190" rx="14" fill="#F5F1E8" stroke="#8A9A6B" stroke-width="4"/>
+    <rect x="230" y="230" width="340" height="190" rx="14" fill="none" stroke="#5C4433" stroke-width="2" opacity="0.15"/>
+    <!-- water fill -->
+    <path d="M244 300 h312 v106 a12 12 0 0 1 -12 12 h-288 a12 12 0 0 1 -12 -12 z" fill="#7FB2A0" opacity="0.55"/>
+    <!-- waterline ripple -->
+    <path d="M244 300 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t32 0" stroke="#4A7C59" stroke-width="3" fill="none" opacity="0.7"/>
+    <!-- fill line marks -->
+    <g stroke="#8A9A6B" stroke-width="2" opacity="0.6">
+      <line x1="230" y1="300" x2="216" y2="300"/>
+      <line x1="230" y1="340" x2="216" y2="340"/>
+      <line x1="230" y1="380" x2="216" y2="380"/>
+    </g>
+  </g>
+
+  <!-- Nutrient concentrate bottle, tilted, dosing into reservoir -->
+  <g transform="rotate(-18 300 150)">
+    <rect x="270" y="70" width="60" height="130" rx="10" fill="#E8A94A"/>
+    <rect x="270" y="70" width="60" height="130" rx="10" fill="none" stroke="#5C4433" stroke-width="3"/>
+    <rect x="284" y="46" width="32" height="28" rx="4" fill="#5C4433"/>
+    <rect x="280" y="100" width="52" height="40" rx="3" fill="#F5F1E8" opacity="0.9"/>
+    <line x1="286" y1="112" x2="326" y2="112" stroke="#5C4433" stroke-width="2"/>
+    <line x1="286" y1="122" x2="316" y2="122" stroke="#5C4433" stroke-width="2"/>
+    <line x1="286" y1="132" x2="320" y2="132" stroke="#5C4433" stroke-width="2"/>
+  </g>
+  <!-- drip stream from bottle into reservoir -->
+  <g fill="#E8A94A">
+    <circle cx="336" cy="205" r="5"/>
+    <circle cx="342" cy="225" r="4"/>
+    <circle cx="347" cy="245" r="4.5"/>
+  </g>
+
+  <!-- EC meter probe dipped into reservoir on the right side -->
+  <g>
+    <rect x="470" y="120" width="22" height="150" rx="6" fill="#3D6647"/>
+    <rect x="470" y="120" width="22" height="150" rx="6" fill="none" stroke="#2E4E36" stroke-width="2"/>
+    <rect x="458" y="90" width="46" height="40" rx="8" fill="#F5F1E8" stroke="#3D6647" stroke-width="3"/>
+    <text x="481" y="116" font-family="monospace" font-size="16" fill="#3D6647" text-anchor="middle" font-weight="bold">EC</text>
+    <!-- probe tip in water -->
+    <rect x="475" y="270" width="12" height="34" rx="4" fill="#2E4E36"/>
+  </g>
+
+  <!-- Small readout display floating near meter -->
+  <g>
+    <rect x="540" y="150" width="150" height="70" rx="10" fill="#3D6647"/>
+    <text x="615" y="182" font-family="monospace" font-size="22" fill="#F5F1E8" text-anchor="middle" font-weight="bold">1.8 EC</text>
+    <text x="615" y="205" font-family="monospace" font-size="13" fill="#B9CBAF" text-anchor="middle">= 900 ppm500</text>
+  </g>
+
+  <!-- Base / table line -->
+  <line x1="120" y1="420" x2="680" y2="420" stroke="#8A9A6B" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+</svg>
