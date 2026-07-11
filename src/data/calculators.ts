@@ -304,6 +304,19 @@ export const calculators: Calculator[] = [
     status: 'live',
   },
   {
+    slug: 'rain-barrel-calculator',
+    title: 'Rain Barrel Calculator',
+    shortTitle: 'Rain Barrel',
+    description:
+      'Calculate how much rainwater you can collect from your roof, and the water pressure from your rain barrel spigot.',
+    metaDescription:
+      'Calculate how much rainwater you can collect from your roof, and the water pressure from your rain barrel spigot. Free.',
+    seoTitle: 'Rain Barrel Calculator - Collection & Water Pressure',
+    cluster: 'watering-and-irrigation',
+    href: '/calculators/rain-barrel-calculator/',
+    status: 'live',
+  },
+  {
     slug: 'grow-light-calculator',
     title: 'DLI & Grow Light Calculator',
     shortTitle: 'Grow Light',

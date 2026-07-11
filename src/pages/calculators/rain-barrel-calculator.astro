@@ -1,0 +1,267 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import RainBarrelCalculator from '../../components/calculators/RainBarrelCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+
+const calculator = getCalculator('rain-barrel-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
+
+const lastUpdated = '2026-07-11';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const legalLastVerified = formattedDate;
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This rain barrel calculator covers two different numbers: how much rainwater you can actually collect from your roof, and how much water pressure you’ll get out of the barrel’s spigot. Enter your roof area and rainfall amount for the collection estimate, or the height of your barrel above the spigot for the pressure estimate — both update live, independently of each other.';
+
+const tocItems = [
+  { id: 'how-much-rainwater-can-you-collect', label: 'How Much Can You Collect?', icon: 'leaf' as const },
+  { id: 'how-much-water-pressure-will-you-get', label: 'Water Pressure Explained', icon: 'table' as const },
+  { id: 'is-collecting-rainwater-legal-in-your-area', label: 'Is It Legal?', icon: 'warning' as const },
+  { id: 'worked-example', label: 'Worked Examples', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'rain-barrel-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/rain-barrel-calculator-roof-collection.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How many liters are in a rain barrel?',
+    a: 'A standard rain barrel holds 50 gallons, which is about 189 liters. Sizes vary though — smaller barrels run 30–40 gallons (114–151 L), and larger cisterns can hold several hundred gallons. Check the specific product for its exact capacity.',
+  },
+  {
+    q: 'How much does a barrel of water weigh?',
+    a: 'Water weighs about 8.34 lb per gallon, so a full 50-gallon rain barrel weighs roughly 417 lb (about 189 kg) plus the weight of the barrel itself. This is why rain barrels need a sturdy, level base — a full barrel is not something you can casually reposition.',
+  },
+  {
+    q: 'How many inches of rain does it take to fill a 5-gallon bucket?',
+    a: 'From 1 sq ft of roof, 1 inch of rain yields about 0.623 gallons, so a 5-gallon bucket needs roughly 8 sq ft of roof area per inch of rain (5 ÷ 0.623). For a full-size roof, even a fraction of an inch fills a bucket almost instantly — collection scales with roof area, not just rainfall.',
+  },
+  {
+    q: 'How do I calculate water pressure from a rain barrel?',
+    a: 'Multiply the height of the water surface above your spigot (in feet) by 0.433 to get PSI. A barrel elevated 2–3 ft on a stand gives roughly 1–1.5 PSI — enough for gravity-fed drip irrigation, well short of the 15–30 PSI a standard sprinkler needs.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate rainwater collection and rain barrel water pressure',
+  description:
+    'Use the rain barrel calculator to estimate gallons of rainwater collected from a roof, and the water pressure available from a rain barrel spigot.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Enter roof area and rainfall',
+      text: 'Type your roof area in square feet and the rainfall amount in inches. Adjust collection efficiency if you want a more conservative or optimistic estimate.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Read the collection estimate',
+      text: 'The calculator shows total gallons collected and the recommended number of standard 50-gallon barrels.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Enter barrel height for water pressure',
+      text: 'In the second section, enter the height of the water surface above your spigot to get the water pressure in PSI, with context on what that pressure is enough for.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Watering & Irrigation',
+      item: 'https://harvestmath.com/clusters/watering-and-irrigation/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Rain Barrel Calculator',
+      item: 'https://harvestmath.com/calculators/rain-barrel-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Rain Barrel Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/rain-barrel-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Both calculator sections — immediately after intro, visible without scrolling -->
+  <RainBarrelCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Collected water needs somewhere to go — see our <a href="/calculators/drip-irrigation-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Drip Irrigation Calculator</a> next.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnetForm
+    client:load
+    listId={leadMagnet.listId}
+    clusterName={leadMagnet.clusterName}
+    icon={leadMagnet.icon}
+    description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+  />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-much-rainwater-can-you-collect">How Much Rainwater Can You Collect?</h2>
+    <p>
+      Collection comes down to three numbers: your <strong>roof area</strong>, the <strong>rainfall amount</strong>, and a <strong>collection efficiency</strong> that accounts for real-world losses. The conversion itself is simple &mdash; 1 inch of rain over 1 sq ft of roof yields <strong>0.623 gallons</strong> &mdash; but not every drop that hits your roof ends up in the barrel.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/rain-barrel-calculator-roof-collection.svg"
+        alt="Rain flowing off a roof through a gutter into a rain barrel with a spigot near the base"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Gutters, downspouts, and barrel overflow all take a bite out of the theoretical maximum.
+      </figcaption>
+    </figure>
+    <p>
+      Collection efficiency (85% by default in the calculator above) accounts for evaporation off the roof surface, water lost to gutter overflow during heavy rain, splash-out at downspout junctions, and any first-flush diverter that intentionally routes the first bit of runoff away from the barrel. Steeper roofs and well-maintained gutters trend toward the higher end of realistic efficiency; roofs with debris or undersized gutters trend lower. 85% is a reasonable planning default, not a guarantee.
+    </p>
+
+    <h2 id="how-much-water-pressure-will-you-get">How Much Water Pressure Will You Get?</h2>
+    <p>
+      A rain barrel has no pump &mdash; whatever pressure comes out of the spigot is purely <strong>hydrostatic pressure</strong>, generated by the weight of the water above the outlet. The relationship is direct: every foot of water height above the spigot adds <strong>0.433 PSI</strong>. There&rsquo;s no way around this without adding a pump; a bigger barrel doesn&rsquo;t give you more pressure unless it&rsquo;s also taller or elevated higher.
+    </p>
+    <p>
+      In practice, this means most rain barrel setups produce very low pressure &mdash; a barrel on a 2&ndash;3 ft stand yields roughly 1&ndash;1.5 PSI. That&rsquo;s workable for gravity-fed drip irrigation and soaker hoses, which need very little pressure to function. It is not enough for a standard sprinkler, which typically needs <strong>15&ndash;30 PSI</strong> to spray properly &mdash; getting there from a barrel alone means adding an inline booster pump.
+    </p>
+
+    <h2 id="is-collecting-rainwater-legal-in-your-area">Is Collecting Rainwater Legal in Your Area?</h2>
+    <p>
+      <strong>Rainwater collection is legal in all 50 U.S. states</strong> &mdash; no state bans it outright. A small number of states have specific rules worth knowing before you set up a system:
+    </p>
+    <ul>
+      <li>
+        <strong>Colorado:</strong> households may use up to <strong>two rain barrels with a combined capacity of 110 gallons</strong>, for outdoor, non-potable use only (lawn, garden, and similar irrigation on the same property where the water was collected), and the barrels must have a <strong>sealable lid</strong>. This is current as of House Bill 16-1005 (2016). Residents with an exempt well permit may qualify to collect more under a separate permit — see the Colorado sources below.
+      </li>
+      <li>
+        <strong>Utah:</strong> properties may store up to <strong>2,500 gallons</strong> of collected rainwater. Free registration with the Utah Division of Water Rights is required once storage exceeds a small threshold (two 100-gallon containers or less needs no registration).
+      </li>
+      <li>
+        <strong>Everywhere else:</strong> most states and localities have no specific rainwater collection restrictions beyond general property and building codes, but rules can change and vary by city or HOA. Check your local and state regulations before installing a large system — this page isn&rsquo;t a substitute for that check.
+      </li>
+    </ul>
+    <p class="text-sm text-bark-500">
+      <em>Last verified: {legalLastVerified}. Water law changes over time and by jurisdiction — verify current rules for your specific location before relying on this summary.</em>
+    </p>
+
+    <h2 id="worked-example">Worked Examples</h2>
+    <p>
+      <strong>Collection:</strong> a <strong>1,200 sq ft roof</strong> gets <strong>1 inch</strong> of rain, at the default <strong>85%</strong> collection efficiency.
+    </p>
+    <ol>
+      <li><strong>Base conversion:</strong> 1,200 sq ft &times; 1 in &times; 0.623 = <strong>747.6 gallons</strong> (theoretical maximum).</li>
+      <li><strong>Apply efficiency:</strong> 747.6 &times; 0.85 = <strong>~635.5 gallons</strong> actually collected.</li>
+      <li><strong>Barrels needed:</strong> 635.5 &divide; 50 = 12.7 &rarr; round up to <strong>13 standard 50-gallon barrels</strong>.</li>
+    </ol>
+    <p>
+      <strong>Water pressure:</strong> a barrel elevated on a stand puts the water surface <strong>3 ft</strong> above the spigot.
+    </p>
+    <ol>
+      <li><strong>PSI:</strong> 0.433 &times; 3 ft = <strong>~1.3 PSI</strong> &mdash; enough for gravity-fed drip irrigation, not a sprinkler.</li>
+    </ol>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Assuming 100% collection efficiency.</strong> Real-world losses from evaporation, gutter overflow, and splash-out are significant. Planning around the theoretical maximum instead of a realistic efficiency (80&ndash;90%) leads to underbuilt storage.</li>
+      <li><strong>Ignoring first-flush contamination.</strong> The first runoff off a roof carries accumulated dust, bird droppings, and roofing debris. Without a first-flush diverter, that contaminated water goes straight into your barrel — don&rsquo;t use unfiltered rain barrel water on edible plants without accounting for this.</li>
+      <li><strong>Expecting sprinkler-level pressure from gravity alone.</strong> A barrel on a stand produces roughly 1&ndash;1.5 PSI, nowhere near the 15&ndash;30 PSI a standard sprinkler needs. A booster pump, not a taller stand, is the practical fix.</li>
+    </ul>
+
+    <FAQBlock id="rain-barrel-calculator-faq" heading="Rain Barrel Calculator FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Legal information on this page draws on the Colorado Division of Water Resources&rsquo; <a href="https://dwr.colorado.gov/services/water-administration/rainwater-storm-water-graywater" rel="noopener">&ldquo;Rainwater, Storm Water &amp; Graywater&rdquo;</a> page and Colorado State University Extension&rsquo;s <a href="https://extension.colostate.edu/resource/rainwater-collection-in-colorado/" rel="noopener">&ldquo;Rainwater Collection in Colorado&rdquo;</a> fact sheet. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Watering & Irrigation cluster', url: '/clusters/watering-and-irrigation/', anchorText: 'Watering & Irrigation cluster', note: 'the full set of watering and irrigation calculators on this site.' },
+      { name: 'Drip Irrigation Calculator', url: '/calculators/drip-irrigation-calculator/', note: 'collected water needs somewhere to go — figure out run time and delivery here.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>
