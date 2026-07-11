@@ -32,7 +32,8 @@ const iconPaths: Record<string, string> = {
 // directory layout for now.
 const isSoilPillar = cluster.slug === 'soil-and-amendments';
 const isLawnPillar = cluster.slug === 'lawn-and-landscaping';
-const isPillar = isSoilPillar || isLawnPillar;
+const isIndoorPillar = cluster.slug === 'indoor-plants';
+const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar;
 
 
 // TOC + sticky-sidebar layout (same TableOfContents component used on
@@ -52,7 +53,15 @@ const lawnTocItems = [
   { id: 'lawn-care-timing', label: 'Lawn Care Timing' },
 ];
 
-const pillarTocItems = isSoilPillar ? soilTocItems : isLawnPillar ? lawnTocItems : [];
+const indoorTocItems = [
+  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'how-much-light-does-your-plant-need', label: 'How Much Light?' },
+  { id: 'choosing-the-right-pot-size', label: 'Choosing the Right Pot Size' },
+  { id: 'quick-reference-light-and-pot-size', label: 'Quick Reference Table' },
+  { id: 'when-to-reassess', label: 'When to Reassess' },
+];
+
+const pillarTocItems = isSoilPillar ? soilTocItems : isLawnPillar ? lawnTocItems : isIndoorPillar ? indoorTocItems : [];
 
 // Depth-ruler data for the "at a glance" visual (point 2). Topsoil/Compost/
 // Mulch ranges are the exact figures already stated in the prose below.
@@ -108,6 +117,8 @@ const calculatorTint: Record<string, string> = {
   'compost-calculator': 'bg-[#4A7C59]/10',
   'grass-seed-calculator': 'bg-[#8B6535]/10',
   'overseeding-calculator': 'bg-[#4A7C59]/10',
+  'grow-light-calculator': 'bg-[#E8A94A]/10',
+  'pot-size-calculator': 'bg-[#8B6535]/10',
 };
 
 const soilPillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
@@ -118,9 +129,13 @@ const lawnPillarTitle = 'Lawn & Landscaping: New Lawns, Overseeding, and Grass T
 const lawnPillarDescription =
   'The complete guide to establishing a new lawn from seed, overseeding an existing one, and choosing the right grass type for your climate — plus calculators for exact seed amounts.';
 
-const pillarTitle = isSoilPillar ? soilPillarTitle : isLawnPillar ? lawnPillarTitle : '';
-const pillarDescription = isSoilPillar ? soilPillarDescription : isLawnPillar ? lawnPillarDescription : '';
-const pillarAboutName = isSoilPillar ? 'Soil and garden amendments' : isLawnPillar ? 'Lawn care and grass seeding' : '';
+const indoorPillarTitle = 'Indoor Plants: Light, Pot Size & Houseplant Care Guide';
+const indoorPillarDescription =
+  'The complete guide to houseplant light needs and pot sizing — how much light your plant actually needs, when to size up its pot, and calculators for both.';
+
+const pillarTitle = isSoilPillar ? soilPillarTitle : isLawnPillar ? lawnPillarTitle : isIndoorPillar ? indoorPillarTitle : '';
+const pillarDescription = isSoilPillar ? soilPillarDescription : isLawnPillar ? lawnPillarDescription : isIndoorPillar ? indoorPillarDescription : '';
+const pillarAboutName = isSoilPillar ? 'Soil and garden amendments' : isLawnPillar ? 'Lawn care and grass seeding' : isIndoorPillar ? 'Houseplant light and container care' : '';
 
 const pageTitle = isPillar ? pillarTitle : `${cluster.name} Calculators`;
 const pageDescription = isPillar ? pillarDescription : cluster.metaDescription;
@@ -189,6 +204,20 @@ const lawnComparisonRows = [
     overseeding: 'Calculates a reduced, condition-based rate — existing turf already covers part of the ground, so a full new-lawn rate wastes seed and can crowd out germinating seedlings.',
   },
 ];
+
+// Quick-reference table for the Indoor Plants pillar -- light category
+// follows well-established general houseplant-care classifications, and
+// pot size ranges are pulled directly from CATEGORY_INFO in
+// PotSizeCalculator.tsx (houseSmall/houseMed/houseLarge/succulent) so this
+// table stays consistent with what the calculator itself shows.
+const indoorReferenceRows = [
+  { plant: 'Snake Plant', light: 'Low', potSize: '6–10 in (roughly 2–3 gal)' },
+  { plant: 'Pothos', light: 'Low', potSize: '4–6 in' },
+  { plant: 'Monstera', light: 'Medium', potSize: '6–10 in, sizing up to 10–14+ in as it matures' },
+  { plant: 'Fiddle Leaf Fig', light: 'High', potSize: '10–14+ in (roughly 5–15 gal)' },
+  { plant: 'ZZ Plant', light: 'Low', potSize: '6–10 in (roughly 2–3 gal)' },
+  { plant: 'Succulents / Cacti', light: 'High', potSize: '2–4 in — a snug pot, not a large one' },
+];
 ---
 
 <Layout title={pageTitle} description={pageDescription} rawTitle={isPillar}>
@@ -222,10 +251,18 @@ const lawnComparisonRows = [
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
-            ) : (
+            ) : isLawnPillar ? (
               <img
                 src="/lawn-and-landscaping-cluster-new-vs-overseed.svg"
                 alt="Split view of a lawn: bare soil being seeded with a spreader on the left, existing thin turf being overseeded on the right"
+                width="800"
+                height="500"
+                class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
+              />
+            ) : (
+              <img
+                src="/indoor-plants-cluster-window-and-pot-sizes.svg"
+                alt="A houseplant in bright light beside a window, next to three nursery pots of increasing size showing pot-sizing progression"
                 width="800"
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
@@ -281,6 +318,17 @@ const lawnComparisonRows = [
         </p>
         <p>
           Grass type matters just as much as which of those two situations you&rsquo;re in. Cool-season and warm-season grasses germinate at different soil temperatures, thrive in different climates, and go dormant at different times of year &mdash; using the wrong species for your climate, or seeding at the wrong time of year for your species, wastes seed regardless of how precisely you calculate the amount. A full-season lawn care approach treats seeding (new or over-) as one step in a cycle that also includes mowing height, fertilizing, and seasonal timing &mdash; the calculators below handle the seed math; the guidance around them is built to get the timing and species choice right too.
+        </p>
+          </>
+        )}
+
+        {isIndoorPillar && (
+          <>
+        <p>
+          Healthy houseplants come down to two main levers: <strong>light</strong> and <strong>container</strong>. Get the light wrong and a plant stalls out, stretches toward the window, or drops leaves no matter how well you water it. Get the pot wrong &mdash; too small for too long, or sized up too aggressively &mdash; and roots either strangle themselves or sit in more soil than they can use, inviting root rot. Everything else in houseplant care (watering schedule, fertilizing, humidity) matters too, but it&rsquo;s downstream of getting these two right first.
+        </p>
+        <p>
+          This cluster&rsquo;s two calculators address each lever directly. The <a href="/calculators/grow-light-calculator/">Grow Light &amp; DLI Calculator</a> turns a light reading (or a general sense of how bright a spot is) into a concrete number &mdash; Daily Light Integral &mdash; you can compare against what your plant actually needs. The <a href="/calculators/pot-size-calculator/">Pot Size Calculator</a> converts between pot sizing conventions and tells you the recommended next size up when it&rsquo;s time to repot. Used together, they replace a lot of guesswork with two numbers you can actually check your plant against.
         </p>
           </>
         )}
@@ -476,6 +524,89 @@ const lawnComparisonRows = [
         </p>
         <p>
           Just like the vegetable planting dates elsewhere on this site are built around your local frost dates, lawn seeding windows are built around your local climate and grass type rather than a single calendar date. Check our <a href="/calculators/frost-date-calculator/">Frost Date Calculator</a> for your specific last and first frost dates as a starting reference point for spring and fall seeding windows in your area.
+        </p>
+          </>
+        )}
+
+        {isIndoorPillar && (
+          <>
+        <h2 id="how-much-light-does-your-plant-need">How Much Light Does Your Plant Need?</h2>
+        <p>
+          Houseplants roughly split into three light categories. <strong>Low light</strong> plants (snake plant, ZZ plant, pothos) tolerate the dim conditions of a north-facing window or a spot several feet back from any window, though they still grow faster in brighter conditions. <strong>Medium light</strong> plants (most monsteras, many ferns) want bright, indirect light &mdash; close to an east or west-facing window, or a few feet back from a south-facing one, but out of direct sun. <strong>High light</strong> plants (fiddle leaf figs, succulents, cacti) want the brightest indirect light your home offers, and several hours of direct sun does most of them no harm at all.
+        </p>
+        <p>
+          &ldquo;Bright&rdquo; and &ldquo;dim&rdquo; are subjective &mdash; Daily Light Integral (DLI) turns light into an actual number you can compare against a target range, the same way a thermometer replaces guessing whether a room feels warm.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Grow Light &amp; DLI Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Turn a light reading into Daily Light Integral, or find the right grow light wattage and hanging distance for a spot with no natural light at all.</p>
+          <a
+            href="/calculators/grow-light-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p class="text-sm text-bark-500">
+          We&rsquo;re also working on a dedicated &ldquo;LED vs. Fluorescent Grow Lights: Which Should You Use?&rdquo; guide for anyone supplementing natural light &mdash; check back soon.
+        </p>
+
+        <h2 id="choosing-the-right-pot-size">Choosing the Right Pot Size</h2>
+        <p>
+          A pot that&rsquo;s too small restricts root growth and dries out fast enough that you&rsquo;re watering constantly just to keep up. A pot that&rsquo;s too large holds more wet soil than the roots can use between waterings, which keeps the soil damp long enough to invite root rot &mdash; sizing up gradually, not jumping several sizes at once, is the safer default for most houseplants.
+        </p>
+        <p>
+          Three signs it&rsquo;s time to repot: roots <strong>circling the drainage hole</strong> or visibly emerging from it, water <strong>running straight through</strong> the pot without the soil holding any of it (a sign the roots have displaced most of the soil), and <strong>growth slowing or stalling</strong> during the plant&rsquo;s active growing season despite otherwise normal care. Any one of these on its own is worth checking; all three together mean it&rsquo;s overdue.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Pot Size Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Convert between pot sizing conventions (inches, gallons, liters), find the recommended next size up, or look up a starting size for your plant.</p>
+          <a
+            href="/calculators/pot-size-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <h2 id="quick-reference-light-and-pot-size">Quick Reference: Light and Pot Size by Common Houseplant</h2>
+        <p>
+          Light needs and pot size are independent decisions, not two versions of the same choice &mdash; a plant can need bright light in a small pot, or low light in a large one. Here&rsquo;s where six common houseplants land on both:
+        </p>
+        <div class="not-prose my-6 overflow-x-auto rounded-xl border border-[#5C4433]/15 bg-white p-6 shadow-sm">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-moss-100 text-bark-500">
+                <th scope="col" class="py-2 pr-4 font-medium">Plant</th>
+                <th scope="col" class="py-2 pr-4 font-medium">Light category</th>
+                <th scope="col" class="py-2 font-medium">Typical starting pot size</th>
+              </tr>
+            </thead>
+            <tbody class="text-bark-700">
+              {indoorReferenceRows.map((row, i) => (
+                <tr class={i < indoorReferenceRows.length - 1 ? 'border-b border-moss-50 align-top' : 'align-top'}>
+                  <th scope="row" class="py-3 pr-4 font-semibold text-bark-800">{row.plant}</th>
+                  <td class="py-3 pr-4 text-bark-600">{row.light}</td>
+                  <td class="py-3 leading-relaxed text-bark-600">{row.potSize}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="when-to-reassess">When to Reassess</h2>
+        <p>
+          Light needs change with the seasons even if you never move the plant. Winter&rsquo;s lower sun angle and shorter days mean the same windowsill spot delivers meaningfully less light than it did in summer &mdash; moving high-light plants closer to a window, or adding a few hours of supplemental grow light, keeps them from stalling out over winter. Check the Grow Light Calculator again each season if a plant that was thriving starts looking stretched or pale.
+        </p>
+        <p>
+          Repotting timing is slower: most houseplants only need sizing up every <strong>1&ndash;2 years</strong>, and a plant that isn&rsquo;t showing any of the repotting signs above doesn&rsquo;t need a new pot on a schedule just because time has passed. Fast growers (pothos, monstera in active growth) may outgrow a pot within a single growing season, while slow growers (snake plant, ZZ plant, succulents) can go several years between repots.
         </p>
           </>
         )}          </article>
