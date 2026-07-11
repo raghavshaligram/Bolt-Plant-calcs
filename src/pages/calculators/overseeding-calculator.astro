@@ -1,0 +1,285 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import OverseedingCalculator from '../../components/calculators/OverseedingCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+
+const calculator = getCalculator('overseeding-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
+
+const lastUpdated = '2026-07-11';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'Overseeding an existing lawn is a different job from seeding bare soil, and this overseeding calculator is built around that difference — rates run roughly half of new-lawn seeding, since you’re filling gaps in turf that already covers most of the ground, not starting from scratch. Enter your lawn area, grass type, and condition, and get the exact pounds of seed (plus an optional topdressing amount) to buy.';
+
+const tocItems = [
+  { id: 'how-much-seed-do-you-need-to-overseed', label: 'How Much Seed Do You Need?', icon: 'leaf' as const },
+  { id: 'overseeding-rates-by-grass-type', label: 'Rates by Grass Type', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'overseeding-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/overseeding-calculator-patchy-lawn.svg', Astro.site).href;
+
+const rateRows = [
+  { label: 'Kentucky bluegrass', thin: 1, patchy: 1.5, veryThin: 2 },
+  { label: 'Tall fescue', thin: 3, patchy: 4, veryThin: 5 },
+  { label: 'Perennial ryegrass', thin: 4, patchy: 5, veryThin: 6 },
+  { label: 'Bermuda (winter overseed)', thin: 5, patchy: 7, veryThin: 10 },
+  { label: 'Fine fescue', thin: 3, patchy: 3.5, veryThin: 4 },
+];
+
+const faqs = [
+  {
+    q: 'How do I calculate how much grass seed I need to overseed?',
+    a: 'Divide your lawn area in square feet by 1,000, then multiply by your grass type’s overseeding rate (roughly 1–10 lb per 1,000 sq ft depending on species and how thin the lawn is). The calculator above does this instantly and also gives you a topdressing amount if you want one.',
+  },
+  {
+    q: 'How do I spread grass seed by hand?',
+    a: 'Split your total seed in half, walk the lawn in parallel rows spreading one half, then walk it again in perpendicular rows with the second half. This cross-hatch pattern evens out the inconsistency of hand spreading far better than trying to get full coverage in one pass.',
+  },
+  {
+    q: 'When is the best time to overseed a lawn?',
+    a: 'For cool-season grasses (Kentucky bluegrass, tall fescue, perennial ryegrass, fine fescue), late summer to early fall is ideal — warm soil and cooling air give fast germination without summer heat stress. For Bermuda, overseed in fall as it goes dormant, using a cool-season ryegrass to keep color through winter.',
+  },
+  {
+    q: 'Can you put too much grass seed on your lawn?',
+    a: 'Yes. Past the recommended rate, seedlings crowd each other and compete for light, water, and nutrients, producing thinner and weaker turf rather than a fuller lawn. Stick to the rate for your grass type and lawn condition rather than assuming more is better.',
+  },
+  {
+    q: 'How do I plant grass seed on top of an existing lawn?',
+    a: 'Mow low and bag the clippings, then dethatch or core aerate so seed makes contact with soil instead of sitting on top of thatch. Spread seed at the overseeding rate, then a thin topdressing layer, and keep the top half-inch of soil consistently moist until germination.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate how much seed and topdressing you need to overseed a lawn',
+  description:
+    'Use the overseeding calculator to find pounds of grass seed and topdressing volume for an existing lawn, by grass type and lawn condition.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Enter your lawn area',
+      text: 'Type your lawn area in square feet (or square meters in metric mode).',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Choose your grass type and lawn condition',
+      text: 'Select Kentucky bluegrass, tall fescue, perennial ryegrass, Bermuda (winter overseed), or fine fescue, then rate your lawn as thin but mostly green, patchy, or very thin with bare spots.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Add topdressing if needed',
+      text: 'Optionally pick a topdressing material (topsoil, compost, or peat moss) and depth to get a topdressing volume alongside your seed amount.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Lawn & Landscaping',
+      item: 'https://harvestmath.com/clusters/lawn-and-landscaping/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Overseeding Calculator',
+      item: 'https://harvestmath.com/calculators/overseeding-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Overseeding Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/overseeding-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <OverseedingCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Seeding a bare or brand-new lawn instead? Use our <a href="/calculators/grass-seed-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Grass Seed Calculator</a>.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnetForm
+    client:load
+    listId={leadMagnet.listId}
+    clusterName={leadMagnet.clusterName}
+    icon={leadMagnet.icon}
+    description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+  />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-much-seed-do-you-need-to-overseed">How Much Seed Do You Need to Overseed?</h2>
+    <p>
+      Overseeding rates run roughly <strong>half</strong> of new-lawn seeding rates for the same grass type. A new lawn starts from bare soil, so every seed has to survive and establish across the whole area. Overseeding works on turf that already covers most of the ground &mdash; you&rsquo;re filling gaps and thickening the stand, not starting over, so far less seed gets you there.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/overseeding-calculator-patchy-lawn.svg"
+        alt="Grass seed being spread by hand over a patchy, thin lawn with bare spots"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        A patchier lawn needs a rate toward the high end of its grass type&rsquo;s range.
+      </figcaption>
+    </figure>
+    <p>
+      Within that overseeding range, your lawn&rsquo;s <strong>condition</strong> sets where you land. A lawn that&rsquo;s still mostly green with just a few thin spots needs the low end of the range. A patchy lawn with visible gaps sits in the middle. A lawn with real bare soil showing through needs the high end &mdash; closer to what a partial new-lawn seeding would use, since those bare patches are effectively starting from scratch.
+    </p>
+    <p>
+      That&rsquo;s why the calculator above asks for grass type and lawn condition separately: the grass type sets the overall rate range, and the condition dropdown picks the right point within it.
+    </p>
+
+    <h2 id="overseeding-rates-by-grass-type">Overseeding Rates by Grass Type</h2>
+    <p>
+      Reference overseeding rates in pounds per 1,000 sq ft, by grass type and lawn condition.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Overseeding Rate Reference &mdash; lb per 1,000 sq ft
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Grass type</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Thin but mostly green</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Patchy</th>
+            <th scope="col" class="py-2.5 font-semibold">Very thin / bare spots</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          {rateRows.map((row, i) => (
+            <tr class={i % 2 === 1 ? 'border-b border-moss-50 bg-moss-50/30' : 'border-b border-moss-50'}>
+              <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">{row.label}</th>
+              <td class="py-2 pr-4">{row.thin} lb</td>
+              <td class="py-2 pr-4">{row.patchy} lb</td>
+              <td class="py-2">{row.veryThin} lb</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Let&rsquo;s overseed a <strong>5,000 sq ft lawn</strong> of <strong>tall fescue</strong> that&rsquo;s <strong>patchy</strong>, with a &frac14;-inch <strong>compost</strong> topdressing on top:
+    </p>
+    <ol>
+      <li><strong>Rate:</strong> tall fescue, patchy condition = <strong>4 lb per 1,000 sq ft</strong>.</li>
+      <li><strong>Area factor:</strong> 5,000 sq ft &divide; 1,000 = <strong>5</strong>.</li>
+      <li><strong>Seed needed:</strong> 5 &times; 4 lb = <strong>20 lb</strong> of seed.</li>
+      <li><strong>50 lb bags:</strong> 20 &divide; 50 = 0.4 &rarr; round up to <strong>1 bag</strong> (you&rsquo;ll have 30 lb left for next season or spot repairs).</li>
+      <li><strong>Topdressing volume:</strong> 5,000 sq ft &times; (0.25 in &divide; 12) = <strong>104.2 cu ft</strong>.</li>
+      <li><strong>Cubic yards:</strong> 104.2 &divide; 27 = <strong>~3.86 cu yd</strong> of compost.</li>
+    </ol>
+    <p>
+      So this lawn needs about <strong>20 lb of tall fescue seed</strong> (one 50 lb bag) and roughly <strong>3.86 cubic yards of compost</strong> for a &frac14;-inch topdressing layer. If the lawn were only thin rather than patchy, the seed rate would drop to 3 lb per 1,000 sq ft &mdash; 15 lb total, still under a full bag.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Using new-lawn rates instead of overseeding rates.</strong> A new-lawn rate is roughly double what overseeding needs for the same grass type. Applying it to existing turf wastes seed and can crowd and weaken the seedlings that do germinate, rather than thickening the lawn.</li>
+      <li><strong>Overseeding into a lawn recently treated with pre-emergent herbicide.</strong> Pre-emergent herbicides block seed germination indiscriminately &mdash; new grass seed included &mdash; for <strong>up to 8 weeks</strong> after application. Check your treatment history before you buy seed, or you&rsquo;ll be watering a lawn that was never going to germinate.</li>
+      <li><strong>Skipping soil prep.</strong> Mow low and bag the clippings first, then dethatch or core aerate so seed reaches soil instead of sitting on top of thatch or clippings. Seed-to-soil contact is what determines whether overseeding actually thickens a lawn or just feeds the birds.</li>
+      <li><strong>Not pairing with a starter fertilizer.</strong> New seedlings need available phosphorus for root development, which established turf has often depleted from the topsoil. A starter fertilizer applied at seeding gives new grass the nutrients to establish alongside the lawn it&rsquo;s filling in.</li>
+    </ul>
+
+    <FAQBlock id="overseeding-calculator-faq" heading="Overseeding Calculator FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Overseeding rate guidance in this article follows Cooperative Extension seeding-rate guidance, including <a href="https://ask.extension.org/kb/faq.php?id=824923" rel="noopener">Ask Extension&rsquo;s response on lawn overseeding rates</a>, which puts tall fescue overseeding at roughly 3&ndash;4 lb per 1,000 sq ft against a 6&ndash;8 lb new-lawn rate &mdash; consistent with the ratio used throughout this calculator. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'seeding a bare or new lawn instead? use our Grass Seed Calculator.' },
+      { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'for topdressing material volumes beyond what’s shown above.' },
+      { name: 'NPK Calculator', url: '/calculators/npk-calculator/', note: 'pair your overseeding with a starter fertilizer application rate.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

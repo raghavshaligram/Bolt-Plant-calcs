@@ -12,6 +12,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 - [Mulch Calculator](https://harvestmath.com/calculators/mulch-calculator/): mulch volume for rectangular and circular beds
 - [Plant Spacing Calculator](https://harvestmath.com/calculators/plant-spacing-calculator/): plant count and layout by crop, row or square-foot method
 - [Grass Seed Calculator](https://harvestmath.com/calculators/grass-seed-calculator/): seed quantity by grass type, new lawn or overseeding
+- [Overseeding Calculator](https://harvestmath.com/calculators/overseeding-calculator/): seed and topdressing amounts to overseed an existing lawn, by grass type and condition
 - [Tree Age Calculator](https://harvestmath.com/calculators/tree-age-calculator/): estimates tree age from trunk circumference without cutting it down
 - [NPK Calculator](https://harvestmath.com/calculators/npk-calculator/): fertilizer application rate, liquid dilution, and multi-fertilizer blending
 - [Pot Size Calculator](https://harvestmath.com/calculators/pot-size-calculator/): pot size conversion, repotting sizing, and container guide by plant

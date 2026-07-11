@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="Grass seed being spread by hand over a patchy, thin lawn with bare spots">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="220" fill="#EDE7D6"/>
+
+  <!-- Distant hills -->
+  <path d="M0 220 Q200 190 400 205 T800 200 V240 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+
+  <!-- Sun -->
+  <circle cx="700" cy="90" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="90" r="22" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Lawn ground -->
+  <rect x="0" y="240" width="800" height="260" fill="#C8D9A8"/>
+
+  <!-- Existing turf texture: dense green tufts -->
+  <g fill="#7DA35E">
+    <path d="M60 320 Q57 308 60 298 Q63 308 60 320Z"/>
+    <path d="M90 325 Q86 311 90 300 Q94 311 90 325Z"/>
+    <path d="M120 322 Q117 310 120 300 Q123 310 120 322Z"/>
+    <path d="M660 320 Q657 308 660 298 Q663 308 660 320Z"/>
+    <path d="M700 325 Q696 311 700 300 Q704 311 700 325Z"/>
+    <path d="M730 322 Q727 310 730 300 Q733 310 730 322Z"/>
+    <path d="M60 430 Q57 418 60 408 Q63 418 60 430Z"/>
+    <path d="M100 435 Q96 421 100 410 Q104 421 100 435Z"/>
+    <path d="M700 430 Q697 418 700 408 Q703 418 700 430Z"/>
+    <path d="M740 435 Q736 421 740 410 Q744 421 740 435Z"/>
+  </g>
+
+  <!-- Thin/patchy bare spots (dirt showing through) -->
+  <g>
+    <ellipse cx="230" cy="360" rx="70" ry="26" fill="#B8975C" opacity="0.55"/>
+    <ellipse cx="230" cy="360" rx="50" ry="17" fill="#A87F4A" opacity="0.5"/>
+    <ellipse cx="500" cy="410" rx="85" ry="28" fill="#B8975C" opacity="0.5"/>
+    <ellipse cx="500" cy="410" rx="60" ry="18" fill="#A87F4A" opacity="0.45"/>
+    <ellipse cx="360" cy="300" rx="45" ry="16" fill="#B8975C" opacity="0.4"/>
+  </g>
+
+  <!-- Sparse grass sprigs within/around the bare patches, showing thinness -->
+  <g fill="#8FAE72" opacity="0.85">
+    <path d="M190 365 Q188 356 190 350 Q192 356 190 365Z"/>
+    <path d="M215 368 Q213 358 215 352 Q217 358 215 368Z"/>
+    <path d="M270 362 Q268 353 270 347 Q272 353 270 362Z"/>
+    <path d="M460 415 Q458 405 460 398 Q462 405 460 415Z"/>
+    <path d="M540 412 Q538 402 540 395 Q542 402 540 412Z"/>
+  </g>
+
+  <!-- Newly spread grass seed scattered over the patchy areas -->
+  <g fill="#5C4433" opacity="0.75">
+    <circle cx="205" cy="355" r="2.2"/>
+    <circle cx="225" cy="350" r="2"/>
+    <circle cx="245" cy="358" r="2.2"/>
+    <circle cx="255" cy="345" r="2"/>
+    <circle cx="215" cy="365" r="2"/>
+    <circle cx="475" cy="405" r="2.2"/>
+    <circle cx="495" cy="415" r="2"/>
+    <circle cx="515" cy="400" r="2.2"/>
+    <circle cx="530" cy="418" r="2"/>
+    <circle cx="345" cy="298" r="2"/>
+    <circle cx="365" cy="305" r="2.2"/>
+    <circle cx="380" cy="295" r="2"/>
+  </g>
+
+  <!-- Hand broadcasting seed (spreading gesture) -->
+  <g transform="translate(420, 200)">
+    <!-- Forearm -->
+    <path d="M40 -30 L80 60" stroke="#C99A6B" stroke-width="26" stroke-linecap="round"/>
+    <!-- Hand -->
+    <ellipse cx="30" cy="-40" rx="20" ry="16" fill="#D9AC7A" transform="rotate(-25 30 -40)"/>
+    <!-- Fingers, spread as if releasing seed -->
+    <path d="M14 -55 L2 -70 M22 -60 L14 -78 M32 -62 L30 -82 M42 -58 L46 -78" stroke="#D9AC7A" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <!-- Seed arcing from the hand down toward the patchy spots -->
+  <g fill="#5C4433" opacity="0.8">
+    <circle cx="410" cy="150" r="2.5"/>
+    <circle cx="395" cy="175" r="2.5"/>
+    <circle cx="380" cy="205" r="2.5"/>
+    <circle cx="368" cy="235" r="2.5"/>
+    <circle cx="440" cy="155" r="2.5"/>
+    <circle cx="430" cy="185" r="2.5"/>
+    <circle cx="418" cy="215" r="2.5"/>
+    <circle cx="405" cy="245" r="2.5"/>
+  </g>
+
+  <!-- Thin topdressing layer indicator over one patch -->
+  <g transform="translate(500, 430)">
+    <rect x="-70" y="-6" width="140" height="10" rx="4" fill="#6B4F35" opacity="0.8"/>
+    <text x="0" y="24" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#3A4A2A" text-anchor="middle">topdressing layer</text>
+  </g>
+
+  <!-- Small label near the seeded patch -->
+  <rect x="150" y="300" width="90" height="20" rx="5" fill="#3A4A2A" opacity="0.85"/>
+  <text x="195" y="314" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="#F5F1E8" text-anchor="middle">thin / patchy spot</text>
+</svg>

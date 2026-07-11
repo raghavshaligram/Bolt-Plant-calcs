@@ -200,6 +200,19 @@ export const calculators: Calculator[] = [
     status: 'live',
   },
   {
+    slug: 'overseeding-calculator',
+    title: 'Overseeding Calculator',
+    shortTitle: 'Overseeding',
+    description:
+      'Calculate how much grass seed and topdressing you need to overseed an existing lawn, by grass type and lawn condition.',
+    metaDescription:
+      'Calculate exactly how much grass seed and topdressing you need to overseed your lawn, by grass type and lawn condition. Free.',
+    seoTitle: 'Overseeding Calculator - Seed & Topdressing Amounts',
+    cluster: 'lawn-and-landscaping',
+    href: '/calculators/overseeding-calculator/',
+    status: 'live',
+  },
+  {
     slug: 'frost-date-calculator',
     title: 'Frost Date Calculator',
     shortTitle: 'Frost Dates',
