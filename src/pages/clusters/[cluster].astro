@@ -33,7 +33,8 @@ const iconPaths: Record<string, string> = {
 const isSoilPillar = cluster.slug === 'soil-and-amendments';
 const isLawnPillar = cluster.slug === 'lawn-and-landscaping';
 const isIndoorPillar = cluster.slug === 'indoor-plants';
-const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar;
+const isWateringPillar = cluster.slug === 'watering-and-irrigation';
+const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar;
 
 
 // TOC + sticky-sidebar layout (same TableOfContents component used on
@@ -61,7 +62,22 @@ const indoorTocItems = [
   { id: 'when-to-reassess', label: 'When to Reassess' },
 ];
 
-const pillarTocItems = isSoilPillar ? soilTocItems : isLawnPillar ? lawnTocItems : isIndoorPillar ? indoorTocItems : [];
+const wateringTocItems = [
+  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'how-much-water-can-you-collect', label: 'How Much Can You Collect?' },
+  { id: 'delivering-water-efficiently', label: 'Delivering Water Efficiently' },
+  { id: 'putting-it-together', label: 'Putting It Together' },
+];
+
+const pillarTocItems = isSoilPillar
+  ? soilTocItems
+  : isLawnPillar
+  ? lawnTocItems
+  : isIndoorPillar
+  ? indoorTocItems
+  : isWateringPillar
+  ? wateringTocItems
+  : [];
 
 // Depth-ruler data for the "at a glance" visual (point 2). Topsoil/Compost/
 // Mulch ranges are the exact figures already stated in the prose below.
@@ -119,6 +135,8 @@ const calculatorTint: Record<string, string> = {
   'overseeding-calculator': 'bg-[#4A7C59]/10',
   'grow-light-calculator': 'bg-[#E8A94A]/10',
   'pot-size-calculator': 'bg-[#8B6535]/10',
+  'drip-irrigation-calculator': 'bg-moss-50',
+  'rain-barrel-calculator': 'bg-[#4A90B8]/10',
 };
 
 const soilPillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
@@ -133,9 +151,37 @@ const indoorPillarTitle = 'Indoor Plants: Light, Pot Size & Houseplant Care Guid
 const indoorPillarDescription =
   'The complete guide to houseplant light needs and pot sizing — how much light your plant actually needs, when to size up its pot, and calculators for both.';
 
-const pillarTitle = isSoilPillar ? soilPillarTitle : isLawnPillar ? lawnPillarTitle : isIndoorPillar ? indoorPillarTitle : '';
-const pillarDescription = isSoilPillar ? soilPillarDescription : isLawnPillar ? lawnPillarDescription : isIndoorPillar ? indoorPillarDescription : '';
-const pillarAboutName = isSoilPillar ? 'Soil and garden amendments' : isLawnPillar ? 'Lawn care and grass seeding' : isIndoorPillar ? 'Houseplant light and container care' : '';
+const wateringPillarTitle = 'Watering & Irrigation: Rainwater Collection and Drip Delivery Guide';
+const wateringPillarDescription =
+  'The complete guide to collecting rainwater and delivering it efficiently with drip irrigation — how much you can source, how precisely you can deliver it, and calculators for both.';
+
+const pillarTitle = isSoilPillar
+  ? soilPillarTitle
+  : isLawnPillar
+  ? lawnPillarTitle
+  : isIndoorPillar
+  ? indoorPillarTitle
+  : isWateringPillar
+  ? wateringPillarTitle
+  : '';
+const pillarDescription = isSoilPillar
+  ? soilPillarDescription
+  : isLawnPillar
+  ? lawnPillarDescription
+  : isIndoorPillar
+  ? indoorPillarDescription
+  : isWateringPillar
+  ? wateringPillarDescription
+  : '';
+const pillarAboutName = isSoilPillar
+  ? 'Soil and garden amendments'
+  : isLawnPillar
+  ? 'Lawn care and grass seeding'
+  : isIndoorPillar
+  ? 'Houseplant light and container care'
+  : isWateringPillar
+  ? 'Rainwater collection and drip irrigation'
+  : '';
 
 const pageTitle = isPillar ? pillarTitle : `${cluster.name} Calculators`;
 const pageDescription = isPillar ? pillarDescription : cluster.metaDescription;
@@ -259,10 +305,18 @@ const indoorReferenceRows = [
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
-            ) : (
+            ) : isIndoorPillar ? (
               <img
                 src="/indoor-plants-cluster-window-and-pot-sizes.svg"
                 alt="A houseplant in bright light beside a window, next to three nursery pots of increasing size showing pot-sizing progression"
+                width="800"
+                height="500"
+                class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
+              />
+            ) : (
+              <img
+                src="/watering-and-irrigation-cluster-barrel-to-drip-line.svg"
+                alt="A rain barrel collecting water from a roof gutter, feeding a drip irrigation line running to plants along a garden row"
                 width="800"
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
@@ -329,6 +383,17 @@ const indoorReferenceRows = [
         </p>
         <p>
           This cluster&rsquo;s two calculators address each lever directly. The <a href="/calculators/grow-light-calculator/">Grow Light &amp; DLI Calculator</a> turns a light reading (or a general sense of how bright a spot is) into a concrete number &mdash; Daily Light Integral &mdash; you can compare against what your plant actually needs. The <a href="/calculators/pot-size-calculator/">Pot Size Calculator</a> converts between pot sizing conventions and tells you the recommended next size up when it&rsquo;s time to repot. Used together, they replace a lot of guesswork with two numbers you can actually check your plant against.
+        </p>
+          </>
+        )}
+
+        {isWateringPillar && (
+          <>
+        <p>
+          Efficient garden watering comes down to two separate questions: how much water you can <strong>source</strong>, and how precisely you can <strong>deliver</strong> it. Sourcing is about supply &mdash; rainwater collection reduces how much you draw from a hose or well, and it&rsquo;s free water that would otherwise run off your roof and down the storm drain. Delivery is about where that water actually goes &mdash; a soaker hose or hand-watering can spot dozens of plants inefficiently, while a properly sized drip system delivers a measured amount to each plant&rsquo;s root zone with far less waste.
+        </p>
+        <p>
+          This cluster&rsquo;s two calculators address each side. The <a href="/calculators/rain-barrel-calculator/">Rain Barrel Calculator</a> turns your roof area and local rainfall into gallons collected and the water pressure you&rsquo;ll get out of the barrel&rsquo;s spigot. The <a href="/calculators/drip-irrigation-calculator/">Drip Irrigation Calculator</a> turns your emitter count and flow rate into a run time and total water delivered. They&rsquo;re complementary, not competing tools &mdash; a rain barrel is a water source, drip irrigation is a delivery method, and a full system commonly uses both together.
         </p>
           </>
         )}
@@ -611,6 +676,61 @@ const indoorReferenceRows = [
         </p>
         <p>
           For pot size, the clearest single check is what happens to water: if it runs straight through the pot in a matter of seconds without the top inch of soil darkening or visibly absorbing any of it, the roots have displaced most of the soil and that pot is root-bound. Repotting timing beyond that is slower &mdash; most houseplants only need sizing up every <strong>1&ndash;2 years</strong>, and a plant that isn&rsquo;t showing the root-bound signal or the other repotting signs above doesn&rsquo;t need a new pot on a schedule just because time has passed. Fast growers (pothos, monstera in active growth) may outgrow a pot within a single growing season, while slow growers (snake plant, ZZ plant, succulents) can go several years between repots.
+        </p>
+          </>
+        )}
+
+        {isWateringPillar && (
+          <>
+        <h2 id="how-much-water-can-you-collect">How Much Water Can You Collect?</h2>
+        <p>
+          Rainwater harvesting math starts from one conversion: <strong>1 inch of rain over 1 sq ft of roof yields about 0.623 gallons</strong>. A modest 1,200 sq ft roof catching just 1 inch of rain produces roughly 750 gallons before any losses &mdash; enough to fill more than a dozen standard 50-gallon barrels. Real-world collection efficiency runs around <strong>85%</strong> after accounting for evaporation, gutter overflow, and first-flush losses (the initial runoff that carries roof debris and is often diverted away from the barrel).
+        </p>
+        <p>
+          Whatever you collect also needs somewhere to go under its own pressure &mdash; a rain barrel has no pump, so the water pressure at the spigot is purely hydrostatic: <strong>0.433 PSI per foot</strong> of water height above the outlet. A barrel elevated 2&ndash;3 ft on a stand yields roughly 1&ndash;1.5 PSI, enough for gravity-fed drip irrigation but nowhere near the 15&ndash;30 PSI a standard sprinkler needs.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Rain Barrel Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Turn your roof area and rainfall into gallons collected, recommended barrel count, and the water pressure at your spigot.</p>
+          <a
+            href="/calculators/rain-barrel-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <h2 id="delivering-water-efficiently">Delivering Water Efficiently</h2>
+        <p>
+          Drip irrigation delivers water at or near the soil surface, directly to the root zone, through low-flow emitters &mdash; typically <strong>0.5, 1, 2, or 4 gallons per hour (GPH)</strong> each. That precision beats broad watering methods (sprinklers, hand-watering) on three counts that all trace back to the same cause: water goes where it&rsquo;s needed instead of everywhere. <strong>Less waste</strong>, since none of it evaporates off bare soil between plants or blows off-target in the wind. <strong>Less foliar disease</strong>, since leaves stay dry instead of sitting wet for hours, which is what many fungal pathogens need to take hold. And <strong>deeper root growth</strong>, since slow, consistent moisture at the root zone encourages roots to grow down and out rather than staying shallow chasing surface moisture.
+        </p>
+        <p>
+          Run time is a simple ratio: target water amount divided by total emitter flow rate. Home garden watering needs typically fall around <strong>1&ndash;1.5 inches per week</strong> during the growing season, though the right amount always depends on your specific plants, soil, and climate.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Drip Irrigation Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Turn your emitter count, flow rate, and target water amount into an exact run time, per plant or over an area.</p>
+          <a
+            href="/calculators/drip-irrigation-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p>
+          How long you can run that drip line before water starts pooling or running off depends heavily on your soil. Not sure what kind of soil you&rsquo;re working with? Our <a href="/calculators/soil-type-calculator/">Soil Type Calculator</a> can tell you &mdash; and it directly affects how you should water: <strong>clay soil absorbs water slowly, roughly 0.1&ndash;0.5 inches per hour</strong>, while sandy or loamy soil absorbs much faster, often <strong>1&ndash;3+ inches per hour</strong>. Running emitters longer than clay can absorb doesn&rsquo;t water more effectively &mdash; it just generates surface runoff that never reaches the root zone. The fix is a <strong>&ldquo;cycle and soak&rdquo;</strong> approach: split the calculated run time into 2&ndash;3 shorter cycles with a 30&ndash;60 minute pause between each, so water has time to move deeper into the clay before you add more.
+        </p>
+
+        <h2 id="putting-it-together">Putting It Together</h2>
+        <p>
+          Collection and delivery aren&rsquo;t separate projects &mdash; a rain barrel feeding a gravity-fed drip line is one of the most common low-cost setups in home gardening. The barrel supplies the water, the drip line delivers it precisely, and both numbers connect directly: the 1&ndash;1.5 PSI a typical elevated barrel produces is enough to run a gravity-fed drip line (which needs very little pressure), but not enough for a standard sprinkler. If you want to run drip emitters straight off a rain barrel, check the barrel&rsquo;s pressure output against your emitters&rsquo; rated operating pressure before relying on gravity alone &mdash; some emitter designs need a minimum of a few PSI to deliver their rated flow consistently.
         </p>
           </>
         )}          </article>
