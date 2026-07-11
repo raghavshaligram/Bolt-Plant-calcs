@@ -278,6 +278,19 @@ export const calculators: Calculator[] = [
     status: 'live',
   },
   {
+    slug: 'soil-type-calculator',
+    title: 'Soil Type Calculator',
+    shortTitle: 'Soil Type',
+    description:
+      'Classify your soil texture using the official USDA soil triangle, from sand, silt, and clay percentages or jar test measurements.',
+    metaDescription:
+      'Enter your jar test results to classify your soil texture using the official USDA soil triangle — sand, silt, clay percentages.',
+    seoTitle: 'Soil Type Calculator - Classify Your Soil Texture',
+    cluster: 'soil-and-amendments',
+    href: '/calculators/soil-type-calculator/',
+    status: 'live',
+  },
+  {
     slug: 'seed-starting-calculator',
     title: 'Seed Starting Calendar',
     shortTitle: 'Seed Starting',

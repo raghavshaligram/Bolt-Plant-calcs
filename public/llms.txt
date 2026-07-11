@@ -18,6 +18,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 - [Pot Size Calculator](https://harvestmath.com/calculators/pot-size-calculator/): pot size conversion, repotting sizing, and container guide by plant
 - [Frost Date Calculator](https://harvestmath.com/calculators/frost-date-calculator/): estimated frost dates and planting timeline by hardiness zone
 - [Compost Calculator](https://harvestmath.com/calculators/compost-calculator/): compost volume, bags, and weight for beds and top-dressing
+- [Soil Type Calculator](https://harvestmath.com/calculators/soil-type-calculator/): classifies soil texture using the USDA soil triangle, from sand/silt/clay percentages or jar test measurements
 - [Seed Starting Calendar](https://harvestmath.com/calculators/seed-starting-calculator/): personalized seed-starting and transplant schedule by frost date
 - [Drip Irrigation Calculator](https://harvestmath.com/calculators/drip-irrigation-calculator/): run time and water delivered based on emitter flow rate
 - [Rain Barrel Calculator](https://harvestmath.com/calculators/rain-barrel-calculator/): rainwater collection from roof area and rainfall, plus spigot water pressure

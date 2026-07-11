@@ -1,0 +1,249 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import SoilTypeCalculator from '../../components/calculators/SoilTypeCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+
+const calculator = getCalculator('soil-type-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
+
+const lastUpdated = '2026-07-11';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This soil type calculator classifies your soil texture using the official USDA soil texture triangle — enter your sand, silt, and clay percentages (or your jar test measurements) and get the exact texture class. Unlike the volume and quantity tools elsewhere on this site, this one is a diagnostic classification tool: it tells you what your soil is, not how much of something to buy.';
+
+const tocItems = [
+  { id: 'how-does-soil-texture-classification-work', label: 'How Classification Works', icon: 'leaf' as const },
+  { id: 'how-to-do-a-jar-test', label: 'How to Do a Jar Test', icon: 'table' as const },
+  { id: 'faster-alternative-the-ribbon-test', label: 'The Ribbon Test', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'soil-type-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/soil-type-calculator-jar-test.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How do I do a soil jar test?',
+    a: 'Fill a clear jar 1/3 with soil, add water to near the top, shake vigorously for a minute, then let it settle undisturbed. Sand settles first, then silt, then clay, forming visible layers you can measure to calculate percentages.',
+  },
+  {
+    q: 'How long does the jar test take?',
+    a: 'Sand settles in about 1 minute, silt within a few hours, but clay can take 24–72 hours or longer to fully settle in fine-clay soils. Read the sand line quickly, then leave the jar alone for at least a full day before reading the final clay boundary.',
+  },
+  {
+    q: 'What does my soil texture mean for gardening?',
+    a: 'Texture sets your baseline drainage, water retention, and workability — sandy soils drain fast and need more frequent watering, clay soils hold water and nutrients but drain slowly and compact easily, and loam sits in the balanced middle most gardeners want.',
+  },
+  {
+    q: 'Can I estimate soil texture without a jar test?',
+    a: 'Yes, with the ribbon test: wet a small handful of soil and squeeze it between your thumb and finger into a ribbon. Under 1 inch means sandy, 1–2 inches means loam-range, and over 2 inches means clay-heavy. It is faster but less precise than a jar test.',
+  },
+  {
+    q: 'Why does a small amount of clay make such a big difference?',
+    a: 'Clay particles are microscopic and have enormous surface area relative to their size, so even 20% clay by volume can dominate a soil’s behavior — holding water, swelling when wet, and binding other particles together — in a way that sand and silt at the same percentage do not.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Classify your soil texture using the USDA soil texture triangle',
+  description:
+    'Use the soil type calculator to classify soil texture into one of the 12 official USDA texture classes from sand, silt, and clay percentages or jar test measurements.',
+  totalTime: 'PT5M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Get your sand, silt, and clay percentages',
+      text: 'Either enter known percentages directly, or run a jar test and enter the height of each settled layer — the calculator computes percentages automatically.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Read your texture class',
+      text: 'The calculator classifies your soil into one of the 12 official USDA texture classes and explains what that texture means for drainage, water retention, and workability.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Soil & Amendments',
+      item: 'https://harvestmath.com/clusters/soil-and-amendments/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Soil Type Calculator',
+      item: 'https://harvestmath.com/calculators/soil-type-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Soil Type Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/soil-type-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <SoilTypeCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Need to know how much soil to buy, not what type it is? See our <a href="/calculators/soil-volume-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Soil Volume Calculator</a> or <a href="/calculators/raised-bed-soil-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Raised Bed Soil Calculator</a>.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnetForm
+    client:load
+    listId={leadMagnet.listId}
+    clusterName={leadMagnet.clusterName}
+    icon={leadMagnet.icon}
+    description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+  />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-does-soil-texture-classification-work">How Does Soil Texture Classification Work?</h2>
+    <p>
+      Soil is made of three mineral particle sizes: <strong>sand</strong> (0.05&ndash;2.0 mm, gritty), <strong>silt</strong> (0.002&ndash;0.05 mm, smooth and floury), and <strong>clay</strong> (under 0.002 mm, sticky when wet). Every soil is some mixture of the three, and the relative proportion of each determines its <strong>texture class</strong> &mdash; a permanent, mineral-based property that doesn&rsquo;t change with tilling or amendment the way soil structure or organic matter content can.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/soil-type-calculator-jar-test.svg"
+        alt="A settled soil jar test showing distinct sand, silt, and clay layers, used to classify soil texture"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Sand settles first, then silt, then clay &mdash; the layers you measure to get your percentages.
+      </figcaption>
+    </figure>
+    <p>
+      Texture directly affects <strong>drainage</strong> (sandy soils drain fast, clay soils drain slowly), <strong>nutrient and water retention</strong> (clay and silt hold far more than sand), and <strong>workability</strong> (loam and sandy loam are easiest to dig and till; heavy clay is difficult when wet or dry). The USDA soil texture triangle plots any sand/silt/clay combination into one of 12 official texture classes based on where it falls against the triangle&rsquo;s defined boundaries.
+    </p>
+
+    <h2 id="how-to-do-a-jar-test">How to Do a Jar Test</h2>
+    <p>
+      Fill a straight-sided clear jar about one-third full of soil (break up any clods first), then fill nearly to the top with water and a drop of dish soap to help particles disperse. Shake vigorously for a full minute, then set the jar down undisturbed and don&rsquo;t touch it until each layer has settled.
+    </p>
+    <p>
+      Timing matters: <strong>sand settles in about 1 minute</strong> &mdash; mark that line right away. <strong>Silt settles within a few hours</strong>, forming the next visible line. <strong>Clay is the slow one</strong> &mdash; it can take <strong>24&ndash;72 hours or longer</strong> for fine clay soils to fully settle. Don&rsquo;t rush the final reading; checking too early is the most common source of error in a jar test.
+    </p>
+
+    <h2 id="faster-alternative-the-ribbon-test">Faster Alternative: The Ribbon Test</h2>
+    <p>
+      If you want a quick field estimate rather than a precise lab-style reading, the <strong>ribbon test</strong> works in under a minute. Wet a small handful of soil until it&rsquo;s moldable but not sticky-wet, then squeeze it between your thumb and forefinger to form a ribbon. A ribbon <strong>under 1 inch</strong> before it breaks suggests a sandy soil; <strong>1&ndash;2 inches</strong> puts you in the loam range; <strong>over 2 inches</strong> indicates a clay-heavy soil. It&rsquo;s far less precise than a jar test or lab analysis, but useful for a fast first read.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      A jar test settles into layers measuring <strong>2.5&Prime; of sand</strong>, <strong>1.5&Prime; of silt</strong>, and <strong>1&Prime; of clay</strong> &mdash; a total of 5 inches.
+    </p>
+    <ol>
+      <li><strong>Sand:</strong> 2.5 &divide; 5 &times; 100 = <strong>50%</strong>.</li>
+      <li><strong>Silt:</strong> 1.5 &divide; 5 &times; 100 = <strong>30%</strong>.</li>
+      <li><strong>Clay:</strong> 1 &divide; 5 &times; 100 = <strong>20%</strong>.</li>
+      <li><strong>Classification:</strong> sand 50% / silt 30% / clay 20% falls inside the <strong>loam</strong> class on the USDA triangle.</li>
+    </ol>
+    <p>
+      This is the balanced texture most gardeners consider ideal &mdash; good drainage, solid water and nutrient retention, and easy to work across a wide moisture range.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Reading the jar too early.</strong> Sand and silt settle fast, but clay can take 24&ndash;72+ hours. Reading the final line before clay has fully settled overstates silt and understates clay, which can misclassify the soil entirely.</li>
+      <li><strong>Underestimating how much a little clay changes things.</strong> As little as 20% clay can make a sand-dominant soil behave as distinctly &ldquo;clayey&rdquo; &mdash; holding water, swelling, and compacting &mdash; because clay particles have vastly more surface area per unit volume than sand or silt.</li>
+      <li><strong>Confusing texture with structure or organic matter.</strong> Texture (the sand/silt/clay ratio) is a fixed, mineral property of your soil that amendment doesn&rsquo;t change. Soil structure (how particles aggregate) and organic matter content can both be improved with compost and management practices &mdash; but they won&rsquo;t change your soil&rsquo;s underlying texture class.</li>
+    </ul>
+
+    <FAQBlock id="soil-type-calculator-faq" heading="Soil Type Calculator FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Texture classification in this calculator follows the USDA soil texture triangle boundary definitions, cross-referenced against <a href="https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-texture-calculator" rel="noopener">USDA NRCS&rsquo;s Soil Texture Calculator</a> reference tool. Jar test process guidance draws on <a href="https://hgic.clemson.edu/factsheet/soil-texture-analysis-the-jar-test/" rel="noopener">Clemson Cooperative Extension&rsquo;s &ldquo;Soil Texture Analysis: The Jar Test&rdquo;</a> fact sheet. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Soil & Amendments cluster', url: '/clusters/soil-and-amendments/', anchorText: 'Soil & Amendments cluster', note: 'the full set of soil, mulch, and compost calculators on this site.' },
+      { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'once you know your texture, figure out how much soil you actually need.' },
+      { name: 'Raised Bed Soil Calculator', url: '/calculators/raised-bed-soil-calculator/', note: 'for filling a raised bed once you know what you’re working with.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

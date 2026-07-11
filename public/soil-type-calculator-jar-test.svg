@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A settled soil jar test showing distinct sand, silt, and clay layers, used to classify soil texture">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="220" fill="#EDE7D6"/>
+
+  <!-- Distant hills -->
+  <path d="M0 220 Q200 190 400 205 T800 200 V240 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+
+  <!-- Ground -->
+  <rect x="0" y="410" width="800" height="90" fill="#C8D9A8"/>
+
+  <!-- Sun -->
+  <circle cx="690" cy="90" r="28" fill="#F0D878" opacity="0.7"/>
+  <circle cx="690" cy="90" r="20" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Jar -->
+  <g transform="translate(300, 120)">
+    <!-- Jar body outline -->
+    <path d="M10 0 L10 260 Q10 280 30 280 L170 280 Q190 280 190 260 L190 0 Z" fill="#E8F0F2" opacity="0.5" stroke="#8FA8B0" stroke-width="4"/>
+
+    <!-- Water layer on top (clear, settled) -->
+    <rect x="10" y="0" width="180" height="60" fill="#CFE7EE" opacity="0.5"/>
+
+    <!-- Clay layer (top settled layer, finest particles) -->
+    <rect x="10" y="60" width="180" height="55" fill="#8B6535" opacity="0.85"/>
+
+    <!-- Silt layer (middle) -->
+    <rect x="10" y="115" width="180" height="70" fill="#B8975C"/>
+
+    <!-- Sand layer (bottom, coarsest, settles first) -->
+    <path d="M10 185 L190 185 L190 260 Q190 280 170 280 L30 280 Q10 280 10 260 Z" fill="#D9AC7A"/>
+    <!-- Sand texture speckle -->
+    <g fill="#C8935F" opacity="0.6">
+      <circle cx="40" cy="210" r="3"/>
+      <circle cx="70" cy="230" r="2.5"/>
+      <circle cx="100" cy="215" r="3"/>
+      <circle cx="130" cy="240" r="2.5"/>
+      <circle cx="160" cy="220" r="3"/>
+      <circle cx="55" cy="255" r="2.5"/>
+      <circle cx="115" cy="260" r="3"/>
+      <circle cx="150" cy="250" r="2.5"/>
+    </g>
+
+    <!-- Jar lid -->
+    <rect x="0" y="-16" width="200" height="18" rx="4" fill="#5A6B72"/>
+
+    <!-- Layer boundary lines -->
+    <line x1="10" y1="60" x2="190" y2="60" stroke="#5A4530" stroke-width="1.5" opacity="0.6"/>
+    <line x1="10" y1="115" x2="190" y2="115" stroke="#5A4530" stroke-width="1.5" opacity="0.6"/>
+    <line x1="10" y1="185" x2="190" y2="185" stroke="#5A4530" stroke-width="1.5" opacity="0.6"/>
+
+    <!-- Layer labels with leader lines -->
+    <g font-family="Inter, sans-serif" font-size="15" font-weight="600">
+      <line x1="190" y1="85" x2="230" y2="85" stroke="#3A4A2A" stroke-width="1.5"/>
+      <text x="236" y="90" fill="#3A4A2A">Clay</text>
+
+      <line x1="190" y1="148" x2="230" y2="148" stroke="#3A4A2A" stroke-width="1.5"/>
+      <text x="236" y="153" fill="#3A4A2A">Silt</text>
+
+      <line x1="190" y1="222" x2="230" y2="222" stroke="#3A4A2A" stroke-width="1.5"/>
+      <text x="236" y="227" fill="#3A4A2A">Sand</text>
+    </g>
+  </g>
+
+  <!-- Measuring ruler beside the jar -->
+  <g transform="translate(270, 120)">
+    <line x1="0" y1="0" x2="0" y2="280" stroke="#5A6B72" stroke-width="2"/>
+    <line x1="-6" y1="0" x2="0" y2="0" stroke="#5A6B72" stroke-width="2"/>
+    <line x1="-6" y1="70" x2="0" y2="70" stroke="#5A6B72" stroke-width="2"/>
+    <line x1="-6" y1="140" x2="0" y2="140" stroke="#5A6B72" stroke-width="2"/>
+    <line x1="-6" y1="210" x2="0" y2="210" stroke="#5A6B72" stroke-width="2"/>
+    <line x1="-6" y1="280" x2="0" y2="280" stroke="#5A6B72" stroke-width="2"/>
+  </g>
+
+  <!-- Grass tufts -->
+  <g fill="#9AB870" opacity="0.7">
+    <path d="M50 410 Q47 400 50 392 Q53 400 50 410Z"/>
+    <path d="M740 410 Q737 400 740 392 Q743 400 740 410Z"/>
+    <path d="M710 415 Q707 405 710 397 Q713 405 710 415Z"/>
+  </g>
+</svg>
