@@ -34,7 +34,8 @@ const isSoilPillar = cluster.slug === 'soil-and-amendments';
 const isLawnPillar = cluster.slug === 'lawn-and-landscaping';
 const isIndoorPillar = cluster.slug === 'indoor-plants';
 const isWateringPillar = cluster.slug === 'watering-and-irrigation';
-const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar;
+const isSpacingPillar = cluster.slug === 'spacing-and-planting';
+const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar || isSpacingPillar;
 
 
 // TOC + sticky-sidebar layout (same TableOfContents component used on
@@ -69,6 +70,14 @@ const wateringTocItems = [
   { id: 'putting-it-together', label: 'Putting It Together' },
 ];
 
+const spacingTocItems = [
+  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'stage-1-when-do-you-start', label: 'Stage 1: When to Start' },
+  { id: 'stage-2-when-do-you-plant', label: 'Stage 2: When to Plant' },
+  { id: 'stage-3-how-far-apart', label: 'Stage 3: How Far Apart' },
+  { id: 'stage-4-what-will-you-get', label: 'Stage 4: What You\'ll Get' },
+];
+
 const pillarTocItems = isSoilPillar
   ? soilTocItems
   : isLawnPillar
@@ -77,6 +86,8 @@ const pillarTocItems = isSoilPillar
   ? indoorTocItems
   : isWateringPillar
   ? wateringTocItems
+  : isSpacingPillar
+  ? spacingTocItems
   : [];
 
 // Depth-ruler data for the "at a glance" visual (point 2). Topsoil/Compost/
@@ -137,6 +148,10 @@ const calculatorTint: Record<string, string> = {
   'pot-size-calculator': 'bg-[#8B6535]/10',
   'drip-irrigation-calculator': 'bg-moss-50',
   'rain-barrel-calculator': 'bg-[#4A90B8]/10',
+  'frost-date-calculator': 'bg-[#4A90B8]/10',
+  'seed-starting-calculator': 'bg-[#8B6535]/10',
+  'plant-spacing-calculator': 'bg-moss-50',
+  'vegetable-yield-calculator': 'bg-[#E8A94A]/10',
 };
 
 const soilPillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
@@ -155,6 +170,10 @@ const wateringPillarTitle = 'Watering & Irrigation: Rainwater Collection and Dri
 const wateringPillarDescription =
   'The complete guide to collecting rainwater and delivering it efficiently with drip irrigation — how much you can source, how precisely you can deliver it, and calculators for both.';
 
+const spacingPillarTitle = 'Spacing & Planting: Your Full Vegetable Garden Planning Timeline';
+const spacingPillarDescription =
+  'The complete vegetable garden planning timeline — when to start seeds, when to plant, how far apart, and what you\'ll get, with a calculator for every stage.';
+
 const pillarTitle = isSoilPillar
   ? soilPillarTitle
   : isLawnPillar
@@ -163,6 +182,8 @@ const pillarTitle = isSoilPillar
   ? indoorPillarTitle
   : isWateringPillar
   ? wateringPillarTitle
+  : isSpacingPillar
+  ? spacingPillarTitle
   : '';
 const pillarDescription = isSoilPillar
   ? soilPillarDescription
@@ -172,6 +193,8 @@ const pillarDescription = isSoilPillar
   ? indoorPillarDescription
   : isWateringPillar
   ? wateringPillarDescription
+  : isSpacingPillar
+  ? spacingPillarDescription
   : '';
 const pillarAboutName = isSoilPillar
   ? 'Soil and garden amendments'
@@ -181,6 +204,8 @@ const pillarAboutName = isSoilPillar
   ? 'Houseplant light and container care'
   : isWateringPillar
   ? 'Rainwater collection and drip irrigation'
+  : isSpacingPillar
+  ? 'Vegetable garden planning timeline'
   : '';
 
 const pageTitle = isPillar ? pillarTitle : `${cluster.name} Calculators`;
@@ -313,10 +338,18 @@ const indoorReferenceRows = [
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
-            ) : (
+            ) : isWateringPillar ? (
               <img
                 src="/watering-and-irrigation-cluster-barrel-to-drip-line.svg"
                 alt="A rain barrel collecting water from a roof gutter, feeding a drip irrigation line running to plants along a garden row"
+                width="800"
+                height="500"
+                class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
+              />
+            ) : (
+              <img
+                src="/spacing-and-planting-cluster-four-stage-timeline.svg"
+                alt="A four-stage garden planning timeline: frost calendar, seed tray, spacing grid, and harvest basket connected left to right"
                 width="800"
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
@@ -394,6 +427,17 @@ const indoorReferenceRows = [
         </p>
         <p>
           This cluster&rsquo;s two calculators address each side. The <a href="/calculators/rain-barrel-calculator/">Rain Barrel Calculator</a> turns your roof area and local rainfall into gallons collected and the water pressure you&rsquo;ll get out of the barrel&rsquo;s spigot. The <a href="/calculators/drip-irrigation-calculator/">Drip Irrigation Calculator</a> turns your emitter count and flow rate into a run time and total water delivered. They&rsquo;re complementary, not competing tools &mdash; a rain barrel is a water source, drip irrigation is a delivery method, and a full system commonly uses both together.
+        </p>
+          </>
+        )}
+
+        {isSpacingPillar && (
+          <>
+        <p>
+          Planning a vegetable garden really means answering one question in four stages: <strong>when do I start, when do I plant, how far apart, and what will I get</strong>? These four calculators aren&rsquo;t independent tools you pick from &mdash; they&rsquo;re sequential stages, each one feeding the next. Your frost date sets your seed-starting calendar. Your seed-starting calendar tells you when to transplant. Your spacing decision at transplant time determines how many plants fit in your bed. And that plant count, combined with per-plant yield data, tells you what the whole bed will actually produce.
+        </p>
+        <p>
+          Skip a stage or work them out of order and the numbers stop lining up &mdash; spacing math is meaningless without knowing how many transplants you&rsquo;ll have ready, and a yield estimate is only as good as the plant count that feeds it. Worked in sequence, though, these four calculators take a garden from &ldquo;I want to grow vegetables this year&rdquo; to an actual bed plan with real dates and real numbers attached.
         </p>
           </>
         )}
@@ -732,6 +776,89 @@ const indoorReferenceRows = [
         <p>
           Collection and delivery aren&rsquo;t separate projects &mdash; a rain barrel feeding a gravity-fed drip line is one of the most common low-cost setups in home gardening. The barrel supplies the water, the drip line delivers it precisely, and both numbers connect directly: the 1&ndash;1.5 PSI a typical elevated barrel produces is enough to run a gravity-fed drip line (which needs very little pressure), but not enough for a standard sprinkler. If you want to run drip emitters straight off a rain barrel, check the barrel&rsquo;s pressure output against your emitters&rsquo; rated operating pressure before relying on gravity alone &mdash; some emitter designs need a minimum of a few PSI to deliver their rated flow consistently.
         </p>
+          </>
+        )}
+
+        {isSpacingPillar && (
+          <>
+        <h2 id="stage-1-when-do-you-start">Stage 1: When Do You Start?</h2>
+        <p>
+          Everything in this cluster traces back to one date: your local <strong>average last spring frost</strong>. Cold-tender crops (tomatoes, peppers, cucumbers) can&rsquo;t go outside until after it; cold-hardy crops (broccoli, cabbage, lettuce) can go out a few weeks before it. That single date is the anchor the next three stages all build from &mdash; get it wrong and every downstream date shifts with it.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Frost Date Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Get your estimated last spring and first fall frost date range by ZIP code or hardiness zone.</p>
+          <a
+            href="/calculators/frost-date-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <h2 id="stage-2-when-do-you-plant">Stage 2: When Do You Plant?</h2>
+        <p>
+          This stage builds directly on Stage 1&rsquo;s output. Most warm-season crops start indoors <strong>6&ndash;8 weeks before</strong> that last frost date (peppers and eggplant want <strong>8&ndash;10 weeks</strong>, since they&rsquo;re slower to size up), then transplant out <strong>1&ndash;2 weeks after</strong> the frost date once the soil has warmed. Cold-hardy crops like broccoli and cabbage flip that timing &mdash; started indoors <strong>6&ndash;8 weeks before</strong> frost, but transplanted <strong>2&ndash;4 weeks before</strong> it while they can still handle a cold snap. Root crops and beans skip the indoor stage entirely and get direct-sown, since they don&rsquo;t transplant well.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Seed Starting Calendar</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Get a personalized seed-starting calendar built from your frost date — when to start indoors, transplant, or direct sow, by crop.</p>
+          <a
+            href="/calculators/seed-starting-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <h2 id="stage-3-how-far-apart">Stage 3: How Far Apart?</h2>
+        <p>
+          Once your transplants (or direct-sown seedlings) are ready, spacing determines how many actually fit in your bed &mdash; and the method you use changes that number a lot. <strong>Row spacing</strong> leaves room to walk between rows: broccoli at 18 in in-row &times; 24 in between rows works out to <strong>3 sq ft per plant</strong>. <strong>Square-foot gardening</strong> skips the walking rows and packs plants at their minimum spacing in a grid instead &mdash; the same broccoli fits at <strong>1 sq ft per plant</strong>, three times denser than the row method for an identical plant.
+        </p>
+        <p>
+          Neither method is universally &ldquo;better&rdquo; &mdash; row spacing suits larger plots where you need equipment or hand-tool access between rows, while square-foot gardening suits raised beds where every square foot is reachable from a path. What matters is picking one and applying it consistently, since mixing the two within a bed makes the plant count math unreliable.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Plant Spacing Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Find how many plants fit in your bed using row spacing or square-foot gardening, with presets for 20+ common crops.</p>
+          <a
+            href="/calculators/plant-spacing-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p>
+          Spacing math alone doesn&rsquo;t guarantee a productive bed &mdash; tight spacing in nutrient-poor soil underperforms no matter how correct the plant count is. Not sure you&rsquo;ve got enough depth and volume of good soil for the bed you&rsquo;re planning? Our <a href="/calculators/raised-bed-soil-calculator/">Raised Bed Soil Calculator</a> (from the Soil &amp; Amendments cluster) figures out exactly how much topsoil-compost blend to fill it with, so the plants your spacing plan packs in actually have the soil to back them up.
+        </p>
+
+        <h2 id="stage-4-what-will-you-get">Stage 4: What Will You Get?</h2>
+        <p>
+          This is where Stage 3&rsquo;s spacing decision closes the loop into an actual harvest estimate. Broccoli yields about <strong>0.8 lb per plant</strong> regardless of spacing method &mdash; but at 1 sq ft per plant (square-foot method) that&rsquo;s roughly <strong>0.8 lb per sq ft</strong> of bed space, while at 3 sq ft per plant (row method) the same plant only delivers about <strong>0.27 lb per sq ft</strong>. Same crop, same per-plant yield, nearly <strong>3&times; the yield per square foot</strong> just from the spacing method chosen back in Stage 3.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Vegetable Yield Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Estimate how much food your garden will produce, by crop and either plant count or growing area.</p>
+          <a
+            href="/calculators/vegetable-yield-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
           </>
         )}          </article>
         </div>
