@@ -91,7 +91,9 @@ export default function LeadMagnetForm({ listId, clusterName, description, icon 
             Check your inbox!
           </p>
           <p className="mt-1.5 font-sans text-sm leading-relaxed text-[#F5F1E8]">
-            We’ll send the {clusterName} Cheat Sheet to your email shortly.
+            We're sending the {clusterName} Cheat Sheet to your email now. If you don't see it in a
+            minute or two, check your spam or promotions folder — and marking it "not spam" helps
+            make sure future free guides land straight in your inbox.
           </p>
         </div>
       ) : (
