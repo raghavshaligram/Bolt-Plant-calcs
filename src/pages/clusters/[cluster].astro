@@ -26,23 +26,33 @@ const iconPaths: Record<string, string> = {
   tree: 'M12 2c-3 4-6 8-6 12a6 6 0 0 0 12 0c0-4-3-8-6-12ZM12 22v-6',
 };
 
-// The Soil & Amendments cluster has been built out into a genuine content pillar
-// (original written guide + calculator directory), not just a listing page.
-// Other clusters keep the plain directory layout for now.
-const isPillar = cluster.slug === 'soil-and-amendments';
+// The Soil & Amendments and Lawn & Landscaping clusters have been built out
+// into genuine content pillars (original written guide + calculator
+// directory), not just listing pages. Other clusters keep the plain
+// directory layout for now.
+const isSoilPillar = cluster.slug === 'soil-and-amendments';
+const isLawnPillar = cluster.slug === 'lawn-and-landscaping';
+const isPillar = isSoilPillar || isLawnPillar;
 
 
 // TOC + sticky-sidebar layout (same TableOfContents component used on
-// calculator pages) -- only meaningful for the Soil & Amendments pillar
-// today, but built so the next cluster to get pillar treatment can reuse
-// this same pattern.
-const pillarTocItems = [
+// calculator pages) -- each pillar cluster gets its own set of anchors.
+const soilTocItems = [
   { id: 'live-calculators', label: 'Live Calculators' },
   { id: 'choosing-the-right-material', label: 'Choosing the Right Material' },
   { id: 'filling-a-raised-bed', label: 'Filling a Raised Bed' },
   { id: 'mulching-and-top-dressing', label: 'Mulching and Top-Dressing' },
   { id: 'composting-basics', label: 'Composting Basics' },
 ];
+
+const lawnTocItems = [
+  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'new-lawn-or-overseeding', label: 'New Lawn or Overseeding?' },
+  { id: 'choosing-the-right-grass-type', label: 'Choosing the Right Grass Type' },
+  { id: 'lawn-care-timing', label: 'Lawn Care Timing' },
+];
+
+const pillarTocItems = isSoilPillar ? soilTocItems : isLawnPillar ? lawnTocItems : [];
 
 // Depth-ruler data for the "at a glance" visual (point 2). Topsoil/Compost/
 // Mulch ranges are the exact figures already stated in the prose below.
@@ -96,11 +106,21 @@ const calculatorTint: Record<string, string> = {
   'soil-volume-calculator': 'bg-moss-50',
   'mulch-calculator': 'bg-[#8B6535]/10',
   'compost-calculator': 'bg-[#4A7C59]/10',
+  'grass-seed-calculator': 'bg-[#8B6535]/10',
+  'overseeding-calculator': 'bg-[#4A7C59]/10',
 };
 
-const pillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
-const pillarDescription =
+const soilPillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
+const soilPillarDescription =
   'The complete guide to topsoil, garden soil, compost, and mulch — what each one does, when to use it, and calculators for the exact amount.';
+
+const lawnPillarTitle = 'Lawn & Landscaping: New Lawns, Overseeding, and Grass Type Guide';
+const lawnPillarDescription =
+  'The complete guide to establishing a new lawn from seed, overseeding an existing one, and choosing the right grass type for your climate — plus calculators for exact seed amounts.';
+
+const pillarTitle = isSoilPillar ? soilPillarTitle : isLawnPillar ? lawnPillarTitle : '';
+const pillarDescription = isSoilPillar ? soilPillarDescription : isLawnPillar ? lawnPillarDescription : '';
+const pillarAboutName = isSoilPillar ? 'Soil and garden amendments' : isLawnPillar ? 'Lawn care and grass seeding' : '';
 
 const pageTitle = isPillar ? pillarTitle : `${cluster.name} Calculators`;
 const pageDescription = isPillar ? pillarDescription : cluster.metaDescription;
@@ -122,7 +142,7 @@ const collectionPageJsonLd = {
   name: pillarTitle,
   description: pillarDescription,
   url: clusterUrl,
-  about: { '@type': 'Thing', name: 'Soil and garden amendments' },
+  about: { '@type': 'Thing', name: pillarAboutName },
   mainEntity: {
     '@type': 'ItemList',
     itemListElement: liveCalculators.map((calc, i) => ({
@@ -133,11 +153,48 @@ const collectionPageJsonLd = {
     })),
   },
 };
+
+// Article schema for the pillar's own original written content (alongside
+// the BreadcrumbList + CollectionPage/ItemList schema above) -- this is
+// what makes each pillar page's guide content, not just its calculator
+// directory, eligible for rich-result treatment as an article.
+const pillarArticleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: pillarTitle,
+  description: pillarDescription,
+  url: clusterUrl,
+  author: { '@type': 'Organization', name: 'HarvestMath' },
+  publisher: { '@type': 'Organization', name: 'HarvestMath' },
+};
+
+// Comparison table data for the Lawn & Landscaping pillar -- grounded in
+// the exact rates already published on each calculator's own page (see
+// GRASS_PRESETS in GrassSeedCalculator.tsx and GRASS_RATES in
+// OverseedingCalculator.tsx), not separately invented numbers.
+const lawnComparisonRows = [
+  {
+    label: 'Use when',
+    grassSeed: 'Starting a lawn from bare soil, or a full renovation where old turf is removed first.',
+    overseeding: 'Thickening a thin, patchy, or bare-spotted lawn that still has living turf in place.',
+  },
+  {
+    label: 'Typical rate',
+    grassSeed: '1.5–8 lb of seed per 1,000 sq ft depending on grass type — the full establishment rate.',
+    overseeding: 'Roughly half the new-lawn rate as a baseline, scaled up further for patchier or barer lawns.',
+  },
+  {
+    label: 'Key difference',
+    grassSeed: 'Calculates a full rate — new seedlings have no existing turf competing with them for light, water, or nutrients.',
+    overseeding: 'Calculates a reduced, condition-based rate — existing turf already covers part of the ground, so a full new-lawn rate wastes seed and can crowd out germinating seedlings.',
+  },
+];
 ---
 
 <Layout title={pageTitle} description={pageDescription} rawTitle={isPillar}>
   {isPillar && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />}
   {isPillar && <script type="application/ld+json" set:html={JSON.stringify(collectionPageJsonLd)} slot="head" />}
+  {isPillar && <script type="application/ld+json" set:html={JSON.stringify(pillarArticleJsonLd)} slot="head" />}
   <section class="border-b border-moss-100 bg-moss-50/60">
     <div class="container-wide py-12 sm:py-16">
       <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
@@ -157,13 +214,23 @@ const collectionPageJsonLd = {
             </p>
           </div>
           <div class="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
-            <img
-              src="/soil-and-amendments-cluster-cross-section.svg"
-              alt="Cross-section of a raised bed showing mulch on top, garden soil beneath it, and bulk topsoil fill at the bottom"
-              width="800"
-              height="500"
-              class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
-            />
+            {isSoilPillar ? (
+              <img
+                src="/soil-and-amendments-cluster-cross-section.svg"
+                alt="Cross-section of a raised bed showing mulch on top, garden soil beneath it, and bulk topsoil fill at the bottom"
+                width="800"
+                height="500"
+                class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
+              />
+            ) : (
+              <img
+                src="/lawn-and-landscaping-cluster-new-vs-overseed.svg"
+                alt="Split view of a lawn: bare soil being seeded with a spreader on the left, existing thin turf being overseeded on the right"
+                width="800"
+                height="500"
+                class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
+              />
+            )}
           </div>
         </div>
       ) : (
@@ -193,6 +260,8 @@ const collectionPageJsonLd = {
           <TableOfContents items={pillarTocItems} variant="accordion" />
 
           <article class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+        {isSoilPillar && (
+          <>
         <p>
           Every raised bed, lawn repair, or new planting starts with the same question: what actually goes in the ground? Four materials do almost all of the work &mdash; topsoil, garden soil, compost, and mulch &mdash; and they are not interchangeable, even though garden centers sometimes blur the lines between them.
         </p>
@@ -202,6 +271,19 @@ const collectionPageJsonLd = {
         <p>
           A real project usually uses more than one of these in sequence. A new raised bed gets filled with bulk topsoil for depth, then a topsoil-compost blend near the surface for planting; compost gets worked in seasonally to keep feeding the soil; mulch goes on top once everything&rsquo;s planted to cut down on watering and weeding. Knowing which material does which job &mdash; and how much of it you actually need &mdash; is most of what separates a bed that thrives from one that fights you all season. That&rsquo;s what the tools and guides below are built to answer.
         </p>
+          </>
+        )}
+
+        {isLawnPillar && (
+          <>
+        <p>
+          A great lawn starts with one decision: are you building it from scratch, or fixing one that already exists? Starting a <strong>new lawn</strong> means bare soil, no competition, and a full seeding rate to establish turf from nothing. <strong>Overseeding</strong> means working seed into an existing lawn that already has living grass in place &mdash; thickening thin turf, filling bare patches, or repairing damage &mdash; at a reduced rate, since the existing grass is already covering part of the ground.
+        </p>
+        <p>
+          Grass type matters just as much as which of those two situations you&rsquo;re in. Cool-season and warm-season grasses germinate at different soil temperatures, thrive in different climates, and go dormant at different times of year &mdash; using the wrong species for your climate, or seeding at the wrong time of year for your species, wastes seed regardless of how precisely you calculate the amount. A full-season lawn care approach treats seeding (new or over-) as one step in a cycle that also includes mowing height, fertilizing, and seasonal timing &mdash; the calculators below handle the seed math; the guidance around them is built to get the timing and species choice right too.
+        </p>
+          </>
+        )}
 
         <div class="not-prose my-6 flex flex-wrap items-center gap-x-2 gap-y-3 rounded-xl border border-[#5C4433]/15 bg-white p-4">
           <span class="mr-1 text-sm font-semibold text-bark-500">Jump to a calculator:</span>
@@ -215,33 +297,59 @@ const collectionPageJsonLd = {
           ))}
         </div>
 
-        <div class="not-prose my-8 rounded-xl border border-[#5C4433]/15 bg-white p-6 shadow-sm">
-          <p class="text-xs font-semibold uppercase tracking-wider text-bark-400">Typical depth, side by side</p>
-          <div class="mt-4 space-y-5">
-            {materialDepths.map((m) => {
-              const leftPct = (m.range[0] / depthScaleMax) * 100;
-              const widthPct = ((m.range[1] - m.range[0]) / depthScaleMax) * 100;
-              return (
-                <div>
-                  <div class="flex items-baseline justify-between gap-4">
-                    <span class="font-display text-sm font-semibold text-bark-900">{m.name}</span>
-                    <span class="text-xs text-bark-500">{m.range[0]}&ndash;{m.range[1]} in{m.approx ? ' (approx.)' : ''}</span>
+        {isSoilPillar && (
+          <div class="not-prose my-8 rounded-xl border border-[#5C4433]/15 bg-white p-6 shadow-sm">
+            <p class="text-xs font-semibold uppercase tracking-wider text-bark-400">Typical depth, side by side</p>
+            <div class="mt-4 space-y-5">
+              {materialDepths.map((m) => {
+                const leftPct = (m.range[0] / depthScaleMax) * 100;
+                const widthPct = ((m.range[1] - m.range[0]) / depthScaleMax) * 100;
+                return (
+                  <div>
+                    <div class="flex items-baseline justify-between gap-4">
+                      <span class="font-display text-sm font-semibold text-bark-900">{m.name}</span>
+                      <span class="text-xs text-bark-500">{m.range[0]}&ndash;{m.range[1]} in{m.approx ? ' (approx.)' : ''}</span>
+                    </div>
+                    <div class="relative mt-1.5 h-3 rounded-full bg-bark-50">
+                      <div
+                        class="absolute inset-y-0 rounded-full"
+                        style={`left:${leftPct}%; width:${widthPct}%; background-color:${m.color}`}
+                      />
+                    </div>
+                    <p class="mt-1.5 text-xs leading-relaxed text-bark-500">{m.bestFor} &mdash; {m.where}</p>
                   </div>
-                  <div class="relative mt-1.5 h-3 rounded-full bg-bark-50">
-                    <div
-                      class="absolute inset-y-0 rounded-full"
-                      style={`left:${leftPct}%; width:${widthPct}%; background-color:${m.color}`}
-                    />
-                  </div>
-                  <p class="mt-1.5 text-xs leading-relaxed text-bark-500">{m.bestFor} &mdash; {m.where}</p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+            <div class="mt-4 flex justify-between text-[11px] text-bark-400">
+              <span>0&Prime;</span><span>3&Prime;</span><span>6&Prime;</span><span>9&Prime;</span><span>12&Prime;</span>
+            </div>
           </div>
-          <div class="mt-4 flex justify-between text-[11px] text-bark-400">
-            <span>0&Prime;</span><span>3&Prime;</span><span>6&Prime;</span><span>9&Prime;</span><span>12&Prime;</span>
+        )}
+
+        {isLawnPillar && (
+          <div class="not-prose my-8 overflow-x-auto rounded-xl border border-[#5C4433]/15 bg-white p-6 shadow-sm">
+            <p class="mb-4 text-xs font-semibold uppercase tracking-wider text-bark-400">Grass Seed vs. Overseeding, side by side</p>
+            <table class="w-full text-left text-sm">
+              <thead>
+                <tr class="border-b border-moss-100 text-bark-500">
+                  <th scope="col" class="py-2 pr-4 font-medium"></th>
+                  <th scope="col" class="py-2 pr-4 font-medium">Grass Seed Calculator</th>
+                  <th scope="col" class="py-2 font-medium">Overseeding Calculator</th>
+                </tr>
+              </thead>
+              <tbody class="text-bark-700">
+                {lawnComparisonRows.map((row, i) => (
+                  <tr class={i < lawnComparisonRows.length - 1 ? 'border-b border-moss-50 align-top' : 'align-top'}>
+                    <th scope="row" class="py-3 pr-4 font-semibold text-bark-800">{row.label}</th>
+                    <td class="py-3 pr-4 leading-relaxed text-bark-600">{row.grassSeed}</td>
+                    <td class="py-3 leading-relaxed text-bark-600">{row.overseeding}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
+        )}
 
         {liveCalculators.length > 0 && (
           <div id="live-calculators" class="not-prose scroll-mt-24">
@@ -284,6 +392,8 @@ const collectionPageJsonLd = {
           </div>
         )}
 
+        {isSoilPillar && (
+          <>
         <h2 id="choosing-the-right-material">Choosing the Right Material</h2>
         <p>
           The short version: use <strong>topsoil</strong> for bulk fill where roots won&rsquo;t be growing directly &mdash; leveling, grading, building volume under a bed. Use <strong>garden soil</strong> (topsoil blended with compost) anywhere you&rsquo;re planting directly, since straight topsoil alone compacts too hard and holds too few nutrients for most vegetables and ornamentals. Use <strong>compost</strong> on its own when you&rsquo;re feeding soil that&rsquo;s already in place &mdash; worked into the top few inches of an existing bed, or blended into new soil at a lower ratio than a full garden-soil mix.
@@ -315,7 +425,60 @@ const collectionPageJsonLd = {
         <p>
           Compost gets used two ways in this cluster: blended into new bed soil at roughly 30% of the total volume, or top-dressed onto an existing bed at 1&ndash;3 inches. The <a href="/calculators/compost-calculator/">Compost Calculator</a> handles both, along with bag counts and estimated weight for whatever you&rsquo;re hauling.
         </p>
-          </article>
+          </>
+        )}
+
+        {isLawnPillar && (
+          <>
+        <h2 id="new-lawn-or-overseeding">New Lawn or Overseeding?</h2>
+        <p>
+          These are two different jobs with two different rates, and mixing them up is the single most common seeding mistake. A <strong>new lawn</strong> starts from bare soil &mdash; tilled ground, a torn-out old lawn, or a brand-new construction lot &mdash; with nothing already growing to compete with new seedlings, so it needs a full establishment rate. <strong>Overseeding</strong> works seed into a lawn that already has living turf in place, whether it&rsquo;s thin, patchy, or just due for a thickness boost &mdash; since the existing grass already covers part of the ground, it needs roughly half the new-lawn rate, scaled up if the lawn is thinner or barer.
+        </p>
+
+        <div class="not-prose my-8 grid gap-5 sm:grid-cols-2">
+          <a
+            href="/calculators/grass-seed-calculator/"
+            class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+          >
+            <span class="text-xs font-medium uppercase tracking-wider text-moss-600">New lawn</span>
+            <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">Grass Seed Calculator</h3>
+            <p class="text-sm leading-relaxed text-bark-600">Starting from bare soil? Get the full establishment rate in pounds and bags for your grass type.</p>
+            <span class="mt-auto inline-flex items-center text-sm font-medium text-moss-700">
+              Open
+              <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+          <a
+            href="/calculators/overseeding-calculator/"
+            class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+          >
+            <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Existing lawn</span>
+            <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">Overseeding Calculator</h3>
+            <p class="text-sm leading-relaxed text-bark-600">Thickening or repairing turf that&rsquo;s already there? Get the reduced rate scaled to your lawn&rsquo;s condition.</p>
+            <span class="mt-auto inline-flex items-center text-sm font-medium text-moss-700">
+              Open
+              <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        </div>
+
+        <h2 id="choosing-the-right-grass-type">Choosing the Right Grass Type</h2>
+        <p>
+          Lawn grasses split into two broad groups by climate. <strong>Cool-season grasses</strong> &mdash; Kentucky bluegrass, tall fescue, perennial ryegrass, fine fescue &mdash; thrive in the cooler climates of the Northern U.S. and the transition zone, grow most actively in spring and fall, and can go semi-dormant (brown) during peak summer heat. <strong>Warm-season grasses</strong> &mdash; Bermuda, Zoysia &mdash; thrive in the hot climates of the Southern U.S., grow most vigorously through summer heat, and go dormant (brown) once temperatures drop in winter.
+        </p>
+        <p>
+          The <a href="/calculators/grass-seed-calculator/">Grass Seed Calculator</a>&rsquo;s grass-type dropdown covers both groups for establishing a new lawn, and the <a href="/calculators/overseeding-calculator/">Overseeding Calculator</a> covers the same species (plus winter-overseeding a dormant Bermuda lawn with ryegrass for color) for renovating existing turf. We&rsquo;re also working on a dedicated Cool-Season vs. Warm-Season Grass guide with a full climate map and species-by-species comparison &mdash; check back soon.
+        </p>
+
+        <h2 id="lawn-care-timing">Lawn Care Timing</h2>
+        <p>
+          Timing matters as much as rate. Cool-season grasses germinate best when seeded in <strong>late summer to early fall</strong>, when warm soil and cooling air give fast germination without the stress of summer heat on new seedlings &mdash; early spring is a secondary, less reliable window for the same species. Warm-season grasses like Bermuda and Zoysia establish best once soil has warmed in <strong>late spring to early summer</strong>, while they&rsquo;re actively growing rather than dormant. Winter-overseeding a dormant Bermuda lawn with ryegrass happens in <strong>fall</strong>, timed to when the Bermuda itself is going dormant.
+        </p>
+        <p>
+          Just like the vegetable planting dates elsewhere on this site are built around your local frost dates, lawn seeding windows are built around your local climate and grass type rather than a single calendar date. Check our <a href="/calculators/frost-date-calculator/">Frost Date Calculator</a> for your specific last and first frost dates as a starting reference point for spring and fall seeding windows in your area.
+        </p>
+          </>
+        )}          </article>
         </div>
 
         <aside class="hidden lg:block">

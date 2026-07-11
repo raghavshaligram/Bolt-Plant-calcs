@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="Split view of a lawn: bare soil being seeded with a spreader on the left, existing thin turf being overseeded on the right">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#EEF3E7"/>
+  <rect x="0" y="0" width="800" height="150" fill="#E4EDDA"/>
+
+  <!-- Sun -->
+  <circle cx="690" cy="80" r="42" fill="#E8A94A" opacity="0.85"/>
+
+  <!-- Left half: bare soil being seeded -->
+  <g>
+    <rect x="0" y="150" width="400" height="350" fill="#DCE7CF"/>
+    <rect x="0" y="330" width="400" height="170" fill="#8B6535" opacity="0.55"/>
+    <!-- soil texture dots -->
+    <g fill="#5C4433" opacity="0.35">
+      <circle cx="60" cy="360" r="3"/>
+      <circle cx="120" cy="390" r="3"/>
+      <circle cx="180" cy="365" r="3"/>
+      <circle cx="240" cy="400" r="3"/>
+      <circle cx="300" cy="370" r="3"/>
+      <circle cx="90" cy="430" r="3"/>
+      <circle cx="220" cy="450" r="3"/>
+      <circle cx="330" cy="440" r="3"/>
+    </g>
+    <!-- seed spreader (simplified hand broadcast) -->
+    <g transform="translate(130,230)">
+      <rect x="-10" y="-70" width="20" height="70" rx="6" fill="#5C4433"/>
+      <ellipse cx="0" cy="-78" rx="28" ry="20" fill="#3D6647"/>
+    </g>
+    <!-- scattered seed dots -->
+    <g fill="#E8A94A">
+      <circle cx="90" cy="220" r="3.5"/>
+      <circle cx="150" cy="235" r="3"/>
+      <circle cx="200" cy="215" r="3.5"/>
+      <circle cx="60" cy="250" r="3"/>
+      <circle cx="230" cy="255" r="3"/>
+    </g>
+    <text x="200" y="480" font-family="'Playfair Display', Georgia, serif" font-size="22" fill="#5C4433" text-anchor="middle" font-weight="700">New Lawn</text>
+  </g>
+
+  <!-- Right half: existing thin turf overseeded -->
+  <g>
+    <rect x="400" y="150" width="400" height="350" fill="#EEF3E7"/>
+    <!-- turf base -->
+    <rect x="400" y="330" width="400" height="170" fill="#7FB2A0" opacity="0.5"/>
+    <!-- sparse grass blades (thin lawn) -->
+    <g stroke="#4A7C59" stroke-width="3" stroke-linecap="round">
+      <line x1="440" y1="400" x2="436" y2="370"/>
+      <line x1="460" y1="405" x2="466" y2="375"/>
+      <line x1="500" y1="395" x2="496" y2="365"/>
+      <line x1="540" y1="410" x2="546" y2="378"/>
+      <line x1="580" y1="400" x2="576" y2="368"/>
+      <line x1="620" y1="405" x2="626" y2="372"/>
+      <line x1="660" y1="398" x2="656" y2="366"/>
+      <line x1="700" y1="408" x2="706" y2="374"/>
+      <line x1="740" y1="400" x2="736" y2="368"/>
+    </g>
+    <!-- bare patches -->
+    <g fill="#8B6535" opacity="0.4">
+      <ellipse cx="480" cy="440" rx="30" ry="12"/>
+      <ellipse cx="650" cy="450" rx="26" ry="10"/>
+    </g>
+    <!-- broadcast spreader (wheeled) -->
+    <g transform="translate(600,250)">
+      <rect x="-4" y="-50" width="8" height="55" fill="#5C4433"/>
+      <rect x="-40" y="-10" width="80" height="30" rx="6" fill="#3D6647"/>
+      <circle cx="-28" cy="24" r="10" fill="#5C4433"/>
+      <circle cx="28" cy="24" r="10" fill="#5C4433"/>
+    </g>
+    <g fill="#E8A94A">
+      <circle cx="580" cy="290" r="3"/>
+      <circle cx="610" cy="300" r="3.5"/>
+      <circle cx="640" cy="292" r="3"/>
+    </g>
+    <text x="600" y="480" font-family="'Playfair Display', Georgia, serif" font-size="22" fill="#3D6647" text-anchor="middle" font-weight="700">Overseeding</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="400" y1="150" x2="400" y2="500" stroke="#5C4433" stroke-width="3" opacity="0.3"/>
+</svg>
