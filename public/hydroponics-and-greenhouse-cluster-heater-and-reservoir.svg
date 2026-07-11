@@ -1,0 +1,50 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#F5F1E8" rx="16"/>
+
+  <!-- Divider -->
+  <line x1="400" y1="60" x2="400" y2="440" stroke="#5C4433" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="6 6"/>
+
+  <!-- LEFT: Greenhouse hoop house, warm inside vs cold outside -->
+  <rect x="40" y="340" width="320" height="10" fill="#5C4433" opacity="0.3"/>
+  <path d="M60 340 L60 260 Q60 160 220 160 Q380 160 380 260 L380 340 Z" fill="#E8A94A" fill-opacity="0.18" stroke="#4A90B8" stroke-width="3"/>
+  <!-- hoop ribs -->
+  <path d="M110 340 L110 220 Q110 190 220 190 Q330 190 330 220 L330 340" fill="none" stroke="#4A90B8" stroke-width="1.5" stroke-opacity="0.5"/>
+  <path d="M170 340 L170 205 Q170 180 220 178 Q270 180 270 205 L270 340" fill="none" stroke="#4A90B8" stroke-width="1.5" stroke-opacity="0.5"/>
+  <!-- warm glow inside -->
+  <circle cx="220" cy="280" r="55" fill="#E8A94A" opacity="0.35"/>
+  <!-- thermometer icon -->
+  <rect x="205" y="230" width="14" height="70" rx="7" fill="#E8734A"/>
+  <circle cx="212" cy="304" r="12" fill="#E8734A"/>
+  <rect x="209" y="240" width="6" height="55" rx="3" fill="#F5F1E8"/>
+  <!-- snow outside -->
+  <circle cx="60" cy="130" r="4" fill="#4A90B8" opacity="0.5"/>
+  <circle cx="90" cy="110" r="3" fill="#4A90B8" opacity="0.5"/>
+  <circle cx="45" cy="170" r="3" fill="#4A90B8" opacity="0.5"/>
+  <circle cx="370" cy="120" r="4" fill="#4A90B8" opacity="0.5"/>
+  <circle cx="345" cy="150" r="3" fill="#4A90B8" opacity="0.5"/>
+  <text x="220" y="400" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#3D6647" text-anchor="middle">Climate control</text>
+  <text x="220" y="420" font-family="Arial, sans-serif" font-size="12" fill="#5C4433" text-anchor="middle">Heat loss vs. heater size</text>
+
+  <!-- RIGHT: Hydroponic reservoir + EC meter + dosing bottle -->
+  <rect x="470" y="280" width="220" height="90" rx="10" fill="#4A90B8" fill-opacity="0.18" stroke="#4A90B8" stroke-width="3"/>
+  <rect x="470" y="270" width="220" height="14" rx="6" fill="#4A90B8" fill-opacity="0.4"/>
+  <!-- dosing bottle -->
+  <g transform="translate(500,190)">
+    <rect x="0" y="20" width="26" height="60" rx="4" fill="#4A7C59"/>
+    <rect x="6" y="8" width="14" height="14" rx="2" fill="#3D6647"/>
+    <path d="M13 80 L13 100" stroke="#4A7C59" stroke-width="3" stroke-dasharray="2 3"/>
+  </g>
+  <!-- EC meter probe -->
+  <g transform="translate(650,180)">
+    <rect x="0" y="0" width="16" height="70" rx="4" fill="#3D6647"/>
+    <rect x="2" y="6" width="12" height="30" rx="2" fill="#F5F1E8"/>
+    <text x="8" y="27" font-family="Arial, sans-serif" font-size="9" font-weight="700" fill="#3D6647" text-anchor="middle">EC</text>
+    <path d="M8 70 L8 100" stroke="#3D6647" stroke-width="3"/>
+  </g>
+  <!-- water ripple lines in reservoir -->
+  <path d="M490 320 Q510 315 530 320 T570 320 T610 320 T650 320" stroke="#4A90B8" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <path d="M490 340 Q510 335 530 340 T570 340 T610 340 T650 340" stroke="#4A90B8" stroke-width="1.5" fill="none" opacity="0.4"/>
+
+  <text x="580" y="400" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#3D6647" text-anchor="middle">Nutrient dosing</text>
+  <text x="580" y="420" font-family="Arial, sans-serif" font-size="12" fill="#5C4433" text-anchor="middle">EC/PPM precision</text>
+</svg>

@@ -37,7 +37,8 @@ const isWateringPillar = cluster.slug === 'watering-and-irrigation';
 const isSpacingPillar = cluster.slug === 'spacing-and-planting';
 const isTreesPillar = cluster.slug === 'trees-and-shrubs';
 const isFertilizerPillar = cluster.slug === 'fertilizer-and-nutrients';
-const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar || isSpacingPillar || isTreesPillar || isFertilizerPillar;
+const isHydroponicsPillar = cluster.slug === 'hydroponics-and-greenhouse';
+const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar || isSpacingPillar || isTreesPillar || isFertilizerPillar || isHydroponicsPillar;
 
 
 // TOC + sticky-sidebar layout (same TableOfContents component used on
@@ -96,6 +97,13 @@ const fertilizerTocItems = [
   { id: 'common-feeding-scenarios', label: 'Common Feeding Scenarios' },
 ];
 
+const hydroponicsTocItems = [
+  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'keeping-your-greenhouse-warm', label: 'Keeping It Warm' },
+  { id: 'getting-nutrient-dosing-right', label: 'Nutrient Dosing' },
+  { id: 'why-precision-matters-more-without-soil', label: 'Why Precision Matters' },
+];
+
 const pillarTocItems = isSoilPillar
   ? soilTocItems
   : isLawnPillar
@@ -110,6 +118,8 @@ const pillarTocItems = isSoilPillar
   ? treesTocItems
   : isFertilizerPillar
   ? fertilizerTocItems
+  : isHydroponicsPillar
+  ? hydroponicsTocItems
   : [];
 
 // Depth-ruler data for the "at a glance" visual (point 2). Topsoil/Compost/
@@ -176,6 +186,8 @@ const calculatorTint: Record<string, string> = {
   'vegetable-yield-calculator': 'bg-[#E8A94A]/10',
   'tree-age-calculator': 'bg-[#8B6535]/10',
   'npk-calculator': 'bg-[#E8A94A]/10',
+  'greenhouse-heater-calculator': 'bg-[#4A90B8]/10',
+  'hydroponic-nutrient-calculator': 'bg-moss-50',
 };
 
 const soilPillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
@@ -206,6 +218,10 @@ const fertilizerPillarTitle = 'Fertilizer & Nutrients: Plant Nutrition and NPK G
 const fertilizerPillarDescription =
   'The complete guide to plant nutrition — what N-P-K actually does, how soil type changes your feeding rate, organic vs. synthetic sources, and a calculator for the exact amount.';
 
+const hydroponicsPillarTitle = 'Hydroponics & Greenhouse: Climate Control and Nutrient Dosing Guide';
+const hydroponicsPillarDescription =
+  'The complete guide to controlled-environment growing — keeping a greenhouse warm enough and dosing hydroponic nutrients precisely, with calculators for both.';
+
 const pillarTitle = isSoilPillar
   ? soilPillarTitle
   : isLawnPillar
@@ -220,6 +236,8 @@ const pillarTitle = isSoilPillar
   ? treesPillarTitle
   : isFertilizerPillar
   ? fertilizerPillarTitle
+  : isHydroponicsPillar
+  ? hydroponicsPillarTitle
   : '';
 const pillarDescription = isSoilPillar
   ? soilPillarDescription
@@ -235,6 +253,8 @@ const pillarDescription = isSoilPillar
   ? treesPillarDescription
   : isFertilizerPillar
   ? fertilizerPillarDescription
+  : isHydroponicsPillar
+  ? hydroponicsPillarDescription
   : '';
 const pillarAboutName = isSoilPillar
   ? 'Soil and garden amendments'
@@ -250,6 +270,8 @@ const pillarAboutName = isSoilPillar
   ? 'Tree and shrub care'
   : isFertilizerPillar
   ? 'Plant nutrition and fertilizer application'
+  : isHydroponicsPillar
+  ? 'Greenhouse climate control and hydroponic nutrient dosing'
   : '';
 
 const pageTitle = isPillar ? pillarTitle : `${cluster.name} Calculators`;
@@ -406,10 +428,18 @@ const indoorReferenceRows = [
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
-            ) : (
+            ) : isFertilizerPillar ? (
               <img
                 src="/fertilizer-and-nutrients-cluster-npk-plant-diagram.svg"
                 alt="A plant cross-section showing nitrogen feeding leafy growth, phosphorus feeding roots and flowers, and potassium supporting overall vigor, beside a fertilizer bag with its N-P-K numbers"
+                width="800"
+                height="500"
+                class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
+              />
+            ) : (
+              <img
+                src="/hydroponics-and-greenhouse-cluster-heater-and-reservoir.svg"
+                alt="A heated greenhouse interior on one side and a hydroponic reservoir with a nutrient dosing bottle and EC meter on the other, representing the cluster's two complementary systems"
                 width="800"
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
@@ -523,6 +553,20 @@ const indoorReferenceRows = [
         </p>
         <p>
           This page walks through what N-P-K actually does, how your soil changes your feeding rate, how organic and synthetic sources differ, and a few common real-world feeding scenarios &mdash; with the NPK Calculator as the tool that turns any of this into an exact amount to apply.
+        </p>
+          </>
+        )}
+
+        {isHydroponicsPillar && (
+          <>
+        <p>
+          A hydroponic or greenhouse growing setup means taking over jobs that soil and outdoor weather normally handle for you &mdash; and two of those jobs matter more than any other: keeping the growing space <strong>warm enough</strong>, and delivering the <strong>right nutrients</strong> in the right amount. Neither one forgives guessing the way an established outdoor garden bed often does.
+        </p>
+        <p>
+          A greenhouse loses heat constantly through its glazing, and on a cold night an undersized heater (or a leaky structure) can mean frost damage to a crop that would&rsquo;ve been fine outdoors in soil with more thermal buffering. A hydroponic reservoir has no soil at all to buffer a dosing mistake &mdash; nutrients are either in the water at the right concentration or they&rsquo;re not, and there&rsquo;s no soil chemistry slowly correcting an over- or under-feed the way it might in the ground.
+        </p>
+        <p>
+          This cluster&rsquo;s two calculators address each job directly: the Greenhouse Heater Calculator sizes your heat source to your actual structure and climate, and the Hydroponic Nutrient Calculator scales any product&rsquo;s label dose to your reservoir and untangles EC-versus-PPM confusion. They&rsquo;re complementary tools for two different systems within the same controlled-growing setup, not steps in a sequence or alternatives to choose between.
         </p>
           </>
         )}
@@ -1074,6 +1118,64 @@ const indoorReferenceRows = [
         </p>
         <p>
           <strong>Stressed or young trees</strong> are one of the few cases where an established landscape planting actually needs supplemental feeding &mdash; not as routine maintenance, but when a tree is young and establishing, showing visible nutrient deficiency, or recovering from storm or drought stress. Our <a href="/clusters/trees-and-shrubs/">Trees &amp; Shrubs guide</a> covers exactly when feeding helps and when it doesn&rsquo;t, alongside watering and mulching guidance for the rest of a tree&rsquo;s care.
+        </p>
+          </>
+        )}
+
+        {isHydroponicsPillar && (
+          <>
+        <h2 id="keeping-your-greenhouse-warm">Keeping Your Greenhouse Warm</h2>
+        <p>
+          Heat loss comes down to three things multiplied together: the greenhouse&rsquo;s surface area, the temperature difference between inside and outside, and a <strong>U-factor</strong> describing how much heat your glazing lets through. Single-layer poly film and single-pane glass (U-factor around 1.1&ndash;1.2) lose heat fastest; double-layer inflated poly or twin/triple-wall polycarbonate (U-factor 0.55&ndash;0.7) trap an insulating air gap that roughly halves heat loss for the same structure.
+        </p>
+        <p>
+          Undersizing a heater &mdash; or ignoring air leaks around vents, doors, and seams &mdash; is how a cold snap turns into crop damage overnight. A well-sealed structure with the right heater size holds its temperature; a leaky one loses heat faster than the surface-area math alone predicts, no matter how big the heater is.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Greenhouse Heater Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Estimate heat loss in BTU/hr and find the recommended heater size for your greenhouse&rsquo;s shape, glazing, and climate.</p>
+          <a
+            href="/calculators/greenhouse-heater-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <h2 id="getting-nutrient-dosing-right">Getting Nutrient Dosing Right</h2>
+        <p>
+          Hydroponic growing demands more precision than soil growing because there&rsquo;s no soil to buffer a mistake &mdash; nutrients are either at the right concentration in the reservoir or they&rsquo;re not, with nothing correcting an over- or under-feed the way soil chemistry might outdoors. A common real mistake is EC/PPM scale confusion: the same 1.8 EC reading translates to 900 PPM on the 500 scale, 1,152 PPM on the 640 scale, or 1,260 PPM on the 700 scale &mdash; three very different numbers off the identical solution, purely because of which conversion factor a meter uses.
+        </p>
+        <p>
+          Tracking EC directly, rather than a PPM number of unknown scale, is the more reliable way to compare readings over time &mdash; PPM is only useful once you know which scale both your meter and whatever chart you&rsquo;re following actually use.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Hydroponic Nutrient Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Scale any product&rsquo;s label dose to your reservoir size and growth stage, and convert EC to PPM on the 500, 640, and 700 scales.</p>
+          <a
+            href="/calculators/hydroponic-nutrient-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <p>
+          Growing through a low-light season? Our <a href="/calculators/grow-light-calculator/">Grow Light &amp; DLI Calculator</a> (Indoor Plants cluster) helps you figure out if your setup needs supplemental lighting too &mdash; a greenhouse or indoor hydroponic system under cover often still comes up short on natural light in winter, even with climate and nutrients dialed in.
+        </p>
+
+        <h2 id="why-precision-matters-more-without-soil">Why Precision Matters More Without Soil</h2>
+        <p>
+          Soil-grown plants have a built-in buffer against small mistakes: soil holds onto extra water and nutrients, moderates temperature swings, and gives roots more room to average out an uneven feeding or a cold night. Hydroponic and greenhouse growing removes that buffer on both fronts at once &mdash; a reservoir has no soil to dilute a dosing error, and a glazed structure has none of the ground&rsquo;s thermal mass to soften a temperature swing.
+        </p>
+        <p>
+          That&rsquo;s why both of this cluster&rsquo;s tools emphasize getting the actual numbers right &mdash; heat loss in BTU/hr, nutrient concentration in EC or a specific PPM scale &mdash; rather than approximating. In soil, &ldquo;close enough&rdquo; often is close enough. In a controlled-growing setup, close enough is frequently the gap between a healthy crop and a damaged one.
         </p>
           </>
         )}          </article>
