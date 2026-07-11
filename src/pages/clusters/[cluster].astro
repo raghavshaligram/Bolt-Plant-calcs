@@ -35,7 +35,8 @@ const isLawnPillar = cluster.slug === 'lawn-and-landscaping';
 const isIndoorPillar = cluster.slug === 'indoor-plants';
 const isWateringPillar = cluster.slug === 'watering-and-irrigation';
 const isSpacingPillar = cluster.slug === 'spacing-and-planting';
-const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar || isSpacingPillar;
+const isTreesPillar = cluster.slug === 'trees-and-shrubs';
+const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPillar || isSpacingPillar || isTreesPillar;
 
 
 // TOC + sticky-sidebar layout (same TableOfContents component used on
@@ -78,6 +79,14 @@ const spacingTocItems = [
   { id: 'stage-4-what-will-you-get', label: 'Stage 4: What You\'ll Get' },
 ];
 
+const treesTocItems = [
+  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'knowing-your-trees-age', label: 'Knowing Your Tree\'s Age' },
+  { id: 'watering-mature-vs-young-trees', label: 'Watering by Age' },
+  { id: 'mulching-around-trees', label: 'Mulching Around Trees' },
+  { id: 'feeding-trees-and-shrubs', label: 'Feeding Trees & Shrubs' },
+];
+
 const pillarTocItems = isSoilPillar
   ? soilTocItems
   : isLawnPillar
@@ -88,6 +97,8 @@ const pillarTocItems = isSoilPillar
   ? wateringTocItems
   : isSpacingPillar
   ? spacingTocItems
+  : isTreesPillar
+  ? treesTocItems
   : [];
 
 // Depth-ruler data for the "at a glance" visual (point 2). Topsoil/Compost/
@@ -152,6 +163,7 @@ const calculatorTint: Record<string, string> = {
   'seed-starting-calculator': 'bg-[#8B6535]/10',
   'plant-spacing-calculator': 'bg-moss-50',
   'vegetable-yield-calculator': 'bg-[#E8A94A]/10',
+  'tree-age-calculator': 'bg-[#8B6535]/10',
 };
 
 const soilPillarTitle = 'Soil & Amendments: Topsoil, Compost & Mulch Guide';
@@ -174,6 +186,10 @@ const spacingPillarTitle = 'Spacing & Planting: Your Full Vegetable Garden Plann
 const spacingPillarDescription =
   'The complete vegetable garden planning timeline — when to start seeds, when to plant, how far apart, and what you\'ll get, with a calculator for every stage.';
 
+const treesPillarTitle = 'Trees & Shrubs: Age, Watering, Mulching, and Care Guide';
+const treesPillarDescription =
+  'The complete guide to tree and shrub care — knowing your tree\'s age, watering by maturity, mulching correctly, and when feeding actually helps.';
+
 const pillarTitle = isSoilPillar
   ? soilPillarTitle
   : isLawnPillar
@@ -184,6 +200,8 @@ const pillarTitle = isSoilPillar
   ? wateringPillarTitle
   : isSpacingPillar
   ? spacingPillarTitle
+  : isTreesPillar
+  ? treesPillarTitle
   : '';
 const pillarDescription = isSoilPillar
   ? soilPillarDescription
@@ -195,6 +213,8 @@ const pillarDescription = isSoilPillar
   ? wateringPillarDescription
   : isSpacingPillar
   ? spacingPillarDescription
+  : isTreesPillar
+  ? treesPillarDescription
   : '';
 const pillarAboutName = isSoilPillar
   ? 'Soil and garden amendments'
@@ -206,6 +226,8 @@ const pillarAboutName = isSoilPillar
   ? 'Rainwater collection and drip irrigation'
   : isSpacingPillar
   ? 'Vegetable garden planning timeline'
+  : isTreesPillar
+  ? 'Tree and shrub care'
   : '';
 
 const pageTitle = isPillar ? pillarTitle : `${cluster.name} Calculators`;
@@ -346,10 +368,18 @@ const indoorReferenceRows = [
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
-            ) : (
+            ) : isSpacingPillar ? (
               <img
                 src="/spacing-and-planting-cluster-four-stage-timeline.svg"
                 alt="A four-stage garden planning timeline: frost calendar, seed tray, spacing grid, and harvest basket connected left to right"
+                width="800"
+                height="500"
+                class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
+              />
+            ) : (
+              <img
+                src="/trees-and-shrubs-cluster-mulch-ring-and-rings.svg"
+                alt="A mature tree with a properly mulched ring around its base showing the trunk gap, alongside an inset cross-section of its growth rings"
                 width="800"
                 height="500"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
@@ -438,6 +468,17 @@ const indoorReferenceRows = [
         </p>
         <p>
           Skip a stage or work them out of order and the numbers stop lining up &mdash; spacing math is meaningless without knowing how many transplants you&rsquo;ll have ready, and a yield estimate is only as good as the plant count that feeds it. Worked in sequence, though, these four calculators take a garden from &ldquo;I want to grow vegetables this year&rdquo; to an actual bed plan with real dates and real numbers attached.
+        </p>
+          </>
+        )}
+
+        {isTreesPillar && (
+          <>
+        <p>
+          Trees and shrubs live on a different timescale than the rest of a garden &mdash; decisions made (or skipped) in year one can show up as problems a decade later, and a tree&rsquo;s needs change substantially as it matures. Four things matter most in a home landscape: knowing roughly how <strong>old</strong> a tree is (since age drives everything else), <strong>watering</strong> correctly for its stage of establishment, <strong>mulching</strong> without smothering the trunk, and only <strong>feeding</strong> when a tree actually needs it rather than on a routine schedule.
+        </p>
+        <p>
+          This cluster centers on the Tree Age Calculator, but age is really the starting point for the other three decisions, not a standalone fact &mdash; a newly planted sapling and a 40-year-old oak get different water schedules, different mulching attention, and different (if any) fertilizer. This page walks through all four, with the calculator as one practical tool inside that broader picture rather than the whole story.
         </p>
           </>
         )}
@@ -863,6 +904,84 @@ const indoorReferenceRows = [
         <p>
           That&rsquo;s the full loop: your frost date set your seed-starting calendar, your seed-starting calendar told you when to transplant, your spacing decision at transplant time determined your plant count, and that plant count just told you what the bed will actually produce. Change any one stage &mdash; a later frost date, tighter spacing &mdash; and the numbers cascade through the rest. Work through all four calculators in order and you&rsquo;ll go from &ldquo;I want to grow vegetables&rdquo; to a dated, numbered bed plan before you buy a single seed packet.
         </p>
+          </>
+        )}
+
+        {isTreesPillar && (
+          <>
+        <h2 id="knowing-your-trees-age">Knowing Your Tree&rsquo;s Age</h2>
+        <p>
+          A tree&rsquo;s age changes what it needs. A young tree, still building its root system, depends on you for consistent water and is more forgiving of corrective pruning. A mature tree has largely finished establishing itself &mdash; it can go longer between waterings, but a pruning cut that would heal quickly on a young tree can open a much larger wound on an old one, and its root system may already be pushing against foundations, sidewalks, or utility lines. Age also matters for risk assessment: a very old tree of a species with a naturally shorter lifespan is more likely to have internal decay, which changes how you think about limb failure or storm risk near a house or driveway.
+        </p>
+        <p>
+          None of this requires guessing. The Tree Age Calculator estimates a tree&rsquo;s age from its trunk diameter and species&rsquo; growth rate, so you&rsquo;re making watering, pruning, and risk decisions based on an actual number instead of a visual guess.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Tree Age Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Estimate a tree&rsquo;s age from its trunk diameter and species&rsquo; typical growth rate.</p>
+          <a
+            href="/calculators/tree-age-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <h2 id="watering-mature-vs-young-trees">Watering Mature vs. Young Trees</h2>
+        <p>
+          A newly planted or young tree needs regular, deep watering for its first <strong>2&ndash;3 years</strong> in the ground &mdash; this is the establishment period, when its root system is still spreading out from the original root ball and can&rsquo;t yet reach much water on its own. During this window, water deeply enough to soak the root zone rather than just the surface, and don&rsquo;t rely on rain alone during dry stretches.
+        </p>
+        <p>
+          Once a tree is established (past that 2&ndash;3 year mark), its root system is usually wide and deep enough to find water on its own, and most established trees are largely drought-tolerant except during extended dry spells, when even mature trees benefit from a deep soak.
+        </p>
+        <p>
+          Whether you&rsquo;re watering a new tree by hand or on a schedule, the goal is the same as it is for any deep, slow watering job: get water into the root zone without runoff. Our <a href="/calculators/drip-irrigation-calculator/">Drip Irrigation Calculator</a> and <a href="/calculators/rain-barrel-calculator/">Rain Barrel Calculator</a> (Watering &amp; Irrigation cluster) are built for exactly this kind of deep, efficient watering &mdash; useful for young trees during establishment and for mature trees during drought.
+        </p>
+
+        <h2 id="mulching-around-trees">Mulching Around Trees</h2>
+        <p>
+          Mulch around a tree should sit in a flat ring, not a mound. Keep a <strong>3&ndash;6 inch gap</strong> between the mulch and the trunk itself &mdash; mulch piled against the bark (&ldquo;volcano mulching&rdquo;) traps moisture against the trunk, invites rot and pests, and encourages the tree to send out adventitious roots into the mulch instead of down into the soil, which can eventually circle back and girdle the trunk as it grows. Spread the mulch <strong>2&ndash;4 inches deep</strong> in a ring extending out to the tree&rsquo;s drip line (the edge of its canopy) rather than piling it deeper close to the trunk.
+        </p>
+        <p>
+          Done correctly, mulch conserves soil moisture and moderates root-zone temperature without any of the downsides of a mulch volcano. Our <a href="/calculators/mulch-calculator/">Mulch Calculator</a> (Soil &amp; Amendments cluster) will tell you exactly how much mulch to buy for a ring of a given width and depth around your tree.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">Mulch Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Figure out exactly how much mulch to buy for a ring of a given width and depth around a tree or bed &mdash; in bags or cubic yards.</p>
+          <a
+            href="/calculators/mulch-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <h2 id="feeding-trees-and-shrubs">Feeding Trees and Shrubs</h2>
+        <p>
+          Most established, healthy trees don&rsquo;t need routine fertilizing &mdash; they draw what they need from the surrounding soil, and over-fertilizing can push soft, rapid growth that&rsquo;s more vulnerable to pests and cold damage. Supplemental feeding is worth doing when a tree is young and pushing hard to establish, showing visible signs of nutrient deficiency (pale or yellowing leaves not explained by watering or season, stunted growth), or recovering from stress like storm damage, drought, or construction root disturbance.
+        </p>
+        <p>
+          When feeding is warranted, matching the right nutrient ratio to the actual deficiency matters more than applying a generic all-purpose feed. Our <a href="/calculators/npk-calculator/">NPK Calculator</a> (Fertilizer &amp; Nutrients cluster) helps you work out the right nitrogen-phosphorus-potassium blend and application rate for the situation, rather than guessing.
+        </p>
+
+        <div class="not-prose my-8 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60">
+          <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Calculate it</span>
+          <h3 class="mt-1 font-display text-lg font-semibold text-bark-900">NPK Calculator</h3>
+          <p class="mt-2 text-sm leading-relaxed text-bark-600">Work out the right nitrogen-phosphorus-potassium blend and application rate for a stressed or nutrient-deficient tree or shrub.</p>
+          <a
+            href="/calculators/npk-calculator/"
+            class="group mt-4 inline-flex items-center text-sm font-medium text-moss-700"
+          >
+            Open the calculator
+            <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
           </>
         )}          </article>
         </div>
