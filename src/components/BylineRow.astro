@@ -7,6 +7,7 @@
 //     authorName="HarvestMath Editors"
 //     authorUrl="/about/"
 //     lastUpdated="2026-07-08"
+//     readingTime="6 min read"
 //     shareTitle="Page title"
 //     shareDescription="Short share description"
 //     shareImage="https://example.com/image.svg"
@@ -21,6 +22,8 @@ export interface Props {
   authorUrl?: string;
   /** ISO date string YYYY-MM-DD — shown as formatted text and <time datetime>. */
   lastUpdated?: string;
+  /** Optional reading time estimate, e.g. "6 min read". Omit for pages where it doesn't apply. */
+  readingTime?: string;
   /** Page title for share URLs. */
   shareTitle: string;
   /** Short description for Pinterest/X share text. */
@@ -33,6 +36,7 @@ const {
   authorName,
   authorUrl = '/about/',
   lastUpdated,
+  readingTime,
   shareTitle,
   shareDescription = '',
   shareImage,
@@ -63,6 +67,13 @@ const formattedDate = lastUpdated
     <>
       <span class="text-bark-300" aria-hidden="true">&bull;</span>
       <time datetime={lastUpdated} class="text-bark-500">{formattedDate}</time>
+    </>
+  )}
+
+  {readingTime && (
+    <>
+      <span class="text-bark-300" aria-hidden="true">&bull;</span>
+      <span class="text-bark-500">{readingTime}</span>
     </>
   )}
 
