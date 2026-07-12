@@ -71,19 +71,25 @@ const howToJsonLd = {
       '@type': 'HowToStep',
       position: 1,
       name: 'Choose the shape',
-      text: 'Toggle between Rectangle (for beds, boxes, and rectangular planters) and Cylinder / Pot (for round pots, fabric grow bags, and tree ring planters).',
+      text: 'Choose Rectangle or Cylinder/Pot shape.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Enter your dimensions',
-      text: 'For a rectangle, type length and width in feet. For a cylinder, type the diameter in feet (12-inch pot = 1 ft, 16-inch = 1.33 ft).',
+      text: 'Enter your dimensions (length × width, or diameter).',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Set the fill depth',
-      text: 'Enter how deep you want to fill the space in inches. For pots, this is the soil depth from the drainage layer to 1\u20132 inches below the rim. The calculator updates cubic feet, liters, cubic yards, and estimated weight live as you type.',
+      text: 'Set your fill depth.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the result',
+      text: 'Read your cubic feet, cubic yards, liters, and weight.',
     },
   ],
 };
@@ -174,6 +180,14 @@ const softwareAppJsonLd = {
   />
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Choose Rectangle or Cylinder/Pot shape.</li>
+      <li>Enter your dimensions (length &times; width, or diameter).</li>
+      <li>Set your fill depth.</li>
+      <li>Read your cubic feet, cubic yards, liters, and weight.</li>
+    </ol>
+
     <h2 id="how-much-soil-do-i-need">How Much Soil Do I Need?</h2>
     <p>
       The right amount depends entirely on <strong>what you&rsquo;re filling and how deep</strong>. For a rectangular raised bed, it&rsquo;s length &times; width &times; depth. For a round pot or cylindrical container, it&rsquo;s the base area (&pi; &times; radius&sup2;) times the fill depth. The tricky part is that volume is three-dimensional &mdash; one extra inch of depth over a 4&times;8 bed adds 2.7 cubic feet, roughly an extra bag of soil.

@@ -80,19 +80,25 @@ const howToJsonLd = {
       '@type': 'HowToStep',
       position: 1,
       name: 'Enter your lawn area',
-      text: 'Type your lawn area in square feet (or square meters in metric mode).',
+      text: 'Enter your lawn area.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Choose your grass type and lawn condition',
-      text: 'Select Kentucky bluegrass, tall fescue, perennial ryegrass, Bermuda (winter overseed), or fine fescue, then rate your lawn as thin but mostly green, patchy, or very thin with bare spots.',
+      text: 'Choose your grass type and lawn condition.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Add topdressing if needed',
-      text: 'Optionally pick a topdressing material (topsoil, compost, or peat moss) and depth to get a topdressing volume alongside your seed amount.',
+      text: 'Optionally add a topdressing material and depth.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the result',
+      text: 'Read your seed amount (and topdressing volume).',
     },
   ],
 };
@@ -187,6 +193,14 @@ const softwareAppJsonLd = {
   />
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Enter your lawn area.</li>
+      <li>Choose your grass type and lawn condition.</li>
+      <li>Optionally add a topdressing material and depth.</li>
+      <li>Read your seed amount (and topdressing volume).</li>
+    </ol>
+
     <h2 id="how-much-seed-do-you-need-to-overseed">How Much Seed Do You Need to Overseed?</h2>
     <p>
       Overseeding rates run roughly <strong>half</strong> of new-lawn seeding rates for the same grass type. A new lawn starts from bare soil, so every seed has to survive and establish across the whole area. Overseeding works on turf that already covers most of the ground &mdash; you&rsquo;re filling gaps and thickening the stand, not starting over, so far less seed gets you there.

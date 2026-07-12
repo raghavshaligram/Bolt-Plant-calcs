@@ -74,19 +74,25 @@ const howToJsonLd = {
       '@type': 'HowToStep',
       position: 1,
       name: 'Choose your greenhouse shape',
-      text: 'Select Hoop/Quonset, Gable (A-frame), or Lean-to. The fields shown adjust to match the shape you pick.',
+      text: 'Choose your greenhouse shape (Hoop/Quonset, Gable, or Lean-to).',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Enter dimensions and glazing',
-      text: 'Type your length, width, and (for gable and lean-to) wall height, then pick your glazing material to set the U-factor.',
+      text: 'Enter your dimensions and glazing type.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Set your temperatures and fuel type',
-      text: 'Enter your desired inside temperature, your area’s record low outside temperature, and your heater’s fuel type. The calculator updates heat loss and recommended heater size live.',
+      text: 'Enter your inside/outside temperatures and heater fuel type.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read your result',
+      text: 'Read your heat loss and recommended heater size in BTU/hr.',
     },
   ],
 };
@@ -182,6 +188,14 @@ const softwareAppJsonLd = {
   />
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Choose your greenhouse shape (Hoop/Quonset, Gable, or Lean-to).</li>
+      <li>Enter your dimensions and glazing type.</li>
+      <li>Enter your inside/outside temperatures and heater fuel type.</li>
+      <li>Read your heat loss and recommended heater size in BTU/hr.</li>
+    </ol>
+
     <h2 id="how-is-greenhouse-heat-loss-calculated">How Is Greenhouse Heat Loss Calculated?</h2>
     <p>
       Greenhouse heat loss comes down to three numbers: the greenhouse&rsquo;s <strong>surface area</strong>, the <strong>temperature difference</strong> between inside and outside, and a <strong>U-factor</strong> that describes how much heat your glazing material lets through. Multiply the three together (<strong>Q = U &times; A &times; &Delta;T</strong>) and you get the heat loss in BTU/hr &mdash; the rate at which your greenhouse loses heat to the cold outside air.

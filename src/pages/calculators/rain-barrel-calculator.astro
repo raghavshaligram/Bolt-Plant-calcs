@@ -70,19 +70,25 @@ const howToJsonLd = {
       '@type': 'HowToStep',
       position: 1,
       name: 'Enter roof area and rainfall',
-      text: 'Type your roof area in square feet and the rainfall amount in inches. Adjust collection efficiency if you want a more conservative or optimistic estimate.',
+      text: 'Enter your roof area and rainfall amount.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Read the collection estimate',
-      text: 'The calculator shows total gallons collected and the recommended number of standard 50-gallon barrels.',
+      text: 'Read your total gallons collected and recommended barrel count.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Enter barrel height for water pressure',
-      text: 'In the second section, enter the height of the water surface above your spigot to get the water pressure in PSI, with context on what that pressure is enough for.',
+      text: 'Enter your barrel height in the water pressure section.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the water pressure',
+      text: 'Read your spigot water pressure in PSI.',
     },
   ],
 };
@@ -177,6 +183,14 @@ const softwareAppJsonLd = {
   />
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Enter your roof area and rainfall amount.</li>
+      <li>Read your total gallons collected and recommended barrel count.</li>
+      <li>Enter your barrel height in the water pressure section.</li>
+      <li>Read your spigot water pressure in PSI.</li>
+    </ol>
+
     <h2 id="how-much-rainwater-can-you-collect">How Much Rainwater Can You Collect?</h2>
     <p>
       Collection comes down to three numbers: your <strong>roof area</strong>, the <strong>rainfall amount</strong>, and a <strong>collection efficiency</strong> that accounts for real-world losses. The conversion itself is simple &mdash; 1 inch of rain over 1 sq ft of roof yields <strong>0.623 gallons</strong> &mdash; but not every drop that hits your roof ends up in the barrel.

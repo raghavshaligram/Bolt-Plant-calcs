@@ -79,19 +79,25 @@ const howToJsonLd = {
       '@type': 'HowToStep',
       position: 1,
       name: 'Choose your project type',
-      text: 'Toggle between \u201cFill a bed\u201d (8\u201312 inch default depth) and \u201cTopdress a lawn\u201d (0.25\u20130.5 inch default depth) to start with a sensible default.',
+      text: 'Toggle “Fill a Bed” or “Topdress a Lawn.”',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Enter your area',
-      text: 'Type the length and width of your bed or lawn in feet, or switch to total square feet if you already know the area.',
+      text: 'Enter your area (length × width, or total sq ft).',
     },
     {
       '@type': 'HowToStep',
       position: 3,
       name: 'Set the desired depth',
-      text: 'Adjust the depth in inches. The calculator updates cubic feet, cubic yards, and estimated tons live as you type.',
+      text: 'Set your desired depth.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the result',
+      text: 'Read your cubic feet, cubic yards, and estimated tons.',
     },
   ],
 };
@@ -187,6 +193,14 @@ const softwareAppJsonLd = {
   />
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Toggle &ldquo;Fill a Bed&rdquo; or &ldquo;Topdress a Lawn.&rdquo;</li>
+      <li>Enter your area (length &times; width, or total sq ft).</li>
+      <li>Set your desired depth.</li>
+      <li>Read your cubic feet, cubic yards, and estimated tons.</li>
+    </ol>
+
     <h2 id="how-much-topsoil-do-i-need">How Much Topsoil Do I Need?</h2>
     <p>
       The right amount of topsoil depends entirely on <strong>what you&rsquo;re doing with it</strong>. A raised bed needs to be filled almost to the rim &mdash; usually 8 to 12 inches deep. A lawn topdressing is a thin dusting, a quarter to half an inch, just enough to level low spots and work organic matter into the surface. These are wildly different volumes, and mixing them up is the most common reason people order the wrong amount.

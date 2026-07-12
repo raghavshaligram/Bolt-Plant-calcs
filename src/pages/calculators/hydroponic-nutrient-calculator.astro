@@ -69,19 +69,25 @@ const howToJsonLd = {
       '@type': 'HowToStep',
       position: 1,
       name: 'Enter your reservoir and label dose',
-      text: 'Type your reservoir volume, your product’s label dose amount and the reservoir amount it’s dosed per, and select your plant’s growth stage.',
+      text: 'Enter your reservoir size, product’s label dose, and growth stage.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
       name: 'Read the scaled dosing amount',
-      text: 'The calculator shows exactly how much concentrate to add to your reservoir at that growth stage.',
+      text: 'Read the scaled dosing amount for your reservoir.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
-      name: 'Convert EC to PPM',
-      text: 'In the second section, enter your EC reading to see the equivalent PPM on all three common meter scales at once.',
+      name: 'Enter your EC reading',
+      text: 'In the EC/PPM section, enter your EC reading.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the PPM conversion',
+      text: 'Read the equivalent PPM on the 500, 640, and 700 scales.',
     },
   ],
 };
@@ -168,6 +174,14 @@ const softwareAppJsonLd = {
   <TableOfContents items={tocItems} variant="accordion" />
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Enter your reservoir size, product&rsquo;s label dose, and growth stage.</li>
+      <li>Read the scaled dosing amount for your reservoir.</li>
+      <li>In the EC/PPM section, enter your EC reading.</li>
+      <li>Read the equivalent PPM on the 500, 640, and 700 scales.</li>
+    </ol>
+
     <h2 id="how-much-nutrient-do-you-actually-need">How Much Nutrient Do You Actually Need?</h2>
     <p>
       Every hydroponic nutrient product is different &mdash; concentration, N-P-K ratio, and recommended dose all vary by brand and formula. There&rsquo;s no universal number that works across products, which is exactly why the label on your specific bottle is the only reliable starting point. What <em>is</em> universal is the math for scaling that label dose to your actual setup: your reservoir size determines how many &ldquo;doses&rdquo; you&rsquo;re mixing, and your plant&rsquo;s growth stage determines what fraction of the full label dose it actually needs.
