@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ClusterCard from '../components/ClusterCard.astro';
+import SeasonalBanner from '../components/SeasonalBanner.astro';
 import { clusters, calculators } from '../data/calculators';
 
 const liveCalculators = calculators.filter((c) => c.status === 'live');
@@ -38,6 +39,8 @@ const description =
       </div>
     </div>
   </section>
+
+  <SeasonalBanner />
 
   <!-- All calculators / clusters -->
   <section id="all-calculators" class="container-wide scroll-mt-20 py-16 sm:py-20">

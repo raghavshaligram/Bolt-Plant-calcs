@@ -1,0 +1,87 @@
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A rain barrel collecting water from a roof gutter, feeding a drip irrigation line running to plants along a garden row">
+  <defs>
+    <linearGradient id="wiBg" x1="0" y1="0" x2="1" y2="0.2">
+      <stop offset="0%" stop-color="#F5F1E8"/>
+      <stop offset="100%" stop-color="#e4f0f5"/>
+    </linearGradient>
+    <linearGradient id="wiRoof" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B6535"/>
+      <stop offset="100%" stop-color="#5C4433"/>
+    </linearGradient>
+    <linearGradient id="wiBarrel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5AA6C7"/>
+      <stop offset="100%" stop-color="#316E8C"/>
+    </linearGradient>
+    <linearGradient id="wiWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7fc2de"/>
+      <stop offset="100%" stop-color="#4A90B8"/>
+    </linearGradient>
+    <linearGradient id="wiLeaf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6FA36F"/>
+      <stop offset="100%" stop-color="#3D6647"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#wiBg)"/>
+
+  <!-- ground -->
+  <rect x="0" y="330" width="1200" height="70" fill="#3D6647" opacity="0.12"/>
+  <line x1="0" y1="330" x2="1200" y2="330" stroke="#3a2810" stroke-width="3" opacity="0.4"/>
+
+  <!-- roof corner + gutter, left -->
+  <path d="M40 60 L220 60 L260 140 L20 140 Z" fill="url(#wiRoof)" stroke="#3a2810" stroke-width="5" stroke-linejoin="round"/>
+  <rect x="150" y="135" width="90" height="16" rx="6" fill="#8fa0a8" stroke="#3a2810" stroke-width="3"/>
+  <path d="M225 150 L225 200" stroke="#8fa0a8" stroke-width="14" stroke-linecap="round"/>
+  <path d="M225 150 L225 200" stroke="#3a2810" stroke-width="3" stroke-dasharray="1 0" opacity="0.4" fill="none"/>
+  <!-- falling water from gutter -->
+  <g stroke="#4A90B8" stroke-width="4" stroke-linecap="round" opacity="0.75">
+    <line x1="225" y1="205" x2="222" y2="235"/>
+    <line x1="235" y1="210" x2="233" y2="240"/>
+  </g>
+
+  <!-- rain barrel -->
+  <g transform="translate(180,240)">
+    <path d="M0 0 L100 0 L92 130 L8 130 Z" fill="url(#wiBarrel)" stroke="#3a2810" stroke-width="5"/>
+    <ellipse cx="50" cy="0" rx="50" ry="14" fill="#7fc2de" stroke="#3a2810" stroke-width="4"/>
+    <rect x="0" y="45" width="100" height="10" fill="#2a5a72" opacity="0.6"/>
+    <rect x="4" y="90" width="92" height="10" fill="#2a5a72" opacity="0.6"/>
+    <!-- spigot -->
+    <rect x="92" y="105" width="22" height="10" rx="3" fill="#8fa0a8" stroke="#3a2810" stroke-width="2.5"/>
+  </g>
+
+  <!-- drip line running right, along garden row -->
+  <path d="M300 355 L1150 355" stroke="#3D6647" stroke-width="6" stroke-linecap="round"/>
+  <g fill="#4A90B8">
+    <circle cx="400" cy="355" r="6"/>
+    <circle cx="520" cy="355" r="6"/>
+    <circle cx="640" cy="355" r="6"/>
+    <circle cx="760" cy="355" r="6"/>
+    <circle cx="880" cy="355" r="6"/>
+    <circle cx="1000" cy="355" r="6"/>
+    <circle cx="1100" cy="355" r="6"/>
+  </g>
+  <!-- droplets falling to plants -->
+  <g fill="#4A90B8" opacity="0.7">
+    <path d="M400 365 q5 8 0 14 q-5 -6 0 -14 Z"/>
+    <path d="M520 365 q5 8 0 14 q-5 -6 0 -14 Z"/>
+    <path d="M640 365 q5 8 0 14 q-5 -6 0 -14 Z"/>
+    <path d="M760 365 q5 8 0 14 q-5 -6 0 -14 Z"/>
+    <path d="M880 365 q5 8 0 14 q-5 -6 0 -14 Z"/>
+    <path d="M1000 365 q5 8 0 14 q-5 -6 0 -14 Z"/>
+  </g>
+
+  <!-- small plants along the row -->
+  <g fill="url(#wiLeaf)" stroke="#2c4d33" stroke-width="2.5">
+    <path d="M400 355 Q385 330 400 315 Q415 330 400 355 Z" transform="translate(0,-5)"/>
+    <path d="M520 355 Q505 330 520 315 Q535 330 520 355 Z" transform="translate(0,-5)"/>
+    <path d="M640 355 Q625 330 640 315 Q655 330 640 355 Z" transform="translate(0,-5)"/>
+    <path d="M760 355 Q745 330 760 315 Q775 330 760 355 Z" transform="translate(0,-5)"/>
+    <path d="M880 355 Q865 330 880 315 Q895 330 880 355 Z" transform="translate(0,-5)"/>
+    <path d="M1000 355 Q985 330 1000 315 Q1015 330 1000 355 Z" transform="translate(0,-5)"/>
+  </g>
+
+  <ellipse cx="230" cy="372" rx="70" ry="10" fill="#2a1c0e" opacity="0.2"/>
+
+  <text x="230" y="45" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#5C4433" text-anchor="middle">Collect</text>
+  <text x="720" y="300" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#5C4433" text-anchor="middle">Deliver precisely, row by row</text>
+</svg>

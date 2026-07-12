@@ -1,0 +1,187 @@
+<svg viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hbBg" x1="0" y1="0" x2="1" y2="0.3">
+      <stop offset="0%" stop-color="#F5F1E8"/>
+      <stop offset="55%" stop-color="#F5F1E8"/>
+      <stop offset="100%" stop-color="#FBE7C4"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E8A94A" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#E8A94A" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#E8A94A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="soilGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A5A3A"/>
+      <stop offset="100%" stop-color="#4E3822"/>
+    </linearGradient>
+    <linearGradient id="basketGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C89A5E"/>
+      <stop offset="100%" stop-color="#8B6535"/>
+    </linearGradient>
+    <radialGradient id="tomatoGrad" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#F2795A"/>
+      <stop offset="100%" stop-color="#C0392B"/>
+    </radialGradient>
+    <linearGradient id="carrotGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F5B36A"/>
+      <stop offset="100%" stop-color="#DE7A22"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6FA36F"/>
+      <stop offset="100%" stop-color="#4A7C59"/>
+    </linearGradient>
+    <radialGradient id="radishGrad" cx="35%" cy="25%" r="75%">
+      <stop offset="0%" stop-color="#F17E8C"/>
+      <stop offset="100%" stop-color="#C0394F"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="500" fill="url(#hbBg)"/>
+
+  <!-- Golden-hour sun glow, upper right -->
+  <circle cx="1000" cy="120" r="270" fill="url(#sunGlow)"/>
+  <circle cx="1000" cy="120" r="68" fill="#E8A94A" opacity="0.9"/>
+
+  <!-- Distant leafy garden rows, right two-thirds only -->
+  <g opacity="0.55">
+    <ellipse cx="460" cy="330" rx="34" ry="16" fill="#6FA36F"/>
+    <ellipse cx="520" cy="325" rx="30" ry="14" fill="#4A7C59"/>
+    <ellipse cx="1080" cy="320" rx="32" ry="15" fill="#4A7C59"/>
+    <ellipse cx="1140" cy="330" rx="28" ry="13" fill="#6FA36F"/>
+  </g>
+
+  <!-- Soil ground band -->
+  <path d="M400 500 L400 400 Q700 370 1200 400 L1200 500 Z" fill="url(#soilGrad)" stroke="#3a2810" stroke-width="5" stroke-linejoin="round"/>
+  <g opacity="0.5" fill="#2a1c0e">
+    <circle cx="470" cy="440" r="4"/>
+    <circle cx="560" cy="460" r="3.5"/>
+    <circle cx="650" cy="435" r="4"/>
+    <circle cx="740" cy="465" r="3"/>
+    <circle cx="850" cy="440" r="4"/>
+    <circle cx="950" cy="460" r="3.5"/>
+    <circle cx="1050" cy="435" r="4"/>
+    <circle cx="1140" cy="455" r="3.5"/>
+  </g>
+  <g opacity="0.35" fill="#c9a876">
+    <circle cx="500" cy="420" r="3"/>
+    <circle cx="620" cy="450" r="2.5"/>
+    <circle cx="790" cy="425" r="3"/>
+    <circle cx="900" cy="450" r="2.5"/>
+    <circle cx="1010" cy="420" r="3"/>
+    <circle cx="1120" cy="440" r="2.5"/>
+  </g>
+
+  <!-- Small thriving plants flanking the basket -->
+  <g stroke="#3a2810" stroke-width="4" stroke-linejoin="round">
+    <path d="M440 405 L440 360" fill="none"/>
+    <ellipse cx="415" cy="345" rx="26" ry="16" fill="url(#leafGrad)" transform="rotate(-20 415 345)"/>
+    <ellipse cx="465" cy="340" rx="24" ry="15" fill="#6FA36F" transform="rotate(18 465 340)"/>
+  </g>
+  <g stroke="#3a2810" stroke-width="4" stroke-linejoin="round">
+    <path d="M1100 400 L1100 355" fill="none"/>
+    <ellipse cx="1075" cy="340" rx="24" ry="15" fill="#4A7C59" transform="rotate(-18 1075 340)"/>
+    <ellipse cx="1125" cy="345" rx="26" ry="16" fill="url(#leafGrad)" transform="rotate(20 1125 345)"/>
+  </g>
+
+  <!-- Basket shadow -->
+  <ellipse cx="760" cy="458" rx="245" ry="26" fill="#2E2010" opacity="0.35"/>
+
+  <!-- Wicker basket body -->
+  <path d="M605 340 L915 340 L882 452 Q760 473 638 452 Z" fill="url(#basketGrad)" stroke="#3a2810" stroke-width="6" stroke-linejoin="round"/>
+  <g stroke="#6b4c24" stroke-width="3" opacity="0.55" fill="none">
+    <path d="M618 368 Q760 380 902 368"/>
+    <path d="M626 396 Q760 410 894 396"/>
+    <path d="M634 424 Q760 438 886 424"/>
+  </g>
+  <g stroke="#6b4c24" stroke-width="2.5" opacity="0.45">
+    <line x1="648" y1="342" x2="660" y2="450"/>
+    <line x1="693" y1="341" x2="700" y2="457"/>
+    <line x1="740" y1="340" x2="742" y2="462"/>
+    <line x1="789" y1="341" x2="787" y2="461"/>
+    <line x1="836" y1="341" x2="828" y2="456"/>
+    <line x1="880" y1="342" x2="868" y2="449"/>
+  </g>
+  <!-- Basket rim -->
+  <path d="M595 340 Q760 316 925 340 L915 358 Q760 336 605 358 Z" fill="#A9773F" stroke="#3a2810" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Basket handle -->
+  <path d="M675 342 Q760 262 845 342" fill="none" stroke="#3a2810" stroke-width="8" stroke-linecap="round"/>
+  <path d="M675 342 Q760 272 845 342" fill="none" stroke="#C89A5E" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Overflowing leafy greens, back layer, poking above rim (ruffled lettuce/chard leaves) -->
+  <g stroke="#3a2810" stroke-width="4" stroke-linejoin="round">
+    <path d="M672 336 Q630 320 622 278 Q618 250 640 232 Q650 262 666 278 Q690 292 686 322 Z" fill="url(#leafGrad)"/>
+    <path d="M645 330 Q635 300 648 270" fill="none" stroke="#3D6647" stroke-width="2" opacity="0.5"/>
+    <path d="M760 326 Q715 314 705 272 Q702 244 726 226 Q734 256 752 272 Q778 286 772 318 Z" fill="#6FA36F"/>
+    <path d="M735 320 Q726 292 738 264" fill="none" stroke="#3D6647" stroke-width="2" opacity="0.5"/>
+    <path d="M858 332 Q814 318 806 276 Q803 248 826 230 Q835 260 852 276 Q877 290 872 320 Z" fill="url(#leafGrad)"/>
+    <path d="M832 326 Q823 298 835 268" fill="none" stroke="#3D6647" stroke-width="2" opacity="0.5"/>
+  </g>
+
+  <!-- Carrots spilling out, clearly tapered cone shape with leafy tops -->
+  <g stroke="#3a2810" stroke-width="4" stroke-linejoin="round">
+    <!-- right-side carrot -->
+    <path d="M878 388 Q900 400 950 448 Q958 456 950 462 Q942 468 934 460 Q892 415 868 400 Z" fill="url(#carrotGrad)"/>
+    <path d="M878 390 Q885 372 878 350 M878 390 Q898 378 905 358 M878 390 Q866 375 862 355" fill="none" stroke="#4A7C59" stroke-width="5" stroke-linecap="round"/>
+    <!-- second right carrot, smaller -->
+    <path d="M855 405 Q872 415 905 452 Q911 459 904 464 Q897 469 891 462 Q866 428 845 415 Z" fill="url(#carrotGrad)"/>
+    <path d="M855 407 Q860 392 854 375 M855 407 Q872 398 878 380" fill="none" stroke="#6FA36F" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g stroke="#b5601a" stroke-width="1.5" opacity="0.5">
+    <path d="M895 415 l10 12 M905 428 l10 12 M885 435 l8 10" fill="none"/>
+  </g>
+
+  <g stroke="#3a2810" stroke-width="4" stroke-linejoin="round">
+    <!-- left-side carrot -->
+    <path d="M648 392 Q628 405 585 455 Q578 463 586 469 Q594 475 601 467 Q638 420 660 405 Z" fill="url(#carrotGrad)"/>
+    <path d="M648 394 Q640 377 646 355 M648 394 Q628 383 620 362" fill="none" stroke="#4A7C59" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g stroke="#b5601a" stroke-width="1.5" opacity="0.5">
+    <path d="M615 430 l-10 12 M628 415 l-10 12" fill="none"/>
+  </g>
+
+  <!-- Tomatoes, front and center, overflowing -->
+  <g stroke="#3a2810" stroke-width="4">
+    <circle cx="712" cy="398" r="44" fill="url(#tomatoGrad)"/>
+    <circle cx="792" cy="412" r="38" fill="url(#tomatoGrad)"/>
+    <circle cx="752" cy="452" r="32" fill="url(#tomatoGrad)"/>
+    <circle cx="676" cy="445" r="24" fill="url(#tomatoGrad)"/>
+    <circle cx="820" cy="455" r="20" fill="url(#tomatoGrad)"/>
+  </g>
+  <g stroke="#3D6647" stroke-width="3" fill="#4A7C59" stroke-linejoin="round">
+    <path d="M712 354 l-9 -11 l18 0 l-9 11 M696 348 l6 -15 l6 15 M728 348 l-6 -15 l-6 15"/>
+    <path d="M792 374 l-7 -9 l14 0 Z"/>
+    <path d="M676 421 l-5 -7 l10 0 Z"/>
+  </g>
+  <g fill="#F9C7A8" opacity="0.75">
+    <ellipse cx="696" cy="382" rx="11" ry="8" transform="rotate(-20 696 382)"/>
+    <ellipse cx="780" cy="399" rx="9" ry="6" transform="rotate(-20 780 399)"/>
+    <ellipse cx="743" cy="440" rx="7" ry="5" transform="rotate(-20 743 440)"/>
+    <ellipse cx="668" cy="435" rx="6" ry="4" transform="rotate(-20 668 435)"/>
+    <ellipse cx="813" cy="447" rx="5" ry="3.5" transform="rotate(-20 813 447)"/>
+  </g>
+
+  <!-- A couple of radishes tucked at the base for extra richness -->
+  <g stroke="#3a2810" stroke-width="3.5" stroke-linejoin="round">
+    <path d="M628 470 Q638 480 631 495 Q620 501 611 492 Q608 478 620 470 Z" fill="url(#radishGrad)"/>
+    <path d="M622 470 l-3 -14 M630 469 l4 -13" stroke="#4A7C59" stroke-width="3" stroke-linecap="round"/>
+    <path d="M880 475 Q890 484 883 498 Q872 504 863 495 Q861 481 872 474 Z" fill="url(#radishGrad)"/>
+    <path d="M874 475 l-3 -13 M882 474 l4 -12" stroke="#4A7C59" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g fill="#ffffff" opacity="0.7">
+    <ellipse cx="622" cy="493" rx="5" ry="3"/>
+    <ellipse cx="866" cy="496" rx="5" ry="3"/>
+  </g>
+
+  <!-- A few loose leaves scattered on the soil in front -->
+  <g stroke="#3a2810" stroke-width="3" stroke-linejoin="round">
+    <ellipse cx="595" cy="480" rx="17" ry="9" fill="#6FA36F" transform="rotate(-15 595 480)"/>
+    <ellipse cx="945" cy="483" rx="19" ry="10" fill="#4A7C59" transform="rotate(20 945 483)"/>
+  </g>
+
+  <!-- Sparkle highlights suggesting golden-hour light catching the produce -->
+  <g fill="#F5F1E8" opacity="0.85">
+    <path d="M713 372 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3 Z"/>
+    <path d="M900 375 l2.5 6 l6 2.5 l-6 2.5 l-2.5 6 l-2.5 -6 l-6 -2.5 l6 -2.5 Z"/>
+  </g>
+</svg>

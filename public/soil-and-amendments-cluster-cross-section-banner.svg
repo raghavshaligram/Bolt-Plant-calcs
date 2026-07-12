@@ -1,0 +1,87 @@
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section of a raised bed showing mulch on top, garden soil beneath it, and bulk topsoil fill at the bottom, with compost worked into the upper layer">
+  <defs>
+    <linearGradient id="saBg" x1="0" y1="0" x2="1" y2="0.2">
+      <stop offset="0%" stop-color="#F5F1E8"/>
+      <stop offset="100%" stop-color="#FBE7C4"/>
+    </linearGradient>
+    <radialGradient id="saSun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E8A94A" stop-opacity="0.85"/>
+      <stop offset="60%" stop-color="#E8A94A" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#E8A94A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="saTopsoil" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6B4E33"/>
+      <stop offset="100%" stop-color="#3A281A"/>
+    </linearGradient>
+    <linearGradient id="saGardenSoil" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A5A3A"/>
+      <stop offset="100%" stop-color="#54402A"/>
+    </linearGradient>
+    <linearGradient id="saMulch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B98A4E"/>
+      <stop offset="100%" stop-color="#8B6535"/>
+    </linearGradient>
+    <linearGradient id="saLeaf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6FA36F"/>
+      <stop offset="100%" stop-color="#3D6647"/>
+    </linearGradient>
+    <linearGradient id="saWood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A9773F"/>
+      <stop offset="100%" stop-color="#6B4C24"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#saBg)"/>
+  <circle cx="1080" cy="80" r="220" fill="url(#saSun)"/>
+
+  <!-- raised bed frame outer bold outline -->
+  <rect x="150" y="90" width="900" height="270" rx="10" fill="none" stroke="#3a2810" stroke-width="6"/>
+
+  <!-- topsoil bulk fill (bottom) -->
+  <rect x="150" y="270" width="900" height="90" fill="url(#saTopsoil)"/>
+  <!-- garden soil (middle) -->
+  <rect x="150" y="190" width="900" height="80" fill="url(#saGardenSoil)"/>
+  <!-- compost speckles worked into garden soil layer -->
+  <g opacity="0.55" fill="#3D6647">
+    <circle cx="230" cy="215" r="5"/>
+    <circle cx="330" cy="245" r="4"/>
+    <circle cx="450" cy="205" r="5"/>
+    <circle cx="560" cy="235" r="4"/>
+    <circle cx="680" cy="215" r="5"/>
+    <circle cx="790" cy="250" r="4"/>
+    <circle cx="900" cy="210" r="5"/>
+    <circle cx="990" cy="240" r="4"/>
+  </g>
+  <!-- mulch top layer -->
+  <rect x="150" y="150" width="900" height="40" fill="url(#saMulch)"/>
+  <g opacity="0.6" stroke="#5a3d1c" stroke-width="2">
+    <line x1="180" y1="160" x2="220" y2="168"/>
+    <line x1="260" y1="170" x2="300" y2="160"/>
+    <line x1="360" y1="165" x2="405" y2="175"/>
+    <line x1="460" y1="158" x2="500" y2="168"/>
+    <line x1="560" y1="172" x2="600" y2="162"/>
+    <line x1="660" y1="160" x2="705" y2="170"/>
+    <line x1="760" y1="168" x2="800" y2="158"/>
+    <line x1="860" y1="162" x2="905" y2="172"/>
+    <line x1="960" y1="170" x2="1000" y2="160"/>
+  </g>
+
+  <!-- layer divider lines, bold -->
+  <line x1="150" y1="190" x2="1050" y2="190" stroke="#3a2810" stroke-width="3"/>
+  <line x1="150" y1="270" x2="1050" y2="270" stroke="#3a2810" stroke-width="3"/>
+
+  <!-- seedling growing out of the mulch, bold outline -->
+  <g transform="translate(600,150)">
+    <path d="M0 0 L0 -55" stroke="#3D6647" stroke-width="5" stroke-linecap="round"/>
+    <path d="M0 -30 Q-38 -50 -55 -20 Q-25 -8 0 -30 Z" fill="url(#saLeaf)" stroke="#2c4d33" stroke-width="3"/>
+    <path d="M0 -45 Q35 -62 50 -32 Q22 -18 0 -45 Z" fill="url(#saLeaf)" stroke="#2c4d33" stroke-width="3"/>
+  </g>
+
+  <!-- soft drop shadow under bed -->
+  <ellipse cx="600" cy="368" rx="480" ry="14" fill="#2a1c0e" opacity="0.25"/>
+
+  <!-- labels -->
+  <text x="1075" y="160" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#5C4433" text-anchor="end">Mulch</text>
+  <text x="1075" y="235" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#F5F1E8" text-anchor="end">Garden soil + compost</text>
+  <text x="1075" y="320" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#F5F1E8" text-anchor="end">Bulk topsoil fill</text>
+</svg>

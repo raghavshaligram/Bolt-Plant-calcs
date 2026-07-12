@@ -1,0 +1,108 @@
+---
+// SeasonalBanner — a fully client-side, date-driven promo strip.
+//
+// IMPORTANT: the message/link is resolved entirely in the browser from the
+// visitor's *real* local clock (`new Date()` at render time), never from a
+// build-time value. That means it never goes stale between deploys and
+// never needs a manual update, no matter how long the site sits unbuilt.
+//
+// The five ranges below all fall on calendar-month boundaries, so the logic
+// only needs to check the month number (1-12) -- no day-of-year math, and
+// no leap-year special-casing (Feb having 28 vs 29 days doesn't change
+// which *month* today is in).
+//
+// Mapping (kept in one place, sitewide, on purpose):
+//   Jan-Feb  -> Frost Date Calculator
+//   Mar-May  -> Spacing & Planting pillar
+//   Jun-Aug  -> Watering & Irrigation pillar
+//   Sep-Oct  -> Soil & Amendments pillar
+//   Nov-Dec  -> Hydroponics & Greenhouse pillar
+//
+// Rendered markup starts with a safe, generic fallback message (visible
+// only if JS is disabled or during the brief instant before the script
+// runs) and is immediately overwritten client-side.
+---
+
+<section class="container-wide" data-seasonal-banner-wrap>
+  <a
+    href="/clusters/spacing-and-planting/"
+    data-seasonal-link
+    class="group my-6 flex flex-col items-start gap-3 rounded-2xl bg-gradient-to-r from-[#E8A94A]/20 via-[#F5F1E8] to-[#4A7C59]/15 p-5 ring-1 ring-[#5C4433]/15 transition hover:-translate-y-0.5 hover:shadow-cardHover sm:flex-row sm:items-center sm:gap-4 sm:p-6"
+  >
+    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E8A94A]/25 text-[#3D6647]">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 22c-4-3-7-7-7-12a7 7 0 0 1 14 0c0 5-3 9-7 12Z" />
+        <path d="M12 13v9" />
+      </svg>
+    </span>
+    <span class="flex-1 font-medium text-[#5C4433]" data-seasonal-message>
+      Find the right calculator for whatever season your garden is in.
+    </span>
+    <span class="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-[#3D6647] group-hover:text-[#2c4d33]">
+      <span data-seasonal-cta>Explore</span>
+      <svg class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </a>
+</section>
+
+<script>
+  // Runs on every page load, purely client-side. No API call, no
+  // build-time date, no admin panel -- just the visitor's own clock.
+  function pickSeasonalBanner(date) {
+    const month = date.getMonth() + 1; // JS months are 0-indexed; normalize to 1-12
+
+    if (month === 1 || month === 2) {
+      return {
+        message: 'Plan your growing season — check your frost date and seed-starting calendar.',
+        href: '/calculators/frost-date-calculator/',
+        cta: 'Check your frost date',
+      };
+    }
+    if (month >= 3 && month <= 5) {
+      return {
+        message: 'Spring planting season is here — plan your garden.',
+        href: '/clusters/spacing-and-planting/',
+        cta: 'Plan your garden',
+      };
+    }
+    if (month >= 6 && month <= 8) {
+      return {
+        message: 'Keep your garden thriving through summer — watering and maintenance tools.',
+        href: '/clusters/watering-and-irrigation/',
+        cta: 'Keep it thriving',
+      };
+    }
+    if (month >= 9 && month <= 10) {
+      return {
+        message: 'Fall is here — mulch, compost, and prep your beds.',
+        href: '/clusters/soil-and-amendments/',
+        cta: 'Prep your beds',
+      };
+    }
+    // month is 11 or 12
+    return {
+      message: "Plan next year's garden and care for your greenhouse.",
+      href: '/clusters/hydroponics-and-greenhouse/',
+      cta: 'Plan ahead',
+    };
+  }
+
+  // Exposed on window purely so this exact logic can be exercised from the
+  // browser console during development/testing with sample dates, e.g.:
+  //   window.__pickSeasonalBanner(new Date('2026-01-15'))
+  // Production behavior always calls it with `new Date()` (today, real time).
+  window.__pickSeasonalBanner = pickSeasonalBanner;
+
+  function applySeasonalBanner(date) {
+    const { message, href, cta } = pickSeasonalBanner(date);
+    document.querySelectorAll('[data-seasonal-link]').forEach((link) => {
+      link.setAttribute('href', href);
+      const msgEl = link.querySelector('[data-seasonal-message]');
+      const ctaEl = link.querySelector('[data-seasonal-cta]');
+      if (msgEl) msgEl.textContent = message;
+      if (ctaEl) ctaEl.textContent = cta;
+    });
+  }
+
+  applySeasonalBanner(new Date());
+</script>

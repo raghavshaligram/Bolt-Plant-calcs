@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
+import SeasonalBanner from '../../components/SeasonalBanner.astro';
 import { clusters, getCluster, getCalculatorsForCluster } from '../../data/calculators';
 
 export function getStaticPaths() {
@@ -370,78 +371,76 @@ const indoorReferenceRows = [
       </nav>
 
       {isPillar ? (
-        <div class="mt-6 grid gap-8 lg:grid-cols-[1fr_380px] lg:items-center lg:gap-12">
-          <div>
-            <h1 class="font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
-              {cluster.name} Calculators
-            </h1>
-            <p class="mt-3 max-w-2xl text-base leading-relaxed text-bark-600 sm:text-lg">
-              {cluster.description}
-            </p>
-          </div>
-          <div class="mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
+        <div class="mt-6">
+          <h1 class="font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+            {cluster.name} Calculators
+          </h1>
+          <p class="mt-3 max-w-2xl text-base leading-relaxed text-bark-600 sm:text-lg">
+            {cluster.description}
+          </p>
+          <div class="mt-8 w-full">
             {isSoilPillar ? (
               <img
-                src="/soil-and-amendments-cluster-cross-section.svg"
+                src="/soil-and-amendments-cluster-cross-section-banner.svg"
                 alt="Cross-section of a raised bed showing mulch on top, garden soil beneath it, and bulk topsoil fill at the bottom"
-                width="800"
-                height="500"
+                width="1200"
+                height="400"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
             ) : isLawnPillar ? (
               <img
-                src="/lawn-and-landscaping-cluster-new-vs-overseed.svg"
+                src="/lawn-and-landscaping-cluster-new-vs-overseed-banner.svg"
                 alt="Split view of a lawn: bare soil being seeded with a spreader on the left, existing thin turf being overseeded on the right"
-                width="800"
-                height="500"
+                width="1200"
+                height="400"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
             ) : isIndoorPillar ? (
               <img
-                src="/indoor-plants-cluster-window-and-pot-sizes.svg"
+                src="/indoor-plants-cluster-window-and-pot-sizes-banner.svg"
                 alt="A houseplant in bright light beside a window, next to three nursery pots of increasing size showing pot-sizing progression"
-                width="800"
-                height="500"
+                width="1200"
+                height="400"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
             ) : isWateringPillar ? (
               <img
-                src="/watering-and-irrigation-cluster-barrel-to-drip-line.svg"
+                src="/watering-and-irrigation-cluster-barrel-to-drip-line-banner.svg"
                 alt="A rain barrel collecting water from a roof gutter, feeding a drip irrigation line running to plants along a garden row"
-                width="800"
-                height="500"
+                width="1200"
+                height="400"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
             ) : isSpacingPillar ? (
               <img
-                src="/spacing-and-planting-cluster-four-stage-timeline.svg"
+                src="/spacing-and-planting-cluster-four-stage-timeline-banner.svg"
                 alt="A four-stage garden planning timeline: frost calendar, seed tray, spacing grid, and harvest basket connected left to right"
-                width="800"
-                height="500"
+                width="1200"
+                height="400"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
             ) : isTreesPillar ? (
               <img
-                src="/trees-and-shrubs-cluster-mulch-ring-and-rings.svg"
+                src="/trees-and-shrubs-cluster-mulch-ring-and-rings-banner.svg"
                 alt="A mature tree with a properly mulched ring around its base showing the trunk gap, alongside an inset cross-section of its growth rings"
-                width="800"
-                height="500"
+                width="1200"
+                height="400"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
             ) : isFertilizerPillar ? (
               <img
-                src="/fertilizer-and-nutrients-cluster-npk-plant-diagram.svg"
+                src="/fertilizer-and-nutrients-cluster-npk-plant-diagram-banner.svg"
                 alt="A plant cross-section showing nitrogen feeding leafy growth, phosphorus feeding roots and flowers, and potassium supporting overall vigor, beside a fertilizer bag with its N-P-K numbers"
-                width="800"
-                height="500"
+                width="1200"
+                height="400"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
             ) : (
               <img
-                src="/hydroponics-and-greenhouse-cluster-heater-and-reservoir.svg"
+                src="/hydroponics-and-greenhouse-cluster-heater-and-reservoir-banner.svg"
                 alt="A heated greenhouse interior on one side and a hydroponic reservoir with a nutrient dosing bottle and EC meter on the other, representing the cluster's two complementary systems"
-                width="800"
-                height="500"
+                width="1200"
+                height="400"
                 class="w-full rounded-2xl border border-[#5C4433]/15 bg-white shadow-card"
               />
             )}
@@ -466,6 +465,8 @@ const indoorReferenceRows = [
       )}
     </div>
   </section>
+
+  {isPillar && <SeasonalBanner />}
 
   {isPillar && (
     <section class="container-wide py-12 sm:py-16">
