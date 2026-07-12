@@ -1,0 +1,42 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgs1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgs1)"/>
+
+  <!-- calendar page -->
+  <rect x="90" y="35" width="220" height="180" rx="10" fill="#ffffff" stroke="#c9b896" stroke-width="1"/>
+  <rect x="90" y="35" width="220" height="30" rx="10" fill="#4A90B8"/>
+  <rect x="90" y="55" width="220" height="10" fill="#4A90B8"/>
+  <text x="200" y="55" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">APRIL</text>
+
+  <!-- grid of days -->
+  <g stroke="#EDE4D0" stroke-width="1">
+    <line x1="90" y1="100" x2="310" y2="100"/>
+    <line x1="90" y1="130" x2="310" y2="130"/>
+    <line x1="90" y1="160" x2="310" y2="160"/>
+    <line x1="90" y1="190" x2="310" y2="190"/>
+    <line x1="152" y1="70" x2="152" y2="215"/>
+    <line x1="200" y1="70" x2="200" y2="215"/>
+    <line x1="248" y1="70" x2="248" y2="215"/>
+  </g>
+
+  <!-- last frost date marker -->
+  <circle cx="248" cy="145" r="16" fill="#4A90B8" opacity="0.25"/>
+  <circle cx="248" cy="145" r="6" fill="#4A90B8"/>
+  <text x="248" y="149" font-family="Arial, sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" font-weight="700">15</text>
+
+  <!-- snowflake fading to sun, showing transition through frost date -->
+  <g transform="translate(115,178)" opacity="0.7">
+    <line x1="0" y1="-8" x2="0" y2="8" stroke="#4A90B8" stroke-width="1.5"/>
+    <line x1="-8" y1="0" x2="8" y2="0" stroke="#4A90B8" stroke-width="1.5"/>
+    <line x1="-6" y1="-6" x2="6" y2="6" stroke="#4A90B8" stroke-width="1.5"/>
+    <line x1="-6" y1="6" x2="6" y2="-6" stroke="#4A90B8" stroke-width="1.5"/>
+  </g>
+  <circle cx="280" cy="178" r="9" fill="#E8A94A" opacity="0.8"/>
+
+  <text x="200" y="235" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5C4433" text-anchor="middle">Stage 1: Your last frost date</text>
+</svg>

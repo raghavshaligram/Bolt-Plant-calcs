@@ -1,0 +1,59 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgw2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="soilRow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A5A3A"/>
+      <stop offset="100%" stop-color="#4E3822"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgw2)"/>
+
+  <!-- soil row -->
+  <rect x="0" y="170" width="400" height="55" fill="url(#soilRow)"/>
+  <g opacity="0.5">
+    <circle cx="40" cy="190" r="1.6" fill="#2a1c0e"/>
+    <circle cx="90" cy="200" r="1.4" fill="#2a1c0e"/>
+    <circle cx="150" cy="185" r="1.5" fill="#2a1c0e"/>
+    <circle cx="220" cy="205" r="1.6" fill="#2a1c0e"/>
+    <circle cx="290" cy="188" r="1.4" fill="#2a1c0e"/>
+    <circle cx="350" cy="198" r="1.5" fill="#2a1c0e"/>
+  </g>
+
+  <!-- drip line -->
+  <line x1="20" y1="172" x2="380" y2="172" stroke="#2c5f7a" stroke-width="4"/>
+  <!-- emitters + drops + wet dark circles -->
+  <g>
+    <circle cx="80" cy="172" r="4" fill="#4a90b8"/>
+    <ellipse cx="80" cy="200" rx="20" ry="8" fill="#2E2010" opacity="0.5"/>
+    <path d="M80 176 L78 190 L82 190 Z" fill="#8FC4DE"/>
+
+    <circle cx="170" cy="172" r="4" fill="#4a90b8"/>
+    <ellipse cx="170" cy="200" rx="20" ry="8" fill="#2E2010" opacity="0.5"/>
+    <path d="M170 176 L168 190 L172 190 Z" fill="#8FC4DE"/>
+
+    <circle cx="260" cy="172" r="4" fill="#4a90b8"/>
+    <ellipse cx="260" cy="200" rx="20" ry="8" fill="#2E2010" opacity="0.5"/>
+    <path d="M260 176 L258 190 L262 190 Z" fill="#8FC4DE"/>
+
+    <circle cx="340" cy="172" r="4" fill="#4a90b8"/>
+    <ellipse cx="340" cy="200" rx="20" ry="8" fill="#2E2010" opacity="0.5"/>
+    <path d="M340 176 L338 190 L342 190 Z" fill="#8FC4DE"/>
+  </g>
+
+  <!-- small plants at each emitter -->
+  <g fill="#4A7C59">
+    <ellipse cx="72" cy="160" rx="10" ry="6" transform="rotate(-15 72 160)"/>
+    <ellipse cx="88" cy="158" rx="10" ry="6" transform="rotate(15 88 158)"/>
+    <ellipse cx="162" cy="160" rx="10" ry="6" transform="rotate(-15 162 160)"/>
+    <ellipse cx="178" cy="158" rx="10" ry="6" transform="rotate(15 178 158)"/>
+    <ellipse cx="252" cy="160" rx="10" ry="6" transform="rotate(-15 252 160)"/>
+    <ellipse cx="268" cy="158" rx="10" ry="6" transform="rotate(15 268 158)"/>
+    <ellipse cx="332" cy="160" rx="10" ry="6" transform="rotate(-15 332 160)"/>
+    <ellipse cx="348" cy="158" rx="10" ry="6" transform="rotate(15 348 158)"/>
+  </g>
+
+  <text x="200" y="240" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5C4433" text-anchor="middle">Drip line: water straight to the root zone</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgh2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="reservoirG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8FC4DE"/>
+      <stop offset="100%" stop-color="#4A90B8"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgh2)"/>
+  <ellipse cx="180" cy="215" rx="150" ry="12" fill="#000" opacity="0.12"/>
+
+  <!-- reservoir tank -->
+  <rect x="60" y="140" width="200" height="70" rx="8" fill="url(#reservoirG)" opacity="0.85"/>
+  <rect x="60" y="132" width="200" height="12" rx="6" fill="#2c5f7a"/>
+  <path d="M75 165 Q110 158 150 165 T230 165" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M75 185 Q110 178 150 185 T230 185" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.4"/>
+
+  <!-- dosing bottle above -->
+  <g transform="translate(95,60)">
+    <rect x="0" y="20" width="26" height="55" rx="4" fill="#4A7C59"/>
+    <rect x="6" y="8" width="14" height="14" rx="2" fill="#3D6647"/>
+    <path d="M13 75 L13 100" stroke="#4A7C59" stroke-width="3" stroke-dasharray="2 3"/>
+  </g>
+  <!-- drop falling into reservoir -->
+  <path d="M108 135 q3 5 0 10 q-3 -5 0 -10" fill="#4A7C59"/>
+
+  <!-- EC meter probe on the other side -->
+  <g transform="translate(280,70)">
+    <rect x="0" y="0" width="18" height="75" rx="4" fill="#3D6647"/>
+    <rect x="3" y="8" width="12" height="32" rx="2" fill="#F5F1E8"/>
+    <text x="9" y="30" font-family="Arial, sans-serif" font-size="9" font-weight="700" fill="#3D6647" text-anchor="middle">EC</text>
+  </g>
+
+  <text x="180" y="235" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5C4433" text-anchor="middle">Dosing concentrate into a hydroponic reservoir</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgt4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="soilRing" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5C4433"/>
+      <stop offset="100%" stop-color="#2E2010"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgt4)"/>
+
+  <ellipse cx="200" cy="200" rx="140" ry="30" fill="url(#soilRing)"/>
+
+  <!-- young stressed tree -->
+  <rect x="90" y="140" width="10" height="60" rx="3" fill="#8B6535"/>
+  <ellipse cx="80" cy="128" rx="24" ry="16" fill="#8fa86a"/>
+  <ellipse cx="108" cy="125" rx="22" ry="15" fill="#a3b880"/>
+  <!-- yellowing leaf highlight showing deficiency -->
+  <ellipse cx="70" cy="135" rx="8" ry="5" fill="#d4c05a"/>
+
+  <!-- fertilizer granules scattered at base -->
+  <g fill="#E8A94A">
+    <circle cx="70" cy="190" r="2.5"/>
+    <circle cx="85" cy="195" r="2"/>
+    <circle cx="100" cy="188" r="2.3"/>
+    <circle cx="115" cy="193" r="2"/>
+    <circle cx="60" cy="185" r="1.8"/>
+  </g>
+  <text x="95" y="222" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#5C4433" text-anchor="middle">Young/stressed: feed as needed</text>
+
+  <!-- mature healthy tree, no fertilizer -->
+  <rect x="290" y="105" width="16" height="95" rx="4" fill="#6b4c24"/>
+  <ellipse cx="270" cy="90" rx="42" ry="28" fill="#3D6647"/>
+  <ellipse cx="318" cy="85" rx="40" ry="26" fill="#4A7C59"/>
+  <ellipse cx="296" cy="68" rx="28" ry="18" fill="#5a8f63"/>
+  <text x="298" y="222" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#3D6647" text-anchor="middle">Established/healthy: no routine feed</text>
+</svg>

@@ -1,0 +1,44 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgf4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="lawnG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6FA36F"/>
+      <stop offset="100%" stop-color="#3D6647"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgf4)"/>
+  <line x1="200" y1="30" x2="200" y2="215" stroke="#c9b896" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- lawn scenario: spreader on grass -->
+  <rect x="20" y="175" width="160" height="35" fill="url(#lawnG)"/>
+  <g stroke="#2c4d33" stroke-width="2" stroke-linecap="round" opacity="0.8">
+    <path d="M35 177 q2 -10 -1 -18"/>
+    <path d="M60 177 q-2 -8 2 -16"/>
+    <path d="M85 177 q2 -10 -2 -18"/>
+    <path d="M110 177 q-2 -8 2 -14"/>
+    <path d="M135 177 q2 -10 -1 -18"/>
+    <path d="M160 177 q-2 -8 2 -16"/>
+  </g>
+  <g transform="translate(75,140)">
+    <rect x="-3" y="0" width="6" height="30" fill="#7a5a34"/>
+    <ellipse cx="0" cy="35" rx="18" ry="8" fill="#5c6470"/>
+    <g fill="#E8A94A"><circle cx="-8" cy="42" r="1.5"/><circle cx="0" cy="45" r="1.5"/><circle cx="8" cy="42" r="1.5"/></g>
+  </g>
+  <text x="100" y="230" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#5C4433" text-anchor="middle">New/overseeded lawn: starter feed</text>
+
+  <!-- tree scenario: young stressed tree -->
+  <rect x="230" y="195" width="150" height="15" fill="#4E3822"/>
+  <rect x="295" y="140" width="10" height="55" rx="3" fill="#8B6535"/>
+  <ellipse cx="280" cy="128" rx="24" ry="16" fill="#8fa86a"/>
+  <ellipse cx="310" cy="125" rx="22" ry="15" fill="#a3b880"/>
+  <g fill="#E8A94A">
+    <circle cx="270" cy="198" r="2.2"/>
+    <circle cx="285" cy="202" r="2"/>
+    <circle cx="300" cy="197" r="2.2"/>
+    <circle cx="315" cy="201" r="2"/>
+  </g>
+  <text x="300" y="230" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#5C4433" text-anchor="middle">Stressed/young tree: targeted feed</text>
+</svg>

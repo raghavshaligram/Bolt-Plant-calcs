@@ -1,0 +1,40 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgf3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="compostPileG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6b4c24"/>
+      <stop offset="100%" stop-color="#3a2810"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgf3)"/>
+  <line x1="0" y1="205" x2="400" y2="205" stroke="#c9b896" stroke-width="1" opacity="0.6"/>
+  <line x1="200" y1="30" x2="200" y2="205" stroke="#c9b896" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- organic: compost pile -->
+  <ellipse cx="100" cy="205" rx="60" ry="10" fill="#000" opacity="0.15"/>
+  <path d="M48 205 Q52 155 100 145 Q148 155 152 205 Z" fill="url(#compostPileG)"/>
+  <g opacity="0.7" fill="#4A7C59">
+    <ellipse cx="80" cy="175" rx="6" ry="3.5"/>
+    <ellipse cx="115" cy="165" rx="5" ry="3"/>
+    <ellipse cx="95" cy="190" rx="5.5" ry="3"/>
+  </g>
+  <g opacity="0.6" fill="#a9773f">
+    <path d="M70 160 q8 -6 16 0 q-8 6 -16 0"/>
+    <path d="M110 185 q8 -6 16 0 q-8 6 -16 0"/>
+  </g>
+  <text x="100" y="228" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#5C4433" text-anchor="middle">Organic: slow-release</text>
+
+  <!-- synthetic: fertilizer bag + granules -->
+  <path d="M270 150 L330 150 L336 205 Q300 213 264 205 Z" fill="#8B6535"/>
+  <rect x="278" y="160" width="44" height="30" rx="4" fill="#F5F1E8"/>
+  <text x="300" y="180" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#3D6647" text-anchor="middle">N-P-K</text>
+  <g fill="#E8A94A">
+    <circle cx="340" cy="200" r="3"/>
+    <circle cx="352" cy="195" r="2.5"/>
+    <circle cx="345" cy="210" r="2.5"/>
+  </g>
+  <text x="300" y="228" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#5C4433" text-anchor="middle">Synthetic: fast-acting</text>
+</svg>

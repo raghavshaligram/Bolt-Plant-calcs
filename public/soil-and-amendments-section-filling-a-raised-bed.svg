@@ -1,0 +1,60 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="woodG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9C6B3E"/>
+      <stop offset="50%" stop-color="#8B6535"/>
+      <stop offset="100%" stop-color="#6B4C24"/>
+    </linearGradient>
+    <linearGradient id="fillSoil" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6B4C30"/>
+      <stop offset="100%" stop-color="#3E2C18"/>
+    </linearGradient>
+    <radialGradient id="shadow2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgg2)"/>
+  <ellipse cx="200" cy="222" rx="150" ry="14" fill="url(#shadow2)"/>
+
+  <!-- Raised bed box (wood) -->
+  <path d="M55 95 L345 95 L330 210 L70 210 Z" fill="url(#fillSoil)"/>
+  <!-- soil texture inside -->
+  <g opacity="0.5">
+    <circle cx="110" cy="150" r="2.4" fill="#2a1c0e"/>
+    <circle cx="160" cy="130" r="1.8" fill="#8B6535"/>
+    <circle cx="210" cy="160" r="2.2" fill="#2a1c0e"/>
+    <circle cx="260" cy="140" r="1.6" fill="#8B6535"/>
+    <circle cx="300" cy="170" r="2" fill="#2a1c0e"/>
+    <circle cx="140" cy="180" r="1.5" fill="#8B6535"/>
+    <circle cx="240" cy="190" r="1.7" fill="#2a1c0e"/>
+  </g>
+  <!-- box walls, wood grain -->
+  <path d="M40 90 L360 90 L345 105 L55 105 Z" fill="url(#woodG)"/>
+  <path d="M40 90 L55 105 L55 215 L40 200 Z" fill="#6B4C24"/>
+  <path d="M360 90 L345 105 L345 215 L360 200 Z" fill="#5a3e1c"/>
+  <path d="M55 205 L345 205 L360 220 L40 220 Z" fill="url(#woodG)"/>
+  <g stroke="#5a3e1c" stroke-width="1" opacity="0.4">
+    <line x1="70" y1="95" x2="330" y2="95"/>
+    <line x1="65" y1="100" x2="335" y2="100"/>
+  </g>
+
+  <!-- Shovel adding soil -->
+  <g transform="translate(255,40) rotate(25)">
+    <rect x="-4" y="0" width="8" height="70" rx="3" fill="#7a5a34"/>
+    <path d="M-22 60 L22 60 L16 100 Q0 112 -16 100 Z" fill="#8a95a0"/>
+    <path d="M-22 60 L22 60 L16 100 Q0 112 -16 100 Z" fill="none" stroke="#5c6470" stroke-width="1.5"/>
+  </g>
+  <!-- falling soil clumps -->
+  <g opacity="0.85">
+    <circle cx="255" cy="115" r="4" fill="#5C4433"/>
+    <circle cx="268" cy="128" r="3" fill="#4E3822"/>
+    <circle cx="248" cy="132" r="3.5" fill="#5C4433"/>
+  </g>
+
+  <text x="200" y="245" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5C4433" text-anchor="middle">Filling a raised bed, layer by layer</text>
+</svg>

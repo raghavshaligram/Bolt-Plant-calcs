@@ -1,0 +1,49 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="soilBase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5C4433"/>
+      <stop offset="100%" stop-color="#2E2010"/>
+    </linearGradient>
+    <linearGradient id="mulchG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A9773F"/>
+      <stop offset="100%" stop-color="#6B4C24"/>
+    </linearGradient>
+    <radialGradient id="shadow3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgg3)"/>
+
+  <!-- ground cross-section -->
+  <rect x="0" y="175" width="400" height="75" fill="url(#soilBase)"/>
+  <rect x="0" y="150" width="400" height="30" fill="url(#mulchG)"/>
+  <g opacity="0.6">
+    <ellipse cx="60" cy="160" rx="14" ry="5" fill="#8a5f2e"/>
+    <ellipse cx="120" cy="165" rx="16" ry="5" fill="#7a5228"/>
+    <ellipse cx="190" cy="158" rx="15" ry="5" fill="#8a5f2e"/>
+    <ellipse cx="260" cy="164" rx="17" ry="5" fill="#7a5228"/>
+    <ellipse cx="330" cy="159" rx="14" ry="5" fill="#8a5f2e"/>
+    <ellipse cx="30" cy="168" rx="12" ry="4" fill="#7a5228"/>
+    <ellipse cx="370" cy="167" rx="13" ry="4" fill="#8a5f2e"/>
+  </g>
+
+  <!-- plant stem with clear gap from mulch -->
+  <ellipse cx="200" cy="152" rx="26" ry="6" fill="url(#shadow3)"/>
+  <rect x="196" y="80" width="8" height="72" rx="3" fill="#3D6647"/>
+  <ellipse cx="175" cy="95" rx="24" ry="12" fill="#4A7C59" transform="rotate(-20 175 95)"/>
+  <ellipse cx="225" cy="90" rx="24" ry="12" fill="#4A7C59" transform="rotate(20 225 90)"/>
+  <ellipse cx="180" cy="120" rx="22" ry="11" fill="#5a8f63" transform="rotate(-15 180 120)"/>
+  <ellipse cx="220" cy="115" rx="22" ry="11" fill="#5a8f63" transform="rotate(15 220 115)"/>
+
+  <!-- gap indicator -->
+  <line x1="180" y1="150" x2="180" y2="165" stroke="#3D6647" stroke-width="1.5" stroke-dasharray="2 2"/>
+  <line x1="220" y1="150" x2="220" y2="165" stroke="#3D6647" stroke-width="1.5" stroke-dasharray="2 2"/>
+  <text x="200" y="178" font-family="Arial, sans-serif" font-size="10" fill="#F5F1E8" text-anchor="middle" font-weight="600">gap at trunk</text>
+
+  <text x="200" y="235" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5C4433" text-anchor="middle">Mulch ring, kept clear of the stem</text>
+</svg>

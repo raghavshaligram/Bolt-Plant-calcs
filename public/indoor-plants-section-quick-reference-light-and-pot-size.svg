@@ -1,0 +1,52 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgip3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="shelfWood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9C6B3E"/>
+      <stop offset="100%" stop-color="#6B4C24"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgip3)"/>
+
+  <!-- shelf 1 -->
+  <rect x="20" y="110" width="360" height="10" fill="url(#shelfWood)"/>
+  <ellipse cx="70" cy="105" rx="16" ry="4" fill="#000" opacity="0.12"/>
+  <path d="M60 105 L64 85 L76 85 L80 105 Z" fill="#B8975C"/>
+  <ellipse cx="66" cy="72" rx="10" ry="14" fill="#3D6647"/>
+  <ellipse cx="80" cy="76" rx="6" ry="10" fill="#4A7C59"/>
+
+  <ellipse cx="160" cy="105" rx="20" ry="5" fill="#000" opacity="0.12"/>
+  <path d="M145 105 L150 80 L170 80 L175 105 Z" fill="#8B6535"/>
+  <ellipse cx="150" cy="68" rx="14" ry="10" fill="#4A7C59" transform="rotate(-10 150 68)"/>
+  <ellipse cx="170" cy="65" rx="14" ry="10" fill="#5a8f63" transform="rotate(10 170 65)"/>
+
+  <ellipse cx="255" cy="105" rx="14" ry="4" fill="#000" opacity="0.12"/>
+  <path d="M246 105 L249 88 L261 88 L264 105 Z" fill="#9c6b3e"/>
+  <ellipse cx="255" cy="75" rx="9" ry="13" fill="#5a8f63"/>
+
+  <ellipse cx="340" cy="105" rx="22" ry="5" fill="#000" opacity="0.12"/>
+  <path d="M322 105 L328 78 L352 78 L358 105 Z" fill="#a9773f"/>
+  <ellipse cx="330" cy="65" rx="15" ry="11" fill="#3D6647" transform="rotate(-10 330 65)"/>
+  <ellipse cx="352" cy="62" rx="15" ry="11" fill="#4A7C59" transform="rotate(10 352 62)"/>
+
+  <!-- shelf 2 -->
+  <rect x="20" y="200" width="360" height="10" fill="url(#shelfWood)"/>
+  <ellipse cx="100" cy="195" rx="26" ry="6" fill="#000" opacity="0.12"/>
+  <path d="M75 195 L82 165 L118 165 L125 195 Z" fill="#B8975C"/>
+  <ellipse cx="85" cy="150" rx="18" ry="13" fill="#6fa36f" transform="rotate(-10 85 150)"/>
+  <ellipse cx="115" cy="148" rx="18" ry="13" fill="#4A7C59" transform="rotate(10 115 148)"/>
+
+  <ellipse cx="230" cy="195" rx="18" ry="5" fill="#000" opacity="0.12"/>
+  <path d="M216 195 L221 172 L239 172 L244 195 Z" fill="#8B6535"/>
+  <ellipse cx="230" cy="158" rx="12" ry="16" fill="#3D6647"/>
+
+  <ellipse cx="330" cy="195" rx="24" ry="6" fill="#000" opacity="0.12"/>
+  <path d="M307 195 L313 168 L347 168 L353 195 Z" fill="#a9773f"/>
+  <ellipse cx="315" cy="152" rx="16" ry="12" fill="#5a8f63" transform="rotate(-10 315 152)"/>
+  <ellipse cx="345" cy="150" rx="16" ry="12" fill="#6fa36f" transform="rotate(10 345 150)"/>
+
+  <text x="200" y="235" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5C4433" text-anchor="middle">Common houseplants at a glance</text>
+</svg>

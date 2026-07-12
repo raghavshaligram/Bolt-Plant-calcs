@@ -1,0 +1,42 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgf2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="sandyG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8C89A"/>
+      <stop offset="100%" stop-color="#B8A574"/>
+    </linearGradient>
+    <linearGradient id="clayG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a6644"/>
+      <stop offset="100%" stop-color="#5C4433"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgf2)"/>
+  <line x1="200" y1="30" x2="200" y2="220" stroke="#c9b896" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- sandy soil: water/nutrient draining fast -->
+  <rect x="30" y="150" width="150" height="60" fill="url(#sandyG)"/>
+  <g fill="#a08a5a" opacity="0.6">
+    <circle cx="60" cy="165" r="3"/>
+    <circle cx="90" cy="180" r="2.5"/>
+    <circle cx="120" cy="170" r="3"/>
+    <circle cx="150" cy="185" r="2.5"/>
+    <circle cx="45" cy="195" r="2"/>
+    <circle cx="140" cy="160" r="2"/>
+  </g>
+  <path d="M105 150 L100 210 M115 150 L120 210" stroke="#4A90B8" stroke-width="2" opacity="0.5"/>
+  <text x="105" y="228" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#5C4433" text-anchor="middle">Sandy: drains fast</text>
+
+  <!-- clay soil: dense, holds water/nutrients -->
+  <rect x="220" y="150" width="150" height="60" fill="url(#clayG)"/>
+  <g fill="#3a2a18" opacity="0.5">
+    <rect x="240" y="160" width="18" height="12" rx="2"/>
+    <rect x="270" y="175" width="20" height="12" rx="2"/>
+    <rect x="300" y="162" width="18" height="12" rx="2"/>
+    <rect x="330" y="178" width="20" height="12" rx="2"/>
+  </g>
+  <ellipse cx="295" cy="150" rx="35" ry="6" fill="#4A90B8" opacity="0.4"/>
+  <text x="295" y="228" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#5C4433" text-anchor="middle">Clay: holds longer</text>
+</svg>

@@ -1,0 +1,51 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgg4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="binWood" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8B6535"/>
+      <stop offset="100%" stop-color="#5a3e1c"/>
+    </linearGradient>
+    <radialGradient id="shadow4" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgg4)"/>
+  <ellipse cx="200" cy="222" rx="130" ry="12" fill="url(#shadow4)"/>
+
+  <!-- compost bin (open slat box) -->
+  <rect x="95" y="90" width="210" height="120" rx="4" fill="url(#binWood)"/>
+  <g stroke="#3a2810" stroke-width="2" opacity="0.5">
+    <line x1="95" y1="115" x2="305" y2="115"/>
+    <line x1="95" y1="145" x2="305" y2="145"/>
+    <line x1="95" y1="175" x2="305" y2="175"/>
+  </g>
+  <rect x="88" y="82" width="16" height="128" fill="#6B4C24"/>
+  <rect x="296" y="82" width="16" height="128" fill="#4a3218"/>
+
+  <!-- layered compost material inside, visible from top -->
+  <ellipse cx="200" cy="92" rx="108" ry="16" fill="#2a1c0e"/>
+  <g opacity="0.85">
+    <!-- browns: dry leaves/straw -->
+    <path d="M150 88 q10 -8 20 0 q-10 8 -20 0" fill="#B8975C"/>
+    <path d="M230 90 q10 -8 20 0 q-10 8 -20 0" fill="#a9773f"/>
+    <path d="M190 84 q8 -6 16 0 q-8 6 -16 0" fill="#c9a876"/>
+    <!-- greens: scraps/clippings -->
+    <ellipse cx="175" cy="90" rx="7" ry="4" fill="#4A7C59"/>
+    <ellipse cx="215" cy="86" rx="6" ry="3.5" fill="#5a8f63"/>
+    <ellipse cx="255" cy="92" rx="6" ry="3.5" fill="#4A7C59"/>
+    <ellipse cx="140" cy="94" rx="5" ry="3" fill="#5a8f63"/>
+  </g>
+
+  <!-- steam/heat lines suggesting active decomposition -->
+  <g stroke="#EDE4D0" stroke-width="2" fill="none" opacity="0.7" stroke-linecap="round">
+    <path d="M170 75 q4 -10 0 -18 q-4 -8 0 -16"/>
+    <path d="M210 72 q4 -10 0 -18 q-4 -8 0 -16"/>
+    <path d="M240 78 q4 -10 0 -18 q-4 -8 0 -16"/>
+  </g>
+
+  <text x="200" y="235" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5C4433" text-anchor="middle">Active compost: greens and browns layered</text>
+</svg>

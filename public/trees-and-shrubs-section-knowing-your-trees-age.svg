@@ -1,0 +1,35 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgt1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <radialGradient id="ringsG" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c9a876"/>
+      <stop offset="100%" stop-color="#7a5228"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgt1)"/>
+
+  <!-- tree trunk cross section with rings -->
+  <circle cx="150" cy="125" r="95" fill="url(#ringsG)"/>
+  <g fill="none" stroke="#6b4c24" stroke-width="1.5" opacity="0.6">
+    <circle cx="150" cy="125" r="80"/>
+    <circle cx="150" cy="125" r="64"/>
+    <circle cx="150" cy="125" r="48"/>
+    <circle cx="150" cy="125" r="32"/>
+    <circle cx="150" cy="125" r="16"/>
+  </g>
+  <circle cx="150" cy="125" r="6" fill="#4a3218"/>
+
+  <!-- tape measure around trunk (circumference) -->
+  <ellipse cx="150" cy="125" rx="95" ry="95" fill="none" stroke="#E8A94A" stroke-width="4" stroke-dasharray="8 4" opacity="0.85"/>
+
+  <!-- measuring height marker -->
+  <line x1="280" y1="220" x2="280" y2="130" stroke="#5C4433" stroke-width="1.5"/>
+  <line x1="275" y1="220" x2="285" y2="220" stroke="#5C4433" stroke-width="1.5"/>
+  <line x1="275" y1="130" x2="285" y2="130" stroke="#5C4433" stroke-width="1.5"/>
+  <text x="295" y="180" font-family="Arial, sans-serif" font-size="10" fill="#5C4433">4.5 ft</text>
+
+  <text x="150" y="240" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#5C4433" text-anchor="middle">Growth rings reveal a tree's age</text>
+</svg>

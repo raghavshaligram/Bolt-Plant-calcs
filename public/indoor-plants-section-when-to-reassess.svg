@@ -1,0 +1,38 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgip4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="waterStream" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8FC4DE"/>
+      <stop offset="100%" stop-color="#4A90B8"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgip4)"/>
+
+  <!-- watering can pouring -->
+  <g transform="translate(90,50)">
+    <path d="M0 30 L60 30 L60 60 Q60 70 50 70 L10 70 Q0 70 0 60 Z" fill="#8B6535"/>
+    <path d="M60 40 L95 20" stroke="#8B6535" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="98" cy="17" rx="7" ry="4" fill="#8B6535"/>
+    <path d="M20 20 Q35 0 50 20" fill="none" stroke="#8B6535" stroke-width="5"/>
+  </g>
+  <!-- water stream falling straight through pot -->
+  <path d="M188 90 L200 190" stroke="url(#waterStream)" stroke-width="4" opacity="0.8"/>
+  <path d="M195 90 L207 190" stroke="url(#waterStream)" stroke-width="3" opacity="0.6"/>
+
+  <!-- pot with dry soil (root-bound) -->
+  <ellipse cx="200" cy="205" rx="34" ry="7" fill="#000" opacity="0.15"/>
+  <path d="M172 205 L179 165 L221 165 L228 205 Z" fill="#B8975C"/>
+  <ellipse cx="200" cy="165" rx="21" ry="5" fill="#7a5228"/>
+  <!-- soil surface, light/dry color (water not absorbed) -->
+  <ellipse cx="200" cy="165" rx="18" ry="4" fill="#c9a876"/>
+  <ellipse cx="192" cy="130" rx="14" ry="9" fill="#8a9b6e" transform="rotate(-10 192 130)"/>
+  <ellipse cx="210" cy="126" rx="14" ry="9" fill="#7d8f62" transform="rotate(10 210 126)"/>
+
+  <!-- water pooling out drainage at bottom, not absorbed -->
+  <ellipse cx="200" cy="215" rx="16" ry="4" fill="#4A90B8" opacity="0.5"/>
+
+  <text x="200" y="235" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="#5C4433" text-anchor="middle">Water runs straight through: root-bound</text>
+</svg>

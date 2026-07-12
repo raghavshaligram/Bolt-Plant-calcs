@@ -1,0 +1,39 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgt3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#EDE4D0"/>
+    </linearGradient>
+    <linearGradient id="soilCross" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5C4433"/>
+      <stop offset="100%" stop-color="#2E2010"/>
+    </linearGradient>
+    <linearGradient id="mulchCross" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A9773F"/>
+      <stop offset="100%" stop-color="#6B4C24"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="url(#bgt3)"/>
+
+  <rect x="0" y="185" width="400" height="65" fill="url(#soilCross)"/>
+  <!-- mulch ring, flat, with gap at trunk -->
+  <path d="M40 185 L155 185 L165 165 L235 165 L245 185 L360 185 L360 175 L245 172 L235 155 L165 155 L155 172 L40 172 Z" fill="url(#mulchCross)"/>
+
+  <!-- trunk -->
+  <rect x="188" y="70" width="24" height="105" fill="#6b4c24"/>
+  <ellipse cx="200" cy="70" rx="12" ry="4" fill="#4a3218"/>
+  <ellipse cx="160" cy="55" rx="45" ry="30" fill="#3D6647"/>
+  <ellipse cx="240" cy="50" rx="42" ry="28" fill="#4A7C59"/>
+
+  <!-- gap callout -->
+  <line x1="165" y1="200" x2="235" y2="200" stroke="#5C4433" stroke-width="1.5"/>
+  <line x1="165" y1="195" x2="165" y2="205" stroke="#5C4433" stroke-width="1.5"/>
+  <line x1="235" y1="195" x2="235" y2="205" stroke="#5C4433" stroke-width="1.5"/>
+  <text x="200" y="217" font-family="Arial, sans-serif" font-size="10" fill="#5C4433" text-anchor="middle" font-weight="600">3-6 in gap</text>
+
+  <!-- depth callout -->
+  <line x1="30" y1="172" x2="30" y2="185" stroke="#5C4433" stroke-width="1.5"/>
+  <line x1="25" y1="172" x2="35" y2="172" stroke="#5C4433" stroke-width="1.5"/>
+  <line x1="25" y1="185" x2="35" y2="185" stroke="#5C4433" stroke-width="1.5"/>
+  <text x="55" y="182" font-family="Arial, sans-serif" font-size="10" fill="#5C4433" font-weight="600">2-4 in deep</text>
+</svg>
