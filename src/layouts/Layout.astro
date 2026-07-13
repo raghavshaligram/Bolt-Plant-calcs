@@ -8,6 +8,8 @@ export interface Props {
   description: string;
   /** When true, use `title` verbatim for the <title> tag instead of appending "| HarvestMath". */
   rawTitle?: boolean;
+  /** Overrides the og:title / twitter:title text when it should differ from the <title> tag's text. Defaults to the computed <title> text. */
+  ogTitle?: string;
   ogImage?: string;
   /** Open Graph object type. "article" for blog posts; "website" (default) for the homepage, calculators, and cluster pages. */
   pageType?: 'website' | 'article';
@@ -19,6 +21,7 @@ const {
   title,
   description,
   rawTitle = false,
+  ogTitle,
   ogImage = '/og-default.png',
   pageType = 'website',
   canonical,
@@ -27,6 +30,7 @@ const {
 
 const siteName = 'HarvestMath';
 const fullTitle = rawTitle ? title : (title.includes(siteName) ? title : `${title} | ${siteName}`);
+const resolvedOgTitle = ogTitle ?? fullTitle;
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 ---
 
@@ -54,12 +58,12 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <link rel="canonical" href={canonicalURL} />
     <meta property="og:type" content={pageType} />
     <meta property="og:site_name" content={siteName} />
-    <meta property="og:title" content={fullTitle} />
+    <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:title" content={resolvedOgTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
     <slot name="head" />
