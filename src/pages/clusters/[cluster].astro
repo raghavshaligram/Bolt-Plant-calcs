@@ -45,7 +45,7 @@ const isPillar = isSoilPillar || isLawnPillar || isIndoorPillar || isWateringPil
 // TOC + sticky-sidebar layout (same TableOfContents component used on
 // calculator pages) -- each pillar cluster gets its own set of anchors.
 const soilTocItems = [
-  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'live-calculators', label: 'Soil, Compost & Mulch Calculators' },
   { id: 'choosing-the-right-material', label: 'Choosing the Right Material' },
   { id: 'filling-a-raised-bed', label: 'Filling a Raised Bed' },
   { id: 'mulching-and-top-dressing', label: 'Mulching and Top-Dressing' },
@@ -53,14 +53,14 @@ const soilTocItems = [
 ];
 
 const lawnTocItems = [
-  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'live-calculators', label: 'New Lawn & Overseeding Calculators' },
   { id: 'new-lawn-or-overseeding', label: 'New Lawn or Overseeding?' },
   { id: 'choosing-the-right-grass-type', label: 'Choosing the Right Grass Type' },
   { id: 'lawn-care-timing', label: 'Lawn Care Timing' },
 ];
 
 const indoorTocItems = [
-  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'live-calculators', label: 'Light & Pot Size Calculators' },
   { id: 'how-much-light-does-your-plant-need', label: 'How Much Light?' },
   { id: 'choosing-the-right-pot-size', label: 'Choosing the Right Pot Size' },
   { id: 'quick-reference-light-and-pot-size', label: 'Quick Reference Table' },
@@ -68,14 +68,14 @@ const indoorTocItems = [
 ];
 
 const wateringTocItems = [
-  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'live-calculators', label: 'Rainwater & Drip Irrigation Calculators' },
   { id: 'how-much-water-can-you-collect', label: 'How Much Can You Collect?' },
   { id: 'delivering-water-efficiently', label: 'Delivering Water Efficiently' },
   { id: 'putting-it-together', label: 'Putting It Together' },
 ];
 
 const spacingTocItems = [
-  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'live-calculators', label: 'Frost Date, Spacing & Yield Calculators' },
   { id: 'stage-1-when-do-you-start', label: 'Stage 1: When to Start' },
   { id: 'stage-2-when-do-you-plant', label: 'Stage 2: When to Plant' },
   { id: 'stage-3-how-far-apart', label: 'Stage 3: How Far Apart' },
@@ -83,7 +83,7 @@ const spacingTocItems = [
 ];
 
 const treesTocItems = [
-  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'live-calculators', label: 'Tree Age & Care Calculators' },
   { id: 'knowing-your-trees-age', label: 'Knowing Your Tree\'s Age' },
   { id: 'watering-mature-vs-young-trees', label: 'Watering by Age' },
   { id: 'mulching-around-trees', label: 'Mulching Around Trees' },
@@ -91,7 +91,7 @@ const treesTocItems = [
 ];
 
 const fertilizerTocItems = [
-  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'live-calculators', label: 'NPK & Feeding Rate Calculators' },
   { id: 'what-your-plants-actually-need', label: 'What Plants Need' },
   { id: 'soil-affects-how-much-fertilizer-you-actually-need', label: 'Soil Affects Fertilizer Needs' },
   { id: 'organic-vs-synthetic-nutrient-sources', label: 'Organic vs. Synthetic' },
@@ -99,7 +99,7 @@ const fertilizerTocItems = [
 ];
 
 const hydroponicsTocItems = [
-  { id: 'live-calculators', label: 'Live Calculators' },
+  { id: 'live-calculators', label: 'Greenhouse Heating & Nutrient Dosing Calculators' },
   { id: 'keeping-your-greenhouse-warm', label: 'Keeping It Warm' },
   { id: 'getting-nutrient-dosing-right', label: 'Nutrient Dosing' },
   { id: 'why-precision-matters-more-without-soil', label: 'Why Precision Matters' },
@@ -122,6 +122,28 @@ const pillarTocItems = isSoilPillar
   : isHydroponicsPillar
   ? hydroponicsTocItems
   : [];
+
+// Cluster-specific heading for the "Live calculators" section below --
+// mirrors the label above but as page copy (H2), not a duplicate of the H1
+// ("{cluster.name} Calculators"). Pulled from each pillar's own intro
+// language rather than repeating the generic cluster name.
+const liveCalculatorsHeading = isSoilPillar
+  ? 'Soil, Compost & Mulch Calculators'
+  : isLawnPillar
+  ? 'New Lawn & Overseeding Calculators'
+  : isIndoorPillar
+  ? 'Light & Pot Size Calculators'
+  : isWateringPillar
+  ? 'Rainwater & Drip Irrigation Calculators'
+  : isSpacingPillar
+  ? 'Frost Date, Spacing & Yield Calculators'
+  : isTreesPillar
+  ? 'Tree Age & Care Calculators'
+  : isFertilizerPillar
+  ? 'NPK & Feeding Rate Calculators'
+  : isHydroponicsPillar
+  ? 'Greenhouse Heating & Nutrient Dosing Calculators'
+  : 'Live Calculators';
 
 // Depth-ruler data for the "at a glance" visual (point 2). Topsoil/Compost/
 // Mulch ranges are the exact figures already stated in the prose below.
@@ -640,7 +662,7 @@ const indoorReferenceRows = [
 
         {liveCalculators.length > 0 && (
           <div id="live-calculators" class="not-prose scroll-mt-24">
-            <h2 class="font-display text-2xl font-semibold text-bark-900">Live calculators</h2>
+            <h2 class="font-display text-2xl font-semibold text-bark-900">{liveCalculatorsHeading}</h2>
             <p class="mt-2 text-sm text-bark-600">Ready to use right now.</p>
             <div class="mt-6 grid gap-5 sm:grid-cols-2">
               {liveCalculators.map((calc) => (
