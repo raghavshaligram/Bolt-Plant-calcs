@@ -81,9 +81,9 @@ export default function LeadMagnetForm({ listId, clusterName, description, icon 
     // mt-8/sm:mt-10 gives consistent breathing room (32px/40px) above
     // whatever content sits before it, instead of relying on each page to
     // remember a margin.
-    <div className="mt-8 w-full rounded-xl border border-[#5C4433]/15 bg-[#F5F1E8] p-6 shadow-sm sm:mt-10 sm:p-8">
+    <div className="mt-8 w-full rounded-2xl bg-gradient-to-br from-[#E8A94A]/20 via-[#F5F1E8] to-[#4A7C59]/10 p-6 shadow-card ring-1 ring-[#5C4433]/15 sm:mt-10 sm:p-8">
       {status === 'success' ? (
-        <div className="rounded-md bg-[#3D6647] p-6">
+        <div className="rounded-xl bg-[#3D6647] p-6">
           <p
             className="text-lg font-semibold text-[#F5F1E8]"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
@@ -102,11 +102,15 @@ export default function LeadMagnetForm({ listId, clusterName, description, icon 
             {icon && iconMap[icon] && (
               (() => {
                 const Icon = iconMap[icon];
-                return <Icon className="h-7 w-7 shrink-0 text-[#3D6647]" aria-hidden="true" />;
+                return (
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E8A94A]/25 text-[#3D6647]">
+                    <Icon className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                );
               })()
             )}
             <h3
-              className="text-lg font-semibold text-[#3D6647]"
+              className="text-xl font-semibold text-[#3D6647]"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Get the free cheat sheet
