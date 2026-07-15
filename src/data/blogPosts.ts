@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'rainwater-collection-system',
+    title: 'How to Build a Rainwater Collection System for Your Garden',
+    description:
+      'A step-by-step guide to setting up a rain barrel system — downspout connection, first-flush filtering, and overflow, done right.',
+    pubDate: new Date('2026-07-16'),
+  },
+  {
     slug: '8-mulch-mistakes-hurting-your-plants',
     title: '8 Mulch Mistakes That Are Secretly Hurting Your Plants',
     description:
