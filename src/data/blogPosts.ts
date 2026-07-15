@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'cool-season-vs-warm-season-grass',
+    title: 'Cool-Season vs. Warm-Season Grass: Which Type Do You Have?',
+    description:
+      "The real difference between cool-season and warm-season grass — including what to plant if you're in the transition zone.",
+    pubDate: new Date('2026-07-15'),
+  },
+  {
     slug: 'topsoil-vs-garden-soil',
     title: 'Topsoil vs. Garden Soil: What’s the Difference?',
     description:

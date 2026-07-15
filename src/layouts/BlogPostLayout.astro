@@ -1,0 +1,151 @@
+---
+// BlogPostLayout — shared chrome for MDX blog articles, delegated to via
+// frontmatter `layout:` so each .mdx post only has to supply metadata +
+// its own prose/component body (rendered through <slot />).
+//
+// Mirrors the original hand-built topsoil-vs-garden-soil.astro article's
+// structure exactly: breadcrumb + H1 + BylineRow hero band, then a
+// two-column grid with a mobile TOC accordion above the content and a
+// sticky desktop sidebar TOC beside it.
+//
+// Expected frontmatter fields on the .mdx page:
+//   title, description, lastUpdated (YYYY-MM-DD), readingTime,
+//   breadcrumbLabel (short label for the article in the breadcrumb trail),
+//   ogImage (path under /public), tocItems (array of { id, label, icon? })
+
+import Layout from './Layout.astro';
+import BylineRow from '../components/BylineRow.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+export interface Props {
+  frontmatter: {
+    /** Text for the <title> tag / SERP listing. May differ from `heading` below. */
+    title: string;
+    /** The on-page H1 (and headline/OG/share/schema text). Defaults to `title` if omitted. */
+    heading?: string;
+    description: string;
+    lastUpdated: string;
+    readingTime?: string;
+    breadcrumbLabel: string;
+    ogImage: string;
+    tocItems: { id: string; label: string; icon?: 'leaf' | 'table' | 'warning' | 'question' | 'grid' }[];
+    authorName?: string;
+    authorUrl?: string;
+    slug: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const {
+  title,
+  heading = title,
+  description,
+  lastUpdated,
+  readingTime,
+  breadcrumbLabel,
+  ogImage,
+  tocItems,
+  authorName = 'HarvestMath Editors',
+  authorUrl = '/about/',
+  slug,
+} = frontmatter;
+
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const shareImage = new URL(ogImage, Astro.site).href;
+const canonicalUrl = new URL(`/blog/${slug}/`, Astro.site).href;
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: heading,
+  description,
+  image: shareImage,
+  datePublished: lastUpdated,
+  dateModified: lastUpdated,
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://harvestmath.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://harvestmath.com/blog/' },
+    { '@type': 'ListItem', position: 3, name: breadcrumbLabel, item: canonicalUrl },
+  ],
+};
+---
+
+<Layout title={title} description={description} rawTitle ogImage={ogImage} pageType="article" ogTitle={heading}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+
+  <!-- Hero band: breadcrumb + H1 + byline row -->
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-7 sm:py-9">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/blog/" class="hover:text-moss-800">Blog</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">{breadcrumbLabel}</span>
+      </nav>
+
+      <h1 class="mt-3 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
+        {heading}
+      </h1>
+
+      <BylineRow
+        authorName={authorName}
+        authorUrl={authorUrl}
+        lastUpdated={lastUpdated}
+        readingTime={readingTime}
+        shareTitle={heading}
+        shareDescription={description}
+        shareImage={shareImage}
+      />
+    </div>
+  </section>
+
+  <!-- Two-column main area: article content left, sidebar right -->
+  <div class="container-wide py-6 sm:py-8">
+    <div class="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+      <div class="min-w-0">
+        <!-- Mobile TOC accordion — shown above content on mobile, hidden on desktop -->
+        <TableOfContents items={tocItems} variant="accordion" />
+
+        <article class="prose prose-bark mt-6 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+          <slot />
+
+          <p class="mt-12 text-sm text-bark-500">
+            Last updated: {formattedDate}.
+          </p>
+        </article>
+      </div>
+
+      <!-- Right column: sticky sidebar TOC (desktop only) -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+          <TableOfContents items={tocItems} variant="sidebar" />
+        </div>
+      </aside>
+    </div>
+  </div>
+</Layout>
