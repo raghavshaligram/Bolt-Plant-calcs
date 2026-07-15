@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: '8-fertilizing-mistakes-hurting-your-garden-and-lawn',
+    title: '8 Fertilizing Mistakes That Are Hurting Your Garden and Lawn',
+    description:
+      'The most common fertilizing mistakes — from over-application to bad timing — and exactly how to avoid and fix each one.',
+    pubDate: new Date('2026-07-16'),
+  },
+  {
     slug: 'rainwater-collection-system',
     title: 'How to Build a Rainwater Collection System for Your Garden',
     description:
