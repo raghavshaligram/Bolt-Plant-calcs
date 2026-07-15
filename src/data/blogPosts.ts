@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: '8-mulch-mistakes-hurting-your-plants',
+    title: '8 Mulch Mistakes That Are Secretly Hurting Your Plants',
+    description:
+      'The most common mulching mistakes — from volcano mulching to guessing the amount — and exactly how to avoid each one.',
+    pubDate: new Date('2026-07-15'),
+  },
+  {
     slug: 'cool-season-vs-warm-season-grass',
     title: 'Cool-Season vs. Warm-Season Grass: Which Type Do You Have?',
     description:
