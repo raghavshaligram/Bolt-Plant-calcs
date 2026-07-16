@@ -1,0 +1,128 @@
+---
+layout: '../../layouts/BlogPostLayout.astro'
+title: 'Companion Planting Chart: What to Grow Together'
+heading: 'Companion Planting Chart: What to Grow Together (and What to Avoid)'
+description: 'A complete companion planting chart for vegetables and herbs — plus a free printable version. Know what to plant together.'
+lastUpdated: '2026-07-17'
+readingTime: '9 min read'
+breadcrumbLabel: 'Companion Planting Chart'
+ogImage: '/companion-planting-raised-bed.webp'
+slug: 'companion-planting-chart'
+tocItems:
+  - id: 'what-is-companion-planting'
+    label: 'What Is Companion Planting?'
+    icon: 'leaf'
+  - id: 'companion-planting-chart-vegetables-and-herbs'
+    label: 'Companion Planting Chart'
+    icon: 'table'
+  - id: 'common-vegetable-pairings'
+    label: 'Common Vegetable Pairings'
+    icon: 'grid'
+  - id: 'herb-companion-planting'
+    label: 'Herb Companion Planting'
+    icon: 'leaf'
+  - id: 'companion-planting-for-pest-control'
+    label: 'Pest Control'
+    icon: 'warning'
+  - id: 'using-this-in-a-raised-bed-or-small-garden'
+    label: 'Raised Beds & Small Gardens'
+    icon: 'grid'
+  - id: 'companion-planting-chart-faq'
+    label: 'FAQ'
+    icon: 'question'
+---
+
+import FAQBlock from '../../components/FAQBlock.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import CompanionPlantingTable from '../../components/blog/CompanionPlantingTable.tsx';
+
+<p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg">
+  Some plants genuinely help each other when grown nearby &mdash; deterring pests, sharing nutrients, or making better use of shade and space &mdash; while others compete for the same resources or actively stunt each other's growth. A good companion planting chart is really just a shortcut for that difference: which pairings are worth seeking out in your beds, and which ones are worth keeping apart.
+</p>
+
+<img
+  src="/companion-planting-raised-bed.webp"
+  alt="A raised garden bed mixing tomatoes, basil, marigolds, chard, carrots, and rosemary together in the same planting area"
+  width="1600"
+  height="893"
+  loading="eager"
+  class="mt-2 w-full rounded-2xl border border-moss-100"
+/>
+
+<h2 id="what-is-companion-planting">What Is Companion Planting?</h2>
+<p>
+  Companion planting is the practice of growing certain plants near each other because of a real, practical benefit one gives the other &mdash; better pest control, improved growth, or more efficient use of garden space. It's not a single mechanism but a handful of them working in combination. Some pairings work through <strong>scent-based pest deterrence</strong>: aromatic herbs like dill and chives mask the smell of a vegetable that pests would otherwise home in on, or attract the predatory insects that eat those pests. Others work through <strong>nutrient sharing</strong> &mdash; beans and other legumes pull nitrogen from the air and fix it in the soil, which benefits heavy-feeding neighbors planted nearby. And some are simply about <strong>physical space and shade</strong>: a tall plant can shelter a shade-tolerant one beneath it, or a sprawling ground-cover crop can shade out weeds around a taller plant's base. None of this is exact science &mdash; results vary by climate, soil, and garden layout &mdash; but the pairings below reflect the relationships gardeners and extension offices see repeat reliably across regions.
+</p>
+
+<h2 id="companion-planting-chart-vegetables-and-herbs">Companion Planting Chart: Vegetables &amp; Herbs</h2>
+<p>
+  Use the companion planting chart below to check any of six common vegetables (tomatoes, peppers, cucumbers, onions, kale, and beans) or four common herbs (basil, mint, dill, and chives). Select a plant to highlight which of the others make good companions and which ones to keep apart.
+</p>
+
+<CompanionPlantingTable client:load />
+
+<h2 id="common-vegetable-pairings">Common Vegetable Pairings</h2>
+<p>
+  <strong>Tomatoes and basil</strong> are the single most-repeated pairing in companion planting, and for good reason: basil's strong scent is widely credited with confusing pests that target tomatoes, and many gardeners find it improves how the tomato plant grows alongside it. Onions and chives make good tomato neighbors for a similar reason &mdash; their sharp scent works as a pest deterrent without competing heavily for space.
+</p>
+<p>
+  <strong>Mint deserves a specific warning</strong> in any vegetable bed: it's an aggressive spreader that will crowd out neighboring plants within a season if left in open ground, regardless of what it's planted next to. If you want mint's pest-deterrent benefits near your vegetables, keep it in a buried pot with the rim above soil level, not planted directly in the bed.
+</p>
+<p>
+  Once you've settled on which vegetables you want growing near each other, the <a href="/calculators/plant-spacing-calculator/">Plant Spacing Calculator</a> works out the actual in-row and between-row distances so the bed has room for all of them.
+</p>
+
+<h2 id="herb-companion-planting">Herb Companion Planting</h2>
+<p>
+  This herb companion planting chart covers four of the most common kitchen herbs, and herbs pull double duty in most gardens &mdash; both as a harvestable crop and as a pest-deterrent companion for whatever vegetables surround them. <strong>Basil</strong> pairs well with tomatoes and peppers specifically. <strong>Dill</strong> is genuinely useful near kale and other brassicas, since it attracts the predatory wasps and other beneficial insects that prey on cabbage worms, and it's a classic companion for cucumbers for the same pest-control reason. <strong>Chives</strong>, like other alliums, work well near tomatoes and kale but should be kept away from beans specifically &mdash; alliums are well documented to stunt bean growth. <strong>Mint</strong> is the outlier: it's not incompatible with other herbs chemically, but its spreading habit makes it a poor open-ground neighbor for basil, dill, or chives, all of which it will simply out-compete for space over time.
+</p>
+
+<h2 id="companion-planting-for-pest-control">Companion Planting for Pest Control</h2>
+
+<img
+  src="/companion-planting-cabbage-dill.webp"
+  alt="A cabbage growing next to a flowering dill plant in a garden bed, a classic companion pairing for attracting pest-eating beneficial insects"
+  width="1600"
+  height="893"
+  loading="lazy"
+  class="my-6 w-full rounded-2xl border border-moss-100"
+/>
+
+<p>
+  Pest control is where companion planting earns its keep in most home gardens. <strong>Marigolds</strong> are the best-documented example: certain varieties (French marigolds in particular) release compounds from their roots that suppress root-knot nematodes in the surrounding soil, which is why they're a common border planting around vegetable beds. <strong>Dill and chives</strong> work through a different mechanism &mdash; both attract predatory and parasitic insects (ladybugs, lacewings, parasitic wasps) that feed on aphids and caterpillars, effectively recruiting free pest control instead of repelling pests directly. Used together around a vegetable bed &mdash; marigolds along the border, dill and chives interplanted among the crops &mdash; these three do most of the pest-control work that companion planting is known for.
+</p>
+
+<h2 id="using-this-in-a-raised-bed-or-small-garden">Using This in a Raised Bed or Small Garden</h2>
+<p>
+  A companion planting chart tells you <em>what</em> to plant together; it doesn't tell you <em>how far apart</em> to actually put things, and in a raised bed or small garden that second question matters just as much as the first. Good pairings still need real spacing to avoid overcrowding &mdash; cramming basil in too tightly around tomato plants can create the same airflow and disease problems as any other overcrowded bed, good companion or not. Once you've picked your pairings from the chart above, run the actual dimensions through our <a href="/calculators/plant-spacing-calculator/">Plant Spacing Calculator</a> to see how many of each plant genuinely fit your bed using proper in-row and between-row spacing, whether you're gardening in rows or using the square-foot method.
+</p>
+
+<p>
+  Want a companion planting chart printable version for the potting shed? We&rsquo;re building one &mdash; sign up below and you&rsquo;ll get it as soon as it&rsquo;s ready, along with the rest of our Spacing &amp; Planting guides.
+</p>
+
+<LeadMagnet variant="compact" clusterTag="spacing-cluster" />
+
+<FAQBlock id="companion-planting-chart-faq" heading="Companion Planting Chart FAQ" faqs={[
+  {
+    q: 'What is companion planting, and how does it work?',
+    a: "Companion planting means growing certain plants near each other for a specific mutual benefit — usually pest deterrence, better growth, or efficient use of space. It works through a few real mechanisms: scent-based pest deterrence, nitrogen fixing by legumes like beans, and physical space or shade sharing between taller and shorter plants."
+  },
+  {
+    q: 'Can you plant flowers and herbs with vegetables?',
+    a: "Yes — flowers and herbs are two of the most common companion plants for vegetables. Marigolds are planted alongside vegetables specifically for nematode and pest suppression, while herbs like basil, dill, and chives deter pests and attract beneficial insects when interplanted among vegetable crops."
+  },
+  {
+    q: 'What herbs should not be planted together?',
+    a: "Mint shouldn't be planted in open ground near basil, dill, chives, or most other herbs. This isn't a chemical incompatibility — mint is simply an aggressive spreader that will crowd out and out-compete slower-growing herbs for space within a single season if it isn't contained in a pot."
+  },
+  {
+    q: 'What can I plant in my vegetable garden to keep pests away?',
+    a: "Marigolds are the best-documented option, since certain varieties suppress root-knot nematodes in the soil around them. Dill and chives are also effective, though through a different mechanism — both attract predatory insects like ladybugs and parasitic wasps that prey on aphids and caterpillars."
+  }
+]} />
+
+<h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+<p>
+  For more on companion planting relationships and how they're studied, see <a href="https://extension.wvu.edu/lawn-gardening-pests/gardening/garden-management/companion-planting">West Virginia University Extension's companion planting guide</a>. For more on how we source and review the facts behind every calculator and guide on this site, see our <a href="/methodology/">methodology page</a>. And for the complete picture on spacing, timing, and planting layout, see our <a href="/clusters/spacing-and-planting/">complete guide to spacing and planting</a>.
+</p>

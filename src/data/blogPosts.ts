@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'companion-planting-chart',
+    title: 'Companion Planting Chart: What to Grow Together (and What to Avoid)',
+    description:
+      'A complete companion planting chart for vegetables and herbs — plus which pairings to avoid and why.',
+    pubDate: new Date('2026-07-17'),
+  },
+  {
     slug: 'organic-vs-inorganic-mulch',
     title: 'Organic vs. Inorganic Mulch: Which Is Right for Your Garden?',
     description:
