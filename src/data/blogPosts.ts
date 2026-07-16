@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-read-soil-test-results',
+    title: 'How to Read and Understand Your Soil Test Results',
+    description:
+      'Soil test numbers explained — pH, organic matter, N-P-K, and how to turn them into an actual fertilizer plan.',
+    pubDate: new Date('2026-07-16'),
+  },
+  {
     slug: 'succession-planting',
     title: 'Succession Planting: How to Get More Harvests From the Same Space',
     description:
