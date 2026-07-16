@@ -1,8 +1,83 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { blogPosts } from '../../data/blogPosts';
 
 const description =
   'Gardening guides and how-tos that pair with our calculators. Mulch, soil, fertilizer, watering, spacing, and more — written for real gardeners, not SEO bots.';
+
+// Per-post display metadata (image + category chip) that isn't part of the
+// RSS-feeding blogPosts.ts source of truth. Add an entry here whenever a new
+// article is published, alongside its blogPosts.ts entry.
+type ClusterKey = 'soil-and-amendments' | 'fertilizer-and-nutrients' | 'watering-and-irrigation' | 'lawn-and-landscaping' | 'spacing-and-planting';
+
+interface PostMeta {
+  image: string;
+  alt: string;
+  imgWidth: number;
+  imgHeight: number;
+  cluster: ClusterKey;
+}
+
+const postMeta: Record<string, PostMeta> = {
+  'succession-planting': {
+    image: '/succession-planting-raised-bed.webp',
+    alt: 'A raised bed garden showing succession planting in progress — young lettuce and carrot seedlings alongside maturing kale, chard, and beans at different growth stages',
+    imgWidth: 1600,
+    imgHeight: 893,
+    cluster: 'spacing-and-planting',
+  },
+  '8-fertilizing-mistakes-hurting-your-garden-and-lawn': {
+    image: '/healthy-fertilized-garden-bed.webp',
+    alt: 'A lush, densely planted shade garden bed of hostas, ferns, and hydrangeas showing healthy, properly fertilized growth',
+    imgWidth: 1600,
+    imgHeight: 873,
+    cluster: 'fertilizer-and-nutrients',
+  },
+  'rainwater-collection-system': {
+    image: '/rainwater-collection-system-diagram.webp',
+    alt: 'Labeled diagram of a rain barrel system showing the downspout, diverter, first-flush chamber, rain barrel, spigot, and overflow hose routed away from the foundation',
+    imgWidth: 1600,
+    imgHeight: 873,
+    cluster: 'watering-and-irrigation',
+  },
+  '8-mulch-mistakes-hurting-your-plants': {
+    image: '/correct-mulch-ring-donut-method.webp',
+    alt: 'A young tree properly mulched with a flat, donut-shaped ring pulled back from the trunk, leaving the root flare and bark clear of mulch',
+    imgWidth: 1600,
+    imgHeight: 873,
+    cluster: 'soil-and-amendments',
+  },
+  'cool-season-vs-warm-season-grass': {
+    image: '/cool-season-vs-warm-season-grass-color-contrast.webp',
+    alt: 'Illustration of two adjacent lawn patches showing the color contrast between an actively growing cool-season lawn and a dormant warm-season lawn',
+    imgWidth: 1200,
+    imgHeight: 675,
+    cluster: 'lawn-and-landscaping',
+  },
+  'topsoil-vs-garden-soil': {
+    image: '/topsoil-vs-garden-soil-comparison.webp',
+    alt: 'Side-by-side comparison of plain topsoil and amended garden soil',
+    imgWidth: 1200,
+    imgHeight: 675,
+    cluster: 'soil-and-amendments',
+  },
+};
+
+const clusterChips: Record<ClusterKey, { label: string; bg: string; text: string }> = {
+  'soil-and-amendments': { label: 'Soil', bg: 'bg-clay-100', text: 'text-clay-800' },
+  'fertilizer-and-nutrients': { label: 'Fertilizer', bg: 'bg-sand-100', text: 'text-sand-800' },
+  'watering-and-irrigation': { label: 'Watering', bg: 'bg-leaf-100', text: 'text-leaf-800' },
+  'lawn-and-landscaping': { label: 'Lawn', bg: 'bg-moss-100', text: 'text-moss-800' },
+  'spacing-and-planting': { label: 'Planning', bg: 'bg-bark-100', text: 'text-bark-800' },
+};
+
+const sortedPosts = blogPosts
+  .slice()
+  .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
+
+const [featuredPost, ...restPosts] = sortedPosts;
+const featuredMeta = postMeta[featuredPost.slug];
+const featuredChip = clusterChips[featuredMeta.cluster];
 ---
 
 <Layout title="Blog" description={description}>
@@ -23,128 +98,107 @@ const description =
   </section>
 
   <section class="container-wide py-12 sm:py-16">
-    <div class="mx-auto max-w-3xl space-y-6">
-      <a href="/blog/succession-planting/" class="group flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover sm:flex-row sm:items-center">
+    <!-- Featured post -->
+    <a
+      href={`/blog/${featuredPost.slug}/`}
+      class="group grid gap-0 overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover md:grid-cols-2"
+    >
+      <div class="relative aspect-[16/9] overflow-hidden md:aspect-auto">
         <img
-          src="/succession-planting-raised-bed.webp"
-          alt="A raised bed garden showing succession planting in progress — young lettuce and carrot seedlings alongside maturing kale, chard, and beans at different growth stages"
-          width="1600"
-          height="893"
-          loading="lazy"
-          class="w-full rounded-xl border border-moss-100 sm:w-48 sm:shrink-0"
+          src={featuredMeta.image}
+          alt={featuredMeta.alt}
+          width={featuredMeta.imgWidth}
+          height={featuredMeta.imgHeight}
+          loading="eager"
+          class="h-full w-full object-cover"
         />
-        <div>
-          <h2 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
-            Succession Planting: How to Get More Harvests From the Same Space
-          </h2>
-          <p class="mt-1.5 text-sm text-bark-600">
-            Succession planting means more harvests from the same garden space. Here are the three real methods, with examples.
-          </p>
-        </div>
-      </a>
-
-      <a href="/blog/8-fertilizing-mistakes-hurting-your-garden-and-lawn/" class="group flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover sm:flex-row sm:items-center">
-        <img
-          src="/healthy-fertilized-garden-bed.webp"
-          alt="A lush, densely planted shade garden bed of hostas, ferns, and hydrangeas showing healthy, properly fertilized growth"
-          width="1600"
-          height="873"
-          loading="lazy"
-          class="w-full rounded-xl border border-moss-100 sm:w-48 sm:shrink-0"
-        />
-        <div>
-          <h2 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
-            8 Fertilizing Mistakes That Are Hurting Your Garden and Lawn
-          </h2>
-          <p class="mt-1.5 text-sm text-bark-600">
-            The most common fertilizing mistakes &mdash; from over-application to bad timing &mdash; and exactly how to avoid and fix each one.
-          </p>
-        </div>
-      </a>
-
-      <a href="/blog/rainwater-collection-system/" class="group flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover sm:flex-row sm:items-center">
-        <img
-          src="/rainwater-collection-system-diagram.webp"
-          alt="Labeled diagram of a rain barrel system showing the downspout, diverter, first-flush chamber, rain barrel, spigot, and overflow hose routed away from the foundation"
-          width="1600"
-          height="873"
-          loading="lazy"
-          class="w-full rounded-xl border border-moss-100 sm:w-48 sm:shrink-0"
-        />
-        <div>
-          <h2 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
-            How to Build a Rainwater Collection System for Your Garden
-          </h2>
-          <p class="mt-1.5 text-sm text-bark-600">
-            A step-by-step guide to setting up a rain barrel system &mdash; downspout connection, first-flush filtering, and overflow, done right.
-          </p>
-        </div>
-      </a>
-
-      <a href="/blog/8-mulch-mistakes-hurting-your-plants/" class="group flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover sm:flex-row sm:items-center">
-        <img
-          src="/correct-mulch-ring-donut-method.webp"
-          alt="A young tree properly mulched with a flat, donut-shaped ring pulled back from the trunk, leaving the root flare and bark clear of mulch"
-          width="1600"
-          height="873"
-          loading="lazy"
-          class="w-full rounded-xl border border-moss-100 sm:w-48 sm:shrink-0"
-        />
-        <div>
-          <h2 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
-            8 Mulch Mistakes That Are Secretly Hurting Your Plants
-          </h2>
-          <p class="mt-1.5 text-sm text-bark-600">
-            The most common mulching mistakes &mdash; from volcano mulching to guessing the amount &mdash; and exactly how to avoid each one.
-          </p>
-        </div>
-      </a>
-
-      <a href="/blog/cool-season-vs-warm-season-grass/" class="group flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover sm:flex-row sm:items-center">
-        <img
-          src="/cool-season-vs-warm-season-grass-color-contrast.webp"
-          alt="Illustration of two adjacent lawn patches showing the color contrast between an actively growing cool-season lawn and a dormant warm-season lawn"
-          width="1200"
-          height="675"
-          loading="lazy"
-          class="w-full rounded-xl border border-moss-100 sm:w-48 sm:shrink-0"
-        />
-        <div>
-          <h2 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
-            Cool-Season vs. Warm-Season Grass: Which Type Do You Have?
-          </h2>
-          <p class="mt-1.5 text-sm text-bark-600">
-            The real difference between cool-season and warm-season grass &mdash; including what to plant if you&rsquo;re in the transition zone.
-          </p>
-        </div>
-      </a>
-
-      <a href="/blog/topsoil-vs-garden-soil/" class="group flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover sm:flex-row sm:items-center">
-        <img
-          src="/topsoil-vs-garden-soil-comparison.webp"
-          alt="Side-by-side comparison of plain topsoil and amended garden soil"
-          width="1200"
-          height="675"
-          loading="lazy"
-          class="w-full rounded-xl border border-moss-100 sm:w-48 sm:shrink-0"
-        />
-        <div>
-          <h2 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
-            Topsoil vs. Garden Soil: What&rsquo;s the Difference?
-          </h2>
-          <p class="mt-1.5 text-sm text-bark-600">
-            Topsoil and garden soil aren&rsquo;t the same thing. Here&rsquo;s the real difference, and which one your project actually needs.
-          </p>
-        </div>
-      </a>
-
-      <div class="rounded-2xl border border-dashed border-moss-200 bg-white p-10 text-center">
-        <p class="font-display text-lg font-semibold text-bark-900">More articles landing soon.</p>
-        <p class="mt-2 text-sm text-bark-600">
-          We&rsquo;re publishing deep-dive guides on mulch, soil, fertilizer, and plant spacing as we ship each calculator. Check back shortly.
-        </p>
-        <a href="/" class="btn-secondary mt-6">&larr; Back to calculators</a>
+        <span class="absolute left-4 top-4 rounded-full bg-moss-700 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+          Featured
+        </span>
       </div>
+      <div class="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+        <span class={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-xs font-medium uppercase tracking-wider ${featuredChip.bg} ${featuredChip.text}`}>
+          {featuredChip.label}
+        </span>
+        <h2
+          class="mt-3 text-2xl font-semibold tracking-tight text-bark-900 group-hover:text-moss-800 sm:text-3xl"
+          style="font-family: 'Playfair Display', Georgia, serif;"
+        >
+          {featuredPost.title}
+        </h2>
+        <p class="mt-3 text-base leading-relaxed text-bark-600">
+          {featuredPost.description}
+        </p>
+        <span class="mt-5 inline-flex items-center text-sm font-medium text-moss-700">
+          Read the guide
+          <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Grid of remaining posts -->
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {restPosts.map((post) => {
+        const meta = postMeta[post.slug];
+        const chip = clusterChips[meta.cluster];
+        return (
+          <a
+            href={`/blog/${post.slug}/`}
+            class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+          >
+            <div class="aspect-[16/9] overflow-hidden">
+              <img
+                src={meta.image}
+                alt={meta.alt}
+                width={meta.imgWidth}
+                height={meta.imgHeight}
+                loading="lazy"
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div class="flex flex-1 flex-col p-5">
+              <span class={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-xs font-medium uppercase tracking-wider ${chip.bg} ${chip.text}`}>
+                {chip.label}
+              </span>
+              <h3
+                class="mt-3 text-lg font-semibold text-bark-900 group-hover:text-moss-800"
+                style="font-family: 'Playfair Display', Georgia, serif;"
+              >
+                {post.title}
+              </h3>
+              <p class="mt-1.5 text-sm text-bark-600">
+                {post.description}
+              </p>
+            </div>
+          </a>
+        );
+      })}
+
+      <div class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-moss-200 bg-white/60 p-8 text-center">
+        <p class="font-display text-base font-semibold text-bark-900">More guides landing soon.</p>
+        <p class="mt-2 text-sm text-bark-600">
+          We&rsquo;re publishing deep-dive guides on mulch, soil, fertilizer, and plant spacing as we ship each calculator.
+        </p>
+      </div>
+    </div>
+
+    <!-- CTA back to calculators -->
+    <div class="mt-12 rounded-2xl bg-moss-700 px-6 py-10 text-center sm:px-12 sm:py-12">
+      <h2
+        class="text-2xl font-semibold text-white sm:text-3xl"
+        style="font-family: 'Playfair Display', Georgia, serif;"
+      >
+        Do the math before you buy or plant.
+      </h2>
+      <p class="mx-auto mt-3 max-w-xl text-base leading-relaxed text-moss-100">
+        Every guide on this blog pairs with a free calculator &mdash; mulch, soil, fertilizer, watering, spacing, and more.
+      </p>
+      <a
+        href="/"
+        class="mt-6 inline-flex items-center justify-center rounded-lg bg-clay-400 px-6 py-3 text-sm font-semibold text-bark-900 shadow-sm transition hover:bg-clay-500 focus:outline-none focus:ring-2 focus:ring-clay-300 focus:ring-offset-2 focus:ring-offset-moss-700"
+      >
+        Browse all calculators
+      </a>
     </div>
   </section>
 </Layout>
