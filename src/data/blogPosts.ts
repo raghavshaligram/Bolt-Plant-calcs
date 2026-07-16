@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'succession-planting',
+    title: 'Succession Planting: How to Get More Harvests From the Same Space',
+    description:
+      'Succession planting means more harvests from the same garden space. Here are the three real methods, with examples.',
+    pubDate: new Date('2026-07-16'),
+  },
+  {
     slug: '8-fertilizing-mistakes-hurting-your-garden-and-lawn',
     title: '8 Fertilizing Mistakes That Are Hurting Your Garden and Lawn',
     description:

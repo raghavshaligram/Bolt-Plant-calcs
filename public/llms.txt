@@ -29,6 +29,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 
 ## Guides
 
+- [Succession Planting: How to Get More Harvests From the Same Space](https://harvestmath.com/blog/succession-planting/): the three real succession planting methods (staggered sowing, staggered-maturity varieties, interplanting) with a worked raised-bed example
 - [8 Fertilizing Mistakes That Are Hurting Your Garden and Lawn](https://harvestmath.com/blog/8-fertilizing-mistakes-hurting-your-garden-and-lawn/): the most common fertilizing mistakes, from over-application to bad timing, and how to avoid and fix each one
 - [How to Build a Rainwater Collection System for Your Garden](https://harvestmath.com/blog/rainwater-collection-system/): step-by-step rain barrel setup covering downspout connection, first-flush filtering, overflow routing, and winterizing
 - [8 Mulch Mistakes That Are Secretly Hurting Your Plants](https://harvestmath.com/blog/8-mulch-mistakes-hurting-your-plants/): the most common mulching mistakes, from volcano mulching to guessing the amount, and how to avoid each one
