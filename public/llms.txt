@@ -30,6 +30,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 
 ## Guides
 
+- [Organic vs. Inorganic Mulch: Which Is Right for Your Garden?](https://harvestmath.com/blog/organic-vs-inorganic-mulch/): the real difference between organic and inorganic mulch, and which one fits vegetable gardens, planting beds, pathways, and xeriscaping
 - [How to Read and Understand Your Soil Test Results](https://harvestmath.com/blog/how-to-read-soil-test-results/): what pH, organic matter, N-P-K, and micronutrient readings on a soil test actually mean, and how to turn them into a fertilizer plan
 - [Succession Planting: How to Get More Harvests From the Same Space](https://harvestmath.com/blog/succession-planting/): the three real succession planting methods (staggered sowing, staggered-maturity varieties, interplanting) with a worked raised-bed example
 - [8 Fertilizing Mistakes That Are Hurting Your Garden and Lawn](https://harvestmath.com/blog/8-fertilizing-mistakes-hurting-your-garden-and-lawn/): the most common fertilizing mistakes, from over-application to bad timing, and how to avoid and fix each one

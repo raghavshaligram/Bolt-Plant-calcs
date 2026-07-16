@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'organic-vs-inorganic-mulch',
+    title: 'Organic vs. Inorganic Mulch: Which Is Right for Your Garden?',
+    description:
+      "Organic and inorganic mulch solve different problems. Here's the real difference, and which one your garden actually needs.",
+    pubDate: new Date('2026-07-16'),
+  },
+  {
     slug: 'how-to-read-soil-test-results',
     title: 'How to Read and Understand Your Soil Test Results',
     description:
