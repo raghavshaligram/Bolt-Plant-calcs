@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A gradient bar showing USDA hardiness zones from colder to warmer, with an example zone marked">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+  <circle cx="700" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+
+  <defs>
+    <linearGradient id="zoneGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7FA8C9"/>
+      <stop offset="25%" stop-color="#A9C7A0"/>
+      <stop offset="50%" stop-color="#8FBF6E"/>
+      <stop offset="75%" stop-color="#D9B25C"/>
+      <stop offset="100%" stop-color="#E0894A"/>
+    </linearGradient>
+  </defs>
+
+  <text x="400" y="70" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#3A4A2A" text-anchor="middle">USDA Hardiness Zones</text>
+
+  <g transform="translate(80,220)">
+    <rect x="0" y="0" width="640" height="34" rx="17" fill="url(#zoneGrad)"/>
+
+    <!-- zone tick marks: 3 through 11 -->
+    <g font-family="Inter, sans-serif" font-size="13" fill="#3A4A2A" text-anchor="middle">
+      <line x1="0" y1="-8" x2="0" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="0" y="-16">3</text>
+      <line x1="80" y1="-8" x2="80" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="80" y="-16">4</text>
+      <line x1="160" y1="-8" x2="160" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="160" y="-16">5</text>
+      <line x1="240" y1="-8" x2="240" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="240" y="-16">6</text>
+      <line x1="320" y1="-8" x2="320" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="320" y="-16">7</text>
+      <line x1="400" y1="-8" x2="400" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="400" y="-16">8</text>
+      <line x1="480" y1="-8" x2="480" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="480" y="-16">9</text>
+      <line x1="560" y1="-8" x2="560" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="560" y="-16">10</text>
+      <line x1="640" y1="-8" x2="640" y2="42" stroke="#3A4A2A" stroke-width="1.5" opacity="0.5"/>
+      <text x="640" y="-16">11</text>
+    </g>
+
+    <!-- example marker pin at Zone 6b (~ x=260) -->
+    <g transform="translate(260,17)">
+      <circle r="9" fill="#3A4A2A"/>
+      <circle r="4" fill="#F5F1E8"/>
+    </g>
+    <text x="260" y="76" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#3A4A2A" text-anchor="middle">Example: Zone 6b</text>
+
+    <text x="0" y="100" font-family="Inter, sans-serif" font-size="13" fill="#5C6B4A" text-anchor="start">Colder</text>
+    <text x="640" y="100" font-family="Inter, sans-serif" font-size="13" fill="#5C6B4A" text-anchor="end">Warmer</text>
+  </g>
+</svg>

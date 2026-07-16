@@ -22,6 +22,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 - [Seed Starting Calendar](https://harvestmath.com/calculators/seed-starting-calculator/): personalized seed-starting and transplant schedule by frost date
 - [Drip Irrigation Calculator](https://harvestmath.com/calculators/drip-irrigation-calculator/): run time and water delivered based on emitter flow rate
 - [Rain Barrel Calculator](https://harvestmath.com/calculators/rain-barrel-calculator/): rainwater collection from roof area and rainfall, plus spigot water pressure
+- [USDA Hardiness Zone Finder](https://harvestmath.com/calculators/hardiness-zone-finder/): find your exact USDA plant hardiness zone by ZIP code, plus the average annual minimum winter temperature range it represents
 - [Grow Light & DLI Calculator](https://harvestmath.com/calculators/grow-light-calculator/): grow light coverage, wattage, DLI, and hanging distance
 - [Vegetable Yield Calculator](https://harvestmath.com/calculators/vegetable-yield-calculator/): estimated harvest yield by crop and area
 - [Greenhouse Heater Calculator](https://harvestmath.com/calculators/greenhouse-heater-calculator/): estimated heat loss and recommended heater size (BTU) by shape, glazing, and climate

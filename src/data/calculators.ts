@@ -226,6 +226,19 @@ export const calculators: Calculator[] = [
     status: 'live',
   },
   {
+    slug: 'hardiness-zone-finder',
+    title: 'USDA Hardiness Zone Finder',
+    shortTitle: 'Hardiness Zone',
+    description:
+      'Find your exact USDA plant hardiness zone by ZIP code, plus the average annual minimum winter temperature range that zone represents.',
+    metaDescription:
+      'Find your exact USDA plant hardiness zone by ZIP code — know which plants are rated to survive winter where you live.',
+    seoTitle: 'USDA Hardiness Zone Finder by Zip Code (2026)',
+    cluster: 'spacing-and-planting',
+    href: '/calculators/hardiness-zone-finder/',
+    status: 'live',
+  },
+  {
     slug: 'tree-age-calculator',
     title: 'Tree Age Calculator',
     shortTitle: 'Tree Age',

@@ -211,7 +211,7 @@ const softwareAppJsonLd = {
       The trade-off is worth it for planning purposes: a zone-based estimate gets you a usable planting window in seconds, with no need to look up station-level climate data. Just don&rsquo;t treat the date as exact down to the day &mdash; treat it as the center of a few-week window, and confirm with your local extension office as a real planting deadline approaches.
     </p>
     <p>
-      One distinction worth keeping in mind: <strong>hardiness zone and frost date are related but measure different things</strong>. The USDA hardiness zone reflects average annual <em>minimum winter temperature</em> &mdash; it tells you which perennials can survive the winter in your area. Frost dates, by contrast, track the <em>timing</em> of specific freeze events in spring and fall &mdash; they tell you when it&rsquo;s safe to plant annuals and when the growing season ends. A location can be in a relatively mild zone but still have a later-than-expected last frost due to inland position, elevation, or a cold valley microclimate. So while zone is a useful shorthand for frost timing, use it as a directional estimate and check local conditions before committing tender seedlings to the ground.
+      One distinction worth keeping in mind: <strong>hardiness zone and frost date are related but measure different things</strong>. The USDA hardiness zone reflects average annual <em>minimum winter temperature</em> &mdash; it tells you which perennials can survive the winter in your area. Frost dates, by contrast, track the <em>timing</em> of specific freeze events in spring and fall &mdash; they tell you when it&rsquo;s safe to plant annuals and when the growing season ends. A location can be in a relatively mild zone but still have a later-than-expected last frost due to inland position, elevation, or a cold valley microclimate. So while zone is a useful shorthand for frost timing, use it as a directional estimate and check local conditions before committing tender seedlings to the ground. If you just need the zone itself &mdash; say, to check a plant tag's hardiness rating before buying &mdash; our <a href="/calculators/hardiness-zone-finder/">Hardiness Zone Finder</a> answers that standalone question directly.
     </p>
 
     <h2 id="your-planting-timeline">Your Planting Timeline</h2>
@@ -262,6 +262,7 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Hardiness Zone Finder', url: '/calculators/hardiness-zone-finder/', note: 'just need the zone itself — for checking a plant tag\'s hardiness rating, not a planting timeline? Use this instead.' },
       { name: 'Seed Starting Calendar', url: '/calculators/seed-starting-calculator/', note: 'takes this exact frost estimate and turns it into a full per-crop planting calendar — indoor start, transplant, or direct sow dates.' },
       { name: 'Spacing & Planting cluster', url: '/clusters/spacing-and-planting/', anchorText: 'see our full vegetable garden planning timeline', note: 'Stage 1 of 4 — from frost date through seed starting, spacing, and yield.' },
       { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'once you know your planting window, figure out how many plants actually fit your bed.' },
