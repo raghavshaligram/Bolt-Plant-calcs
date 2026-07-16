@@ -20,8 +20,8 @@
     <text x="150" y="-14" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#3A4A2A" text-anchor="middle">3 ft</text>
     <text x="-16" y="154" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#3A4A2A" text-anchor="middle" transform="rotate(-90 -16 154)">3 ft</text>
 
-    <text x="150" y="330" font-family="Inter, sans-serif" font-size="14" fill="#3A4A2A" text-anchor="middle">Each cell = 1 cu ft &middot; 27 cells fill this cube</text>
+    <text x="150" y="330" font-family="Inter, sans-serif" font-size="14" fill="#3A4A2A" text-anchor="middle">Each cell = 1 cu ft · 27 cells fill this cube</text>
   </g>
 
-  <text x="400" y="470" font-family="Inter, sans-serif" font-size="14" fill="#5C6B4A" text-anchor="middle">A cubic yard is 3 ft &times; 3 ft &times; 3 ft &mdash; 27 times more material than a single cubic foot.</text>
+  <text x="400" y="470" font-family="Inter, sans-serif" font-size="14" fill="#5C6B4A" text-anchor="middle">A cubic yard is 3 ft × 3 ft × 3 ft — 27 times more material than a single cubic foot.</text>
 </svg>
