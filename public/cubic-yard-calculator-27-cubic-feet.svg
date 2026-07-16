@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A 3 foot cube labeled 1 cubic yard, subdivided into 27 smaller 1 cubic foot cubes">
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+  <circle cx="700" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+
+  <text x="400" y="60" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#3A4A2A" text-anchor="middle">1 Cubic Yard = 27 Cubic Feet</text>
+
+  <!-- 3x3 grid representing the top face of a 3ft cube, each cell = 1 cubic foot -->
+  <g transform="translate(250,140)">
+    <rect x="0" y="0" width="300" height="300" fill="#8FBF6E" stroke="#3A4A2A" stroke-width="3"/>
+    <!-- grid lines: 2 vertical, 2 horizontal, creating 9 visible top cells (representing 27 total incl. depth) -->
+    <line x1="100" y1="0" x2="100" y2="300" stroke="#3A4A2A" stroke-width="2" opacity="0.6"/>
+    <line x1="200" y1="0" x2="200" y2="300" stroke="#3A4A2A" stroke-width="2" opacity="0.6"/>
+    <line x1="0" y1="100" x2="300" y2="100" stroke="#3A4A2A" stroke-width="2" opacity="0.6"/>
+    <line x1="0" y1="200" x2="300" y2="200" stroke="#3A4A2A" stroke-width="2" opacity="0.6"/>
+
+    <!-- dimension labels -->
+    <text x="150" y="-14" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#3A4A2A" text-anchor="middle">3 ft</text>
+    <text x="-16" y="154" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#3A4A2A" text-anchor="middle" transform="rotate(-90 -16 154)">3 ft</text>
+
+    <text x="150" y="330" font-family="Inter, sans-serif" font-size="14" fill="#3A4A2A" text-anchor="middle">Each cell = 1 cu ft &middot; 27 cells fill this cube</text>
+  </g>
+
+  <text x="400" y="470" font-family="Inter, sans-serif" font-size="14" fill="#5C6B4A" text-anchor="middle">A cubic yard is 3 ft &times; 3 ft &times; 3 ft &mdash; 27 times more material than a single cubic foot.</text>
+</svg>

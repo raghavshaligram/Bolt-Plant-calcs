@@ -1,0 +1,243 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import CubicYardCalculator from '../../components/calculators/CubicYardCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+
+const calculator = getCalculator('cubic-yard-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
+
+const lastUpdated = '2026-07-16';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This cubic yard calculator is a unit-conversion tool for dirt, gravel, and mulch — not a "how much do I need" calculator. If you already have a measurement in one form (dimensions, a delivery weight, or a square footage) and need it converted into cubic yards, cubic feet, or tons, this handles it. Figuring out how much material a project actually needs in the first place? Use the Topsoil, Mulch, or Soil Volume Calculator instead.';
+
+const tocItems = [
+  { id: 'how-do-you-calculate-cubic-yards', label: 'How Do You Calculate Cubic Yards?', icon: 'leaf' as const },
+  { id: 'weight-per-cubic-yard-by-material', label: 'Weight per Cubic Yard', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'cubic-yard-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/cubic-yard-calculator-27-cubic-feet.svg', Astro.site).href;
+
+const materialRows = [
+  { name: 'Dirt / Soil', range: '2,000–3,400 lbs (1.0–1.7 tons)', typical: '~2,400 lbs (1.2 tons)' },
+  { name: 'Gravel', range: '2,400–2,900 lbs', typical: '~2,700 lbs' },
+  { name: 'Mulch', range: '400–800 lbs', typical: '~500 lbs' },
+];
+
+const faqs = [
+  {
+    q: 'How many cubic yards are in a cubic foot?',
+    a: 'There are 27 cubic feet in 1 cubic yard. A cubic yard is a 3 ft × 3 ft × 3 ft cube, and 3 × 3 × 3 = 27 — so converting cubic feet to cubic yards means dividing by 27, and converting the other way means multiplying by 27.',
+  },
+  {
+    q: 'How much does a cubic yard of gravel weigh?',
+    a: 'A cubic yard of gravel typically weighs 2,400–2,900 lbs, depending on the stone size and moisture. Most suppliers quote a figure around 2,700 lbs per cubic yard as a reasonable planning estimate — confirm with your supplier if you need an exact number for a heavy delivery.',
+  },
+  {
+    q: 'What is the difference between a yard and a cubic yard?',
+    a: 'A "yard" is a unit of length (3 feet), while a "cubic yard" is a unit of volume — a cube measuring one yard on every side. In landscaping, "a yard of soil" or "a yard of mulch" is shorthand for a cubic yard of that material, not a literal yard-length of anything.',
+  },
+  {
+    q: 'How many square feet will 20 tons of gravel cover?',
+    a: "It depends on the depth you're spreading it and the gravel's weight per cubic yard. At roughly 2,700 lbs per cubic yard, 20 tons (40,000 lbs) works out to about 14.8 cubic yards — enter that into the calculator above with your planned depth to get the exact square footage it will cover.",
+  },
+];
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Convert between cubic yards, tons, and dimensions',
+  description:
+    'Use the cubic yard calculator to convert dirt, gravel, or mulch measurements between dimensions, square footage, weight in tons, and cubic yards or cubic feet.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Choose your material',
+      text: 'Choose Dirt/Soil, Gravel, or Mulch.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Pick a conversion mode',
+      text: 'Pick Dimensions, Weight ↔ Volume, or Area to Volume.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Enter your known measurement',
+      text: 'Enter your known measurement and read the converted result.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://harvestmath.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Soil & Amendments', item: 'https://harvestmath.com/clusters/soil-and-amendments/' },
+    { '@type': 'ListItem', position: 3, name: 'Cubic Yard Calculator', item: 'https://harvestmath.com/calculators/cubic-yard-calculator/' },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: { '@type': 'Organization', name: 'HarvestMath' },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Cubic Yard Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/cubic-yard-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Person', name: authorName, url: new URL(authorUrl, Astro.site).href },
+  publisher: { '@type': 'Organization', name: 'HarvestMath' },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <CubicYardCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Need to figure out how much material a project actually needs, rather than convert a measurement you already have? Use the <a href="/calculators/topsoil-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Topsoil Calculator</a>, <a href="/calculators/mulch-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Mulch Calculator</a>, or <a href="/calculators/soil-volume-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Soil Volume Calculator</a> instead.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Choose your material: Dirt/Soil, Gravel, or Mulch.</li>
+      <li>Pick a conversion mode: Dimensions, Weight &harr; Volume, or Area to Volume.</li>
+      <li>Enter your known measurement.</li>
+      <li>Read the converted result in cubic feet, cubic yards, cubic meters, or tons.</li>
+    </ol>
+
+    <h2 id="how-do-you-calculate-cubic-yards">How Do You Calculate Cubic Yards?</h2>
+    <p>
+      The dimensional math is straightforward: multiply length &times; width &times; depth to get a volume, then convert to cubic yards. If your measurements are in feet and inches, convert depth to feet first (divide inches by 12), multiply length &times; width &times; depth in feet to get cubic feet, then divide by <strong>27</strong> to get cubic yards &mdash; since a cubic yard is a 3 ft &times; 3 ft &times; 3 ft cube, and 3 &times; 3 &times; 3 = 27.
+    </p>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/cubic-yard-calculator-27-cubic-feet.svg"
+        alt="A 3 foot cube labeled 1 cubic yard, subdivided into 27 smaller 1 cubic foot cubes"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        27 cubic feet fill one cubic yard &mdash; the single most common conversion mistake in ordering bulk material.
+      </figcaption>
+    </figure>
+    <p>
+      Converting between weight and volume is a separate calculation, since it depends on the material's density rather than pure geometry. Divide a known weight (in pounds) by the material's weight-per-cubic-yard figure to get cubic yards, or multiply cubic yards by that same figure to estimate weight. That figure isn't fixed, though &mdash; it varies meaningfully by material, and even within one material, moisture content shifts it: wet soil, gravel, or mulch weighs noticeably more than the same material dry. Treat any weight-based conversion as an approximate estimate, not an exact figure.
+    </p>
+
+    <h2 id="weight-per-cubic-yard-by-material">Weight per Cubic Yard by Material</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Material</th>
+          <th>Typical Range</th>
+          <th>Calculator Uses</th>
+        </tr>
+      </thead>
+      <tbody>
+        {materialRows.map((row) => (
+          <tr>
+            <td>{row.name}</td>
+            <td>{row.range}</td>
+            <td>{row.typical}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p>
+      These figures match the same weight-per-yard estimates used elsewhere on this site &mdash; the <a href="/calculators/topsoil-calculator/">Topsoil Calculator</a> uses the same 1.0&ndash;1.7 tons/cu yd range (1.2 tons as its baseline) for soil. Gravel and mulch weights are standard landscaping-supply reference ranges. Moisture is the biggest swing factor for all three: a load pulled from a stockpile right after rain can weigh noticeably more than the same material bone-dry.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Say a supplier quotes you <strong>3 tons of gravel</strong> for a delivery, and you need to know how many cubic yards that actually is before deciding if it's enough.
+    </p>
+    <ol>
+      <li><strong>Convert tons to pounds:</strong> 3 tons &times; 2,000 lbs/ton = <strong>6,000 lbs</strong>.</li>
+      <li><strong>Divide by gravel's weight per cubic yard:</strong> 6,000 lbs &divide; 2,700 lbs/cu yd &asymp; <strong>2.22 cubic yards</strong>.</li>
+    </ol>
+    <p>
+      So a 3-ton gravel delivery is roughly 2.2 cubic yards. At a 3-inch depth, that&rsquo;s about 60 cubic feet (2.22 cu yd &times; 27), which covers roughly <strong>240 square feet</strong> (60 cu ft &divide; 0.25 ft depth) &mdash; recalculate against your own planned depth using the calculator above. The Weight &harr; Volume mode above does the tons-to-cubic-yards conversion instantly for any weight and any of the three materials.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Confusing cubic feet with cubic yards.</strong> This is the single most common error in ordering bulk material, and it's a big one &mdash; a cubic yard is 27 times a cubic foot, so mixing the two up means ordering (or budgeting for) roughly 3.7% of what you actually need, or 27 times too much, depending on which direction the mistake runs.</li>
+      <li><strong>Assuming one material's weight-per-yard applies to another.</strong> Gravel, soil, and mulch have genuinely different densities &mdash; gravel runs roughly 5&ndash;6 times heavier per cubic yard than mulch. Always use the figure for the specific material you're actually ordering, not a number remembered from a different project.</li>
+      <li><strong>Not accounting for moisture content.</strong> Weight-per-yard figures assume a general moisture condition, and wet material can weigh meaningfully more than dry material of the same type. If a delivery is weight-limited (as bulk truckloads usually are), moisture can change how much volume you actually receive for a given weight.</li>
+    </ul>
+
+    <LeadMagnetForm
+      client:load
+      listId={leadMagnet.listId}
+      clusterName={leadMagnet.clusterName}
+      icon={leadMagnet.icon}
+      description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+    />
+
+    <FAQBlock id="cubic-yard-calculator-faq" heading="Cubic Yard Calculator FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      For more on how we build and verify the formulas and reference figures behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: "need to figure out how much you need instead of converting units? use our Topsoil Calculator." },
+      { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: "need to figure out how much you need instead of converting units? use our Mulch Calculator." },
+      { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: "need to figure out how much you need instead of converting units? use our Soil Volume Calculator." },
+      { name: 'Soil & Amendments cluster', url: '/clusters/soil-and-amendments/', anchorText: 'see our full guide to soil and amendments', note: 'topsoil, mulch, compost, and soil type, all in one place.' },
+    ]} />
+
+    <p class="mt-12 text-sm text-bark-500">
+      Last updated: {formattedDate}.
+    </p>
+  </article>
+</CalculatorLayout>

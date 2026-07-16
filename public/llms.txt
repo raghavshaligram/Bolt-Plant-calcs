@@ -6,6 +6,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 
 ## Calculators
 
+- [Cubic Yard Calculator](https://harvestmath.com/calculators/cubic-yard-calculator/): converts between cubic yards, cubic feet, tons, and dimensions for soil, gravel, or mulch — a unit-conversion tool, not a how-much-do-I-need calculator
 - [Topsoil Calculator](https://harvestmath.com/calculators/topsoil-calculator/): calculates topsoil volume in cubic feet, cubic yards, tons, and bags
 - [Raised Bed Soil Calculator](https://harvestmath.com/calculators/raised-bed-soil-calculator/): soil volume and mix ratio for raised beds, with common size presets
 - [Soil Volume Calculator](https://harvestmath.com/calculators/soil-volume-calculator/): soil volume for rectangular beds and cylindrical pots/containers

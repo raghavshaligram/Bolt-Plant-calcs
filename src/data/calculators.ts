@@ -135,6 +135,19 @@ export const calculators: Calculator[] = [
     status: 'live',
   },
   {
+    slug: 'cubic-yard-calculator',
+    title: 'Cubic Yard Calculator',
+    shortTitle: 'Cubic Yards',
+    description:
+      'Convert between cubic yards, cubic feet, tons, and dimensions for dirt, gravel, or mulch — a unit-conversion tool, not a how-much-do-I-need calculator.',
+    metaDescription:
+      'Convert between cubic yards, cubic feet, tons, and dimensions for soil, gravel, or mulch. Free calculator.',
+    seoTitle: 'Cubic Yard Calculator - Soil, Gravel & Mulch',
+    cluster: 'soil-and-amendments',
+    href: '/calculators/cubic-yard-calculator/',
+    status: 'live',
+  },
+  {
     slug: 'topsoil-calculator',
     title: 'Topsoil Calculator',
     shortTitle: 'Topsoil',
