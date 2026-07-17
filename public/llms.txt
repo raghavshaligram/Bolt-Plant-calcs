@@ -31,6 +31,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 
 ## Guides
 
+- [What Can (and Can't) You Compost? The Complete List](https://harvestmath.com/blog/what-can-you-compost/): what you can and can't put in your compost bin, a Bokashi anaerobic-fermentation exception, and by-bin-type notes for tumblers, open piles, and worm bins
 - [15 Homemade Fertilizers You Can Make at Home (and How to Mix Them)](https://harvestmath.com/blog/15-homemade-fertilizers-you-can-make-at-home/): 15 real homemade fertilizers with genuine depth per item, an N-P-K reference table, and honest cautions on wood ash and fresh manure
 - [Companion Planting Chart: What to Grow Together (and What to Avoid)](https://harvestmath.com/blog/companion-planting-chart/): an interactive companion planting chart covering 6 vegetables and 4 herbs, plus common pairings, pest-control uses, and pairings to avoid
 - [Organic vs. Inorganic Mulch: Which Is Right for Your Garden?](https://harvestmath.com/blog/organic-vs-inorganic-mulch/): the real difference between organic and inorganic mulch, and which one fits vegetable gardens, planting beds, pathways, and xeriscaping

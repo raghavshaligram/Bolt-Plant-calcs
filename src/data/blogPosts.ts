@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'what-can-you-compost',
+    title: "What Can (and Can't) You Compost? The Complete List",
+    description:
+      "What you can and can't put in your compost bin -- including surprising yeses like bread, and the real reasons behind the no's.",
+    pubDate: new Date('2026-07-18'),
+  },
+  {
     slug: '15-homemade-fertilizers-you-can-make-at-home',
     title: '15 Homemade Fertilizers You Can Make at Home (and How to Mix Them)',
     description:
