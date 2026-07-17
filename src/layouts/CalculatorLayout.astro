@@ -98,6 +98,7 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
           <LeadMagnetForm
             client:load
             listId={leadMagnet.listId}
+            tag={leadMagnet.tag}
             clusterName={leadMagnet.clusterName}
             icon={leadMagnet.icon}
             description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}

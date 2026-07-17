@@ -417,15 +417,23 @@ export const calculators: Calculator[] = [
 // Astro can only serialize JSON-safe prop values across the client:load
 // hydration boundary, so LeadMagnetForm.jsx looks this string up in its own
 // icon map rather than receiving a component/function directly).
-export const leadMagnetConfig: Record<string, { listId: number; clusterName: string; icon: string }> = {
-  'soil-and-amendments': { listId: 5, clusterName: 'Soil & Raised Bed Mix', icon: 'Shovel' },
-  'fertilizer-and-nutrients': { listId: 6, clusterName: 'Fertilizer & Nutrients', icon: 'FlaskConical' },
-  'watering-and-irrigation': { listId: 7, clusterName: 'Watering & Irrigation', icon: 'Droplets' },
-  'spacing-and-planting': { listId: 8, clusterName: 'Spacing & Planting', icon: 'Ruler' },
-  'lawn-and-landscaping': { listId: 9, clusterName: 'Lawn & Landscaping', icon: 'Sprout' },
-  'indoor-plants': { listId: 10, clusterName: 'Indoor Plants', icon: 'Flower2' },
-  'trees-and-shrubs': { listId: 11, clusterName: 'Trees & Shrubs', icon: 'TreeDeciduous' },
-  'hydroponics-and-greenhouse': { listId: 12, clusterName: 'Hydroponics & Greenhouse', icon: 'Thermometer' },
+// `tag` is the same short "<name>-cluster" identifier already used as the
+// clusterTag prop on blog articles' <LeadMagnet> calls -- it's the shared key
+// both LeadMagnetForm.jsx (calculators) and LeadMagnet.astro (blog) use to
+// look up per-cluster headline copy in leadMagnetCopy.ts. The first 5 values
+// (soil/fertilizer/irrigation/spacing/lawn) match tags already live in blog
+// articles; indoor-plants/hydroponics/trees have no blog article yet, so
+// there's no prior real-world tag to match -- these three follow the same
+// shortening convention as the other five.
+export const leadMagnetConfig: Record<string, { listId: number; clusterName: string; icon: string; tag: string }> = {
+  'soil-and-amendments': { listId: 5, clusterName: 'Soil & Raised Bed Mix', icon: 'Shovel', tag: 'soil-cluster' },
+  'fertilizer-and-nutrients': { listId: 6, clusterName: 'Fertilizer & Nutrients', icon: 'FlaskConical', tag: 'fertilizer-cluster' },
+  'watering-and-irrigation': { listId: 7, clusterName: 'Watering & Irrigation', icon: 'Droplets', tag: 'irrigation-cluster' },
+  'spacing-and-planting': { listId: 8, clusterName: 'Spacing & Planting', icon: 'Ruler', tag: 'spacing-cluster' },
+  'lawn-and-landscaping': { listId: 9, clusterName: 'Lawn & Landscaping', icon: 'Sprout', tag: 'lawn-cluster' },
+  'indoor-plants': { listId: 10, clusterName: 'Indoor Plants', icon: 'Flower2', tag: 'indoor-plants-cluster' },
+  'trees-and-shrubs': { listId: 11, clusterName: 'Trees & Shrubs', icon: 'TreeDeciduous', tag: 'trees-cluster' },
+  'hydroponics-and-greenhouse': { listId: 12, clusterName: 'Hydroponics & Greenhouse', icon: 'Thermometer', tag: 'hydroponics-cluster' },
 };
 
 export function getCluster(slug: string): Cluster | undefined {
