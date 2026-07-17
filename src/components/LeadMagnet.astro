@@ -5,25 +5,33 @@
 //
 // Props:
 //   headline   — override the card heading (default: "Get the free Soil Cheat Sheet")
-//   clusterTag — MailerLite tag to attach to the signup (default: "soil-cluster")
+//   clusterTag — tag identifier sent as a hidden field (default: "soil-cluster")
 //   variant    — "full" | "compact" (default: "full")
+//   listId     — Brevo list ID to actually submit the signup to. If omitted,
+//                the form renders but doesn't submit anywhere (matches prior
+//                behavior on articles that haven't been wired to a list yet).
 
 export interface Props {
   variant?: 'full' | 'compact';
   /** Override the opt-in headline. */
   headline?: string;
-  /** MailerLite group/tag identifier sent as a hidden field. */
+  /** Tag identifier sent as a hidden field. */
   clusterTag?: string;
+  /** Brevo list ID. Omit to leave this instance unwired (no-op on submit). */
+  listId?: number;
 }
 
 const {
   variant = 'full',
   headline = 'Get the free Soil & Raised Bed Mix Cheat Sheet',
   clusterTag = 'soil-cluster',
+  listId,
 } = Astro.props;
 
 const inputIdSuffix = variant === 'compact' ? '-compact' : '';
 const emailInputId = `lead-magnet-email${inputIdSuffix}-${clusterTag}`;
+const formId = `lead-magnet-form${inputIdSuffix}-${clusterTag}`;
+const statusId = `lead-magnet-status${inputIdSuffix}-${clusterTag}`;
 ---
 
 {variant === 'full' ? (
@@ -38,6 +46,7 @@ const emailInputId = `lead-magnet-email${inputIdSuffix}-${clusterTag}`;
         </p>
       </div>
       <form
+        id={formId}
         class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:shrink-0"
         aria-label={`${headline} signup`}
       >
@@ -54,6 +63,7 @@ const emailInputId = `lead-magnet-email${inputIdSuffix}-${clusterTag}`;
         <button type="submit" class="btn-primary shrink-0">Get the cheat sheet</button>
       </form>
     </div>
+    <p id={statusId} class="mt-2 hidden text-sm font-medium text-moss-700"></p>
     <p class="mt-3 text-xs text-bark-500">
       One email with the PDF. No newsletter list. By signing up, you agree to our{' '}
       <a href="/privacy-policy/" class="text-moss-700 underline hover:text-moss-800">Privacy Policy</a>.
@@ -66,6 +76,7 @@ const emailInputId = `lead-magnet-email${inputIdSuffix}-${clusterTag}`;
       A one-page PDF of the math from this site, emailed once.
     </p>
     <form
+      id={formId}
       class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center"
       aria-label={`${headline} signup`}
     >
@@ -81,8 +92,74 @@ const emailInputId = `lead-magnet-email${inputIdSuffix}-${clusterTag}`;
       />
       <button type="submit" class="btn-primary shrink-0 text-xs">Get it</button>
     </form>
+    <p id={statusId} class="mt-1.5 hidden text-xs font-medium text-moss-700"></p>
     <p class="mt-1.5 text-xs text-bark-500">
       No spam. See <a href="/privacy-policy/" class="text-moss-700 underline hover:text-moss-800">Privacy Policy</a>.
     </p>
   </div>
 )}
+
+<script define:vars={{ formId, statusId, listId }}>
+  if (listId) {
+    const form = document.getElementById(formId);
+    const status = document.getElementById(statusId);
+
+    if (form) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const emailInput = form.querySelector('input[type="email"]');
+        const email = emailInput ? emailInput.value : '';
+        const button = form.querySelector('button[type="submit"]');
+        const originalText = button ? button.textContent : '';
+
+        if (button) {
+          button.disabled = true;
+          button.textContent = 'Sending…';
+        }
+        if (status) {
+          status.classList.add('hidden');
+          status.classList.remove('text-red-600');
+        }
+
+        try {
+          const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, listId }),
+          });
+          const data = await res.json().catch(() => ({}));
+
+          if (res.ok && data.success) {
+            form.style.display = 'none';
+            if (status) {
+              status.textContent = 'Check your inbox! We\'re sending it now.';
+              status.classList.remove('hidden');
+            }
+            return;
+          }
+
+          if (button) {
+            button.disabled = false;
+            button.textContent = originalText;
+          }
+          if (status) {
+            status.textContent = data.error || 'Something went wrong. Please try again.';
+            status.classList.remove('hidden');
+            status.classList.add('text-red-600');
+          }
+        } catch {
+          if (button) {
+            button.disabled = false;
+            button.textContent = originalText;
+          }
+          if (status) {
+            status.textContent = 'Could not reach the server. Check your connection and try again.';
+            status.classList.remove('hidden');
+            status.classList.add('text-red-600');
+          }
+        }
+      });
+    }
+  }
+</script>
