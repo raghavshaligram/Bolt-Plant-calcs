@@ -1,7 +1,13 @@
 ---
 // LeadMagnet opt-in. Two variants:
 // - "full":    card with heading, description, email form, privacy note
-// - "compact": single-line inline form for placement deeper in the page
+// - "compact": smaller card for placement deeper in the page
+//
+// Visual theme is intentionally identical to LeadMagnetForm.jsx (the
+// calculator-page version of this form): same gradient card background,
+// icon badge, Playfair Display heading, and color palette -- so every
+// signup form on the site (calculator or blog) looks like the same
+// product, not two different ones depending on which page type you're on.
 //
 // Props:
 //   headline   — explicit override for the headline. Takes precedence over
@@ -9,19 +15,32 @@
 //                currently uses this (its own dedicated PDF + list, not a
 //                cluster-shared cheat sheet).
 //   clusterTag — tag identifier sent as a hidden field, and used as the
-//                leadMagnetCopy lookup key when no explicit headline is
-//                given (default: "soil-cluster").
+//                leadMagnetCopy/leadMagnetIcon lookup key when no explicit
+//                headline is given (default: "soil-cluster").
 //   variant    — "full" | "compact" (default: "full")
 //   listId     — Brevo list ID to actually submit the signup to. If omitted,
 //                the form renders but doesn't submit anywhere (matches prior
 //                behavior on articles that haven't been wired to a list yet).
+import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous, Thermometer } from 'lucide-react';
 import { leadMagnetCopy } from '../data/leadMagnetCopy';
+import { leadMagnetIcon } from '../data/leadMagnetIcon';
+
+const iconMap: Record<string, any> = {
+  Shovel,
+  FlaskConical,
+  Droplets,
+  Ruler,
+  Sprout,
+  Flower2,
+  TreeDeciduous,
+  Thermometer,
+};
 
 export interface Props {
   variant?: 'full' | 'compact';
   /** Override the opt-in headline. Takes precedence over leadMagnetCopy. */
   headline?: string;
-  /** Tag identifier sent as a hidden field, and the leadMagnetCopy lookup key. */
+  /** Tag identifier sent as a hidden field, and the leadMagnetCopy/leadMagnetIcon lookup key. */
   clusterTag?: string;
   /** Brevo list ID. Omit to leave this instance unwired (no-op on submit). */
   listId?: number;
@@ -35,118 +54,114 @@ const {
 } = Astro.props;
 
 const resolvedHeadline = headline ?? leadMagnetCopy[clusterTag] ?? 'Get the free cheat sheet';
+const Icon = iconMap[leadMagnetIcon[clusterTag]] ?? null;
 
-// The compact card's copy reads as one flowing sentence with a bolded lead-in
-// (e.g. "Get the Soil & Amendments Cheat Sheet — bag counts, mix ratios...").
-// Split on the em dash so the hook before it can be bolded the same way the
-// old hardcoded "Want the cheat sheet?" lead-in was, without hardcoding the
-// split logic into every cluster's copy string itself.
+// The copy reads as one flowing sentence with a bolded lead-in (e.g. "Get
+// the Soil & Amendments Cheat Sheet — bag counts, mix ratios..."). Split on
+// the em dash so the hook before it renders as the card's heading and the
+// rest as supporting description, matching the heading+description split
+// LeadMagnetForm.jsx uses on calculator pages.
 const dashIndex = resolvedHeadline.indexOf('—');
-const compactLead = dashIndex === -1 ? resolvedHeadline : resolvedHeadline.slice(0, dashIndex).trim();
-const compactRest = dashIndex === -1 ? '' : resolvedHeadline.slice(dashIndex).trim();
+const headingText = dashIndex === -1 ? resolvedHeadline : resolvedHeadline.slice(0, dashIndex).trim();
+const descriptionText = dashIndex === -1 ? 'Emailed once, no follow-up spam.' : resolvedHeadline.slice(dashIndex).trim();
 
 const inputIdSuffix = variant === 'compact' ? '-compact' : '';
 const emailInputId = `lead-magnet-email${inputIdSuffix}-${clusterTag}`;
 const formId = `lead-magnet-form${inputIdSuffix}-${clusterTag}`;
-const statusId = `lead-magnet-status${inputIdSuffix}-${clusterTag}`;
+const successId = `lead-magnet-success${inputIdSuffix}-${clusterTag}`;
+const errorId = `lead-magnet-error${inputIdSuffix}-${clusterTag}`;
+
+const isFull = variant === 'full';
+const cardPad = isFull ? 'p-6 sm:p-8' : 'p-4 sm:p-5';
+const cardMargin = isFull ? 'my-10' : 'my-8';
+const planterSize = isFull ? 'h-20 w-20 sm:h-24 sm:w-24' : 'h-12 w-12 sm:h-14 sm:w-14';
+const iconBadgeSize = isFull ? 'h-11 w-11' : 'h-8 w-8';
+const iconPixelSize = isFull ? 24 : 16;
+const headingSize = isFull ? 'text-xl' : 'text-base';
 ---
 
-{variant === 'full' ? (
-  <div class="card my-10 border-moss-200/60 bg-moss-50/40">
-    <div class="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
-      <svg viewBox="0 0 96 112" aria-hidden="true" class="h-20 w-20 shrink-0 sm:h-24 sm:w-24">
-        <path d="M28 72h40l-5 28a6 6 0 0 1-6 5H39a6 6 0 0 1-6-5l-5-28Z" fill="#C2894F" />
-        <path d="M24 72h48l2-8a4 4 0 0 0-4-5H26a4 4 0 0 0-4 5l2 8Z" fill="#B0723D" />
-        <ellipse cx="48" cy="67" rx="18" ry="4" fill="#3D322C" opacity="0.25" />
-        <path d="M48 67c0-14-2-22-2-30" stroke="#385030" stroke-width="3" stroke-linecap="round" />
-        <path d="M46 40c-6-5-9-11-7-18 7 1 12 6 14 12 1 4 0 7-2 9-2 1-4 0-5-3Z" fill="#46643C" />
-        <path d="M50 34c6-4 10-10 9-17-7 0-13 4-15 10-1 4 0 7 2 9 2 1 3 0 4-2Z" fill="#5D7D50" opacity="0.85" />
-        <path d="M48 37c-1-6 0-11 3-15 4 3 6 8 5 13-1 3-3 5-5 5-2 0-3-1-3-3Z" fill="#7D9A70" opacity="0.7" />
-      </svg>
+<div class={`${cardMargin} w-full rounded-2xl bg-gradient-to-br from-[#E8A94A]/20 via-[#F5F1E8] to-[#4A7C59]/10 ${cardPad} shadow-card ring-1 ring-[#5C4433]/15`}>
+  <div class="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
+    <svg viewBox="0 0 96 112" aria-hidden="true" class={`${planterSize} shrink-0`}>
+      <path d="M28 72h40l-5 28a6 6 0 0 1-6 5H39a6 6 0 0 1-6-5l-5-28Z" fill="#C2894F" />
+      <path d="M24 72h48l2-8a4 4 0 0 0-4-5H26a4 4 0 0 0-4 5l2 8Z" fill="#B0723D" />
+      <ellipse cx="48" cy="67" rx="18" ry="4" fill="#3D322C" opacity="0.25" />
+      <path d="M48 67c0-14-2-22-2-30" stroke="#385030" stroke-width="3" stroke-linecap="round" />
+      <path d="M46 40c-6-5-9-11-7-18 7 1 12 6 14 12 1 4 0 7-2 9-2 1-4 0-5-3Z" fill="#46643C" />
+      <path d="M50 34c6-4 10-10 9-17-7 0-13 4-15 10-1 4 0 7 2 9 2 1 3 0 4-2Z" fill="#5D7D50" opacity="0.85" />
+      <path d="M48 37c-1-6 0-11 3-15 4 3 6 8 5 13-1 3-3 5-5 5-2 0-3-1-3-3Z" fill="#7D9A70" opacity="0.7" />
+    </svg>
 
-      <div class="w-full flex-1">
-        <div class="flex flex-col gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <div class="max-w-md">
-            <h3 class="font-display text-lg font-semibold text-bark-900">
-              {resolvedHeadline}
-            </h3>
-            <p class="mt-1 text-sm text-bark-600">
-              Emailed once, no follow-up spam.
-            </p>
-          </div>
-          <form
-            id={formId}
-            class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:shrink-0"
-            aria-label={`${resolvedHeadline} signup`}
+    <div class="w-full flex-1 text-center sm:text-left">
+      <div id={`${formId}-view`}>
+        <div class="flex items-center justify-center gap-3 sm:justify-start">
+          {Icon && (
+            <span class={`flex ${iconBadgeSize} shrink-0 items-center justify-center rounded-full bg-[#E8A94A]/25 text-[#3D6647]`}>
+              <Icon size={iconPixelSize} aria-hidden="true" />
+            </span>
+          )}
+          <h3
+            class={`${headingSize} font-semibold text-[#3D6647]`}
+            style="font-family: 'Playfair Display', Georgia, serif;"
           >
-            <input type="hidden" name="cluster_tag" value={clusterTag} />
-            <label for={emailInputId} class="sr-only">Email address</label>
-            <input
-              id={emailInputId}
-              type="email"
-              name="email"
-              required
-              placeholder="you@example.com"
-              class="w-full rounded-lg border-0 bg-white px-3.5 py-2.5 text-sm text-bark-900 shadow-sm ring-1 ring-inset ring-bark-200 placeholder:text-bark-400 focus:ring-2 focus:ring-inset focus:ring-moss-500 sm:w-64"
-            />
-            <button type="submit" class="btn-primary shrink-0">Get the cheat sheet</button>
-          </form>
+            {headingText}
+          </h3>
         </div>
-        <p id={statusId} class="mt-2 hidden text-sm font-medium text-moss-700"></p>
-        <p class="mt-3 text-xs text-bark-500">
-          One email with the PDF. No newsletter list. By signing up, you agree to our{' '}
-          <a href="/privacy-policy/" class="text-moss-700 underline hover:text-moss-800">Privacy Policy</a>.
+        <p class="mt-2 mb-4 text-sm leading-relaxed text-[#5C4433]">
+          {descriptionText}
         </p>
-      </div>
-    </div>
-  </div>
-) : (
-  <div class="my-8 rounded-xl border border-moss-100 bg-moss-50/30 p-4">
-    <div class="flex flex-col items-center gap-3 sm:flex-row sm:items-start">
-      <svg viewBox="0 0 96 112" aria-hidden="true" class="h-12 w-12 shrink-0 sm:h-14 sm:w-14">
-        <path d="M28 72h40l-5 28a6 6 0 0 1-6 5H39a6 6 0 0 1-6-5l-5-28Z" fill="#C2894F" />
-        <path d="M24 72h48l2-8a4 4 0 0 0-4-5H26a4 4 0 0 0-4 5l2 8Z" fill="#B0723D" />
-        <ellipse cx="48" cy="67" rx="18" ry="4" fill="#3D322C" opacity="0.25" />
-        <path d="M48 67c0-14-2-22-2-30" stroke="#385030" stroke-width="3" stroke-linecap="round" />
-        <path d="M46 40c-6-5-9-11-7-18 7 1 12 6 14 12 1 4 0 7-2 9-2 1-4 0-5-3Z" fill="#46643C" />
-        <path d="M50 34c6-4 10-10 9-17-7 0-13 4-15 10-1 4 0 7 2 9 2 1 3 0 4-2Z" fill="#5D7D50" opacity="0.85" />
-        <path d="M48 37c-1-6 0-11 3-15 4 3 6 8 5 13-1 3-3 5-5 5-2 0-3-1-3-3Z" fill="#7D9A70" opacity="0.7" />
-      </svg>
 
-      <div class="w-full flex-1 text-center sm:text-left">
-        <p class="text-sm text-bark-700">
-          <strong class="font-semibold text-bark-900">{compactLead}</strong>{compactRest ? ` ${compactRest}` : ''}
-        </p>
         <form
           id={formId}
-          class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center"
-          aria-label={`${resolvedHeadline} signup`}
+          aria-label={`${headingText} signup`}
         >
           <input type="hidden" name="cluster_tag" value={clusterTag} />
-          <label for={emailInputId} class="sr-only">Email address</label>
-          <input
-            id={emailInputId}
-            type="email"
-            name="email"
-            required
-            placeholder="you@example.com"
-            class="w-full rounded-lg border-0 bg-white px-3 py-2 text-sm text-bark-900 shadow-sm ring-1 ring-inset ring-bark-200 placeholder:text-bark-400 focus:ring-2 focus:ring-inset focus:ring-moss-500 sm:w-56"
-          />
-          <button type="submit" class="btn-primary shrink-0 text-xs">Get it</button>
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
+            <div class="flex-1">
+              <label for={emailInputId} class="sr-only">Email address</label>
+              <input
+                id={emailInputId}
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="you@example.com"
+                class="w-full rounded-md border border-[#5C4433] bg-[#F5F1E8] px-4 py-2.5 text-sm text-[#5C4433] shadow-sm transition placeholder:text-[#5C4433]/50 focus:border-[#3D6647] focus:outline-none focus:ring-2 focus:ring-[#E8A94A]"
+              />
+              <p id={errorId} class="mt-1.5 hidden text-sm text-red-600"></p>
+            </div>
+            <button
+              type="submit"
+              class="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-[#3D6647] px-5 py-2.5 text-sm font-semibold text-[#F5F1E8] shadow-sm transition-colors duration-200 hover:bg-[#4A7C59] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-[#3D6647]/70"
+            >
+              Get the Cheat Sheet
+            </button>
+          </div>
         </form>
-        <p id={statusId} class="mt-1.5 hidden text-xs font-medium text-moss-700"></p>
-        <p class="mt-1.5 text-xs text-bark-500">
-          No spam. See <a href="/privacy-policy/" class="text-moss-700 underline hover:text-moss-800">Privacy Policy</a>.
+        <p class="mt-3 text-xs text-[#5C4433]/80">
+          One email with the PDF. No newsletter list. By signing up, you agree to our{' '}
+          <a href="/privacy-policy/" class="underline hover:text-[#3D6647]">Privacy Policy</a>.
+        </p>
+      </div>
+
+      <div id={successId} class="hidden rounded-xl bg-[#3D6647] p-5">
+        <p class="font-semibold text-[#F5F1E8]" style="font-family: 'Playfair Display', Georgia, serif;">
+          Check your inbox!
+        </p>
+        <p class="mt-1.5 text-sm leading-relaxed text-[#F5F1E8]">
+          We&rsquo;re sending it to your email now. If you don&rsquo;t see it in a minute or two, check your spam or promotions folder &mdash; and marking it &ldquo;not spam&rdquo; helps make sure future free guides land straight in your inbox.
         </p>
       </div>
     </div>
   </div>
-)}
+</div>
 
-<script define:vars={{ formId, statusId, listId }}>
+<script define:vars={{ formId, successId, errorId, listId }}>
   if (listId) {
     const form = document.getElementById(formId);
-    const status = document.getElementById(statusId);
+    const view = document.getElementById(`${formId}-view`);
+    const success = document.getElementById(successId);
+    const error = document.getElementById(errorId);
 
     if (form) {
       form.addEventListener('submit', async (event) => {
@@ -161,9 +176,8 @@ const statusId = `lead-magnet-status${inputIdSuffix}-${clusterTag}`;
           button.disabled = true;
           button.textContent = 'Sending…';
         }
-        if (status) {
-          status.classList.add('hidden');
-          status.classList.remove('text-red-600');
+        if (error) {
+          error.classList.add('hidden');
         }
 
         try {
@@ -175,11 +189,8 @@ const statusId = `lead-magnet-status${inputIdSuffix}-${clusterTag}`;
           const data = await res.json().catch(() => ({}));
 
           if (res.ok && data.success) {
-            form.style.display = 'none';
-            if (status) {
-              status.textContent = 'Check your inbox! We\'re sending it now.';
-              status.classList.remove('hidden');
-            }
+            if (view) view.style.display = 'none';
+            if (success) success.classList.remove('hidden');
             return;
           }
 
@@ -187,20 +198,18 @@ const statusId = `lead-magnet-status${inputIdSuffix}-${clusterTag}`;
             button.disabled = false;
             button.textContent = originalText;
           }
-          if (status) {
-            status.textContent = data.error || 'Something went wrong. Please try again.';
-            status.classList.remove('hidden');
-            status.classList.add('text-red-600');
+          if (error) {
+            error.textContent = data.error || 'Something went wrong. Please try again.';
+            error.classList.remove('hidden');
           }
         } catch {
           if (button) {
             button.disabled = false;
             button.textContent = originalText;
           }
-          if (status) {
-            status.textContent = 'Could not reach the server. Check your connection and try again.';
-            status.classList.remove('hidden');
-            status.classList.add('text-red-600');
+          if (error) {
+            error.textContent = 'Could not reach the server. Check your connection and try again.';
+            error.classList.remove('hidden');
           }
         }
       });
