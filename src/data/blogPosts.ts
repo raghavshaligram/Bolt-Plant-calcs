@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: '15-homemade-fertilizers-you-can-make-at-home',
+    title: '15 Homemade Fertilizers You Can Make at Home (and How to Mix Them)',
+    description:
+      'Real homemade fertilizers that work, with honest cautions on wood ash and fresh manure -- not just vague "use carefully" warnings.',
+    pubDate: new Date('2026-07-18'),
+  },
+  {
     slug: 'companion-planting-chart',
     title: 'Companion Planting Chart: What to Grow Together (and What to Avoid)',
     description:
