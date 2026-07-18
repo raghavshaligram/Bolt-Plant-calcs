@@ -8,7 +8,7 @@ const description =
 // Per-post display metadata (image + category chip) that isn't part of the
 // RSS-feeding blogPosts.ts source of truth. Add an entry here whenever a new
 // article is published, alongside its blogPosts.ts entry.
-type ClusterKey = 'soil-and-amendments' | 'fertilizer-and-nutrients' | 'watering-and-irrigation' | 'lawn-and-landscaping' | 'spacing-and-planting';
+type ClusterKey = 'soil-and-amendments' | 'fertilizer-and-nutrients' | 'watering-and-irrigation' | 'lawn-and-landscaping' | 'spacing-and-planting' | 'indoor-plants';
 
 interface PostMeta {
   image: string;
@@ -19,6 +19,13 @@ interface PostMeta {
 }
 
 const postMeta: Record<string, PostMeta> = {
+  'led-vs-fluorescent-grow-lights': {
+    image: '/led-grow-light-over-seedlings-houseplants.webp',
+    alt: 'A black LED grow light panel hanging over a windowsill of seedling trays and houseplants including pileas, snake plants, marigolds, and tomato seedlings',
+    imgWidth: 1600,
+    imgHeight: 893,
+    cluster: 'indoor-plants',
+  },
   'what-can-you-compost': {
     image: '/compost-bin-fruit-vegetable-scraps.webp',
     alt: 'An open wooden compost bin filled with fruit and vegetable scraps, eggshells, banana peels, citrus rinds, and dry leaves, set in a garden',
@@ -104,6 +111,7 @@ const clusterChips: Record<ClusterKey, { label: string; bg: string; text: string
   'watering-and-irrigation': { label: 'Watering', bg: 'bg-leaf-100', text: 'text-leaf-800' },
   'lawn-and-landscaping': { label: 'Lawn', bg: 'bg-moss-100', text: 'text-moss-800' },
   'spacing-and-planting': { label: 'Planning', bg: 'bg-bark-100', text: 'text-bark-800' },
+  'indoor-plants': { label: 'Indoor Plants', bg: 'bg-emerald-100', text: 'text-emerald-800' },
 };
 
 const sortedPosts = blogPosts

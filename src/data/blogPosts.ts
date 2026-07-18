@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'led-vs-fluorescent-grow-lights',
+    title: 'LED vs. Fluorescent Grow Lights: Which Should You Use?',
+    description:
+      'LED and fluorescent grow lights compared -- efficiency, cost, lifespan, and which is actually right for houseplants and seedlings.',
+    pubDate: new Date('2026-07-19'),
+  },
+  {
     slug: 'what-can-you-compost',
     title: "What Can (and Can't) You Compost? The Complete List",
     description:
