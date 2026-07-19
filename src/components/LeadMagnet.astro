@@ -72,16 +72,20 @@ const successId = `lead-magnet-success${inputIdSuffix}-${clusterTag}`;
 const errorId = `lead-magnet-error${inputIdSuffix}-${clusterTag}`;
 
 const isFull = variant === 'full';
-const cardPad = isFull ? 'p-6 sm:p-8' : 'p-4 sm:p-5';
-const cardMargin = isFull ? 'my-10' : 'my-8';
-const planterSize = isFull ? 'h-20 w-20 sm:h-24 sm:w-24' : 'h-12 w-12 sm:h-14 sm:w-14';
-const iconBadgeSize = isFull ? 'h-11 w-11' : 'h-8 w-8';
-const iconPixelSize = isFull ? 24 : 16;
-const headingSize = isFull ? 'text-xl' : 'text-base';
+// Mobile sizing is capped explicitly (not just "desktop size minus a
+// breakpoint") so the decorative graphic and heading row stay a modest
+// accent on a 375px screen instead of dominating it -- the same fixed size
+// used to apply uniformly from 0px all the way to the sm: breakpoint.
+const cardPad = isFull ? 'p-4 sm:p-8' : 'p-4 sm:p-5';
+const cardMargin = isFull ? 'my-6 sm:my-10' : 'my-6 sm:my-8';
+const planterSize = isFull ? 'h-12 w-12 sm:h-24 sm:w-24' : 'h-10 w-10 sm:h-14 sm:w-14';
+const iconBadgeSize = isFull ? 'h-9 w-9 sm:h-11 sm:w-11' : 'h-7 w-7 sm:h-8 sm:w-8';
+const iconClass = isFull ? 'h-5 w-5 sm:h-6 sm:w-6' : 'h-4 w-4';
+const headingSize = isFull ? 'text-lg sm:text-xl' : 'text-base';
 ---
 
 <div class={`${cardMargin} w-full rounded-2xl bg-gradient-to-br from-[#E8A94A]/20 via-[#F5F1E8] to-[#4A7C59]/10 ${cardPad} shadow-card ring-1 ring-[#5C4433]/15`}>
-  <div class="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
+  <div class="flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-5">
     <svg viewBox="0 0 96 112" aria-hidden="true" class={`${planterSize} shrink-0`}>
       <path d="M28 72h40l-5 28a6 6 0 0 1-6 5H39a6 6 0 0 1-6-5l-5-28Z" fill="#C2894F" />
       <path d="M24 72h48l2-8a4 4 0 0 0-4-5H26a4 4 0 0 0-4 5l2 8Z" fill="#B0723D" />
@@ -97,7 +101,7 @@ const headingSize = isFull ? 'text-xl' : 'text-base';
         <div class="flex items-center justify-center gap-3 sm:justify-start">
           {Icon && (
             <span class={`flex ${iconBadgeSize} shrink-0 items-center justify-center rounded-full bg-[#E8A94A]/25 text-[#3D6647]`}>
-              <Icon size={iconPixelSize} aria-hidden="true" />
+              <Icon className={iconClass} aria-hidden="true" />
             </span>
           )}
           <h3

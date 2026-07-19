@@ -113,7 +113,7 @@ export default function LeadMagnetForm({ listId, tag, clusterName, description, 
     // mt-8/sm:mt-10 gives consistent breathing room (32px/40px) above
     // whatever content sits before it, instead of relying on each page to
     // remember a margin.
-    <div className="mt-8 w-full rounded-2xl bg-gradient-to-br from-[#E8A94A]/20 via-[#F5F1E8] to-[#4A7C59]/10 p-6 shadow-card ring-1 ring-[#5C4433]/15 sm:mt-10 sm:p-8">
+    <div className="mt-6 w-full rounded-2xl bg-gradient-to-br from-[#E8A94A]/20 via-[#F5F1E8] to-[#4A7C59]/10 p-4 shadow-card ring-1 ring-[#5C4433]/15 sm:mt-10 sm:p-8">
       {status === 'success' ? (
         <div className="rounded-xl bg-[#3D6647] p-6">
           <p
@@ -129,8 +129,8 @@ export default function LeadMagnetForm({ listId, tag, clusterName, description, 
           </p>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
-          <PlanterIllustration className="h-20 w-20 shrink-0 sm:h-24 sm:w-24" />
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-5">
+          <PlanterIllustration className="h-12 w-12 shrink-0 sm:h-24 sm:w-24" />
 
           <div className="w-full flex-1 text-center sm:text-left">
             <div className="flex items-center justify-center gap-3 sm:justify-start">
@@ -138,20 +138,20 @@ export default function LeadMagnetForm({ listId, tag, clusterName, description, 
                 (() => {
                   const Icon = iconMap[icon];
                   return (
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E8A94A]/25 text-[#3D6647]">
-                      <Icon className="h-6 w-6" aria-hidden="true" />
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E8A94A]/25 text-[#3D6647] sm:h-11 sm:w-11">
+                      <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
                     </span>
                   );
                 })()
               )}
               <h3
-                className="text-xl font-semibold text-[#3D6647]"
+                className="text-lg font-semibold text-[#3D6647] sm:text-xl"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 {headline}
               </h3>
             </div>
-            <p className="mt-2 mb-5 font-sans text-sm leading-relaxed text-[#5C4433]">
+            <p className="mt-1.5 mb-4 font-sans text-sm leading-relaxed text-[#5C4433] sm:mt-2 sm:mb-5">
               {cheatSheetDescription}
             </p>
 
