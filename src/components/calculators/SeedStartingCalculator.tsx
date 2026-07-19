@@ -11,6 +11,8 @@ import {
   sanitizeZip,
   fullZoneNumberFromZone,
 } from '../../lib/frostZones';
+import { loadGardenProject, saveGardenProject, upsertSelectedCrop, emptyGardenProject, fuzzyMatchCropName } from '../../lib/gardenProject';
+import type { SeedStartingResultsSnapshot } from '../../lib/gardenProject';
 
 type InputMode = 'zip' | 'zone';
 type SowMethod = 'indoor' | 'direct';
@@ -92,13 +94,36 @@ export default function SeedStartingCalculator() {
   const [zip, setZip] = useState('60601');
   const [zone, setZone] = useState('6b');
   const [cropId, setCropId] = useState('tomato');
+  const [projectSaved, setProjectSaved] = useState(false);
 
   useEffect(() => {
     const s = loadSavedState();
+    const hadOwnSavedState = Object.keys(s).length > 0;
     if (s.inputMode) setInputMode(s.inputMode);
     if (s.zip !== undefined) setZip(s.zip);
     if (s.zone) setZone(s.zone);
     if (s.cropId) setCropId(s.cropId);
+
+    // No saved state of its own yet -- pull the ZIP/zone from an active
+    // Garden Project instead, so Stage 1 (Frost Date) flows straight into
+    // Stage 2 without re-entry. A returning visitor's own saved inputs
+    // always win over the project, so this never clobbers a real choice.
+    if (!hadOwnSavedState) {
+      const project = loadGardenProject();
+      if (project?.zipCode) {
+        setInputMode('zip');
+        setZip(project.zipCode);
+      } else if (project?.hardinessZone) {
+        setInputMode('zone');
+        setZone(project.hardinessZone);
+      }
+      const lastCrop = project?.selectedCrops?.[project.selectedCrops.length - 1];
+      if (lastCrop) {
+        const matchName = fuzzyMatchCropName(lastCrop.name, CROPS.map((c) => c.name));
+        const matched = CROPS.find((c) => c.name === matchName);
+        if (matched) setCropId(matched.id);
+      }
+    }
     hasLoaded.current = true;
   }, []);
 
@@ -163,6 +188,38 @@ export default function SeedStartingCalculator() {
     if (!fullZoneNumber) return false;
     return !!ZONE_FROST_DATA[fullZoneNumber]?.frostFree;
   }, [fullZoneNumber]);
+
+  const addToGardenProject = () => {
+    if (!result || !activeZone) return;
+    const snapshot: SeedStartingResultsSnapshot =
+      result.method === 'indoor'
+        ? {
+            cropName: crop.name,
+            method: 'indoor',
+            indoorStart: fmtDate(result.indoorStart!),
+            indoorEnd: fmtDate(result.indoorEnd!),
+            transplantStart: fmtDate(result.transplantStart!),
+            transplantEnd: fmtDate(result.transplantEnd!),
+            note: crop.note,
+          }
+        : {
+            cropName: crop.name,
+            method: 'direct',
+            directSowStart: fmtDate(result.directSowStart!),
+            directSowEnd: fmtDate(result.directSowEnd!),
+            note: crop.note,
+          };
+    const project = loadGardenProject() ?? emptyGardenProject();
+    const selectedCrops = upsertSelectedCrop(project, { name: crop.name, plantingMethod: crop.method });
+    saveGardenProject({
+      zipCode: inputMode === 'zip' ? zip : project.zipCode,
+      hardinessZone: activeZone,
+      selectedCrops,
+      seedStartingResults: snapshot,
+    });
+    setProjectSaved(true);
+    window.setTimeout(() => setProjectSaved(false), 2600);
+  };
 
   const exportPdf = () => {
     if (!result || !activeZone) return;
@@ -342,7 +399,18 @@ export default function SeedStartingCalculator() {
             )}
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex flex-wrap justify-end gap-2">
+            <button
+              type="button"
+              onClick={addToGardenProject}
+              disabled={!result}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#E8A94A]/20 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-[#E8A94A]/50 transition hover:bg-[#E8A94A]/30 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2c3 4 6 8 6 12a6 6 0 0 1-12 0c0-4 3-8 6-12Z" fill="currentColor" />
+              </svg>
+              {projectSaved ? 'Added to Garden Project ✓' : 'Add to my Garden Project'}
+            </button>
             <button
               type="button"
               onClick={exportPdf}

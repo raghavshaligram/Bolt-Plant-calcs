@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GardenProjectSummary from '../components/GardenProjectSummary.tsx';
+
+const description =
+  'Your Garden Project — frost dates, seed starting calendar, spacing plan, and yield estimate, all saved together and ready to export as one PDF.';
+---
+
+<Layout title="Your Garden Project" description={description} noindex>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Your Garden Project</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        Your Garden Project
+      </h1>
+      <p class="mt-3 max-w-2xl text-base leading-relaxed text-bark-600 sm:text-lg">
+        Every calculator you've run for this season's garden, saved in one place — right here in this browser, no
+        account needed. Keep going stage by stage, or jump straight to a PDF of everything you've done so far.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-10 sm:py-14">
+    <GardenProjectSummary client:load />
+  </section>
+</Layout>

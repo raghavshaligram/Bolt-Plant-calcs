@@ -425,6 +425,13 @@ export const calculators: Calculator[] = [
 // articles; indoor-plants/hydroponics/trees have no blog article yet, so
 // there's no prior real-world tag to match -- these three follow the same
 // shortening convention as the other five.
+// Dedicated Brevo list for the Garden Project combined-PDF email gate
+// (src/pages/garden-project.astro) -- kept separate from the per-cluster
+// lead magnet lists above (5-12) so this signup source can be tracked
+// independently, since it comes from a very different intent (someone with
+// an active multi-calculator project) than a single cheat-sheet download.
+export const GARDEN_PROJECT_LIST_ID = 13;
+
 export const leadMagnetConfig: Record<string, { listId: number; clusterName: string; icon: string; tag: string }> = {
   'soil-and-amendments': { listId: 5, clusterName: 'Soil & Raised Bed Mix', icon: 'Shovel', tag: 'soil-cluster' },
   'fertilizer-and-nutrients': { listId: 6, clusterName: 'Fertilizer & Nutrients', icon: 'FlaskConical', tag: 'fertilizer-cluster' },
