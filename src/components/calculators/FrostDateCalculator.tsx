@@ -312,7 +312,11 @@ export default function FrostDateCalculator() {
             )}
           </div>
 
-          <div className="flex flex-wrap justify-end gap-2">
+          <div className="flex flex-col items-end gap-1.5">
+            <p className="text-right text-xs text-bark-500">
+              Save your results here and we&rsquo;ll carry them into the next 3 calculators automatically.
+            </p>
+            <div className="flex flex-wrap justify-end gap-2">
             <button
               type="button"
               onClick={addToGardenProject}
@@ -335,6 +339,7 @@ export default function FrostDateCalculator() {
               </svg>
               Export Planting Calendar (PDF)
             </button>
+            </div>
           </div>
         </div>
       </div>
