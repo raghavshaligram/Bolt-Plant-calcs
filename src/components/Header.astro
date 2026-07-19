@@ -1,5 +1,6 @@
 ---
 import { clusters } from '../data/calculators';
+import SiteSearch from './SiteSearch.tsx';
 
 const pathname = Astro.url.pathname;
 const isActive = (href: string) =>
@@ -62,8 +63,13 @@ const isActive = (href: string) =>
           isActive('/contact/') ? 'text-moss-800' : 'text-bark-600 hover:text-moss-800'
         }`}
       >Contact</a>
+
+      <SiteSearch client:load />
     </div>
 
-    <a href="/#all-calculators" class="btn-primary md:hidden">Browse</a>
+    <div class="flex items-center gap-1 md:hidden">
+      <SiteSearch client:load />
+      <a href="/#all-calculators" class="btn-primary">Browse</a>
+    </div>
   </nav>
 </header>

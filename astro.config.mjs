@@ -15,4 +15,18 @@ export default defineConfig({
   // default 'static' output and opt individual routes into SSR with
   // `export const prerender = false` in that route file.
   adapter: netlify(),
+  vite: {
+    build: {
+      rollupOptions: {
+        // /pagefind/pagefind.js doesn't exist in source -- it's generated as a
+        // postbuild step (`pagefind --site dist`, see package.json's "build"
+        // script) straight into dist/pagefind/. SiteSearch.tsx dynamically
+        // imports it at runtime, in the browser, only once someone opens
+        // search. Marking it external stops Rollup from trying (and failing)
+        // to resolve/bundle a file that won't exist until after this exact
+        // build step finishes.
+        external: ['/pagefind/pagefind.js'],
+      },
+    },
+  },
 });

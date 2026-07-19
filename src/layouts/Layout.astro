@@ -73,7 +73,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body class="flex min-h-screen flex-col">
     <Header />
-    <main class="flex-1">
+    <main class="flex-1" {...(noindex ? {} : { 'data-pagefind-body': true })}>
       <slot />
     </main>
     <Footer />
