@@ -586,9 +586,13 @@ export default function PlantSpacingCalculator() {
                   Scaled up: ~{result.perAcre.toLocaleString()} plants/acre &middot; ~{result.perHectare.toLocaleString()} plants/hectare
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2.5">
+                <div className="flex flex-wrap items-start justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-xs text-bark-500">
                     Results assume a full rectangular bed with no paths or borders.
+                  </p>
+                  <div className="flex flex-col items-end gap-1.5">
+                  <p className="max-w-xs text-right text-xs text-bark-500">
+                    Save this to your Garden Project &mdash; carries your saved ZIP code and crops forward from your other results.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <button
@@ -611,6 +615,7 @@ export default function PlantSpacingCalculator() {
                       </svg>
                       Export PDF
                     </button>
+                  </div>
                   </div>
                 </div>
               </>

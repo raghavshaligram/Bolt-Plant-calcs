@@ -399,7 +399,11 @@ export default function SeedStartingCalculator() {
             )}
           </div>
 
-          <div className="flex flex-wrap justify-end gap-2">
+          <div className="flex flex-col items-end gap-1.5">
+            <p className="max-w-xs text-right text-xs text-bark-500">
+              Save this to your Garden Project &mdash; carries your saved ZIP code and crops forward from your other results.
+            </p>
+            <div className="flex flex-wrap justify-end gap-2">
             <button
               type="button"
               onClick={addToGardenProject}
@@ -422,6 +426,7 @@ export default function SeedStartingCalculator() {
               </svg>
               Export Seed Starting Calendar (PDF)
             </button>
+            </div>
           </div>
         </div>
       </div>

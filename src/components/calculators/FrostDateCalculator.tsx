@@ -313,8 +313,8 @@ export default function FrostDateCalculator() {
           </div>
 
           <div className="flex flex-col items-end gap-1.5">
-            <p className="text-right text-xs text-bark-500">
-              Save your results here and we&rsquo;ll carry them into the next 3 calculators automatically.
+            <p className="max-w-xs text-right text-xs text-bark-500">
+              Save these results and we&rsquo;ll carry your ZIP code and dates into the next 3 calculators automatically &mdash; no re-entering info, and you can export everything as one PDF at the end.
             </p>
             <div className="flex flex-wrap justify-end gap-2">
             <button
