@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-grow-lettuce-from-seed',
+    title: 'How to Grow Lettuce from Seed: The Cool-Season Crop That Breaks the Rules',
+    description:
+      "Lettuce seeds need light to germinate and refuse to sprout in heat. Here's how to actually grow lettuce from seed.",
+    pubDate: new Date('2026-08-07'),
+  },
+  {
     slug: 'how-to-grow-peppers-from-seed',
     title: 'How to Grow Peppers from Seed: Bell, Hot, and Sweet Varieties',
     description:
