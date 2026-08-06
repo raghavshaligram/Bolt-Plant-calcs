@@ -60,12 +60,6 @@ const STAGES: StageMeta[] = [
   },
 ];
 
-const PLACEHOLDER_RECOMMENDATIONS = [
-  { name: 'Seed Starting Trays', category: 'Seed starting' },
-  { name: 'Drip Irrigation Kit', category: 'Watering' },
-  { name: 'Weatherproof Plant Markers', category: 'Bed setup' },
-];
-
 function buildGardenProjectPdf(project: GardenProjectData): void {
   const doc = new jsPDF({ unit: 'pt', format: 'letter' });
   const margin = 48;
@@ -304,32 +298,6 @@ export default function GardenProjectSummary() {
             </div>
           );
         })}
-      </div>
-
-      {/* Recommended for this project — placeholder, no real product links yet */}
-      <div className="mt-8 rounded-2xl bg-sand-50 p-5 ring-1 ring-moss-100 sm:p-6">
-        <div className="flex items-center justify-between">
-          <h3 className="font-display text-lg font-semibold text-bark-900">Recommended for this project</h3>
-          <span className="rounded-full bg-bark-100 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-bark-500">
-            Coming soon
-          </span>
-        </div>
-        <p className="mt-1.5 text-sm text-bark-500">
-          We're putting together a short list of gear that pairs well with your project. Nothing to buy here yet —
-          this is a placeholder for product recommendations we'll add once we've actually tried the products
-          ourselves.
-        </p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          {PLACEHOLDER_RECOMMENDATIONS.map((item) => (
-            <div key={item.name} className="rounded-xl border border-dashed border-bark-200 bg-white p-4 text-center">
-              <p className="text-xs font-semibold uppercase tracking-wider text-bark-400">{item.category}</p>
-              <p className="mt-1 text-sm font-medium text-bark-600">{item.name}</p>
-              <span className="mt-3 inline-block rounded-md bg-bark-50 px-3 py-1 text-xs font-medium text-bark-400">
-                Placeholder
-              </span>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Email-gated combined PDF export */}
