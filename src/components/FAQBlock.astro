@@ -28,6 +28,28 @@ export interface Props {
 
 const { id, faqs, heading = 'FAQ' } = Astro.props;
 
+// Answers are plain text by default, but may embed a single markdown-style
+// link — [link text](/url/) — which we escape-then-selectively-unescape into
+// a real <a> tag so FAQ answers can cross-link other pages, same as any
+// other link on the site. Escaping first means anything else in the answer
+// (including literal brackets/parens) can never be interpreted as markup.
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function renderAnswerHtml(text: string): string {
+  return escapeHtml(text).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+}
+
+function plainTextAnswer(text: string): string {
+  return text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+}
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -36,7 +58,7 @@ const faqSchema = {
     name: f.q,
     acceptedAnswer: {
       '@type': 'Answer',
-      text: f.a,
+      text: plainTextAnswer(f.a),
     },
   })),
 };
@@ -49,7 +71,7 @@ const faqSchema = {
   {faqs.map((f) => (
     <Fragment>
       <h3>{f.q}</h3>
-      <p>{f.a}</p>
+      <p set:html={renderAnswerHtml(f.a)} />
     </Fragment>
   ))}
 </section>

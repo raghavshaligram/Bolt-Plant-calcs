@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
-// Real, well-established companion planting relationships for the 10 crops
-// covered below (6 vegetables + 4 herbs). Every pairing here reflects
+// Real, well-established companion planting relationships for the 13 crops
+// covered below (9 vegetables + 4 herbs). Every pairing here reflects
 // widely-repeated horticultural guidance (extension offices, master gardener
 // references) — nothing fabricated. Relationships are symmetric: if A lists B
 // as good/avoid, B lists A the same way.
@@ -10,8 +10,13 @@ import { useMemo, useState } from 'react';
 // basil-tomato pest deterrence and flavor pairing, allium (onion/chives)
 // inhibition of bean growth, dill's attraction of predatory insects that
 // benefit cabbage-family crops and cucumbers, dill's tendency to inhibit
-// mature tomato plants, and mint's invasiveness making it a poor open-ground
-// neighbor for other herbs regardless of chemistry.
+// mature tomato plants, mint's invasiveness making it a poor open-ground
+// neighbor for other herbs regardless of chemistry, lettuce's shallow roots
+// pairing well with deeper-rooted carrots without competing, radishes as a
+// fast-maturing non-competing neighbor (and flea-beetle trap crop) for
+// lettuce, onions'/chives' pest-deterrent benefit for lettuce, and lettuce's
+// preference for the afternoon shade a taller tomato plant provides once it
+// sizes up.
 
 type PlantType = 'vegetable' | 'herb';
 
@@ -23,16 +28,19 @@ interface PlantRelations {
 }
 
 const PLANTS: PlantRelations[] = [
-  { name: 'Tomatoes', type: 'vegetable', good: ['Basil', 'Onions', 'Chives'], avoid: ['Kale', 'Dill'] },
+  { name: 'Tomatoes', type: 'vegetable', good: ['Basil', 'Onions', 'Chives', 'Lettuce'], avoid: ['Kale', 'Dill'] },
   { name: 'Peppers', type: 'vegetable', good: ['Basil', 'Onions'], avoid: [] },
   { name: 'Cucumbers', type: 'vegetable', good: ['Beans', 'Dill'], avoid: [] },
-  { name: 'Onions', type: 'vegetable', good: ['Tomatoes', 'Peppers', 'Kale'], avoid: ['Beans'] },
+  { name: 'Onions', type: 'vegetable', good: ['Tomatoes', 'Peppers', 'Kale', 'Lettuce'], avoid: ['Beans'] },
   { name: 'Kale', type: 'vegetable', good: ['Onions', 'Dill', 'Chives'], avoid: ['Tomatoes'] },
   { name: 'Beans', type: 'vegetable', good: ['Cucumbers'], avoid: ['Onions', 'Chives'] },
+  { name: 'Lettuce', type: 'vegetable', good: ['Carrots', 'Radishes', 'Onions', 'Chives', 'Tomatoes'], avoid: [] },
+  { name: 'Carrots', type: 'vegetable', good: ['Lettuce'], avoid: [] },
+  { name: 'Radishes', type: 'vegetable', good: ['Lettuce'], avoid: [] },
   { name: 'Basil', type: 'herb', good: ['Tomatoes', 'Peppers'], avoid: ['Mint'] },
   { name: 'Mint', type: 'herb', good: [], avoid: ['Basil', 'Dill', 'Chives'] },
   { name: 'Dill', type: 'herb', good: ['Kale', 'Cucumbers'], avoid: ['Tomatoes', 'Mint'] },
-  { name: 'Chives', type: 'herb', good: ['Tomatoes', 'Kale'], avoid: ['Beans', 'Mint'] },
+  { name: 'Chives', type: 'herb', good: ['Tomatoes', 'Kale', 'Lettuce'], avoid: ['Beans', 'Mint'] },
 ];
 
 function listOrDash(items: string[]) {
