@@ -31,6 +31,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 
 ## Guides
 
+- [How to Grow Tomatoes from Seed: A Complete Guide](https://harvestmath.com/blog/how-to-grow-tomatoes-from-seed/): full seed-starting process for tomatoes -- timing anchored to our Seed Starting Calculator, the heat-mat-to-light transition mistake, damping off prevention, and variety-specific notes for cherry, roma, beefsteak, and heirloom
 - [LED vs. Fluorescent Grow Lights: Which Should You Use?](https://harvestmath.com/blog/led-vs-fluorescent-grow-lights/): LED vs. fluorescent grow lights compared on efficiency, running cost, lifespan, mercury/disposal, and the specific case where fluorescent still makes sense (seed starting)
 - [What Can (and Can't) You Compost? The Complete List](https://harvestmath.com/blog/what-can-you-compost/): what you can and can't put in your compost bin, a Bokashi anaerobic-fermentation exception, and by-bin-type notes for tumblers, open piles, and worm bins
 - [15 Homemade Fertilizers You Can Make at Home (and How to Mix Them)](https://harvestmath.com/blog/15-homemade-fertilizers-you-can-make-at-home/): 15 real homemade fertilizers with genuine depth per item, an N-P-K reference table, and honest cautions on wood ash and fresh manure

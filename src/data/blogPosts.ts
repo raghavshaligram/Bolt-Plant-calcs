@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-grow-tomatoes-from-seed',
+    title: 'How to Grow Tomatoes from Seed: A Complete Guide',
+    description:
+      'Start tomatoes from seed successfully -- germination temps, the heat mat mistake to avoid, and when to transplant.',
+    pubDate: new Date('2026-08-06'),
+  },
+  {
     slug: 'led-vs-fluorescent-grow-lights',
     title: 'LED vs. Fluorescent Grow Lights: Which Should You Use?',
     description:
