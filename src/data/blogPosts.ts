@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-grow-cucumbers-from-seed',
+    title: "How to Grow Cucumbers from Seed (and Why Yours Aren't Fruiting)",
+    description:
+      "Cucumbers are easy to germinate. The real problem is pollination -- here's why they flower without fruiting, and the fix.",
+    pubDate: new Date('2026-08-07'),
+  },
+  {
     slug: 'how-to-grow-carrots-from-seed',
     title: 'How to Grow Carrots from Seed (and Actually Get Them to Germinate)',
     description:
