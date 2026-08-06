@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-grow-peppers-from-seed',
+    title: 'How to Grow Peppers from Seed: Bell, Hot, and Sweet Varieties',
+    description:
+      'Start peppers from seed -- germination temps, why peppers need longer than tomatoes, and the transplant mistake to avoid.',
+    pubDate: new Date('2026-08-06'),
+  },
+  {
     slug: 'how-to-grow-tomatoes-from-seed',
     title: 'How to Grow Tomatoes from Seed: A Complete Guide',
     description:

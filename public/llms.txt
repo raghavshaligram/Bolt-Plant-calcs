@@ -31,6 +31,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 
 ## Guides
 
+- [How to Grow Peppers from Seed: Bell, Hot, and Sweet Varieties](https://harvestmath.com/blog/how-to-grow-peppers-from-seed/): full seed-starting process for peppers -- timing anchored to our Seed Starting Calculator, why peppers need more warmth and time than tomatoes, the transplant depth difference from tomatoes, and variety-specific notes for bell, jalapeno, habanero, serrano, and super-hots
 - [How to Grow Tomatoes from Seed: A Complete Guide](https://harvestmath.com/blog/how-to-grow-tomatoes-from-seed/): full seed-starting process for tomatoes -- timing anchored to our Seed Starting Calculator, the heat-mat-to-light transition mistake, damping off prevention, and variety-specific notes for cherry, roma, beefsteak, and heirloom
 - [LED vs. Fluorescent Grow Lights: Which Should You Use?](https://harvestmath.com/blog/led-vs-fluorescent-grow-lights/): LED vs. fluorescent grow lights compared on efficiency, running cost, lifespan, mercury/disposal, and the specific case where fluorescent still makes sense (seed starting)
 - [What Can (and Can't) You Compost? The Complete List](https://harvestmath.com/blog/what-can-you-compost/): what you can and can't put in your compost bin, a Bokashi anaerobic-fermentation exception, and by-bin-type notes for tumblers, open piles, and worm bins
