@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-grow-carrots-from-seed',
+    title: 'How to Grow Carrots from Seed (and Actually Get Them to Germinate)',
+    description:
+      "Carrot seeds are slow and finicky. Here's the board method that fixes germination, plus how to avoid forked carrots.",
+    pubDate: new Date('2026-08-07'),
+  },
+  {
     slug: 'how-to-grow-lettuce-from-seed',
     title: 'How to Grow Lettuce from Seed: The Cool-Season Crop That Breaks the Rules',
     description:
