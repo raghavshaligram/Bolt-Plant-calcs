@@ -7,7 +7,9 @@
     "dev": "astro dev",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check:last-updated": "node scripts/check-last-updated.mjs",
+    "fix:last-updated": "node scripts/check-last-updated.mjs --fix"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
