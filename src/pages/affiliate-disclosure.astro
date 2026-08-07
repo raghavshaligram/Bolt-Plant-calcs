@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getLastUpdated } from '../lib/lastUpdated';
 
-const lastUpdated = '2026-07-09';
+const lastUpdated = getLastUpdated('src/pages/affiliate-disclosure.astro');
 const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
