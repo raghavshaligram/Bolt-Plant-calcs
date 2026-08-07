@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'why-are-my-tomato-leaves-turning-yellow',
+    title: 'Why Are My Tomato Leaves Turning Yellow? A Diagnostic Guide',
+    description:
+      "Diagnose yellowing tomato leaves by symptom -- bottom-up yellowing, spots, or curling each point to a different cause and fix.",
+    pubDate: new Date('2026-08-07'),
+  },
+  {
     slug: 'growing-tomatoes-in-raised-beds',
     title: 'Growing Tomatoes in Raised Beds: Spacing, Depth, and Blossom End Rot',
     description:
