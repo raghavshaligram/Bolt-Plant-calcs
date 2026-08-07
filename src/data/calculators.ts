@@ -191,9 +191,9 @@ export const calculators: Calculator[] = [
     title: 'Plant Spacing Calculator',
     shortTitle: 'Plant Spacing',
     description:
-      'Calculate how many plants fit in any bed using proper in-row and between-row spacing. Supports row garden and square foot gardening modes with crop presets for 20+ vegetables, herbs, and flowers.',
+      'Calculate how many plants fit in any bed using proper in-row and between-row spacing. Supports row garden and square foot gardening modes with crop presets for 20+ vegetables, herbs, and flowers, plus a Trees & Shrubs mode with real mature spacing for fruit trees, pecans, and landscape shrubs.',
     metaDescription:
-      'Calculate exact plant spacing for vegetables, herbs, and flowers. Free calculator with a spacing chart for 20+ common crops.',
+      'Calculate exact plant spacing for vegetables, herbs, flowers, fruit trees, and shrubs. Free calculator with spacing charts for 20+ crops plus trees and shrubs.',
     seoTitle: 'Plant Spacing Calculator - Vegetables & Gardens (Free)',
     cluster: 'spacing-and-planting',
     href: '/calculators/plant-spacing-calculator/',

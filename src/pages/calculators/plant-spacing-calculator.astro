@@ -23,11 +23,13 @@ const authorUrl = '/about/';
 const shareImage = new URL('/plant-spacing-calculator-garden-grid.svg', Astro.site).href;
 
 const intro =
-  'Figure out exactly how many plants fit in any bed using real crop spacing recommendations. Select your crop, enter bed dimensions, and the plant spacing calculator shows total plant count for row gardening or square foot gardening — plus a full spacing chart for 20+ common vegetables, herbs, and flowers below.';
+  'Figure out exactly how many plants fit in any bed using real crop spacing recommendations. Select your crop, enter bed dimensions, and the plant spacing calculator shows total plant count for row gardening or square foot gardening — plus a full spacing chart for 20+ common vegetables, herbs, and flowers below. Growing fruit trees or shrubs instead? Switch to the tree spacing calculator mode for real mature spacing on fruit trees, pecans, and common landscape shrubs.';
 
 const tocItems = [
   { id: 'how-much-space-do-plants-need', label: 'How Much Space Do Plants Need?', icon: 'leaf' as const },
   { id: 'plant-spacing-chart', label: 'Plant Spacing Chart', icon: 'table' as const },
+  { id: 'why-tree-spacing-is-different', label: 'Trees & Shrubs: Why It\'s Different', icon: 'warning' as const },
+  { id: 'tree-and-shrub-spacing-chart', label: 'Tree & Shrub Spacing Chart', icon: 'table' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'plant-spacing-calculator-faq', label: 'FAQ', icon: 'question' as const },
@@ -54,6 +56,14 @@ const faqs = [
   {
     q: "What's the difference between in-row and between-row spacing?",
     a: 'In-row spacing is the distance between individual plants along a single row. Between-row spacing (also called row spacing) is the distance between one row and the next. Both are required to plan a bed — using only one number will either overcrowd plants or waste space. Most seed packets list both values.',
+  },
+  {
+    q: 'How far apart should fruit trees be planted?',
+    a: 'It depends heavily on rootstock. Standard apple and sweet cherry trees need about 25-30 ft; semi-dwarf varieties need about 15 ft; dwarf varieties need as little as 8-10 ft. Pear, peach, and plum fall in similar ranges, generally 18-20 ft standard and 10-12 ft dwarf. Pecan needs far more room than any common fruit tree -- 60-80 ft for a home orchard. All of these are mature-canopy figures, not planting-day distances. The Trees & Shrubs mode above has spacing presets for each.',
+  },
+  {
+    q: 'How do you calculate tree spacing?',
+    a: "Use the tree's expected mature width (its canopy spread at full size, not its size at planting), and space trees at least that distance apart center-to-center -- for two trees with similar mature spreads, that generally means using the larger of the two widths as your spacing distance. The Trees & Shrubs mode above does this automatically: pick a preset (or enter a custom spacing), enter your available area, and it returns how many trees fit and the layout.",
   },
 ];
 
@@ -397,6 +407,125 @@ const softwareAppJsonLd = {
       Spacing values reflect standard extension service recommendations at full plant maturity. Seed packet spacing may suggest tighter starts — thin to these values as plants grow.
     </p>
 
+    <h2 id="why-tree-spacing-is-different">Trees &amp; Shrubs: Why Spacing Is Different</h2>
+    <p>
+      Tree and shrub spacing works on a different logic than vegetable spacing, and it's worth understanding before you use the Trees &amp; Shrubs mode above. Vegetable spacing is a seasonal decision &mdash; get it wrong and you fix it next year. Tree spacing is a <strong>permanent decision</strong>. You can't re-space a mature tree once its roots and canopy have filled in; moving or removing an overcrowded tree years later is a far bigger job than pulling up a badly spaced pepper plant.
+    </p>
+    <p>
+      The number that matters is <strong>mature canopy width</strong>, not the size of the sapling you're planting. This is the single most common tree-spacing mistake: a 4-foot bare-root sapling spaced 20 feet from its neighbor looks absurdly over-spaced on planting day, so people plant it closer &ldquo;to fill the gap&rdquo; &mdash; and within a decade both trees are fighting for the same light, water, and root space anyway. Space for the tree it will become, not the tree it is today.
+    </p>
+    <p>
+      Crowded trees and shrubs run into real, long-term problems that don't show up right away: competition for light and water that stunts growth and reduces fruit production, poor air circulation that increases fungal disease pressure (the same airflow principle covered above for vegetables, just at a much larger scale), and structural issues as trunks and branches grow into each other, sometimes requiring corrective pruning or removal years later.
+    </p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 text-sm text-bark-600 ring-1 ring-moss-100">
+      <strong class="text-bark-700">Scope note:</strong> the Trees &amp; Shrubs mode above is built for home-garden and small-orchard scale &mdash; the spacing a homeowner planting a handful of fruit trees or a hedge actually needs. It is not a trees per acre calculator for commercial forestry or timber-scale orchard planning, which works at a completely different scale (and with completely different goals, like planned thinning) than a home yard needs.
+    </p>
+
+    <h2 id="tree-and-shrub-spacing-chart">Tree and Shrub Spacing Chart</h2>
+    <p>
+      The tree spacing chart below covers the fruit and nut trees and landscape shrubs available in the Trees &amp; Shrubs mode above, at typical mature spacing. If you're looking for a fruit tree spacing chart specifically, the first several rows cover apple, pear, peach, plum, and cherry at both standard and dwarf/semi-dwarf spacing &mdash; rootstock changes the spacing requirement enough that treating &ldquo;apple&rdquo; as one single number would be genuinely misleading.
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Tree &amp; Shrub Spacing Reference — mature spacing, home garden &amp; small orchard scale
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Tree / Shrub</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Category</th>
+            <th scope="col" class="py-2.5 font-semibold">Mature spacing</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Apple (Standard)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">25&ndash;30 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Apple (Semi-Dwarf)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">15 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Apple (Dwarf)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">8&ndash;10 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Pear (Standard)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">20&ndash;25 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Pear (Dwarf/Semi-Dwarf)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">8&ndash;15 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Peach / Plum (Standard)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">15&ndash;20 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Peach / Plum (Dwarf)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">8&ndash;10 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Cherry, Sweet (Standard)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">25&ndash;30 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Cherry, Sweet (Dwarf/Semi-Dwarf)</th>
+            <td class="py-2 pr-4">Fruit tree</td>
+            <td class="py-2">6&ndash;15 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Pecan</th>
+            <td class="py-2 pr-4">Nut tree</td>
+            <td class="py-2">60&ndash;80 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Large Shrub / Small Tree (lilac, dogwood)</th>
+            <td class="py-2 pr-4">Landscape shrub</td>
+            <td class="py-2">12&ndash;15 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Medium Shrub (forsythia, rhododendron)</th>
+            <td class="py-2 pr-4">Landscape shrub</td>
+            <td class="py-2">7&ndash;10 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Small Shrub (azalea, dwarf yew)</th>
+            <td class="py-2 pr-4">Landscape shrub</td>
+            <td class="py-2">3&ndash;6 ft</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Trimmed Hedge, Low (boxwood, barberry)</th>
+            <td class="py-2 pr-4">Landscape shrub</td>
+            <td class="py-2">18&ndash;24 in</td>
+          </tr>
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Trimmed Hedge, Tall (privet, hemlock)</th>
+            <td class="py-2 pr-4">Landscape shrub</td>
+            <td class="py-2">26&ndash;48 in</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">Ground Cover Shrub (juniper, cotoneaster)</th>
+            <td class="py-2 pr-4">Landscape shrub</td>
+            <td class="py-2">24&ndash;36 in</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-xs text-bark-500">
+      Ranges reflect real variation by climate, variety, and specific cultivar. The Trees &amp; Shrubs mode above uses a representative default within each range &mdash; adjust the spacing field manually (or choose &ldquo;Custom&rdquo;) if your specific variety or region calls for something different. Our <a href="/calculators/tree-age-calculator/">Tree Age Calculator</a> is useful once trees are established, for estimating age from trunk diameter. For the full tree and shrub care picture &mdash; watering by age, mulching, and feeding &mdash; see our <a href="/clusters/trees-and-shrubs/">Trees &amp; Shrubs guide</a>.
+    </p>
+
     <h2 id="worked-example">Worked Example</h2>
     <p>
       You have a <strong>4&times;8 ft raised bed</strong> and want to grow <strong>tomatoes (determinate)</strong> at the recommended spacing of 24 inches in-row and 36 inches between rows. Here&rsquo;s the math:
@@ -427,11 +556,13 @@ const softwareAppJsonLd = {
 
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
-      Spacing values in the chart above are based on recommendations from university cooperative extension services. For plant quantity formulas, see Iowa State University Extension&rsquo;s <a href="https://yardandgarden.extension.iastate.edu/how-to/how-determine-plant-quantity-planting-beds" rel="noopener noreferrer">&ldquo;How to Determine Plant Quantity for Planting Beds&rdquo;</a>. For more on how we source and validate the formulas used on this site, see our <a href="/methodology/">methodology page</a>.
+      Spacing values in the chart above are based on recommendations from university cooperative extension services. For plant quantity formulas, see Iowa State University Extension&rsquo;s <a href="https://yardandgarden.extension.iastate.edu/how-to/how-determine-plant-quantity-planting-beds" rel="noopener noreferrer">&ldquo;How to Determine Plant Quantity for Planting Beds&rdquo;</a>. For fruit tree spacing by rootstock, see the <a href="https://extension.umaine.edu/fruit/growing-fruit-trees-in-maine/spacing/" rel="noopener noreferrer">University of Maine Cooperative Extension&rsquo;s guide to spacing trees in an orchard</a>. For pecan spacing, see the University of Georgia&rsquo;s <a href="https://fieldreport.caes.uga.edu/publications/B1348/pecan-trees-for-the-home-or-backyard-orchard/" rel="noopener noreferrer">&ldquo;Pecan Trees for the Home or Backyard Orchard&rdquo;</a>. For landscape shrub spacing, see <a href="https://rocklandcce.org/resources/spacing-landscape-plants" rel="noopener noreferrer">Cornell Cooperative Extension&rsquo;s &ldquo;Spacing Landscape Plants&rdquo;</a>. For more on how we source and validate the formulas used on this site, see our <a href="/methodology/">methodology page</a>.
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
       { name: 'Spacing & Planting cluster', url: '/clusters/spacing-and-planting/', anchorText: 'see our full vegetable garden planning timeline', note: 'Stage 3 of 4 — from frost date through seed starting, spacing, and yield.' },
+      { name: 'Trees & Shrubs cluster', url: '/clusters/trees-and-shrubs/', anchorText: 'see our full tree and shrub care guide', note: 'watering by age, mulching, and feeding, once your trees are planted.' },
+      { name: 'Tree Age Calculator', url: '/calculators/tree-age-calculator/', note: 'estimate a tree\'s age from trunk diameter once it\'s established.' },
       { name: 'Raised Bed Soil Calculator', url: '/calculators/raised-bed-soil-calculator/', note: 'figure out how much soil you need before you plant.' },
       { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'for pots, containers, and irregular beds.' },
       { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'calculate how much mulch to add around your planted beds.' },

@@ -11,7 +11,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 - [Raised Bed Soil Calculator](https://harvestmath.com/calculators/raised-bed-soil-calculator/): soil volume and mix ratio for raised beds, with common size presets
 - [Soil Volume Calculator](https://harvestmath.com/calculators/soil-volume-calculator/): soil volume for rectangular beds and cylindrical pots/containers
 - [Mulch Calculator](https://harvestmath.com/calculators/mulch-calculator/): mulch volume for rectangular and circular beds
-- [Plant Spacing Calculator](https://harvestmath.com/calculators/plant-spacing-calculator/): plant count and layout by crop, row or square-foot method
+- [Plant Spacing Calculator](https://harvestmath.com/calculators/plant-spacing-calculator/): plant count and layout by crop, row or square-foot method, plus a Trees & Shrubs mode with real mature spacing for fruit trees, pecans, and landscape shrubs
 - [Grass Seed Calculator](https://harvestmath.com/calculators/grass-seed-calculator/): seed quantity by grass type, new lawn or overseeding
 - [Overseeding Calculator](https://harvestmath.com/calculators/overseeding-calculator/): seed and topdressing amounts to overseed an existing lawn, by grass type and condition
 - [Tree Age Calculator](https://harvestmath.com/calculators/tree-age-calculator/): estimates tree age from trunk circumference without cutting it down

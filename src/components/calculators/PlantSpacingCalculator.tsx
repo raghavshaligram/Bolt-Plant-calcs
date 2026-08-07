@@ -3,7 +3,7 @@ import { jsPDF } from 'jspdf';
 import { loadGardenProject, saveGardenProject, fuzzyMatchCropName } from '../../lib/gardenProject';
 import type { SpacingResultsSnapshot } from '../../lib/gardenProject';
 
-type GardenMode = 'row' | 'sqft';
+type GardenMode = 'row' | 'sqft' | 'trees';
 type UnitSystem = 'imperial' | 'metric';
 
 const STORAGE_KEY = 'plant-spacing-calculator-state-v1';
@@ -44,6 +44,42 @@ const CROP_PRESETS: CropPreset[] = [
   { name: 'Zucchini', inRowIn: 24, betweenRowIn: 36, sqftPerPlant: 4 },
 ];
 
+// Trees & Shrubs mode -- home-garden and small-orchard scale only (no
+// per-acre/hectare forestry math; that's a different audience and out of
+// scope here). Spacing figures are real mature-spacing recommendations
+// sourced from university extension publications -- see the page content
+// for citations. Fruit trees are split by rootstock (standard vs.
+// dwarf/semi-dwarf) since rootstock genuinely changes the spacing needed.
+interface TreePreset {
+  name: string;
+  spacingFt: number; // recommended distance between mature tree/shrub centers, in feet
+  group: 'Fruit & Nut Trees' | 'Landscape Shrubs' | 'Custom';
+}
+
+const TREE_PRESETS: TreePreset[] = [
+  { name: 'Custom', spacingFt: 15, group: 'Custom' },
+  { name: 'Apple (Standard)', spacingFt: 30, group: 'Fruit & Nut Trees' },
+  { name: 'Apple (Semi-Dwarf)', spacingFt: 15, group: 'Fruit & Nut Trees' },
+  { name: 'Apple (Dwarf)', spacingFt: 10, group: 'Fruit & Nut Trees' },
+  { name: 'Pear (Standard)', spacingFt: 20, group: 'Fruit & Nut Trees' },
+  { name: 'Pear (Dwarf/Semi-Dwarf)', spacingFt: 12, group: 'Fruit & Nut Trees' },
+  { name: 'Peach (Standard)', spacingFt: 18, group: 'Fruit & Nut Trees' },
+  { name: 'Peach (Dwarf)', spacingFt: 10, group: 'Fruit & Nut Trees' },
+  { name: 'Plum (Standard)', spacingFt: 18, group: 'Fruit & Nut Trees' },
+  { name: 'Plum (Dwarf)', spacingFt: 10, group: 'Fruit & Nut Trees' },
+  { name: 'Cherry, Sweet (Standard)', spacingFt: 30, group: 'Fruit & Nut Trees' },
+  { name: 'Cherry, Sweet (Dwarf/Semi-Dwarf)', spacingFt: 15, group: 'Fruit & Nut Trees' },
+  { name: 'Pecan', spacingFt: 65, group: 'Fruit & Nut Trees' },
+  { name: 'Large Shrub / Small Tree (lilac, dogwood)', spacingFt: 13, group: 'Landscape Shrubs' },
+  { name: 'Medium Shrub (forsythia, rhododendron)', spacingFt: 8, group: 'Landscape Shrubs' },
+  { name: 'Small Shrub (azalea, dwarf yew)', spacingFt: 4, group: 'Landscape Shrubs' },
+  { name: 'Trimmed Hedge, Low (boxwood, barberry)', spacingFt: 2, group: 'Landscape Shrubs' },
+  { name: 'Trimmed Hedge, Tall (privet, hemlock)', spacingFt: 3, group: 'Landscape Shrubs' },
+  { name: 'Ground Cover Shrub (juniper, cotoneaster)', spacingFt: 2.5, group: 'Landscape Shrubs' },
+];
+
+const TREE_PRESET_GROUPS: TreePreset['group'][] = ['Fruit & Nut Trees', 'Landscape Shrubs'];
+
 interface SavedState {
   mode: GardenMode;
   unitSystem: UnitSystem;
@@ -53,6 +89,8 @@ interface SavedState {
   inRow: string;
   betweenRow: string;
   sqftPerPlant: string;
+  treeType?: string;
+  treeSpacing?: string;
 }
 
 function round(value: number, decimals = 2): number {
@@ -110,6 +148,8 @@ export default function PlantSpacingCalculator() {
   const [inRow, setInRow] = useState<string>('24');
   const [betweenRow, setBetweenRow] = useState<string>('36');
   const [sqftPerPlant, setSqftPerPlant] = useState<string>('4');
+  const [treeType, setTreeType] = useState<string>('Apple (Semi-Dwarf)');
+  const [treeSpacing, setTreeSpacing] = useState<string>('15');
   const [projectSaved, setProjectSaved] = useState(false);
 
   useEffect(() => {
@@ -124,6 +164,8 @@ export default function PlantSpacingCalculator() {
     if (s.inRow !== undefined) setInRow(s.inRow);
     if (s.betweenRow !== undefined) setBetweenRow(s.betweenRow);
     if (s.sqftPerPlant !== undefined) setSqftPerPlant(s.sqftPerPlant);
+    if (s.treeType) setTreeType(s.treeType);
+    if (s.treeSpacing !== undefined) setTreeSpacing(s.treeSpacing);
 
     // No saved state of its own yet -- pull bed dimensions and, if a crop
     // was chosen upstream (Seed Starting), a best-effort matching preset
@@ -152,8 +194,8 @@ export default function PlantSpacingCalculator() {
 
   useEffect(() => {
     if (!hasLoaded.current) return;
-    saveState({ mode, unitSystem, crop, bedLength, bedWidth, inRow, betweenRow, sqftPerPlant });
-  }, [mode, unitSystem, crop, bedLength, bedWidth, inRow, betweenRow, sqftPerPlant]);
+    saveState({ mode, unitSystem, crop, bedLength, bedWidth, inRow, betweenRow, sqftPerPlant, treeType, treeSpacing });
+  }, [mode, unitSystem, crop, bedLength, bedWidth, inRow, betweenRow, sqftPerPlant, treeType, treeSpacing]);
 
   const handleCropChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -168,6 +210,19 @@ export default function PlantSpacingCalculator() {
         setBetweenRow(round(preset.betweenRowIn * 2.54, 1).toString());
       }
       setSqftPerPlant(String(preset.sqftPerPlant));
+    }
+  };
+
+  const handleTreeTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const name = e.target.value;
+    setTreeType(name);
+    const preset = TREE_PRESETS.find((p) => p.name === name);
+    if (preset) {
+      setTreeSpacing(
+        unitSystem === 'imperial'
+          ? String(preset.spacingFt)
+          : round(preset.spacingFt / M_TO_FT, 1).toString()
+      );
     }
   };
 
@@ -213,7 +268,7 @@ export default function PlantSpacingCalculator() {
       const perHectare = sqftPerPlantVal > 0 ? Math.round(107639 / sqftPerPlantVal) : 0;
 
       return { totalPlants, plantsPerRow, numRows, areaFt, perAcre, perHectare, mode: 'row' as const };
-    } else {
+    } else if (mode === 'sqft') {
       const sqftVal = parseFloat(sqftPerPlant);
       if (!Number.isFinite(sqftVal) || sqftVal <= 0) return null;
       const totalPlants = Math.floor(areaFt / sqftVal);
@@ -222,11 +277,27 @@ export default function PlantSpacingCalculator() {
       const perHectare = Math.round(107639 / sqftVal);
 
       return { totalPlants, gridSpacingIn, areaFt, perAcre, perHectare, mode: 'sqft' as const };
+    } else {
+      // Trees & Shrubs -- home-garden / small-orchard scale only. Same
+      // simple grid model as Row Garden mode (floor division, no per-acre
+      // or per-hectare figures -- that's forestry-scale math and out of
+      // scope for this mode on purpose).
+      let spacingRaw = parseFloat(treeSpacing);
+      if (isMetric) {
+        spacingRaw = Number.isFinite(spacingRaw) ? spacingRaw * M_TO_FT : 0;
+      }
+      if (!Number.isFinite(spacingRaw) || spacingRaw <= 0) return null;
+
+      const treesPerRow = Math.floor(lengthFt / spacingRaw);
+      const numRows = Math.floor(widthFt / spacingRaw);
+      const totalPlants = treesPerRow * numRows;
+
+      return { totalPlants, treesPerRow, numRows, areaFt, spacingFtUsed: spacingRaw, mode: 'trees' as const };
     }
-  }, [mode, unitSystem, bedLength, bedWidth, inRow, betweenRow, sqftPerPlant, isMetric]);
+  }, [mode, unitSystem, bedLength, bedWidth, inRow, betweenRow, sqftPerPlant, treeSpacing, isMetric]);
 
   const addToGardenProject = () => {
-    if (!result) return;
+    if (!result || result.mode === 'trees') return;
     const snapshot: SpacingResultsSnapshot = {
       crop,
       mode: result.mode,
@@ -277,13 +348,16 @@ export default function PlantSpacingCalculator() {
     const lines: string[] = [
       `Crop: ${crop}`,
       `Bed: ${bedLength} × ${bedWidth} ${lengthUnit}`,
-      `Mode: ${mode === 'row' ? 'Row Garden' : 'Square Foot Gardening'}`,
+      `Mode: ${mode === 'row' ? 'Row Garden' : mode === 'sqft' ? 'Square Foot Gardening' : 'Trees & Shrubs'}`,
     ];
     if (mode === 'row') {
       lines.push(`In-row spacing: ${inRow} ${spacingUnit}`);
       lines.push(`Between-row spacing: ${betweenRow} ${spacingUnit}`);
-    } else {
+    } else if (mode === 'sqft') {
       lines.push(`Sq ft per plant: ${sqftPerPlant}`);
+    } else {
+      lines.push(`Tree/shrub type: ${treeType}`);
+      lines.push(`Spacing: ${treeSpacing} ${lengthUnit}`);
     }
     lines.forEach((line) => { doc.text(line, margin, y); y += 16; });
 
@@ -297,14 +371,23 @@ export default function PlantSpacingCalculator() {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(11);
       const resultLines: string[] = [
-        `Total plants: ${result.totalPlants.toLocaleString()}`,
+        `Total ${result.mode === 'trees' ? 'trees/shrubs' : 'plants'}: ${result.totalPlants.toLocaleString()}`,
         `Bed area: ${round(result.areaFt, 1)} sq ft`,
-        `Plants per acre: ${result.perAcre.toLocaleString()}`,
-        `Plants per hectare: ${result.perHectare.toLocaleString()}`,
       ];
       if (result.mode === 'row') {
-        resultLines.splice(1, 0, `Plants per row: ${result.plantsPerRow}`);
-        resultLines.splice(2, 0, `Number of rows: ${result.numRows}`);
+        resultLines.push(`Plants per row: ${result.plantsPerRow}`);
+        resultLines.push(`Number of rows: ${result.numRows}`);
+        resultLines.push(`Plants per acre: ${result.perAcre.toLocaleString()}`);
+        resultLines.push(`Plants per hectare: ${result.perHectare.toLocaleString()}`);
+      } else if (result.mode === 'sqft') {
+        resultLines.push(`Grid spacing: ${result.gridSpacingIn}" apart`);
+        resultLines.push(`Plants per acre: ${result.perAcre.toLocaleString()}`);
+        resultLines.push(`Plants per hectare: ${result.perHectare.toLocaleString()}`);
+      } else {
+        resultLines.push(`Trees/shrubs per row: ${result.treesPerRow}`);
+        resultLines.push(`Number of rows: ${result.numRows}`);
+        resultLines.push(`Spacing used: ${round(result.spacingFtUsed, 1)} ${lengthUnit}`);
+        resultLines.push('Note: spacing is based on mature canopy width, not planting size.');
       }
       resultLines.forEach((line) => { doc.text(line, margin, y); y += 16; });
     }
@@ -313,6 +396,7 @@ export default function PlantSpacingCalculator() {
   };
 
   const selectedPreset = CROP_PRESETS.find((p) => p.name === crop);
+  const selectedTreePreset = TREE_PRESETS.find((p) => p.name === treeType);
 
   return (
     <div className="not-prose">
@@ -355,6 +439,19 @@ export default function PlantSpacingCalculator() {
                 >
                   Square Foot Gardening
                 </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={mode === 'trees'}
+                  onClick={() => setMode('trees')}
+                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                    mode === 'trees'
+                      ? 'bg-white text-moss-800 shadow-sm'
+                      : 'text-bark-600 hover:text-moss-800'
+                  }`}
+                >
+                  Trees &amp; Shrubs
+                </button>
               </div>
             </div>
 
@@ -390,25 +487,51 @@ export default function PlantSpacingCalculator() {
           </div>
 
           {/* Crop selector */}
-          <div>
-            <label htmlFor="psc-crop" className="label-field">Crop</label>
-            <select
-              id="psc-crop"
-              value={crop}
-              onChange={handleCropChange}
-              className="input-field mt-1.5"
-            >
-              {CROP_PRESETS.map((p) => (
-                <option key={p.name} value={p.name}>{p.name}</option>
-              ))}
-            </select>
-            {crop !== 'Custom' && selectedPreset && (
-              <p className="mt-1.5 text-xs text-bark-500">
-                Recommended: {selectedPreset.inRowIn}&Prime; in-row &times; {selectedPreset.betweenRowIn}&Prime; between rows
-                {mode === 'sqft' && ` (${selectedPreset.sqftPerPlant} sq ft per plant in SFG)`}
-              </p>
-            )}
-          </div>
+          {mode === 'trees' ? (
+            <div>
+              <label htmlFor="psc-tree-type" className="label-field">Tree or shrub</label>
+              <select
+                id="psc-tree-type"
+                value={treeType}
+                onChange={handleTreeTypeChange}
+                className="input-field mt-1.5"
+              >
+                <option value="Custom">Custom</option>
+                {TREE_PRESET_GROUPS.map((group) => (
+                  <optgroup key={group} label={group}>
+                    {TREE_PRESETS.filter((p) => p.group === group).map((p) => (
+                      <option key={p.name} value={p.name}>{p.name}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+              {treeType !== 'Custom' && selectedTreePreset && (
+                <p className="mt-1.5 text-xs text-bark-500">
+                  Recommended mature spacing: {selectedTreePreset.spacingFt} ft
+                </p>
+              )}
+            </div>
+          ) : (
+            <div>
+              <label htmlFor="psc-crop" className="label-field">Crop</label>
+              <select
+                id="psc-crop"
+                value={crop}
+                onChange={handleCropChange}
+                className="input-field mt-1.5"
+              >
+                {CROP_PRESETS.map((p) => (
+                  <option key={p.name} value={p.name}>{p.name}</option>
+                ))}
+              </select>
+              {crop !== 'Custom' && selectedPreset && (
+                <p className="mt-1.5 text-xs text-bark-500">
+                  Recommended: {selectedPreset.inRowIn}&Prime; in-row &times; {selectedPreset.betweenRowIn}&Prime; between rows
+                  {mode === 'sqft' && ` (${selectedPreset.sqftPerPlant} sq ft per plant in SFG)`}
+                </p>
+              )}
+            </div>
+          )}
 
           {/* Bed dimensions */}
           <div className="grid gap-4 sm:grid-cols-2">
@@ -484,7 +607,7 @@ export default function PlantSpacingCalculator() {
                 </p>
               </div>
             </div>
-          ) : (
+          ) : mode === 'sqft' ? (
             <div>
               <label htmlFor="psc-sqft" className="label-field">
                 Square feet per plant
@@ -503,6 +626,33 @@ export default function PlantSpacingCalculator() {
                 Each plant gets this much space in a square-foot grid.
               </p>
             </div>
+          ) : (
+            <div>
+              <div>
+                <label htmlFor="psc-tree-spacing" className="label-field">
+                  Spacing between trees/shrubs <span className="text-bark-500">({lengthUnit})</span>
+                </label>
+                <input
+                  id="psc-tree-spacing"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.5"
+                  value={treeSpacing}
+                  onChange={handleNumericChange(setTreeSpacing)}
+                  className="input-field mt-1.5"
+                />
+                <p className="mt-1.5 text-xs text-bark-500">
+                  Distance between tree/shrub centers, in a simple grid.
+                </p>
+              </div>
+              <div className="mt-4 rounded-lg bg-[#E8A94A]/10 px-4 py-3 text-xs text-bark-700 ring-1 ring-[#E8A94A]/40">
+                <p className="font-medium text-bark-800">Use mature spacing, not planting size.</p>
+                <p className="mt-1 text-bark-600">
+                  This is the single most common tree-spacing mistake: a 4-foot sapling that needs 20 feet of mature spacing looks absurdly over-spaced on planting day &mdash; and gets crowded in anyway. Space for the tree it will become, not the tree it is today. Spacing is a permanent decision; you can&rsquo;t re-space a mature tree.
+                </p>
+              </div>
+            </div>
           )}
 
           {/* Formula */}
@@ -517,10 +667,19 @@ export default function PlantSpacingCalculator() {
                   Rows = floor(Bed Width &divide; Between-row Spacing) &nbsp;&middot;&nbsp; Total = Plants per row &times; Rows
                 </p>
               </>
-            ) : (
+            ) : mode === 'sqft' ? (
               <p className="mt-1 font-mono text-xs text-bark-600 sm:text-sm">
                 Total plants = floor(Bed Area &divide; Sq ft per plant)
               </p>
+            ) : (
+              <>
+                <p className="mt-1 font-mono text-xs text-bark-600 sm:text-sm">
+                  Trees per row = floor(Bed Length &divide; Spacing)
+                </p>
+                <p className="mt-1 font-mono text-xs text-bark-500 sm:text-sm">
+                  Rows = floor(Bed Width &divide; Spacing) &nbsp;&middot;&nbsp; Total = Trees per row &times; Rows
+                </p>
+              </>
             )}
           </div>
 
@@ -548,12 +707,16 @@ export default function PlantSpacingCalculator() {
                       </svg>
                     </span>
                     <div>
-                      <p className="text-xs text-bark-500">Total plants that fit</p>
+                      <p className="text-xs text-bark-500">
+                        {result.mode === 'trees' ? 'Total trees/shrubs that fit' : 'Total plants that fit'}
+                      </p>
                       <p className="font-display text-3xl font-bold text-moss-700">
                         {result.totalPlants.toLocaleString()}
                       </p>
                       <p className="text-xs font-medium text-bark-600">
-                        {crop !== 'Custom' ? crop : 'plants'}
+                        {result.mode === 'trees'
+                          ? (treeType !== 'Custom' ? treeType : 'trees/shrubs')
+                          : (crop !== 'Custom' ? crop : 'plants')}
                       </p>
                     </div>
                   </div>
@@ -567,13 +730,23 @@ export default function PlantSpacingCalculator() {
                         </p>
                         <p className="mt-1 text-xs text-moss-200">plants per row &times; rows</p>
                       </>
-                    ) : (
+                    ) : result.mode === 'sqft' ? (
                       <>
                         <p className="text-xs text-moss-200">Grid spacing</p>
                         <p className="font-display text-xl font-bold text-white">
                           {result.gridSpacingIn}&Prime; apart
                         </p>
                         <p className="mt-1 text-xs text-moss-200">in a square grid</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-xs text-moss-200">Layout</p>
+                        <p className="font-display text-xl font-bold text-white">
+                          {result.treesPerRow} &times; {result.numRows}
+                        </p>
+                        <p className="mt-1 text-xs text-moss-200">
+                          {round(result.spacingFtUsed, 1)} {lengthUnit} apart, mature spacing
+                        </p>
                       </>
                     )}
                     <p className="mt-2 text-xs text-moss-300">
@@ -582,29 +755,35 @@ export default function PlantSpacingCalculator() {
                   </div>
                 </div>
 
-                <div className="border-t border-moss-100 bg-moss-50/60 px-4 py-2 text-xs text-bark-500">
-                  Scaled up: ~{result.perAcre.toLocaleString()} plants/acre &middot; ~{result.perHectare.toLocaleString()} plants/hectare
-                </div>
+                {result.mode !== 'trees' && (
+                  <div className="border-t border-moss-100 bg-moss-50/60 px-4 py-2 text-xs text-bark-500">
+                    Scaled up: ~{result.perAcre.toLocaleString()} plants/acre &middot; ~{result.perHectare.toLocaleString()} plants/hectare
+                  </div>
+                )}
 
                 <div className="flex flex-wrap items-start justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-xs text-bark-500">
                     Results assume a full rectangular bed with no paths or borders.
                   </p>
                   <div className="flex flex-col items-end gap-1.5">
-                  <p className="max-w-xs text-right text-xs text-bark-500">
-                    Save this to your Garden Project &mdash; carries your saved ZIP code and crops forward from your other results.
-                  </p>
+                  {result.mode !== 'trees' && (
+                    <p className="max-w-xs text-right text-xs text-bark-500">
+                      Save this to your Garden Project &mdash; carries your saved ZIP code and crops forward from your other results.
+                    </p>
+                  )}
                   <div className="flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      onClick={addToGardenProject}
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-[#E8A94A]/20 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-[#E8A94A]/50 transition hover:bg-[#E8A94A]/30"
-                    >
-                      <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 2c3 4 6 8 6 12a6 6 0 0 1-12 0c0-4 3-8 6-12Z" fill="currentColor" />
-                      </svg>
-                      {projectSaved ? 'Added to Garden Project ✓' : 'Add to my Garden Project'}
-                    </button>
+                    {result.mode !== 'trees' && (
+                      <button
+                        type="button"
+                        onClick={addToGardenProject}
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-[#E8A94A]/20 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-[#E8A94A]/50 transition hover:bg-[#E8A94A]/30"
+                      >
+                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M12 2c3 4 6 8 6 12a6 6 0 0 1-12 0c0-4 3-8 6-12Z" fill="currentColor" />
+                        </svg>
+                        {projectSaved ? 'Added to Garden Project ✓' : 'Add to my Garden Project'}
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={exportPdf}
