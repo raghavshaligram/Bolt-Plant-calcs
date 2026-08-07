@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-grow-beans-from-seed',
+    title: 'How to Grow Beans from Seed (Bush, Pole, and the Nitrogen Myth)',
+    description:
+      "Beans are easy to germinate. Here's bush vs. pole, and an honest correction on what beans really do for soil nitrogen.",
+    pubDate: new Date('2026-08-07'),
+  },
+  {
     slug: 'how-to-grow-cucumbers-from-seed',
     title: "How to Grow Cucumbers from Seed (and Why Yours Aren't Fruiting)",
     description:
