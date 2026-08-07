@@ -16,6 +16,7 @@
 import Layout from './Layout.astro';
 import BylineRow from '../components/BylineRow.astro';
 import TableOfContents from '../components/TableOfContents.astro';
+import { getLastUpdated } from '../lib/lastUpdated';
 
 export interface Props {
   frontmatter: {
@@ -40,7 +41,6 @@ const {
   title,
   heading = title,
   description,
-  lastUpdated,
   readingTime,
   breadcrumbLabel,
   ogImage,
@@ -49,6 +49,12 @@ const {
   authorUrl = '/about/',
   slug,
 } = frontmatter;
+
+// Derived from git history (see src/lib/lastUpdated.ts) rather than the
+// frontmatter's own `lastUpdated` field -- every .mdx post still declares
+// one for backward compatibility and as an escape hatch, but it's no
+// longer what actually renders, so it can't silently drift from reality.
+const lastUpdated = getLastUpdated(`src/pages/blog/${slug}.mdx`);
 
 const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
   year: 'numeric',

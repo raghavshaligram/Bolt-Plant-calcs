@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import BylineRow from '../components/BylineRow.astro';
 import LeadMagnetForm from '../components/LeadMagnetForm.jsx';
 import { leadMagnetConfig } from '../data/calculators';
+import { getLastUpdated } from '../lib/lastUpdated';
 import type { Calculator, Cluster } from '../data/calculators';
 
 export interface Props {
@@ -10,25 +11,40 @@ export interface Props {
   cluster: Cluster;
   /** Short intro paragraph shown in the left column, alongside the sidebar. */
   intro: string;
-  /** ISO date string (YYYY-MM-DD) shown in the byline row. */
-  lastUpdated?: string;
   /** Author display name in the byline row. */
   authorName?: string;
   /** URL the author name links to (typically /about/). */
   authorUrl?: string;
   /** Absolute URL to the share/Pinterest image. */
   shareImage?: string;
+  /**
+   * Optional extra sentence appended after "Last updated: {date}." -- a
+   * few calculator pages clarify that only the surrounding guidance
+   * changed, not the calculator's math. The date itself always comes from
+   * git history (see src/lib/lastUpdated.ts), never a prop.
+   */
+  lastUpdatedNote?: string;
 }
 
 const {
   calculator,
   cluster,
   intro,
-  lastUpdated,
   authorName = 'HarvestMath Editors',
   authorUrl = '/about/',
   shareImage,
+  lastUpdatedNote,
 } = Astro.props;
+
+// Derived from git history (see src/lib/lastUpdated.ts) instead of a
+// hardcoded per-page constant -- see BlogPostLayout.astro for the same
+// pattern applied to blog posts.
+const lastUpdated = getLastUpdated(`src/pages/calculators/${calculator.slug}.astro`);
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 
 const pageTitle = calculator.seoTitle ?? calculator.title;
 
@@ -76,6 +92,9 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
           {intro}
         </p>
         <slot />
+        <p class="mt-12 text-sm text-bark-500">
+          Last updated: {formattedDate}.{lastUpdatedNote && ` ${lastUpdatedNote}`}
+        </p>
       </div>
 
       <!-- Right column: sticky sidebar -->

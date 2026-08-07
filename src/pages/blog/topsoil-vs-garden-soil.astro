@@ -3,12 +3,16 @@ import Layout from '../../layouts/Layout.astro';
 import BylineRow from '../../components/BylineRow.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnet from '../../components/LeadMagnet.astro';
+import { getLastUpdated } from '../../lib/lastUpdated';
 
 const title = 'Topsoil vs. Garden Soil: What’s the Difference?';
 const description =
   "Topsoil and garden soil aren't the same thing. Here's the real difference, and which one your project actually needs.";
 
-const lastUpdated = '2026-07-17';
+// This is the one hand-built blog article that predates BlogPostLayout
+// (which derives this automatically for every .mdx post) -- derived here
+// directly instead, from git history rather than a hardcoded literal.
+const lastUpdated = getLastUpdated('src/pages/blog/topsoil-vs-garden-soil.astro');
 const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',

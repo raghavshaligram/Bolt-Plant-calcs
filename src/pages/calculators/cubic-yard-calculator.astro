@@ -11,13 +11,6 @@ const calculator = getCalculator('cubic-yard-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
 const leadMagnet = leadMagnetConfig[cluster.slug]!;
 
-const lastUpdated = '2026-08-07';
-const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
 const authorName = 'HarvestMath Editors';
 const authorUrl = '/about/';
 
@@ -126,7 +119,7 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
@@ -240,9 +233,5 @@ const softwareAppJsonLd = {
       { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: "need to figure out how much you need instead of converting units? use our Soil Volume Calculator." },
       { name: 'Soil & Amendments cluster', url: '/clusters/soil-and-amendments/', anchorText: 'see our full guide to soil and amendments', note: 'topsoil, mulch, compost, and soil type, all in one place.' },
     ]} />
-
-    <p class="mt-12 text-sm text-bark-500">
-      Last updated: {formattedDate}.
-    </p>
   </article>
 </CalculatorLayout>

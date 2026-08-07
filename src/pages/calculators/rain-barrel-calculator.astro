@@ -6,18 +6,20 @@ import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
 import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getLastUpdated } from '../../lib/lastUpdated';
 
 const calculator = getCalculator('rain-barrel-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
 const leadMagnet = leadMagnetConfig[cluster.slug]!;
 
-const lastUpdated = '2026-07-17';
-const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+// Same git-derived date CalculatorLayout uses for "Last updated" -- this
+// page also needs it locally for the water-law disclaimer's "Last
+// verified" line below.
+const legalLastVerified = new Date(getLastUpdated('src/pages/calculators/rain-barrel-calculator.astro')).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
-const legalLastVerified = formattedDate;
 
 const authorName = 'HarvestMath Editors';
 const authorUrl = '/about/';
@@ -155,7 +157,7 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} lastUpdated={lastUpdated} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
@@ -274,9 +276,5 @@ const softwareAppJsonLd = {
       { name: 'Watering & Irrigation cluster', url: '/clusters/watering-and-irrigation/', anchorText: 'see our complete guide to rainwater collection and drip delivery', note: 'how collection and delivery work together, plus soil infiltration rates that affect run time.' },
       { name: 'Drip Irrigation Calculator', url: '/calculators/drip-irrigation-calculator/', note: 'collected water needs somewhere to go — figure out run time and delivery here.' },
     ]} />
-
-    <p class="mt-12 text-sm text-bark-500">
-      Last updated: {formattedDate}.
-    </p>
   </article>
 </CalculatorLayout>
