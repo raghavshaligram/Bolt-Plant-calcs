@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-start-a-vegetable-garden',
+    title: "How to Start a Vegetable Garden: A Complete Beginner's Guide",
+    description:
+      "Start your first vegetable garden -- how to pick the spot, size it right, prep the soil, and choose what to plant first.",
+    pubDate: new Date('2026-08-08'),
+  },
+  {
     slug: 'why-are-my-tomato-leaves-turning-yellow',
     title: 'Why Are My Tomato Leaves Turning Yellow? A Diagnostic Guide',
     description:
