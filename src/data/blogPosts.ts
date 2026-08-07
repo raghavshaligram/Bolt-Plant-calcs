@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'growing-tomatoes-in-raised-beds',
+    title: 'Growing Tomatoes in Raised Beds: Spacing, Depth, and Blossom End Rot',
+    description:
+      "Tomato spacing and bed depth for raised beds -- plus why raised beds get blossom end rot more often, and how to prevent it.",
+    pubDate: new Date('2026-08-07'),
+  },
+  {
     slug: 'how-to-grow-beans-from-seed',
     title: 'How to Grow Beans from Seed (Bush, Pole, and the Nitrogen Myth)',
     description:
