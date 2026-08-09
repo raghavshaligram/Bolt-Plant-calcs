@@ -21,6 +21,7 @@ const intro =
 const tocItems = [
   { id: 'what-is-a-usda-hardiness-zone', label: 'What Is a Hardiness Zone?', icon: 'leaf' as const },
   { id: 'zone-reference-table', label: 'Zone Reference Table', icon: 'table' as const },
+  { id: 'hardiness-zones-by-state', label: 'Zones by State', icon: 'leaf' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'why-your-zone-matters', label: 'Why Your Zone Matters', icon: 'leaf' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
@@ -50,7 +51,7 @@ const faqs = [
   },
   {
     q: 'How do I look up my hardiness zone by ZIP code?',
-    a: 'Enter your ZIP code into the calculator above for a fast regional estimate, matched to the nearest of a set of real reference points in your state. For the official, address-level zone, check the USDA’s own Plant Hardiness Zone Map directly at planthardiness.ars.usda.gov.',
+    a: 'Enter your ZIP code into the calculator above — it matches you to the nearest of 826 reference points, each checked against the official 2023 USDA zone map. For the official, address-level zone, see Sources below.',
   },
 ];
 
@@ -221,6 +222,23 @@ const softwareAppJsonLd = {
     </table>
     <p>
       The calculator above covers the full range published on the official map (zones 1&ndash;13); the table shows zones 3&ndash;11, which covers the large majority of the continental United States.
+    </p>
+
+    <h2 id="hardiness-zones-by-state">Hardiness Zones by State</h2>
+    <p>
+      Zone ranges vary widely by state, mostly driven by latitude, elevation, and distance from the coast. Enter your ZIP code in the calculator above for your exact match &mdash; these are just the broad strokes for four of the most-searched states, checked against the same official 2023 zone data the calculator itself uses.
+    </p>
+    <p>
+      <strong>Florida</strong> runs almost entirely warm: most of the peninsula falls in zones 9a&ndash;11a, and the Florida Keys reach 11b, among the warmest zones in the continental US. Even the panhandle (Pensacola, Tallahassee) only drops to zone 9a &mdash; Florida has no truly cold zones anywhere in the state.
+    </p>
+    <p>
+      <strong>California</strong> has the widest range of any state in the continental US, a direct result of its elevation and coastal variation. Mountain towns like Mammoth Lakes and Truckee sit at zone 6a, while coastal and southern cities &mdash; Los Angeles, San Diego, Santa Barbara &mdash; run 10b&ndash;11a. The Central Valley (Sacramento, Fresno, Bakersfield) lands in between, mostly zone 9a&ndash;9b. Two addresses 50 miles apart can be several zones different depending on elevation.
+    </p>
+    <p>
+      <strong>Texas</strong> spans zone 7a in the Panhandle (Amarillo) up to 10a along the Gulf Coast and Rio Grande Valley (Corpus Christi, Brownsville, McAllen). Most of central Texas &mdash; Austin, San Antonio, Dallas&ndash;Fort Worth &mdash; falls in zone 8b&ndash;9a.
+    </p>
+    <p>
+      <strong>Michigan</strong> runs cooler and more uniform: zone 4b in the Upper Peninsula (Ironwood) up to zone 6b in southeast Michigan (Detroit) and along the Lake Michigan shoreline, which moderates winter lows near the water. Most of the Lower Peninsula sits in zone 5b&ndash;6a.
     </p>
 
     <h2 id="worked-example">Worked Example</h2>

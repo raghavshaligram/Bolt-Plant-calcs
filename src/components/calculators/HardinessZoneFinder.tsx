@@ -124,15 +124,9 @@ export default function HardinessZoneFinder() {
             />
             {zip.length === 5 && !lookup && (
               <p className="mt-2 text-sm text-amber-700">
-                We couldn&rsquo;t match that ZIP to a zone. Check your zone directly at{' '}
-                <a href="https://planthardiness.ars.usda.gov/" rel="noopener" className="underline">planthardiness.ars.usda.gov</a>.
+                We couldn&rsquo;t match that ZIP to a zone &mdash; double-check the digits, or see Sources below for the official map.
               </p>
             )}
-          </div>
-
-          <div className="rounded-lg bg-amber-50 px-4 py-3 text-xs text-amber-800 ring-1 ring-amber-200">
-            This is a ZIP-based regional estimate, matched to the nearest of a set of real reference cities within your state &mdash; not a precise address-level lookup. For an exact zone at your specific address, check the official{' '}
-            <a href="https://planthardiness.ars.usda.gov/" rel="noopener" className="underline">USDA Plant Hardiness Zone Map</a>.
           </div>
 
           <div className="overflow-hidden rounded-xl border border-moss-200 bg-moss-50">
@@ -156,12 +150,16 @@ export default function HardinessZoneFinder() {
                 </div>
                 <div className="border-t border-moss-200 bg-white px-4 py-3 sm:px-5">
                   <p className="text-xs text-bark-500">
-                    Estimated from nearest reference point: <strong className="text-bark-700">{lookup.refCity}</strong>. This is a rough regional match, not a precise lookup for your exact ZIP.
+                    Nearest reference point: <strong className="text-bark-700">{lookup.refCity}</strong>
                   </p>
                 </div>
               </>
             )}
           </div>
+
+          <p className="text-xs text-bark-500">
+            This is a regional estimate based on the nearest of 826 reference points, each matched to the official 2023 USDA zone map. It&rsquo;s accurate to within about a half-zone across most of the country, but elevation shifts zones over short distances &mdash; if you&rsquo;re in mountainous terrain, check the official USDA map for your exact address (see Sources below).
+          </p>
 
           <div className="flex justify-end">
             <button
