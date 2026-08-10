@@ -10,7 +10,7 @@ const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
 });
 
 const description =
-  'How HarvestMath builds its formulas and recommendations — drawn from university extension services and standard horticultural reference material, not proprietary research. General guidance, not a substitute for local knowledge.';
+  'How HarvestMath sources its formulas, builds its zone data, and reviews its calculators — a plain account of what this site claims, what it doesn’t, and where every number comes from.';
 ---
 
 <Layout title="Methodology" description={description}>
@@ -34,7 +34,18 @@ const description =
     <div class="mx-auto max-w-3xl">
       <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
         <p>
-          Every calculator on this site is built to save you the part of gardening that&rsquo;s just math &mdash; cubic feet of mulch, square feet of bed, teaspoons of fertilizer per gallon. The numbers behind them aren&rsquo;t proprietary research. They&rsquo;re the same commonly cited guidance you&rsquo;d find if you dug into the sources yourself.
+          Every calculator on this site is built to save you the part of gardening that&rsquo;s just math &mdash; cubic feet of mulch, square feet of bed, teaspoons of fertilizer per gallon. The numbers behind them aren&rsquo;t proprietary research. They&rsquo;re the same commonly cited guidance you&rsquo;d find if you dug into the sources yourself &mdash; all of which are listed, individually, on our <a href="/sources/">Sources page</a>.
+        </p>
+
+        <h2 id="what-this-site-claims">What This Site Claims &mdash; and What It Doesn&rsquo;t</h2>
+        <p>
+          HarvestMath is a calculation and reference tool. It doesn&rsquo;t conduct original horticultural research, and it isn&rsquo;t written by credentialed horticulturists, agronomists, or soil scientists. No page on this site claims that expertise, and none should be read that way.
+        </p>
+        <p>
+          What it does do: every figure, ratio, and reference range used in a calculator or guide comes from a published university extension or government source, and every one of those sources is listed in full &mdash; by name, with a link, and with the page that cites it &mdash; on the <a href="/sources/">Sources page</a>. The expertise behind the numbers belongs to the institutions that published them, not to this site.
+        </p>
+        <p>
+          So the actual claim is narrower than &ldquo;we know gardening.&rdquo; It&rsquo;s three things: the math is correct, the sources are real and checkable, and the limitations of each estimate are stated rather than hidden. The rest of this page is about how we try to hold up that claim in practice.
         </p>
 
         <h2 id="where-the-numbers-come-from">Where the numbers come from</h2>
@@ -50,6 +61,38 @@ const description =
           We don&rsquo;t run our own field trials. We read the same public guidance everyone else can, translate it into calculators that do the arithmetic for you, and link out to the sources on each calculator page so you can check for yourself.
         </p>
 
+        <h2 id="how-formulas-are-sourced">How Formulas Are Sourced</h2>
+        <p>
+          Every calculator&rsquo;s underlying formula traces to a named published source rather than being derived independently. Before a formula ships, it&rsquo;s checked against what the cited extension office or agency actually publishes &mdash; not adjusted to produce a rounder number or a more convenient default.
+        </p>
+        <p>
+          Where reputable sources genuinely disagree, we say so instead of quietly picking one. A few real examples: gravel weighs roughly 2,400&ndash;2,900 lbs per cubic yard depending on stone size and moisture, and we present that as a range rather than a single figure. Raised bed soil mix guidance isn&rsquo;t one settled ratio &mdash; our Raised Bed Soil Calculator names 60% topsoil / 30% compost / 10% perlite as a solid economical default, but also names the 50/30/20 alternative for heavier native soils and Square Foot Gardening&rsquo;s &ldquo;Mel&rsquo;s Mix&rdquo; (equal thirds compost, peat or coco coir, and vermiculite) as a legitimate different approach, rather than presenting 60/30/10 as the one correct answer. Weeks-before-last-frost windows for starting seeds indoors vary by a few weeks depending on the source and the specific variety, so our seed-starting guidance gives a range (tomatoes, for instance, at 6&ndash;8 weeks before frost) rather than a single number dressed up as precise.
+        </p>
+
+        <h2 id="hardiness-zone-data">How the Hardiness Zone Data Was Built</h2>
+        <p>
+          This is worth explaining in more detail because it&rsquo;s the part of the site most likely to be misunderstood. No official ZIP-code-keyed hardiness zone dataset exists anywhere &mdash; not from USDA, not from anyone. The USDA Plant Hardiness Zone Map is published as map imagery and as GIS boundary files describing zone polygons on a map, not as a table you can look up a ZIP code in.
+        </p>
+        <p>
+          To give ZIP-code lookups on this site anyway, we built a reference-point table: 826 locations across all 50 states and DC, each one checked directly against the official 2023 USDA ARS hardiness zone boundaries (the same PRISM-Climate-Group-derived data behind the official map) using a point-in-polygon lookup at data-build time &mdash; not estimated, not interpolated from a smaller sample. Point density isn&rsquo;t uniform: it&rsquo;s weighted denser in Colorado, California, the Appalachians, and the Pacific Northwest, where elevation changes push zones to shift over short distances, and lighter in flatter, climatically uniform regions where that density isn&rsquo;t needed. A ZIP code entered into the calculator is matched to the nearest of these 826 points within its state.
+        </p>
+        <p>
+          We spot-checked this against the official USDA map at 8 ZIP codes, including three in mountainous terrain where accuracy is hardest to hold. The result: 7 of 8 were an exact zone match, and all 8 were within a half-zone. That&rsquo;s a real, measured error rate, not a marketing claim &mdash; and it&rsquo;s also the honest limit of the method. This is a regional estimate based on the nearest reference point, not an address-level lookup. In mountainous or otherwise elevation-variable terrain, the true zone at your specific address can differ from the nearest reference point by more than that. For an exact, address-level answer, the official USDA map (linked from every calculator that uses this data, and listed on the <a href="/sources/">Sources page</a>) is the authority &mdash; this dataset is a convenience layer on top of it, not a replacement for it.
+        </p>
+
+        <h2 id="estimates-labeled-as-estimates">Where Estimates Are Labeled as Estimates</h2>
+        <p>
+          Part of this site&rsquo;s methodology is declining to compute things it can&rsquo;t compute accurately, rather than inventing a number to fill the gap. A few examples of where that shows up:
+        </p>
+        <ul>
+          <li>There&rsquo;s no tree planting cost calculator on this site. Planting costs vary by region, by season, and year to year with material and labor pricing &mdash; a single national figure would be more misleading than useful, so we don&rsquo;t publish one.</li>
+          <li>Weight-per-volume outputs (soil, mulch, gravel by the cubic yard) are given as ranges, not single numbers, because moisture content alone can shift a material&rsquo;s weight meaningfully, and we don&rsquo;t know the moisture content of what you&rsquo;re ordering.</li>
+          <li>Days-to-maturity figures throughout the site are noted as varying by variety and by growing conditions &mdash; a jalapeño and a habanero aren&rsquo;t on the same clock, and neither is the same variety grown in two different climates.</li>
+        </ul>
+        <p>
+          The goal isn&rsquo;t to hedge everything into uselessness. It&rsquo;s to be precise about which numbers are genuinely precise and which ones are ranges dressed up as facts if you round them off.
+        </p>
+
         <h2 id="general-guidance-not-a-guarantee">General guidance, not a guarantee</h2>
         <p>
           The results these calculators give you are <strong>general guidance meant to save you time on the math</strong>, not a prescription. Local climate, soil conditions, and the specific plant variety you&rsquo;re growing can shift the ideal numbers &mdash; sometimes a lot. A mulch depth that&rsquo;s right for a humid East Coast bed is too much for a dry-climate xeriscape; a fertilizer rate that&rsquo;s safe for one tomato variety burns another.
@@ -58,14 +101,22 @@ const description =
           Treat the output as a starting point, then adjust for your conditions. When in doubt, your local extension office knows your region better than any website does.
         </p>
 
+        <h2 id="how-content-is-reviewed">How Content Is Reviewed</h2>
+        <p>
+          Before a new page is built, we check the keyword data behind it for cross-topic contamination &mdash; search terms that match the words someone typed but not what they actually wanted, which is an easy way to end up answering the wrong question well. We also read the pages currently ranking for that topic to get a realistic sense of what a genuinely complete answer needs to cover, rather than guessing.
+        </p>
+        <p>
+          Once a page exists, figures on it are cross-checked against what other pages on this site already say about the same thing &mdash; a frost-date range, a spacing figure, a mix ratio &mdash; so the same number doesn&rsquo;t quietly appear one way on one page and a different way on another.
+        </p>
+
         <h2 id="how-often-pages-are-updated">How often pages are updated</h2>
         <p>
           Calculator pages are reviewed periodically &mdash; when guidance shifts, when a reader flags something, or when we notice an explanation that could be clearer. Every calculator page shows a <strong>&ldquo;Last updated&rdquo; date</strong> near the top so you can see how current the guidance is at a glance. If a page hasn&rsquo;t been touched in a while, that usually means the underlying guidance hasn&rsquo;t changed, not that we&rsquo;ve forgotten about it.
         </p>
 
-        <h2 id="spot-an-error">Spot an error?</h2>
+        <h2 id="corrections">Corrections</h2>
         <p>
-          If you see a formula that looks wrong, a recommendation that&rsquo;s out of date, or a calculator that&rsquo;s missing a factor it should account for, please <a href="/contact/">tell us</a>. We&rsquo;d rather hear about it and fix it than leave a bad number up. Every correction makes the next gardener&rsquo;s math a little more trustworthy.
+          When a figure on this site turns out to be wrong, or a claim turns out to be overstated, the page gets corrected and its &ldquo;Last updated&rdquo; date changes to reflect it &mdash; there&rsquo;s no separate errata list, the page itself is the record. If you see a formula that looks wrong, a recommendation that&rsquo;s out of date, or a calculator that&rsquo;s missing a factor it should account for, please <a href="/contact/">tell us</a>. We&rsquo;d rather hear about it and fix it than leave a bad number up. Every correction makes the next gardener&rsquo;s math a little more trustworthy.
         </p>
       </div>
     </div>
