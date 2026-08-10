@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getLastUpdated } from '../lib/lastUpdated';
+import { sourceCategories, governmentDatasets } from '../data/sources';
+
+const lastUpdated = getLastUpdated('src/pages/sources.astro');
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const description =
+  "Every university extension and government publication cited across HarvestMath's calculators and guides, in one place.";
+
+const totalSources =
+  sourceCategories.reduce((sum, c) => sum + c.sources.length, 0) + governmentDatasets.length;
+const institutions = new Set(
+  [...sourceCategories.flatMap((c) => c.sources), ...governmentDatasets].map((s) => s.institution)
+);
+---
+
+<Layout title="Sources — Every Citation Used on HarvestMath" description={description} rawTitle>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Sources</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        Sources
+      </h1>
+      <p class="mt-3 text-sm text-bark-500">
+        Last updated <time datetime={lastUpdated}>{formattedDate}</time> &middot; {totalSources} sources from {institutions.size} institutions
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+        <p>
+          HarvestMath is a calculation and reference tool, not a source of original horticultural research &mdash; the expertise behind every number here belongs to the university extension services and government agencies listed below. Every figure, formula, and reference range used on this site traces to a published source, and this page lists all of them: what they say, where the link goes, and which HarvestMath page uses it.
+        </p>
+        <p>
+          For how sources are selected, checked, and kept current, see our <a href="/methodology/">methodology page</a>.
+        </p>
+
+        {sourceCategories.map((category) => (
+          <>
+            <h2 id={category.clusterSlug}>{category.name}</h2>
+            <ul class="not-prose divide-y divide-moss-100 rounded-xl border border-moss-100 bg-white">
+              {category.sources.map((source) => (
+                <li class="p-4 sm:p-5">
+                  <p class="font-display text-base font-semibold text-bark-900">
+                    <a href={source.url} rel="noopener" target="_blank" class="text-moss-700 hover:text-moss-900">{source.title}</a>
+                  </p>
+                  <p class="mt-1 text-sm text-bark-500">{source.institution}</p>
+                  <p class="mt-2 text-xs text-bark-500">
+                    Cited on:{' '}
+                    {source.citedBy.map((page, i) => (
+                      <>
+                        {i > 0 && ', '}
+                        <a href={page.href} class="text-moss-700 underline underline-offset-2 hover:text-moss-900">{page.title}</a>
+                      </>
+                    ))}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </>
+        ))}
+
+        <h2 id="government-datasets">Government Datasets</h2>
+        <p>
+          Beyond individual citations, two calculators on this site are built directly on official government datasets rather than just linking out to further reading:
+        </p>
+        <ul class="not-prose divide-y divide-moss-100 rounded-xl border border-moss-100 bg-white">
+          {governmentDatasets.map((source) => (
+            <li class="p-4 sm:p-5">
+              <p class="font-display text-base font-semibold text-bark-900">
+                <a href={source.url} rel="noopener" target="_blank" class="text-moss-700 hover:text-moss-900">{source.title}</a>
+              </p>
+              <p class="mt-1 text-sm text-bark-500">{source.institution}</p>
+              <p class="mt-2 text-sm text-bark-700">{source.note}</p>
+              <p class="mt-2 text-xs text-bark-500">
+                Cited on:{' '}
+                {source.citedBy.map((page, i) => (
+                  <>
+                    {i > 0 && ', '}
+                    <a href={page.href} class="text-moss-700 underline underline-offset-2 hover:text-moss-900">{page.title}</a>
+                  </>
+                ))}
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        <h2 id="something-missing">Something look wrong?</h2>
+        <p>
+          If a link is broken, a source has been updated, or you think a figure on this site should cite something it doesn&rsquo;t, <a href="/contact/">tell us</a>. This page is only as trustworthy as it is accurate.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

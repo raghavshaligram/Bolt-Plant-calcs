@@ -56,6 +56,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 ## Reference
 
 - [Methodology](https://harvestmath.com/methodology/): how calculator formulas are sourced and verified
+- [Sources](https://harvestmath.com/sources/): every external citation used across the site, grouped by category
 - [About](https://harvestmath.com/about/): who runs HarvestMath and why
 
 ## Optional
