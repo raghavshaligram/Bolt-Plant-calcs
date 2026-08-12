@@ -340,6 +340,18 @@ export const sourceCategories: SourceCategory[] = [
         institution: 'University of Illinois Extension',
         citedBy: [{ title: 'Cool-Season vs. Warm-Season Grass: Which Type Do You Have?', href: '/blog/cool-season-vs-warm-season-grass/' }],
       },
+      {
+        title: '"Sod Installation and Maintenance" (Publication 2951)',
+        url: 'https://extension.msstate.edu/publications/sod-installation-and-maintenance',
+        institution: 'Mississippi State University Extension',
+        citedBy: [{ title: 'Sod Calculator', href: '/calculators/sod-calculator/' }],
+      },
+      {
+        title: 'Turfgrass Producers International',
+        url: 'https://turfgrasssod.org/',
+        institution: 'Turfgrass Producers International (TPI)',
+        citedBy: [{ title: 'Sod Calculator', href: '/calculators/sod-calculator/' }],
+      },
     ],
   },
   {

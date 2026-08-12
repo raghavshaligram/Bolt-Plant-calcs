@@ -226,6 +226,19 @@ export const calculators: Calculator[] = [
     status: 'live',
   },
   {
+    slug: 'sod-calculator',
+    title: 'Sod Calculator',
+    shortTitle: 'Sod',
+    description:
+      'Calculate how much sod you need in square feet, pallets, and individual pieces, by grass type and lawn shape.',
+    metaDescription:
+      'Calculate how much sod you need — square footage, pallets, and rolls, with the right waste factor for your lawn shape.',
+    seoTitle: 'Sod Calculator - Pallets, Rolls & Square Footage',
+    cluster: 'lawn-and-landscaping',
+    href: '/calculators/sod-calculator/',
+    status: 'live',
+  },
+  {
     slug: 'frost-date-calculator',
     title: 'Frost Date Calculator',
     shortTitle: 'Frost Dates',

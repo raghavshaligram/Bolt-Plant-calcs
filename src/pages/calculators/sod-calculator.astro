@@ -1,0 +1,328 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import SodCalculator from '../../components/calculators/SodCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+
+const calculator = getCalculator('sod-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'This sod calculator turns your lawn’s dimensions into square footage, then converts that into pallets and individual pieces — accounting for your grass type and a waste factor for curved or complex edges. Enter your lawn’s shape, grass type, and edge complexity below to get an exact pallet and piece count before you order.';
+
+const tocItems = [
+  { id: 'how-much-sod-do-you-need', label: 'How Much Sod Do You Need?', icon: 'leaf' as const },
+  { id: 'why-pallet-coverage-varies-by-grass-type', label: 'Why Coverage Varies by Grass Type', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'sod-vs-seed', label: 'Sod vs. Seed', icon: 'leaf' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'sod-calculator-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/sod-calculator-laying-sod.svg', Astro.site).href;
+
+const coverageRows = [
+  { grass: 'Bermuda', season: 'Warm', coverage: '~400 sq ft', soldAs: 'Slabs' },
+  { grass: 'Zoysia', season: 'Warm', coverage: '~400 sq ft', soldAs: 'Slabs' },
+  { grass: 'St. Augustine', season: 'Warm', coverage: '~450 sq ft', soldAs: 'Slabs' },
+  { grass: 'Centipede', season: 'Warm', coverage: '~450 sq ft', soldAs: 'Slabs' },
+  { grass: 'Tall Fescue', season: 'Cool', coverage: '~500 sq ft', soldAs: 'Rolls' },
+  { grass: 'Kentucky Bluegrass', season: 'Cool', coverage: '~500 sq ft', soldAs: 'Rolls' },
+  { grass: 'Ryegrass', season: 'Cool', coverage: '~600 sq ft', soldAs: 'Rolls' },
+];
+
+const faqs = [
+  {
+    q: 'How many square feet are in a pallet of sod?',
+    a: 'A standard pallet of sod covers roughly 450 square feet — the Turfgrass Producers International industry standard. Actual coverage varies by grass type: about 400–450 sq ft for warm-season grasses cut as thicker slabs, and 500–600 sq ft for cool-season grasses cut thinner and sold as rolls. Always confirm the exact figure with your supplier before ordering.',
+  },
+  {
+    q: 'How much sod do I need for a 1,000 square foot lawn?',
+    a: 'With a typical 10% waste factor for curved edges, a 1,000 sq ft lawn needs about 1,100 sq ft of sod ordered. At the 450 sq ft/pallet industry standard, that’s 1,100 ÷ 450 = 2.4, rounded up to 3 pallets. The calculator above gives the exact count for your specific grass type and waste factor.',
+  },
+  {
+    q: 'Is sod better than seed?',
+    a: 'Neither is universally better — sod gives an instant, usable lawn and holds slopes that seed can wash off of, but costs substantially more. Seed is far cheaper and offers more grass variety, but takes a full season to establish and needs consistent watering the entire time. Starting from seed instead? Use our [Grass Seed Calculator](/calculators/grass-seed-calculator/).',
+  },
+  {
+    q: 'How do I measure an irregular lawn for sod?',
+    a: 'Break the lawn into simple rectangles — a main section plus smaller ones for any L-shaped extensions — measure each one separately, then add the areas together. The calculator above has a Multiple Sections mode built for exactly this: enter each rectangle’s length and width and it sums them automatically.',
+  },
+  {
+    q: 'How long can sod sit before you lay it?',
+    a: 'Sod should be installed within 24 hours of delivery. Fresh-cut sod carries only a thin layer of soil, so it starts to dry out, yellow, and heat up on the pallet quickly, especially in warm weather — the longer it waits, the harder it struggles to root once it’s down.',
+  },
+];
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate how much sod you need in pallets, pieces, and square feet',
+  description:
+    'Use the sod calculator to find total square footage, pallets, and individual pieces of sod needed for a lawn of any shape, by grass type and waste factor.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Choose your lawn shape',
+      text: 'Choose your lawn shape — rectangle, circle, triangle, or multiple sections for an irregular lawn.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enter your lawn’s dimensions',
+      text: 'Enter your lawn’s dimensions for the shape you chose.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Select your grass type and waste factor',
+      text: 'Select your grass type (or use the industry-standard default) and a waste factor for your lawn’s edges.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read your pallet and piece count',
+      text: 'Read the total square footage, pallets needed, and individual pieces.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Lawn & Landscaping',
+      item: 'https://harvestmath.com/clusters/lawn-and-landscaping/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Sod Calculator',
+      item: 'https://harvestmath.com/calculators/sod-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Sod Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/sod-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <SodCalculator client:load />
+
+  <p class="mt-3 text-sm text-bark-500">
+    Seeding instead of laying sod? Use our <a href="/calculators/grass-seed-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Grass Seed Calculator</a> for a new lawn, or the <a href="/calculators/overseeding-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Overseeding Calculator</a> for an existing one.
+  </p>
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnetForm
+    client:load
+    listId={leadMagnet.listId}
+    tag={leadMagnet.tag}
+    clusterName={leadMagnet.clusterName}
+    icon={leadMagnet.icon}
+    description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+  />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Choose your lawn shape &mdash; rectangle, circle, triangle, or multiple sections for an irregular lawn.</li>
+      <li>Enter your lawn&rsquo;s dimensions for the shape you chose.</li>
+      <li>Select your grass type (or use the industry-standard default) and a waste factor for your lawn&rsquo;s edges.</li>
+      <li>Read your total square footage, pallets needed, and individual pieces.</li>
+    </ol>
+
+    <h2 id="how-much-sod-do-you-need">How Much Sod Do You Need?</h2>
+    <p>
+      The math behind this sod calculator is simple once you have the right inputs: find your lawn&rsquo;s area, add a waste factor for cutting pieces to fit non-rectangular edges, then divide by how much square footage a single pallet actually covers &mdash; rounded up, since suppliers sell whole pallets, not fractions of one.
+    </p>
+    <p>
+      <strong>Pallets needed = ROUNDUP( Area &times; (1 + Waste Factor) &divide; Pallet Coverage )</strong>
+    </p>
+    <p>
+      The part most sod calculators get wrong, or skip entirely, is that &ldquo;pallet coverage&rdquo; isn&rsquo;t one fixed number. It genuinely depends on which grass type you&rsquo;re buying &mdash; see the next section for why.
+    </p>
+
+    <h2 id="why-pallet-coverage-varies-by-grass-type">Why Pallet Coverage Varies by Grass Type</h2>
+    <figure class="my-6 float-right ml-6 w-48 sm:w-64">
+      <img
+        src="/sod-calculator-laying-sod.svg"
+        alt="A roll of sod being unrolled onto prepared brown soil next to a stack of sod slabs on a pallet"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+    </figure>
+    <p>
+      This is genuinely a physics problem, not a marketing distinction. <strong>Warm-season grasses</strong> &mdash; Bermuda, Zoysia, St. Augustine, and centipede &mdash; spread using stolons and rhizomes (runners), root systems that don&rsquo;t roll cleanly into a tight cylinder. Growers cut them as thicker, heavier slabs with more soil attached to keep the piece intact during handling. A heavier piece means a truck or pallet can carry less total area before hitting its weight limit, so warm-season pallets typically cover only <strong>400&ndash;450 sq ft</strong>.
+    </p>
+    <p>
+      <strong>Cool-season grasses</strong> &mdash; tall fescue, Kentucky bluegrass, and ryegrass &mdash; grow in dense, fibrous-rooted bunches that hold together in a thinner cut. Growers harvest them thinner and sell them as rolls rather than individual slabs. Lighter weight per square foot means a pallet carries more total area before hitting the same truck weight limit &mdash; typically <strong>500&ndash;600 sq ft</strong>.
+    </p>
+    <p>
+      Both are constrained by the exact same delivery truck weight limits; the coverage difference is just how that limit plays out against two different harvest thicknesses. <strong>450 sq ft is the Turfgrass Producers International industry-standard figure</strong> and a safe planning default if you don&rsquo;t know your grass type yet, but confirm the real number with your actual supplier before you place an order &mdash; individual farms and grass varieties vary within these ranges.
+    </p>
+    <p>
+      Not sure which type you have? Our <a href="/blog/cool-season-vs-warm-season-grass/">Cool-Season vs. Warm-Season Grass guide</a> covers the real diagnostic (it comes down to when your lawn actually grows, not just texture) and explains why the two types behave so differently in the first place.
+    </p>
+
+    <h2 id="pallet-coverage-reference">Pallet Coverage Reference</h2>
+    <p>Typical pallet coverage by grass type. Confirm with your supplier &mdash; individual farms vary within these ranges.</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Sod Pallet Coverage Reference
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Grass type</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Season</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Typical coverage</th>
+            <th scope="col" class="py-2.5 font-semibold">Sold as</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          {coverageRows.map((row, i) => (
+            <tr class={i % 2 === 1 ? 'border-b border-moss-50 bg-moss-50/30' : 'border-b border-moss-50'}>
+              <th scope="row" class="py-2 pr-4 font-semibold text-bark-900">{row.grass}</th>
+              <td class="py-2 pr-4">{row.season}</td>
+              <td class="py-2 pr-4">{row.coverage}</td>
+              <td class="py-2">{row.soldAs}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="choosing-your-waste-factor">Choosing Your Waste Factor</h2>
+    <p>
+      Waste comes from cutting rectangular sod pieces to fit a lawn that isn&rsquo;t a perfect rectangle &mdash; every curved bed edge, walkway, or tree ring leaves an offcut you can&rsquo;t reuse elsewhere. Use <strong>5%</strong> for a simple rectangular lawn with straight edges, <strong>10%</strong> for a lawn with some curved edges or a driveway to work around (a reasonable default for most yards), and <strong>15%</strong> for a lawn with multiple obstacles &mdash; trees, island beds, walkways &mdash; or several separate irregular sections.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Let&rsquo;s sod a <strong>40 &times; 25 ft rectangular lawn</strong> with <strong>tall fescue</strong>, using the default <strong>10% waste factor</strong> for a few curved bed edges:
+    </p>
+    <ol>
+      <li><strong>Area:</strong> 40 ft &times; 25 ft = <strong>1,000 sq ft</strong>.</li>
+      <li><strong>Add waste factor:</strong> 1,000 &times; 1.10 = <strong>1,100 sq ft</strong>.</li>
+      <li><strong>Pallet coverage:</strong> tall fescue = <strong>500 sq ft per pallet</strong> (the typical cool-season figure from the reference table above; confirm with your supplier).</li>
+      <li><strong>Pallets:</strong> 1,100 &divide; 500 = 2.2 &rarr; round up to <strong>3 pallets</strong>.</li>
+      <li><strong>Individual pieces:</strong> 1,100 &divide; 2.75 sq ft per piece &asymp; <strong>400 pieces</strong>.</li>
+    </ol>
+    <p>
+      So this lawn needs <strong>3 pallets</strong> of tall fescue sod (or about 400 individual pieces), with roughly 400 sq ft of spare coverage left over from rounding up &mdash; useful for the offcuts a real install always produces.
+    </p>
+
+    <h2 id="sod-vs-seed">Sod vs. Seed: Which Should You Choose?</h2>
+    <p>
+      This is a genuinely common fork in the road, and neither option is right for everyone. <strong>Sod</strong> gives you an instant, usable lawn &mdash; there&rsquo;s no bare-soil period where wind, foot traffic, or heavy rain can wash everything away, which makes it the practical choice on slopes or anywhere erosion is a real risk. The tradeoff is cost: sod runs substantially more per square foot than seed, both in materials and the labor to install it before it dries out.
+    </p>
+    <p>
+      <strong>Seed</strong> costs far less and gives you access to a much wider range of grass varieties and blends than most sod farms carry. The tradeoff runs the other way: a seeded lawn takes a full growing season to fully establish, needs consistent watering during that whole window, and is vulnerable to washing out or drying out before it roots.
+    </p>
+    <p>
+      Starting a lawn from bare soil with seed instead? Use our <a href="/calculators/grass-seed-calculator/">Grass Seed Calculator</a> for the exact seeding rate by grass type. Thickening an existing lawn rather than starting fresh? Our <a href="/calculators/overseeding-calculator/">Overseeding Calculator</a> handles that at the reduced overseeding rate.
+    </p>
+
+    <h2 id="what-sod-costs">What Sod Costs</h2>
+    <p>
+      This calculator deliberately doesn&rsquo;t estimate a dollar cost, for the same reason we don&rsquo;t publish a tree-planting-cost calculator: material and labor pricing vary too much by region, season, and supplier for a single national figure to be honest rather than misleading. What follows are general ranges, not a quote.
+    </p>
+    <p>
+      Sod material typically runs roughly <strong>$0.25&ndash;$0.80 per sq ft</strong> depending on grass type and region, with premium or specialty varieties running higher. Professional installation adds significantly more on top of material cost, since it includes soil prep, labor, and equipment. <strong>Get local quotes</strong> from sod farms and landscapers in your area for a number you can actually budget against &mdash; anything more precise than that, without knowing your region, would be a guess dressed up as a calculation.
+    </p>
+
+    <h2 id="preparing-the-ground-first">Preparing the Ground First</h2>
+    <p>
+      Sod is only as good as what&rsquo;s underneath it. It needs roughly <strong>4&ndash;6 inches of prepared soil</strong> beneath it to root well, and existing grass and weeds should be removed first rather than sodded directly over &mdash; sod laid over live vegetation roots poorly and the old growth can come back through the seams. If you need to add or level soil before laying sod, our <a href="/calculators/topsoil-calculator/">Topsoil Calculator</a> converts your area and depth into cubic yards or tons, and our <a href="/calculators/soil-type-calculator/">Soil Type Calculator</a> can help you understand what you&rsquo;re working with if drainage or compaction is a concern.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Ordering exactly the measured area with no waste factor.</strong> Every real lawn has some edge that isn&rsquo;t a clean rectangle. Ordering the bare minimum means running short mid-install, with a fresh-cut pallet gap to fill on short notice.</li>
+      <li><strong>Assuming every pallet covers 450 sq ft.</strong> That&rsquo;s an industry-standard planning figure, not a guarantee &mdash; your supplier&rsquo;s actual coverage depends on their grass type and how they cut it. Confirm the real number before you order, especially for a large area where the difference compounds.</li>
+      <li><strong>Not preparing the soil beneath the sod.</strong> Sod laid on unprepared, compacted, or debris-filled ground struggles to root regardless of how fresh it was when it arrived. Soil prep happens before the sod is delivered, not after.</li>
+      <li><strong>Letting delivered sod sit.</strong> Sod should be installed within 24 hours of delivery. The longer it waits on a pallet, especially in heat, the more it dries out, yellows, and struggles to root once it&rsquo;s finally laid.</li>
+    </ul>
+
+    <FAQBlock id="sod-calculator-faq" heading="Sod Calculator FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      Pallet coverage, ordering, and installation guidance in this article follows Mississippi State University Extension&rsquo;s <a href="https://extension.msstate.edu/publications/sod-installation-and-maintenance" rel="noopener">&ldquo;Sod Installation and Maintenance&rdquo;</a> (Publication 2951), and the 450 sq ft industry-standard pallet figure comes from <a href="https://turfgrasssod.org/" rel="noopener">Turfgrass Producers International</a>, the trade association for commercial sod producers. For more on how we source and review the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>, or see our <a href="/sources/">Sources page</a> for the full list of citations used across HarvestMath. For grass type selection, seeding, and lawn care timing beyond sod, see our <a href="/clusters/lawn-and-landscaping/">complete guide to lawn care</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Lawn & Landscaping cluster', url: '/clusters/lawn-and-landscaping/', anchorText: 'see our complete guide to lawn care', note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
+      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'seeding a new lawn from bare soil instead of laying sod? use this for the exact rate.' },
+      { name: 'Overseeding Calculator', url: '/calculators/overseeding-calculator/', note: 'thickening an existing lawn rather than starting fresh? use the reduced overseeding rate.' },
+      { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'need to add or level soil before laying sod? get the exact volume here.' },
+    ]} />
+  </article>
+</CalculatorLayout>

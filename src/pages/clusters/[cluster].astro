@@ -53,7 +53,7 @@ const soilTocItems = [
 ];
 
 const lawnTocItems = [
-  { id: 'live-calculators', label: 'New Lawn & Overseeding Calculators' },
+  { id: 'live-calculators', label: 'New Lawn, Overseeding & Sod Calculators' },
   { id: 'new-lawn-or-overseeding', label: 'New Lawn or Overseeding?' },
   { id: 'choosing-the-right-grass-type', label: 'Choosing the Right Grass Type' },
   { id: 'lawn-care-timing', label: 'Lawn Care Timing' },
@@ -130,7 +130,7 @@ const pillarTocItems = isSoilPillar
 const liveCalculatorsHeading = isSoilPillar
   ? 'Soil, Compost & Mulch Calculators'
   : isLawnPillar
-  ? 'New Lawn & Overseeding Calculators'
+  ? 'New Lawn, Overseeding & Sod Calculators'
   : isIndoorPillar
   ? 'Light & Pot Size Calculators'
   : isWateringPillar
@@ -199,6 +199,7 @@ const calculatorTint: Record<string, string> = {
   'compost-calculator': 'bg-[#4A7C59]/10',
   'grass-seed-calculator': 'bg-[#8B6535]/10',
   'overseeding-calculator': 'bg-[#4A7C59]/10',
+  'sod-calculator': 'bg-[#8B6535]/10',
   'grow-light-calculator': 'bg-[#E8A94A]/10',
   'pot-size-calculator': 'bg-[#8B6535]/10',
   'drip-irrigation-calculator': 'bg-moss-50',
@@ -791,10 +792,10 @@ const indoorReferenceRows = [
           />
         </figure>
         <p>
-          These are two different jobs with two different rates, and mixing them up is the single most common seeding mistake. A <strong>new lawn</strong> starts from bare soil &mdash; tilled ground, a torn-out old lawn, or a brand-new construction lot &mdash; with nothing already growing to compete with new seedlings, so it needs a full establishment rate. <strong>Overseeding</strong> works seed into a lawn that already has living turf in place, whether it&rsquo;s thin, patchy, or just due for a thickness boost &mdash; since the existing grass already covers part of the ground, it needs roughly half the new-lawn rate, scaled up if the lawn is thinner or barer.
+          These are two different seeding jobs with two different rates, and mixing them up is the single most common seeding mistake. A <strong>new lawn</strong> starts from bare soil &mdash; tilled ground, a torn-out old lawn, or a brand-new construction lot &mdash; with nothing already growing to compete with new seedlings, so it needs a full establishment rate. <strong>Overseeding</strong> works seed into a lawn that already has living turf in place, whether it&rsquo;s thin, patchy, or just due for a thickness boost &mdash; since the existing grass already covers part of the ground, it needs roughly half the new-lawn rate, scaled up if the lawn is thinner or barer. There&rsquo;s a third path that skips seed entirely: <strong>sod</strong> gives you an instant, usable lawn at a higher cost, and holds slopes that seed would wash off of while it establishes.
         </p>
 
-        <div class="not-prose my-8 grid gap-5 sm:grid-cols-2">
+        <div class="not-prose my-8 grid gap-5 sm:grid-cols-3">
           <a
             href="/calculators/grass-seed-calculator/"
             class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
@@ -819,6 +820,18 @@ const indoorReferenceRows = [
               <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
           </a>
+          <a
+            href="/calculators/sod-calculator/"
+            class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+          >
+            <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Instant lawn</span>
+            <h3 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">Sod Calculator</h3>
+            <p class="text-sm leading-relaxed text-bark-600">Skipping seed for an instant lawn? Get pallets and pieces for your lawn&rsquo;s shape and grass type.</p>
+            <span class="mt-auto inline-flex items-center text-sm font-medium text-moss-700">
+              Open
+              <svg class="ml-1 h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
         </div>
 
         <h2 id="choosing-the-right-grass-type">Choosing the Right Grass Type</h2>
@@ -836,7 +849,7 @@ const indoorReferenceRows = [
           Lawn grasses split into two broad groups by climate. <strong>Cool-season grasses</strong> &mdash; Kentucky bluegrass, tall fescue, perennial ryegrass, fine fescue &mdash; thrive in the cooler climates of the Northern U.S. and the transition zone, grow most actively in spring and fall, and can go semi-dormant (brown) during peak summer heat. <strong>Warm-season grasses</strong> &mdash; Bermuda, Zoysia &mdash; thrive in the hot climates of the Southern U.S., grow most vigorously through summer heat, and go dormant (brown) once temperatures drop in winter.
         </p>
         <p>
-          The <a href="/calculators/grass-seed-calculator/">Grass Seed Calculator</a>&rsquo;s grass-type dropdown covers both groups for establishing a new lawn, and the <a href="/calculators/overseeding-calculator/">Overseeding Calculator</a> covers the same species (plus winter-overseeding a dormant Bermuda lawn with ryegrass for color) for renovating existing turf. We&rsquo;re also working on a dedicated Cool-Season vs. Warm-Season Grass guide with a full climate map and species-by-species comparison &mdash; check back soon.
+          The <a href="/calculators/grass-seed-calculator/">Grass Seed Calculator</a>&rsquo;s grass-type dropdown covers both groups for establishing a new lawn, and the <a href="/calculators/overseeding-calculator/">Overseeding Calculator</a> covers the same species (plus winter-overseeding a dormant Bermuda lawn with ryegrass for color) for renovating existing turf. The same split matters for sod, too, just for a different reason &mdash; warm-season sod is cut as thicker slabs and covers less area per pallet, while cool-season sod is cut thinner and sold as rolls that cover more; the <a href="/calculators/sod-calculator/">Sod Calculator</a>&rsquo;s grass-type selector accounts for the difference. For the full diagnostic on telling the two groups apart, see our <a href="/blog/cool-season-vs-warm-season-grass/">Cool-Season vs. Warm-Season Grass guide</a>.
         </p>
 
         <h2 id="lawn-care-timing">Lawn Care Timing</h2>

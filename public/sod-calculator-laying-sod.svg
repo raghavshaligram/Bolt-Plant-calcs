@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A roll of sod being unrolled onto prepared brown soil next to a stack of sod slabs on a pallet">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="200" fill="#EDE7D6"/>
+
+  <!-- Distant hills -->
+  <path d="M0 200 Q200 175 400 190 T800 185 V220 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+
+  <!-- Sun -->
+  <circle cx="120" cy="80" r="28" fill="#F0D878" opacity="0.7"/>
+  <circle cx="120" cy="80" r="20" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Ground band -->
+  <rect x="0" y="220" width="800" height="280" fill="#C8D9A8"/>
+
+  <!-- Prepared bare soil area (left/foreground, not yet sodded) -->
+  <rect x="0" y="300" width="430" height="200" fill="#8B6535"/>
+  <rect x="0" y="300" width="430" height="200" fill="#6B4F35" opacity="0.35"/>
+  <!-- Soil texture flecks -->
+  <g fill="#5C4433" opacity="0.5">
+    <circle cx="60" cy="360" r="3"/>
+    <circle cx="120" cy="410" r="2.5"/>
+    <circle cx="200" cy="380" r="3"/>
+    <circle cx="80" cy="450" r="2.5"/>
+    <circle cx="260" cy="440" r="3"/>
+    <circle cx="340" cy="400" r="2.5"/>
+    <circle cx="30" cy="410" r="2"/>
+  </g>
+
+  <!-- Already-laid sod area (right side), staggered slab seams -->
+  <g>
+    <rect x="430" y="300" width="370" height="200" fill="#7DA35E"/>
+    <g stroke="#5C7F45" stroke-width="2" opacity="0.6">
+      <line x1="430" y1="350" x2="700" y2="350"/>
+      <line x1="530" y1="400" x2="800" y2="400"/>
+      <line x1="430" y1="450" x2="700" y2="450"/>
+      <line x1="590" y1="300" x2="590" y2="350"/>
+      <line x1="670" y1="350" x2="670" y2="400"/>
+      <line x1="520" y1="400" x2="520" y2="450"/>
+      <line x1="620" y1="450" x2="620" y2="500"/>
+    </g>
+    <!-- grass texture tufts -->
+    <g fill="#6B9552" opacity="0.7">
+      <path d="M470 340 Q467 328 470 318 Q473 328 470 340Z"/>
+      <path d="M600 380 Q597 368 600 358 Q603 368 600 380Z"/>
+      <path d="M720 420 Q717 408 720 398 Q723 408 720 420Z"/>
+      <path d="M560 460 Q557 448 560 438 Q563 448 560 460Z"/>
+    </g>
+  </g>
+
+  <!-- Seam / working edge where new sod meets bare soil -->
+  <rect x="415" y="298" width="30" height="204" fill="#4A7C3F" opacity="0.5"/>
+
+  <!-- Unrolled sod strip crossing the seam, mid-lay -->
+  <g transform="translate(300, 330)">
+    <rect x="0" y="0" width="150" height="46" rx="4" fill="#7DA35E"/>
+    <rect x="0" y="0" width="150" height="46" rx="4" fill="none" stroke="#5C7F45" stroke-width="2"/>
+    <g stroke="#5C7F45" stroke-width="1.5" opacity="0.5">
+      <line x1="20" y1="4" x2="20" y2="42"/>
+      <line x1="55" y1="4" x2="55" y2="42"/>
+      <line x1="90" y1="4" x2="90" y2="42"/>
+      <line x1="125" y1="4" x2="125" y2="42"/>
+    </g>
+  </g>
+
+  <!-- The rolled-up portion of that same sod strip, not yet unrolled -->
+  <g transform="translate(440, 320)">
+    <ellipse cx="30" cy="30" rx="30" ry="30" fill="#8B6535"/>
+    <ellipse cx="30" cy="30" rx="30" ry="30" fill="none" stroke="#6B4F35" stroke-width="2"/>
+    <circle cx="30" cy="30" r="19" fill="#A87F4A"/>
+    <circle cx="30" cy="30" r="10" fill="#8B6535"/>
+    <circle cx="30" cy="30" r="4" fill="#6B4F35"/>
+  </g>
+
+  <!-- Pallet stack of sod slabs, background right -->
+  <g transform="translate(600, 240)">
+    <!-- pallet base -->
+    <rect x="-10" y="70" width="180" height="14" rx="2" fill="#A87F4A"/>
+    <g stroke="#6B4F35" stroke-width="3">
+      <line x1="10" y1="70" x2="10" y2="84"/>
+      <line x1="80" y1="70" x2="80" y2="84"/>
+      <line x1="150" y1="70" x2="150" y2="84"/>
+    </g>
+    <!-- stacked slabs, alternating brown soil edge + green top -->
+    <g>
+      <rect x="0" y="46" width="160" height="24" rx="2" fill="#7DA35E"/>
+      <rect x="0" y="46" width="160" height="8" rx="2" fill="#8B6535"/>
+      <rect x="0" y="24" width="160" height="24" rx="2" fill="#8FAE72"/>
+      <rect x="0" y="24" width="160" height="8" rx="2" fill="#A87F4A"/>
+      <rect x="0" y="2" width="160" height="24" rx="2" fill="#7DA35E"/>
+      <rect x="0" y="2" width="160" height="8" rx="2" fill="#8B6535"/>
+    </g>
+    <!-- pallet label -->
+    <rect x="0" y="-24" width="88" height="20" rx="5" fill="#3A4A2A" opacity="0.85"/>
+    <text x="44" y="-10" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="#F5F1E8" text-anchor="middle">1 pallet</text>
+  </g>
+
+  <!-- Hands laying the mid-unroll strip -->
+  <g transform="translate(255, 330)">
+    <path d="M-10 60 L30 20" stroke="#C99A6B" stroke-width="20" stroke-linecap="round"/>
+    <ellipse cx="35" cy="14" rx="16" ry="12" fill="#D9AC7A" transform="rotate(-30 35 14)"/>
+  </g>
+</svg>
