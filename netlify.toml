@@ -1,0 +1,28 @@
+[build]
+  # Explicit, version-controlled build command -- this is the single source of
+  # truth for what Netlify runs, instead of relying on a dashboard setting
+  # that isn't tracked in git and can silently drift (e.g. someone resets it
+  # to a framework-detected "astro build", which would build the site fine
+  # but skip the `pagefind --site dist` postbuild step and ship a stale or
+  # missing search index with no trace of the change in the repo).
+  command = "npm run build"
+  publish = "dist"
+
+# Pagefind's index entry points (pagefind.js and pagefind-entry.json) are NOT
+# content-hashed filenames -- they're the fixed URLs the search UI always
+# requests first, and they in turn point at content-hashed chunk/meta files
+# that DO change every build. If a CDN or browser caches these two files
+# beyond their real lifetime, the site can serve a new page (fresh HTML)
+# alongside a search index pointer left over from the previous deploy.
+# Keeping them at effectively no-cache (revalidate every request) means a
+# rebuilt index is visible immediately after each deploy, not after a cache
+# window expires.
+[[headers]]
+  for = "/pagefind/pagefind.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/pagefind/pagefind-entry.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

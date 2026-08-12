@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 
 // Site-wide search powered by Pagefind (https://pagefind.app) -- a static
 // search index generated as a postbuild step (see package.json's "build"
@@ -72,7 +73,6 @@ export default function SiteSearch() {
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = 'hidden';
-    const raf = requestAnimationFrame(() => inputRef.current?.focus());
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeAndReset();
     };
@@ -80,7 +80,6 @@ export default function SiteSearch() {
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
-      cancelAnimationFrame(raf);
     };
   }, [open]);
 
@@ -127,7 +126,18 @@ export default function SiteSearch() {
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          // Mobile browsers -- iOS Safari in particular -- only reliably pop
+          // the on-screen keyboard when .focus() runs synchronously inside
+          // the click handler that carries the user gesture. The modal's
+          // input doesn't exist in the DOM until `open` becomes true, so
+          // flushSync forces that state update (and the resulting render)
+          // to commit immediately, in this same call stack, instead of on
+          // React's next async tick -- by the time focus() runs a line
+          // later, the input is really there and the gesture hasn't expired.
+          flushSync(() => setOpen(true));
+          inputRef.current?.focus();
+        }}
         aria-label="Search the site"
         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-bark-600 transition hover:bg-moss-100 hover:text-moss-800"
       >
