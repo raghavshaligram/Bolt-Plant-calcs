@@ -454,6 +454,18 @@ export const sourceCategories: SourceCategory[] = [
         institution: 'National Institute of Standards and Technology (NIST)',
         citedBy: [{ title: 'Tree Age Calculator', href: '/calculators/tree-age-calculator/' }],
       },
+      {
+        title: '"Measuring Tree Height using a Clinometer"',
+        url: 'https://grazingland.cssm.iastate.edu/measuring-tree-height-using-clinometer',
+        institution: 'Iowa State University (NRI Grazing Land / Center for Survey Statistics and Methodology)',
+        citedBy: [{ title: 'Tree Height Calculator', href: '/calculators/tree-height-calculator/' }],
+      },
+      {
+        title: 'Tree Measurement Guidelines',
+        url: 'https://tfsweb.tamu.edu/elibrary-item/tree-measurement-guidelines/',
+        institution: 'Texas A&M Forest Service',
+        citedBy: [{ title: 'Tree Height Calculator', href: '/calculators/tree-height-calculator/' }],
+      },
     ],
   },
 ];

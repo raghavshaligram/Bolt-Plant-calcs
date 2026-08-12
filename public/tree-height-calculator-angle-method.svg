@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A person sighting a tree's height with a clinometer, showing the angle of elevation, horizontal distance, and eye height used in the angle method">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+
+  <!-- Distant hills -->
+  <path d="M0 190 Q200 155 400 175 T800 180 V210 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+
+  <!-- Sun -->
+  <circle cx="700" cy="75" r="28" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="75" r="20" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+
+  <!-- Tree trunk -->
+  <g>
+    <path d="M560 500 L550 220 Q548 175 568 150 Q585 128 625 125 Q665 128 682 150 Q702 175 700 220 L690 500 Z" fill="#7A5C3E"/>
+    <line x1="580" y1="260" x2="576" y2="480" stroke="#634A30" stroke-width="4" opacity="0.4"/>
+    <line x1="612" y1="180" x2="608" y2="480" stroke="#634A30" stroke-width="5" opacity="0.4"/>
+    <line x1="645" y1="190" x2="649" y2="480" stroke="#634A30" stroke-width="4" opacity="0.4"/>
+  </g>
+
+  <!-- Canopy -->
+  <g>
+    <ellipse cx="625" cy="90" rx="140" ry="88" fill="#5C7A42"/>
+    <ellipse cx="560" cy="72" rx="82" ry="60" fill="#6B8E4E" opacity="0.9"/>
+    <ellipse cx="690" cy="76" rx="86" ry="62" fill="#6B8E4E" opacity="0.9"/>
+    <ellipse cx="625" cy="52" rx="92" ry="64" fill="#7A9C5E" opacity="0.85"/>
+  </g>
+
+  <!-- Height bracket on the tree -->
+  <g stroke="#8B6535" stroke-width="2">
+    <line x1="520" y1="28" x2="520" y2="500"/>
+    <line x1="512" y1="28" x2="528" y2="28"/>
+    <line x1="512" y1="500" x2="528" y2="500"/>
+  </g>
+  <text x="500" y="265" fill="#5C4433" font-family="Georgia, serif" font-size="16" font-weight="600" text-anchor="middle" transform="rotate(-90 500 265)">Height?</text>
+
+  <!-- Person -->
+  <g>
+    <circle cx="150" cy="392" r="16" fill="#5C4433"/>
+    <path d="M150 408 L150 460" stroke="#5C4433" stroke-width="10" stroke-linecap="round"/>
+    <path d="M150 460 L136 500 M150 460 L164 500" stroke="#3E2E22" stroke-width="9" stroke-linecap="round"/>
+    <path d="M150 420 L188 402" stroke="#5C4433" stroke-width="9" stroke-linecap="round"/>
+    <!-- clinometer / phone in hand -->
+    <rect x="184" y="392" width="16" height="26" rx="3" fill="#3E2E22"/>
+  </g>
+
+  <!-- Eye height dashed reference -->
+  <line x1="150" y1="392" x2="520" y2="392" stroke="#8B6535" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.7"/>
+  <text x="330" y="384" fill="#5C4433" font-family="Georgia, serif" font-size="14" text-anchor="middle">eye height</text>
+
+  <!-- Sight line to treetop -->
+  <line x1="192" y1="400" x2="625" y2="30" stroke="#B8975C" stroke-width="2.5" stroke-dasharray="6 5"/>
+
+  <!-- Angle arc at the eye -->
+  <path d="M232 392 A40 40 0 0 0 213 359" fill="none" stroke="#8B6535" stroke-width="2"/>
+  <text x="250" y="368" fill="#5C4433" font-family="Georgia, serif" font-size="15" font-weight="600">angle</text>
+
+  <!-- Horizontal distance dimension line at ground -->
+  <line x1="150" y1="440" x2="560" y2="440" stroke="#5C4433" stroke-width="1.5"/>
+  <line x1="150" y1="432" x2="150" y2="448" stroke="#5C4433" stroke-width="1.5"/>
+  <line x1="560" y1="432" x2="560" y2="448" stroke="#5C4433" stroke-width="1.5"/>
+  <text x="355" y="462" fill="#5C4433" font-family="Georgia, serif" font-size="16" font-weight="600" text-anchor="middle">horizontal distance</text>
+
+  <!-- Ground blades -->
+  <g fill="#9AB870" opacity="0.7">
+    <path d="M60 420 Q58 410 60 402 Q62 410 60 420Z"/>
+    <path d="M740 420 Q738 410 740 402 Q742 410 740 420Z"/>
+    <path d="M350 420 Q348 412 350 405 Q352 412 350 420Z"/>
+  </g>
+</svg>

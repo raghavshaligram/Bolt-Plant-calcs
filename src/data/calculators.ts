@@ -433,6 +433,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/growing-degree-days-calculator/',
     status: 'live',
   },
+  {
+    slug: 'tree-height-calculator',
+    title: 'Tree Height Calculator',
+    shortTitle: 'Tree Height',
+    description:
+      'Measure a tree\'s height three ways — clinometer angle, shadow ratio, or the stick method — without climbing, including a slope correction for sloped ground.',
+    metaDescription:
+      'Measure a tree\'s height three ways — clinometer angle, shadow ratio, or stick method — including the slope correction most calculators skip.',
+    seoTitle: 'Tree Height Calculator - Measure Any Tree, No Climbing',
+    cluster: 'trees-and-shrubs',
+    href: '/calculators/tree-height-calculator/',
+    status: 'live',
+  },
 ];
 
 // Brevo lead-magnet listId + display label per cluster, shared by both the

@@ -28,6 +28,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 - [Grow Light & DLI Calculator](https://harvestmath.com/calculators/grow-light-calculator/): grow light coverage, wattage, DLI, and hanging distance
 - [Vegetable Yield Calculator](https://harvestmath.com/calculators/vegetable-yield-calculator/): estimated harvest yield by crop and area
 - [Growing Degree Days Calculator](https://harvestmath.com/calculators/growing-degree-days-calculator/): converts daily high/low temps into GDD/GDU with base temperature presets, the 86/50 cap, and single-day or season-long accumulation tracking
+- [Tree Height Calculator](https://harvestmath.com/calculators/tree-height-calculator/): measures a tree's height three ways -- clinometer angle (with slope correction for sloped ground), shadow ratio, or the stick method
 - [Greenhouse Heater Calculator](https://harvestmath.com/calculators/greenhouse-heater-calculator/): estimated heat loss and recommended heater size (BTU) by shape, glazing, and climate
 - [Hydroponic Nutrient Calculator](https://harvestmath.com/calculators/hydroponic-nutrient-calculator/): scale any nutrient product's label dose by reservoir size and growth stage, plus EC-to-PPM conversion on the 500/640/700 scales
 

@@ -1,0 +1,352 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import TreeHeightCalculator from '../../components/calculators/TreeHeightCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
+
+const calculator = getCalculator('tree-height-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'Trees outgrow any ladder or tape measure, so how to measure the height of a tree without climbing it comes down to three practical methods: an angle and some trigonometry, a shadow on a sunny day, or nothing more than a stick held at arm’s length. This tree height calculator runs the math for whichever method you can use right now, including the slope correction most free calculators skip when the ground under a tree isn’t level. Pick a method, enter your measurements, and get a height in seconds.';
+
+const tocItems = [
+  { id: 'three-ways-to-measure-a-trees-height', label: 'Three Ways to Measure Height', icon: 'leaf' as const },
+  { id: 'the-angle-method', label: 'The Angle Method', icon: 'table' as const },
+  { id: 'the-45-degree-shortcut', label: 'The 45-Degree Shortcut', icon: 'table' as const },
+  { id: 'measuring-on-a-slope', label: 'Measuring on a Slope', icon: 'warning' as const },
+  { id: 'the-shadow-method', label: 'The Shadow Method', icon: 'table' as const },
+  { id: 'the-stick-method', label: 'The Stick Method', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'tree-height-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/tree-height-calculator-angle-method.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'How do you measure the height of a tree without climbing it?',
+    a: 'Three ways: sight the treetop with a clinometer (or a phone’s level app) and use the angle plus your distance from the tree; compare the tree’s shadow to a reference object’s shadow on a sunny day; or hold a stick at arm’s length and use its length as a stand-in for a sight angle. The calculator above runs the math for whichever one you can use right now.',
+  },
+  {
+    q: 'Can I measure a tree’s height with my phone?',
+    a: 'Yes — the built-in level or compass app on most smartphones reads angle of elevation just like a dedicated clinometer. Aim your phone at the treetop, read the angle, and plug it into the angle method above along with your distance from the tree and your eye height.',
+  },
+  {
+    q: 'Which method is most accurate?',
+    a: 'The angle method, because it’s built directly on trigonometry rather than a proxy comparison. It still depends on measuring your distance and angle carefully, and on correcting for slope if the ground under the tree isn’t level — skip either of those and the angle method can be less accurate than a careful shadow or stick measurement.',
+  },
+  {
+    q: 'How do I measure a tree on a hill?',
+    a: 'Use the angle method’s slope correction: sight a second angle to the tree’s base (not just the top), tell the calculator whether the base is above or below your eye level, and it adjusts the formula accordingly. Skipping this on sloped ground is the single biggest source of error in DIY tree height measurements — see “Measuring on a Slope” above.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Measure the height of a tree without climbing it',
+  description:
+    'Use the tree height calculator to estimate a tree’s height with the angle method, the shadow method, or the stick method — including a slope correction for sloped ground.',
+  totalTime: 'PT2M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Pick a method',
+      text: 'Pick a method: angle (most accurate), shadow (no equipment, needs sun), or stick (no equipment, no sun needed).',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Enter your measurements',
+      text: 'Enter the measurements that method needs — distance and angle for the angle method, two shadow lengths and a reference height for the shadow method, or stick length, arm distance, and tree distance for the stick method.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Correct for slope if needed',
+      text: 'If you’re using the angle method on sloped ground, select whether the tree’s base is above or below your eye level and add the second angle.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read the estimated height',
+      text: 'Read the estimated tree height, or export the result as a PDF.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Trees & Shrubs',
+      item: 'https://harvestmath.com/clusters/trees-and-shrubs/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Tree Height Calculator',
+      item: 'https://harvestmath.com/calculators/tree-height-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Tree Height Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/tree-height-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <TreeHeightCalculator client:load />
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnetForm
+    client:load
+    listId={leadMagnet.listId}
+    tag={leadMagnet.tag}
+    clusterName={leadMagnet.clusterName}
+    icon={leadMagnet.icon}
+    description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+  />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <p>
+      This tree height measurement tool supports three independent methods &mdash; angle, shadow, and stick &mdash; each with its own inputs.
+    </p>
+    <ol>
+      <li>Pick a method: angle (most accurate), shadow (no equipment, needs sun), or stick (no equipment, no sun needed).</li>
+      <li>Enter the measurements that method needs.</li>
+      <li>If you&rsquo;re using the angle method on sloped ground, select whether the tree&rsquo;s base is above or below your eye level and add the second angle.</li>
+      <li>Read the estimated height, or export it as a PDF.</li>
+    </ol>
+
+    <h2 id="three-ways-to-measure-a-trees-height">Three Ways to Measure a Tree&rsquo;s Height</h2>
+    <p>
+      This page covers how to estimate the height of a tree three different ways &mdash; pick whichever matches what you have on hand.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm not-prose">
+        <caption class="mb-3 text-left text-xs font-semibold uppercase tracking-wider text-bark-400">
+          Comparing the three methods
+        </caption>
+        <thead>
+          <tr class="border-b-2 border-moss-200 text-xs font-semibold uppercase tracking-wide text-bark-500">
+            <th scope="col" class="py-2.5 pr-4 font-semibold">Method</th>
+            <th scope="col" class="py-2.5 pr-4 font-semibold">What it needs</th>
+            <th scope="col" class="py-2.5 font-semibold">When it&rsquo;s best</th>
+          </tr>
+        </thead>
+        <tbody class="text-bark-700">
+          <tr class="border-b border-moss-50">
+            <th scope="row" class="py-2.5 pr-4 font-semibold text-bark-900">Angle</th>
+            <td class="py-2.5 pr-4">A clinometer or a phone&rsquo;s level/compass app, plus a measured distance</td>
+            <td class="py-2.5">Most situations &mdash; the most accurate of the three, and the only one that corrects for slope</td>
+          </tr>
+          <tr class="border-b border-moss-50 bg-moss-50/30">
+            <th scope="row" class="py-2.5 pr-4 font-semibold text-bark-900">Shadow</th>
+            <td class="py-2.5 pr-4">No equipment, but you need direct sun and a reference object of known height</td>
+            <td class="py-2.5">A quick estimate on a sunny day; unreliable on sloping ground</td>
+          </tr>
+          <tr>
+            <th scope="row" class="py-2.5 pr-4 font-semibold text-bark-900">Stick</th>
+            <td class="py-2.5 pr-4">Just a straight stick &mdash; no sun, no phone, no clinometer</td>
+            <td class="py-2.5">Overcast days or after dark scouting; the roughest estimate of the three, since it&rsquo;s sensitive to how steadily you hold the stick</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="the-angle-method">The Angle Method (Most Accurate)</h2>
+    <figure class="my-6 float-right ml-6 w-56 sm:w-72">
+      <img
+        src="/tree-height-calculator-angle-method.svg"
+        alt="A person sighting a tree's height with a clinometer, showing the angle of elevation, horizontal distance, and eye height used in the angle method"
+        width="400"
+        height="250"
+        loading="lazy"
+        class="rounded-xl border border-moss-100 bg-moss-50/30"
+      />
+      <figcaption class="mt-2 text-xs text-bark-500">
+        Distance, angle, and eye height are the three inputs the flat-ground formula needs.
+      </figcaption>
+    </figure>
+    <p>
+      The angle method is the standard answer to how to measure tree height with the best accuracy. Stand a measured distance from the tree, sight the treetop with a clinometer or a phone&rsquo;s level app to get the angle of elevation, and the calculator does the rest:
+    </p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">
+      Height = (Distance &times; tan(angle)) + Eye height
+    </p>
+    <p>
+      This works because the distance to the tree, the tree&rsquo;s height above your eye level, and your line of sight form a right triangle &mdash; the tangent of the angle of elevation is exactly the ratio of &ldquo;height above eye level&rdquo; to &ldquo;horizontal distance.&rdquo; Multiply the tangent by your distance and you get the height above your eyes; add your own eye height back in and you have the tree&rsquo;s total height from the ground.
+    </p>
+    <p>
+      For the least error, stand roughly <strong>1 to 1.5 times the tree&rsquo;s estimated height</strong> away from it. Too close, and small errors in your angle reading get amplified into large height errors; too far, and it gets hard to sight the exact treetop through branches. And you don&rsquo;t need to buy a dedicated clinometer &mdash; the level or compass app already on most smartphones reads angle of elevation just as well.
+    </p>
+
+    <h2 id="the-45-degree-shortcut">The 45-Degree Shortcut</h2>
+    <p>
+      There&rsquo;s a version of the angle method that skips trigonometry entirely. Walk backward from the tree until the angle to the treetop reads exactly <strong>45&deg;</strong> on your clinometer or phone. At that specific angle, tan(45&deg;) = 1, which collapses the formula to:
+    </p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">
+      Height = Distance to tree + Eye height
+    </p>
+    <p>
+      In other words: once you&rsquo;re standing at the exact spot where the treetop looks 45&deg; up, the tree&rsquo;s height simply equals how far you are from it, plus your own eye height. No calculator or math required at that point &mdash; just pace off the distance. It&rsquo;s a genuinely useful trick to remember even without a phone or an app.
+    </p>
+
+    <h2 id="measuring-on-a-slope">Measuring on a Slope</h2>
+    <p>
+      The flat-ground formula above assumes something that&rsquo;s often not true in a home landscape: that you&rsquo;re standing level with the base of the tree. On sloped ground it isn&rsquo;t, and most free tree height calculators simply ignore this &mdash; producing a wrong answer on any yard with a hill, a berm, or a graded slope near the tree.
+    </p>
+    <p>
+      The fix is a second angle reading, sighted to the tree&rsquo;s <em>base</em> instead of its top, and the correction goes one of two ways depending on which side of you the base falls on:
+    </p>
+    <ul>
+      <li>
+        <strong>Base is below you</strong> (you&rsquo;re standing uphill from the tree): both angles add, since the base sits below your horizontal sightline and its angle contributes extra height.
+        <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">Height = Distance &times; (tan(angle to top) + tan(angle down to base))</p>
+      </li>
+      <li>
+        <strong>Base is above you</strong> (the tree is uphill from you): the base angle subtracts, since the ground rising toward the tree reduces the tree&rsquo;s apparent height above your sightline.
+        <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">Height = Distance &times; (tan(angle to top) &minus; tan(angle up to base))</p>
+      </li>
+    </ul>
+    <p>
+      Notice that neither slope formula adds your eye height separately &mdash; the angle to the base already accounts for the vertical offset between your eyes and ground level at the tree, so adding eye height on top of that would double-count it. The calculator above switches between all three formulas automatically based on what you tell it about the slope.
+    </p>
+
+    <h2 id="the-shadow-method">The Shadow Method</h2>
+    <p>
+      No clinometer, no phone app &mdash; just sunlight and a tape measure. This method relies on similar triangles: on a sunny day, a tree and any object standing nearby cast shadows in direct proportion to their actual heights. Measure the tree&rsquo;s shadow, measure a reference object&rsquo;s height and its shadow at the same moment, and solve the ratio:
+    </p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">
+      Height = (Tree shadow &divide; Reference shadow) &times; Reference height
+    </p>
+    <p>
+      A fence post, a yardstick propped upright, or another person of known height all work as the reference object. The key requirement is timing: measure both shadows within a few minutes of each other, since the sun&rsquo;s angle shifts fast enough that shadows measured 20&ndash;30 minutes apart won&rsquo;t share the same ratio anymore. This method is also unreliable on sloping ground &mdash; an incline stretches or compresses a shadow relative to what it would be on flat ground, throwing off the ratio in a way that&rsquo;s hard to correct for.
+    </p>
+
+    <h2 id="the-stick-method">The Stick Method</h2>
+    <p>
+      No sun needed, no equipment beyond a straight stick. This is the same similar-triangles principle as the shadow method, but built from your own arm instead of the sun: hold a stick vertically at arm&rsquo;s length, walk or step back until the visible length of the stick above your fist exactly matches the tree&rsquo;s height in your line of sight, then compare that stick length to your arm distance and scale it by how far you are from the tree.
+    </p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">
+      Height = (Stick length &divide; Arm distance) &times; Distance to tree
+    </p>
+    <p>
+      The main source of error here is the stick itself: it has to be held <strong>perfectly vertical</strong>, since even a slight tilt throws off the ratio. Accuracy also improves the farther back you stand from the tree, for the same reason it does with the angle method &mdash; small errors matter less at greater distances.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p><strong>Angle method, flat ground.</strong> You&rsquo;re 50 ft from the tree, the angle to the treetop reads 28&deg;, and your eye height is 5.5 ft.</p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">(50 &times; tan(28&deg;)) + 5.5 = 32.1 ft</p>
+
+    <p class="mt-6"><strong>Shadow method.</strong> The tree&rsquo;s shadow measures 54 ft. A 6-ft fence post nearby casts a 9-ft shadow at the same time.</p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">(54 &divide; 9) &times; 6 = 36 ft</p>
+
+    <p class="mt-6"><strong>Stick method.</strong> You hold an 18-in (1.5 ft) stick at a 24-in (2 ft) arm distance, standing 60 ft from the tree.</p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">(1.5 &divide; 2) &times; 60 = 45 ft</p>
+
+    <p class="mt-6"><strong>Slope-corrected example &mdash; and why it matters.</strong> The tree is uphill from you (base above eye level). You&rsquo;re 50 ft away, the angle to the treetop reads 30&deg;, and the angle up to the base reads 8&deg;.</p>
+    <p>
+      If you ignored the slope and used the flat formula with a typical 5.5 ft eye height, you&rsquo;d get:
+    </p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">(50 &times; tan(30&deg;)) + 5.5 = 34.4 ft &mdash; wrong</p>
+    <p>
+      Correcting for the slope instead:
+    </p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">50 &times; (tan(30&deg;) &minus; tan(8&deg;)) = 21.8 ft &mdash; correct</p>
+    <p>
+      That&rsquo;s a 12.6 ft overestimate from skipping the slope correction &mdash; on a tree that&rsquo;s only about 22 ft tall, that&rsquo;s not a rounding error, it&rsquo;s more than half the tree. This is exactly the kind of mistake a flat-formula-only calculator makes on any sloped yard.
+    </p>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Using the flat-ground formula on sloped ground.</strong> See the worked example above &mdash; on a slope, this can be off by half the tree&rsquo;s actual height or more. If the tree&rsquo;s base isn&rsquo;t level with where you&rsquo;re standing, use the slope correction.</li>
+      <li><strong>Forgetting to add eye height in the angle method.</strong> The angle only measures how far the treetop rises above your own eye level &mdash; the flat formula has to add your eye height back in to get total height from the ground. Skip it and you&rsquo;ll underestimate by several feet every time.</li>
+      <li><strong>Measuring tree and reference shadows at different times of day.</strong> The sun moves fast enough that a 20&ndash;30 minute gap between measurements can meaningfully change the shadow ratio. Measure both within a few minutes of each other.</li>
+      <li><strong>Standing too close to the tree.</strong> Small errors in reading the angle get amplified at short distances. Aim for roughly 1 to 1.5&times; the tree&rsquo;s estimated height away.</li>
+      <li><strong>Holding the stick at an inconsistent arm distance.</strong> The stick method&rsquo;s ratio only holds if your arm distance and the stick&rsquo;s vertical alignment stay consistent between the moment you calibrate and the moment you read the result.</li>
+    </ul>
+
+    <FAQBlock id="tree-height-faq" heading="Tree Height FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      For a fuller walkthrough of clinometer technique, including how to read topo and percent scales and how slope affects the reading, see Iowa State University&rsquo;s <a href="https://grazingland.cssm.iastate.edu/measuring-tree-height-using-clinometer" rel="noopener">&ldquo;Measuring Tree Height using a Clinometer.&rdquo;</a> For how foresters standardize tree measurements more broadly, see the Texas A&amp;M Forest Service&rsquo;s <a href="https://tfsweb.tamu.edu/elibrary-item/tree-measurement-guidelines/" rel="noopener">Tree Measurement Guidelines</a>. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a> and the full list of sources cited sitewide on our <a href="/sources/">sources page</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Tree Age Calculator', url: '/calculators/tree-age-calculator/', note: 'the other thing people want to know about a tree they can’t cut down — estimate age from trunk circumference.' },
+      { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'switch to Trees & Shrubs mode for mature canopy spacing on fruit trees, pecans, and landscape shrubs.' },
+      { ...clusterGuideLink('trees-and-shrubs'), note: 'watering by age, mulching correctly, and when feeding actually helps.' },
+    ]} />
+  </article>
+</CalculatorLayout>
