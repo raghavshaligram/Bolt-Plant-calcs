@@ -4,13 +4,28 @@ import { jsPDF } from 'jspdf';
 type InputMode = 'dimensions' | 'area';
 type BedShape = 'rectangle' | 'circle';
 type UnitSystem = 'imperial' | 'metric';
+type Material = 'generic' | 'pine-straw';
 
 const STORAGE_KEY = 'mulch-calculator-state-v1';
+
+// Pine straw is sold by the bale, not by cubic yard or bag, so it needs its
+// own coverage-based conversion instead of the generic bag-size divisor.
+// Reference figure: "A 40-pound bale will typically cover about 100 square
+// feet ... to a 2-inch depth" — N.C. Cooperative Extension (Lee County
+// Center), "Pine Needle Mulch — the Myths and Legends," citing Texas
+// AgriLife Extension Service. See the Pine Straw Coverage section on this
+// page for the full citation. We convert that reference figure into an
+// equivalent volume per bale (100 sq ft × 2/12 ft ≈ 16.67 cu ft), then scale
+// it to whatever depth the user actually enters — the same way bag counts
+// scale with depth for every other material here.
+const PINE_STRAW_SQFT_PER_BALE_AT_2IN = 100;
+const PINE_STRAW_CUFT_PER_BALE = PINE_STRAW_SQFT_PER_BALE_AT_2IN * (2 / 12);
 
 interface SavedState {
   mode: InputMode;
   shape: BedShape;
   unitSystem: UnitSystem;
+  material: Material;
   length: string;
   width: string;
   radius: string;
@@ -85,6 +100,7 @@ export default function MulchCalculator() {
   const [mode, setMode] = useState<InputMode>('dimensions');
   const [shape, setShape] = useState<BedShape>('rectangle');
   const [unitSystem, setUnitSystem] = useState<UnitSystem>('imperial');
+  const [material, setMaterial] = useState<Material>('generic');
   const [length, setLength] = useState<string>('8');
   const [width, setWidth] = useState<string>('4');
   const [radius, setRadius] = useState<string>('5');
@@ -99,6 +115,7 @@ export default function MulchCalculator() {
     if (s.mode) setMode(s.mode);
     if (s.shape) setShape(s.shape);
     if (s.unitSystem) setUnitSystem(s.unitSystem);
+    if (s.material) setMaterial(s.material);
     if (s.length !== undefined) setLength(s.length);
     if (s.width !== undefined) setWidth(s.width);
     if (s.radius !== undefined) setRadius(s.radius);
@@ -111,8 +128,8 @@ export default function MulchCalculator() {
   // Persist to localStorage whenever inputs change (after initial load).
   useEffect(() => {
     if (!hasLoaded.current) return;
-    saveState({ mode, shape, unitSystem, length, width, radius, area, depth, bagSize });
-  }, [mode, shape, unitSystem, length, width, radius, area, depth, bagSize]);
+    saveState({ mode, shape, unitSystem, material, length, width, radius, area, depth, bagSize });
+  }, [mode, shape, unitSystem, material, length, width, radius, area, depth, bagSize]);
 
   const parsedBagSize = parseFloat(bagSize);
 
@@ -154,8 +171,9 @@ export default function MulchCalculator() {
     const bags = Number.isFinite(parsedBagSize) && parsedBagSize > 0
       ? bagCount(cubicFeet, parsedBagSize)
       : 0;
+    const pineStrawBales = cubicFeet > 0 ? Math.ceil(cubicFeet / PINE_STRAW_CUFT_PER_BALE) : 0;
 
-    return { sqft, cubicFeet, cubicYards, cubicMeters, bags, depthIn };
+    return { sqft, cubicFeet, cubicYards, cubicMeters, bags, pineStrawBales, depthIn };
   }, [mode, shape, unitSystem, length, width, radius, area, depth, parsedBagSize]);
 
   const hasResult = result.cubicFeet > 0;
@@ -212,7 +230,10 @@ export default function MulchCalculator() {
       inputLines.push(`Total area: ${area || 0} ${areaUnit}`);
     }
     inputLines.push(`Depth: ${depth || 0} ${depthUnit}`);
-    inputLines.push(`Bag size: ${parsedBagSize || 2} cu ft`);
+    inputLines.push(`Material: ${material === 'pine-straw' ? 'Pine straw (sold by the bale)' : 'Bark, wood chips & other mulch'}`);
+    if (material !== 'pine-straw') {
+      inputLines.push(`Bag size: ${parsedBagSize || 2} cu ft`);
+    }
     inputLines.forEach((line) => {
       doc.text(line, margin, y);
       y += 16;
@@ -231,7 +252,9 @@ export default function MulchCalculator() {
       `Cubic feet: ${round(result.cubicFeet, 1).toLocaleString()} cu ft`,
       `Cubic yards: ${round(result.cubicYards, 2).toLocaleString()} cu yd`,
       `Cubic meters: ${round(result.cubicMeters, 3).toLocaleString()} m³`,
-      `Bags (${parsedBagSize || 2} cu ft): ${result.bags.toLocaleString()}`,
+      material === 'pine-straw'
+        ? `Bales (~${PINE_STRAW_SQFT_PER_BALE_AT_2IN} sq ft at 2in depth): ${result.pineStrawBales.toLocaleString()}`
+        : `Bags (${parsedBagSize || 2} cu ft): ${result.bags.toLocaleString()}`,
     ];
     resultLines.forEach((line) => {
       doc.text(line, margin, y);
@@ -241,15 +264,27 @@ export default function MulchCalculator() {
     y += 24;
     doc.setFontSize(9);
     doc.setTextColor(120, 120, 120);
-    doc.text(
-      'Estimates only — verify before buying materials. Bag counts assume',
-      margin, y,
-    );
-    y += 12;
-    doc.text(
-      `standard ${parsedBagSize || 2} cu ft bags and round up to the next whole bag.`,
-      margin, y,
-    );
+    if (material === 'pine-straw') {
+      doc.text(
+        'Estimates only — verify coverage with your supplier. Bale coverage',
+        margin, y,
+      );
+      y += 12;
+      doc.text(
+        'varies by bale size and how densely straw is packed.',
+        margin, y,
+      );
+    } else {
+      doc.text(
+        'Estimates only — verify before buying materials. Bag counts assume',
+        margin, y,
+      );
+      y += 12;
+      doc.text(
+        `standard ${parsedBagSize || 2} cu ft bags and round up to the next whole bag.`,
+        margin, y,
+      );
+    }
 
     doc.save('mulch-calculator-results.pdf');
   };
@@ -327,6 +362,40 @@ export default function MulchCalculator() {
                   Metric (m, cm)
                 </button>
               </div>
+            </div>
+          </div>
+
+          {/* Material selector — pine straw is sold by the bale, not by cubic yard,
+              so it swaps the "Bag size" input below for a bale-count result. */}
+          <div>
+            <span className="label-field">Material</span>
+            <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="tablist" aria-label="Mulch material">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={material === 'generic'}
+                onClick={() => setMaterial('generic')}
+                className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  material === 'generic'
+                    ? 'bg-white text-moss-800 shadow-sm'
+                    : 'text-bark-600 hover:text-moss-800'
+                }`}
+              >
+                Bark, wood chips &amp; other mulch
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={material === 'pine-straw'}
+                onClick={() => setMaterial('pine-straw')}
+                className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  material === 'pine-straw'
+                    ? 'bg-white text-moss-800 shadow-sm'
+                    : 'text-bark-600 hover:text-moss-800'
+                }`}
+              >
+                Pine straw
+              </button>
             </div>
           </div>
 
@@ -458,23 +527,32 @@ export default function MulchCalculator() {
               </p>
             </div>
 
-            <div>
-              <label htmlFor="mulch-bag-size" className="label-field">
-                Bag size <span className="text-bark-500">(cubic feet)</span>
-              </label>
-              <select
-                id="mulch-bag-size"
-                value={bagSize}
-                onChange={(e) => setBagSize(e.target.value)}
-                className="input-field mt-1.5"
-              >
-                <option value="2">2 cu ft (standard bagged mulch)</option>
-                <option value="1.5">1.5 cu ft</option>
-                <option value="1">1 cu ft</option>
-                <option value="3">3 cu ft (bulk bag)</option>
-              </select>
-              <p className="mt-1.5 text-xs text-bark-500">Most home-store bags are 2 cu ft.</p>
-            </div>
+            {material === 'pine-straw' ? (
+              <div className="rounded-lg bg-sand-50 px-3.5 py-2.5 ring-1 ring-moss-100">
+                <span className="label-field">Sold by the bale</span>
+                <p className="mt-1.5 text-xs text-bark-500">
+                  Pine straw is sold by the bale, not by bag or cubic yard, so there&rsquo;s no bag size to pick &mdash; the result below gives you a bale count directly.
+                </p>
+              </div>
+            ) : (
+              <div>
+                <label htmlFor="mulch-bag-size" className="label-field">
+                  Bag size <span className="text-bark-500">(cubic feet)</span>
+                </label>
+                <select
+                  id="mulch-bag-size"
+                  value={bagSize}
+                  onChange={(e) => setBagSize(e.target.value)}
+                  className="input-field mt-1.5"
+                >
+                  <option value="2">2 cu ft (standard bagged mulch)</option>
+                  <option value="1.5">1.5 cu ft</option>
+                  <option value="1">1 cu ft</option>
+                  <option value="3">3 cu ft (bulk bag)</option>
+                </select>
+                <p className="mt-1.5 text-xs text-bark-500">Most home-store bags are 2 cu ft.</p>
+              </div>
+            )}
           </div>
 
           {/* Formula display */}
@@ -486,7 +564,9 @@ export default function MulchCalculator() {
                 : 'Cubic Feet = Length × Width × (Depth ÷ 12)'}
             </p>
             <p className="mt-1 font-mono text-xs text-bark-500 sm:text-sm">
-              Cubic Yards = Cubic Feet ÷ 27 &nbsp;·&nbsp; Bags = Cubic Feet ÷ Bag Size
+              {material === 'pine-straw'
+                ? 'Cubic Yards = Cubic Feet ÷ 27  ·  Bales = Cubic Feet ÷ 16.67'
+                : 'Cubic Yards = Cubic Feet ÷ 27  ·  Bags = Cubic Feet ÷ Bag Size'}
             </p>
           </div>
 
@@ -523,18 +603,35 @@ export default function MulchCalculator() {
                     </div>
                   </div>
 
-                  {/* Right: bag count */}
+                  {/* Right: bag count (or bale count for pine straw) */}
                   <div className="bg-moss-700 p-4 sm:p-5">
-                    <p className="text-xs text-moss-200">That's about</p>
-                    <p className="font-display text-2xl font-bold text-white sm:text-3xl">
-                      {result.bags.toLocaleString()} bags
-                    </p>
-                    <p className="text-xs text-moss-200">
-                      ({parsedBagSize || 2} cu ft per bag)
-                    </p>
-                    <p className="mt-1 text-xs text-moss-300">
-                      {round(result.cubicYards, 2)} cu yd total
-                    </p>
+                    {material === 'pine-straw' ? (
+                      <>
+                        <p className="text-xs text-moss-200">That's about</p>
+                        <p className="font-display text-2xl font-bold text-white sm:text-3xl">
+                          {result.pineStrawBales.toLocaleString()} bales
+                        </p>
+                        <p className="text-xs text-moss-200">
+                          (~{round(PINE_STRAW_SQFT_PER_BALE_AT_2IN, 0)} sq ft per bale at 2&Prime; depth)
+                        </p>
+                        <p className="mt-1 text-xs text-moss-300">
+                          {round(result.cubicYards, 2)} cu yd equivalent
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-xs text-moss-200">That's about</p>
+                        <p className="font-display text-2xl font-bold text-white sm:text-3xl">
+                          {result.bags.toLocaleString()} bags
+                        </p>
+                        <p className="text-xs text-moss-200">
+                          ({parsedBagSize || 2} cu ft per bag)
+                        </p>
+                        <p className="mt-1 text-xs text-moss-300">
+                          {round(result.cubicYards, 2)} cu yd total
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
 

@@ -52,6 +52,12 @@ export const sourceCategories: SourceCategory[] = [
         institution: 'University of Vermont Extension',
         citedBy: [{ title: '8 Mulch Mistakes That Are Secretly Hurting Your Plants', href: '/blog/8-mulch-mistakes-hurting-your-plants/' }],
       },
+      {
+        title: '"Pine Needle Mulch — the Myths and Legends"',
+        url: 'https://lee.ces.ncsu.edu/news/pine-needle-mulch-the-myths-and-legends/',
+        institution: 'N.C. Cooperative Extension (Lee County Center)',
+        citedBy: [{ title: 'Mulch Calculator', href: '/calculators/mulch-calculator/' }],
+      },
     ],
   },
   {
@@ -351,6 +357,12 @@ export const sourceCategories: SourceCategory[] = [
         url: 'https://turfgrasssod.org/',
         institution: 'Turfgrass Producers International (TPI)',
         citedBy: [{ title: 'Sod Calculator', href: '/calculators/sod-calculator/' }],
+      },
+      {
+        title: '"Turfgrass Establishment: Seeding" (W160-B)',
+        url: 'https://utia.tennessee.edu/publications/wp-content/uploads/sites/269/2023/10/W160-B.pdf',
+        institution: 'University of Tennessee Extension',
+        citedBy: [{ title: 'Grass Seed Calculator', href: '/calculators/grass-seed-calculator/' }],
       },
     ],
   },

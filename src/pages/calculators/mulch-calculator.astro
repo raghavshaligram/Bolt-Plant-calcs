@@ -21,6 +21,7 @@ const intro =
 const tocItems = [
   { id: 'how-much-mulch-do-i-actually-need', label: 'How Much Mulch Do I Need', icon: 'leaf' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'pine-straw-coverage', label: 'Pine Straw Coverage', icon: 'leaf' as const },
   { id: 'common-mulch-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'mulch-calculator-faq', label: 'FAQ', icon: 'question' as const },
   { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
@@ -51,6 +52,14 @@ const faqs = [
   {
     q: 'How do I calculate mulch for a circular bed or tree ring?',
     a: 'Measure the radius (distance from the center to the outer edge, i.e. half the diameter). Square the radius and multiply by \u03c0 (3.14159) to get square feet, then multiply by depth in feet. Use the Circle toggle in the calculator above \u2014 just enter the radius and it handles the \u03c0 \u00d7 r\u00b2 math for you. For a tree ring, the radius is the distance from the trunk to the outer edge of the mulched area. A 6-foot-diameter ring has a 3-foot radius, giving 3\u00b2 \u00d7 \u03c0 \u2248 28.3 square feet \u2014 which many people significantly underestimate when buying bags.',
+  },
+  {
+    q: 'How many bales of pine straw do I need?',
+    a: 'It depends on your area and depth, but as a reference point, a standard 40 lb bale covers roughly 100 sq ft at a 2-inch depth (North Carolina Cooperative Extension, citing Texas AgriLife Extension Service). Switch to the Pine Straw option in the calculator above, enter your area and depth, and it converts that reference figure into an exact bale count, rounded up since you can\u2019t buy a partial bale.',
+  },
+  {
+    q: 'Why is pine straw popular for landscaping?',
+    a: 'Mainly cost and handling: pine straw is often the least expensive mulch available across the Southeast, it\u2019s lightweight enough to spread by hand, and it interlocks as it settles, which helps it stay put on slopes better than loose mulches do. One popular belief about it doesn\u2019t actually hold up \u2014 North Carolina Cooperative Extension\u2019s soil scientists have found pine straw doesn\u2019t meaningfully acidify soil any more than other mulches do, so it\u2019s not a special pick for acid-loving plants on that basis.',
   },
 ];
 
@@ -219,6 +228,17 @@ const softwareAppJsonLd = {
       So for a 10&times;20 bed at 3 inches deep, you need <strong>50 cubic feet</strong>, <strong>1.85 cubic yards</strong>, or <strong>25 standard 2-cubic-foot bags</strong>. If you&rsquo;re buying bulk, round up to 2 yards &mdash; it&rsquo;s always better to have a little extra for settling and touch-ups than to come up half a bag short.
     </p>
 
+    <h2 id="pine-straw-coverage">Pine Straw Coverage</h2>
+    <p>
+      This <strong>pine straw calculator</strong> handles pine straw differently from bagged bark or wood chip mulch, because pine straw isn&rsquo;t sold by the cubic yard or the bag &mdash; it&rsquo;s sold by the <strong>bale</strong>, and sometimes by the roll. Switch to the Pine Straw option above the depth field and the calculator gives you a bale count instead of a bag count, scaled to whatever area and depth you enter.
+    </p>
+    <p>
+      As a reference point, a standard 40 lb bale of pine straw typically covers about <strong>100 sq ft at a 2-inch depth</strong>, according to North Carolina Cooperative Extension (citing Texas AgriLife Extension Service). This <strong>pine straw mulch calculator</strong> converts that reference figure into an equivalent volume and scales it to your chosen depth, so a deeper layer &mdash; or a bale that runs a little larger or smaller than 40 lb &mdash; still gets a real bale count instead of a rough guess.
+    </p>
+    <p>
+      Pine straw <strong>rolls</strong> cover meaningfully more area than bales &mdash; suppliers generally pack two to three times as much material into a roll, so it covers proportionally more ground per unit. Roll sizes aren&rsquo;t standardized the way bale weight roughly is, so treat that as a starting estimate and check the specific coverage your supplier lists for their rolls. This <strong>pine straw coverage calculator</strong> calculates bales directly; for rolls, divide your bale count by roughly 2 to 2.5 as a starting point, then confirm against your supplier&rsquo;s listed roll coverage.
+    </p>
+
     <h2 id="common-mulch-mistakes">Common Mulch Mistakes</h2>
     <ul>
       <li><strong>Volcano mulching around tree trunks.</strong> Piling mulch against the bark does more than invite rot and disease &mdash; buried bark tissue responds to the constant moisture and darkness by growing <strong>adventitious roots</strong>, roots that form directly from stem tissue instead of the root system below. Those roots often grow sideways and circle back around the trunk instead of out into the soil, and as both the roots and the trunk thicken, the roots can <strong>girdle</strong> the trunk &mdash; slowly strangling it from the outside. The result is reduced growth, a visibly weak point at the base, and in severe, longstanding cases, a trunk that snaps at that exact spot in a storm. Keep a 3&ndash;6 inch gap around the base of every tree and shrub, mulch in a flat ring rather than a mound, and never let mulch touch the bark itself.</li>
@@ -234,7 +254,7 @@ const softwareAppJsonLd = {
 
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
-      Mulch depth and coverage guidance in this article draws on general recommendations from university cooperative extension services (such as your state&rsquo;s land-grant extension office) and the USDA Natural Resources Conservation Service. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>. For region-specific guidance &mdash; especially on mulch type, fire risk, and pest considerations &mdash; search &ldquo;<a href="https://extension.org/search/?q=mulch">mulch</a>&rdquo; on Extension.org or your local extension office&rsquo;s website.
+      Mulch depth and coverage guidance in this article draws on general recommendations from university cooperative extension services (such as your state&rsquo;s land-grant extension office) and the USDA Natural Resources Conservation Service. The pine straw bale coverage figure and the note on pine straw and soil pH both come from North Carolina Cooperative Extension&rsquo;s <a href="https://lee.ces.ncsu.edu/news/pine-needle-mulch-the-myths-and-legends/" rel="noopener">&ldquo;Pine Needle Mulch &mdash; the Myths and Legends&rdquo;</a>, which itself cites Texas AgriLife Extension Service for the bale figure. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>. For region-specific guidance &mdash; especially on mulch type, fire risk, and pest considerations &mdash; search &ldquo;<a href="https://extension.org/search/?q=mulch">mulch</a>&rdquo; on Extension.org or your local extension office&rsquo;s website.
     </p>
     <p>
       For how mulch fits with topsoil, garden soil, and compost as part of a full planting project, see our <a href="/clusters/soil-and-amendments/">complete guide to soil and amendments</a>.

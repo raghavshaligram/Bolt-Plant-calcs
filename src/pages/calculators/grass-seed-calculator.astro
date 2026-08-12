@@ -21,6 +21,7 @@ const tocItems = [
   { id: 'how-much-grass-seed-do-i-need', label: 'How Much Grass Seed Do I Need?', icon: 'leaf' as const },
   { id: 'grass-seed-rate-chart', label: 'Grass Seed Rate Chart', icon: 'table' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'covering-seed-with-straw', label: 'Covering Seed With Straw', icon: 'leaf' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'grass-seed-calculator-faq', label: 'FAQ', icon: 'question' as const },
   { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
@@ -48,6 +49,10 @@ const faqs = [
   {
     q: 'Do I need less seed when overseeding than for a new lawn?',
     a: 'Yes — overseeding rates are roughly half the new-lawn rate for the same grass type. Existing turf already covers most of the ground, so you’re filling gaps and thickening the stand rather than establishing an entire lawn from bare soil. Using a new-lawn rate when overseeding wastes seed and can cause overcrowding. For a rate that also adjusts for how thin or patchy your lawn is (plus a topdressing amount), use the dedicated Overseeding Calculator.',
+  },
+  {
+    q: 'How much straw do I need to cover grass seed?',
+    a: 'Roughly one 50 lb bale of weed-free straw per 1,000 sq ft, spread so 50–75% of the soil is still visible through it rather than a solid blanket (University of Tennessee Extension). Heavier coverage blocks light and can smother the seedlings you just planted. Left at that rate, it generally doesn’t need to be removed — it breaks down on its own.',
   },
 ];
 
@@ -293,11 +298,22 @@ const softwareAppJsonLd = {
       So for a 5,000 sq ft new lawn of Tall Fescue, you need roughly <strong>35 lb of seed</strong>, which rounds up to <strong>one 50 lb bag</strong>. If this were an overseeding job instead of a new lawn, the rate drops to roughly half that &mdash; see our <a href="/calculators/overseeding-calculator/">Overseeding Calculator</a> for the exact number adjusted to your lawn&rsquo;s condition, plus a topdressing amount.
     </p>
 
+    <h2 id="covering-seed-with-straw">Covering Seed With Straw</h2>
+    <p>
+      This is a different job than mulching an established bed &mdash; here, straw protects seed that hasn&rsquo;t germinated yet, so how much straw to cover grass seed and how thick to lay it both matter more than they would for a finished lawn. Too little, and the seed dries out and blows or washes away before it can root. Too much, and you block the light and airflow seedlings need to come up.
+    </p>
+    <p>
+      As a reference point, roughly <strong>one 50 lb bale of straw covers about 1,000 sq ft</strong> (University of Tennessee Extension). So how thick should straw be on grass seed? Thin enough that you can still see soil through it &mdash; aim for about <strong>50&ndash;75% coverage</strong>, not a solid mat. A heavier, unbroken layer traps moisture unevenly and can smother germinating seedlings before they reach the surface.
+    </p>
+    <p>
+      Use <strong>weed-free straw</strong>, not hay &mdash; hay is cut with its seed heads still attached and will introduce a fresh weed problem into the exact bare soil you&rsquo;re trying to establish turf on. And once it&rsquo;s down, you generally don&rsquo;t need to remove it: at this application rate, straw mulch breaks down on its own and can be left in place to decompose.
+    </p>
+
     <h2 id="common-mistakes">Common Mistakes</h2>
     <ul>
       <li><strong>Over-seeding the lawn.</strong> More seed isn&rsquo;t better past the recommended rate &mdash; seedlings crowd each other, compete for light and water, and you get thinner, weaker turf instead of a thicker lawn. Stick to the rate for your grass type and seeding mode.</li>
       <li><strong>Ignoring grass type.</strong> Using a Perennial Ryegrass rate (8 lb/1,000 sq ft) for Zoysia (1.5 lb/1,000 sq ft) means applying more than <strong>5&times;</strong> too much seed. Always match the rate to the species you&rsquo;re actually planting.</li>
-      <li><strong>Skipping soil prep before seeding.</strong> For a <strong>new lawn</strong>, till the top 3 inches of soil to break up compaction and give roots somewhere to go. For <strong>overseeding</strong>, you only need to loosen the surface &mdash; a stiff rake or power dethatcher that scratches the top &frac12; inch is enough to get seed-to-soil contact without disturbing existing turf. After spreading seed, cover lightly with peat moss or weed-free straw at roughly <strong>1 bale per 1,000 sq ft</strong> to retain moisture and improve germination rates.</li>
+      <li><strong>Skipping soil prep before seeding.</strong> For a <strong>new lawn</strong>, till the top 3 inches of soil to break up compaction and give roots somewhere to go. For <strong>overseeding</strong>, you only need to loosen the surface &mdash; a stiff rake or power dethatcher that scratches the top &frac12; inch is enough to get seed-to-soil contact without disturbing existing turf. After spreading seed, cover it with straw at the right thickness &mdash; see <a href="#covering-seed-with-straw">Covering Seed With Straw</a> above.</li>
       <li><strong>Ignoring soil pH.</strong> Most lawn grasses germinate and establish best at a soil pH of <strong>6.0&ndash;7.0</strong>. Below 6.0, nutrient uptake suffers and germination slows even at the correct seeding rate. Test before you seed &mdash; lime raises pH; sulfur lowers it &mdash; so you&rsquo;re not fighting chemistry all season.</li>
       <li><strong>Buying exactly the calculated amount with no buffer.</strong> Plan to buy about <strong>30% more seed</strong> than the calculator shows: roughly 10% accounts for measurement error in irregular lawns, 10% for seed lost to birds and wind before germination, and 10% to keep in reserve for spot repairs later in the season. That buffer is much cheaper than a second store trip when you run short.</li>
       <li><strong>Using a new-lawn rate for overseeding (or vice versa).</strong> Overseeding at a full new-lawn rate wastes seed and can smother existing turf; using an overseeding rate to establish a lawn from bare soil leaves it too thin and open to weeds and erosion. Set the correct mode in the calculator above before you buy seed.</li>
@@ -308,7 +324,7 @@ const softwareAppJsonLd = {
 
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
-      Seeding rate guidance in this article draws on general recommendations from university cooperative extension turfgrass programs, including UMass Extension&rsquo;s <a href="https://www.umass.edu/agriculture-food-environment/home-lawn-garden/fact-sheets/seeding-rate-considerations" rel="noopener">&ldquo;Seeding Rate Considerations&rdquo;</a> fact sheet. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>. For grass type selection, overseeding an existing lawn, and lawn care timing, see our <a href="/clusters/lawn-and-landscaping/">complete guide to lawn care</a>.
+      Seeding rate guidance in this article draws on general recommendations from university cooperative extension turfgrass programs, including UMass Extension&rsquo;s <a href="https://www.umass.edu/agriculture-food-environment/home-lawn-garden/fact-sheets/seeding-rate-considerations" rel="noopener">&ldquo;Seeding Rate Considerations&rdquo;</a> fact sheet. The straw mulch coverage and thickness guidance comes from University of Tennessee Extension&rsquo;s <a href="https://utia.tennessee.edu/publications/wp-content/uploads/sites/269/2023/10/W160-B.pdf" rel="noopener">&ldquo;Turfgrass Establishment: Seeding&rdquo;</a> (W160-B). For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>. For grass type selection, overseeding an existing lawn, and lawn care timing, see our <a href="/clusters/lawn-and-landscaping/">complete guide to lawn care</a>.
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[

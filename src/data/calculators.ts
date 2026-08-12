@@ -126,7 +126,7 @@ export const calculators: Calculator[] = [
     title: 'Mulch Calculator',
     shortTitle: 'Mulch',
     description:
-      'Calculate how much mulch you need in cubic feet, cubic yards, and 2-cubic-foot bags for any garden bed or landscape area.',
+      'Calculate how much mulch you need in cubic feet, cubic yards, and 2-cubic-foot bags for any garden bed or landscape area — including a bale count for pine straw.',
     metaDescription:
       'Calculate exactly how much mulch you need in cubic yards, cubic feet, and bags. Free mulch calculator for beds, borders, and landscaping projects.',
     seoTitle: 'Mulch Calculator: How Much Mulch Do You Need? (Free Tool)',
