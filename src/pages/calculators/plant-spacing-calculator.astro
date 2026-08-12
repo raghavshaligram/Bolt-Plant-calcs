@@ -16,11 +16,12 @@ const authorUrl = '/about/';
 const shareImage = new URL('/plant-spacing-calculator-garden-grid.svg', Astro.site).href;
 
 const intro =
-  'Figure out exactly how many plants fit in any bed using real crop spacing recommendations. Select your crop, enter bed dimensions, and the plant spacing calculator shows total plant count for row gardening or square foot gardening — plus a full spacing chart for 20+ common vegetables, herbs, and flowers below. Growing fruit trees or shrubs instead? Switch to the tree spacing calculator mode for real mature spacing on fruit trees, pecans, and common landscape shrubs.';
+  'How to space plants correctly depends on real, crop-specific numbers — not a one-size-fits-all rule of thumb. Select your crop, enter bed dimensions, and this plant spacing calculator shows total plant count for row gardening or square foot gardening — plus a full spacing chart for 20+ common vegetables, herbs, and flowers below. Growing fruit trees or shrubs instead? Switch to the tree spacing calculator mode for real mature spacing on fruit trees, pecans, and common landscape shrubs.';
 
 const tocItems = [
   { id: 'how-much-space-do-plants-need', label: 'How Much Space Do Plants Need?', icon: 'leaf' as const },
   { id: 'plant-spacing-chart', label: 'Plant Spacing Chart', icon: 'table' as const },
+  { id: 'plant-density-plants-per-square-foot-and-per-acre', label: 'Plant Density', icon: 'leaf' as const },
   { id: 'why-tree-spacing-is-different', label: 'Trees & Shrubs: Why It\'s Different', icon: 'warning' as const },
   { id: 'tree-and-shrub-spacing-chart', label: 'Tree & Shrub Spacing Chart', icon: 'table' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
@@ -43,8 +44,8 @@ const faqs = [
     a: 'Corn needs 12 inches in-row and 30 inches between rows. Plant it in blocks of at least 4 rows, not single long rows — corn is wind-pollinated, and a single row produces poor ear fill. A 4×8 ft bed fits about 4 corn plants in one row, which is not enough for reliable pollination; corn is better suited to larger plots.',
   },
   {
-    q: 'How many plants can I fit per square foot?',
-    a: 'It varies by crop. In square foot gardening: large plants like tomatoes and squash need 4 sq ft per plant; peppers, broccoli, and similar mid-large crops get 1 per sq ft; medium plants like lettuce get 1–4 per sq ft; small plants like carrots get 16 per sq ft; tiny seeds like radishes get 16 per sq ft. The square foot gardening mode in the calculator uses these presets automatically.',
+    q: 'How many plants per square foot should I plant?',
+    a: 'It varies by crop — the right plants per sq ft figure depends entirely on the crop’s mature size. In square foot gardening: large plants like tomatoes and squash need 4 sq ft per plant; peppers, broccoli, and similar mid-large crops get 1 per sq ft; medium plants like lettuce get 1–4 per sq ft; small plants like carrots get 16 per sq ft; tiny seeds like radishes get 16 per sq ft. The square foot gardening mode in the calculator uses these presets automatically.',
   },
   {
     q: "What's the difference between in-row and between-row spacing?",
@@ -226,7 +227,7 @@ const softwareAppJsonLd = {
 
     <h2 id="plant-spacing-chart">Plant Spacing Chart</h2>
     <p>
-      Reference spacing for 20+ common vegetables, herbs, and flowers. &ldquo;In-row&rdquo; is the space between individual plants; &ldquo;between-row&rdquo; is the space between rows. SFG column is square feet per plant for square foot gardening.
+      Reference spacing for 20+ common vegetables, herbs, and flowers. &ldquo;In-row&rdquo; is the space between individual plants; &ldquo;between-row&rdquo; is the space between rows. The SFG column is square feet per plant for square foot gardening &mdash; invert it and you get plants per square foot, which is how many plants per square foot each crop supports at full maturity.
     </p>
 
     <div class="overflow-x-auto">
@@ -398,6 +399,17 @@ const softwareAppJsonLd = {
     </div>
     <p class="mt-3 text-xs text-bark-500">
       Spacing values reflect standard extension service recommendations at full plant maturity. Seed packet spacing may suggest tighter starts — thin to these values as plants grow.
+    </p>
+
+    <h2 id="plant-density-plants-per-square-foot-and-per-acre">Plant Density: Plants per Square Foot and per Acre</h2>
+    <p>
+      Spacing and plant density are the same math, read from opposite directions. Spacing tells you the distance between plants; density tells you how many plants fit in a given area. The plant density formula is simple:
+    </p>
+    <p class="rounded-lg bg-sand-50 px-4 py-3 font-mono text-sm text-bark-700 ring-1 ring-moss-100">
+      Plants per sq ft = 1 &divide; (spacing in ft &times; spacing in ft)
+    </p>
+    <p>
+      That&rsquo;s how to calculate plant density from a spacing figure: square the spacing (in feet) and take the reciprocal. The same formula scales up to plants per acre &mdash; multiply by 43,560, the number of square feet in an acre &mdash; though that&rsquo;s rarely what a home garden or landscape bed needs. This plant spacing calculator doubles as a plant density calculator already: switch to square foot gardening mode above and the plants-per-square-foot figure is exactly this number, worked out for you from the spacing chart.
     </p>
 
     <h2 id="why-tree-spacing-is-different">Trees &amp; Shrubs: Why Spacing Is Different</h2>
