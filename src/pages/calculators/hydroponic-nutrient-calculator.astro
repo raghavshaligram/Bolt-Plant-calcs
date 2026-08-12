@@ -5,7 +5,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('hydroponic-nutrient-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
@@ -278,7 +278,7 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Hydroponics & Greenhouse cluster', url: '/clusters/hydroponics-and-greenhouse/', anchorText: 'our complete climate control and nutrient dosing guide', note: 'why precision matters more without soil, and the heating side of this same setup.' },
+      { ...clusterGuideLink('hydroponics-and-greenhouse'), note: 'why precision matters more without soil, and the heating side of this same setup.' },
       { name: 'Greenhouse Heater Calculator', url: '/calculators/greenhouse-heater-calculator/', note: 'size the heater for the same controlled-environment space you’re dosing nutrients in.' },
     ]} />
   </article>

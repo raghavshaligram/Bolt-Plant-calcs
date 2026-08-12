@@ -5,7 +5,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('overseeding-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
@@ -281,7 +281,7 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Lawn & Landscaping cluster', url: '/clusters/lawn-and-landscaping/', anchorText: 'see our complete guide to lawn care', note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
+      { ...clusterGuideLink('lawn-and-landscaping'), note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
       { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'seeding a bare or new lawn instead? use our Grass Seed Calculator.' },
       { name: 'Sod Calculator', url: '/calculators/sod-calculator/', note: 'skipping seed for an instant lawn instead? get pallets and pieces for your lawn\'s shape and grass type.' },
       { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'for topdressing material volumes beyond what’s shown above.' },

@@ -5,7 +5,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('soil-volume-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
@@ -257,7 +257,7 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Soil & Amendments cluster', url: '/clusters/soil-and-amendments/', anchorText: 'Soil & Amendments cluster', note: 'the full set of soil, mulch, and compost calculators on this site.' },
+      { ...clusterGuideLink('soil-and-amendments'), note: 'the full set of soil, mulch, and compost calculators on this site.' },
       { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'ordering in bulk or bags? Use this for cubic yards, tons, and 40 lb bag counts for raised beds and lawn topdressing.' },
       { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'once your bed is filled with soil, use this to calculate how much mulch to add on top.' },
       { name: 'Cubic Yard Calculator', url: '/calculators/cubic-yard-calculator/', note: 'need to convert your result into a different unit — tons, square feet, or metric? This cubic yard calculator soil conversion tool handles that.' },

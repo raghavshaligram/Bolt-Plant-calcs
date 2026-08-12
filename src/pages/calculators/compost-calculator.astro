@@ -5,7 +5,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('compost-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
@@ -307,7 +307,7 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Soil & Amendments cluster', url: '/clusters/soil-and-amendments/', anchorText: 'Soil & Amendments cluster', note: 'more soil, mulch, and amendment calculators in this cluster.' },
+      { ...clusterGuideLink('soil-and-amendments'), note: 'more soil, mulch, and amendment calculators in this cluster.' },
       { name: 'Raised Bed Soil Calculator', url: '/calculators/raised-bed-soil-calculator/', note: 'figure out how much compost to mix into your raised bed soil.' },
       { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'compare with our Mulch Calculator for top-dressing with bark or wood mulch instead.' },
     ]} />

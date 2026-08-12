@@ -5,7 +5,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('drip-irrigation-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
@@ -259,7 +259,7 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Watering & Irrigation cluster', url: '/clusters/watering-and-irrigation/', anchorText: 'see our complete guide to rainwater collection and drip delivery', note: 'how collection and delivery work together, plus soil infiltration rates that affect run time.' },
+      { ...clusterGuideLink('watering-and-irrigation'), note: 'how collection and delivery work together, plus soil infiltration rates that affect run time.' },
       { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'figure out how many emitters you need based on your plant spacing.' },
     ]} />
   </article>

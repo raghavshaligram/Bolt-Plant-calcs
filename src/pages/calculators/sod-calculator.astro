@@ -5,7 +5,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('sod-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
@@ -319,7 +319,7 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Lawn & Landscaping Guide', url: '/clusters/lawn-and-landscaping/', note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
+      { ...clusterGuideLink('lawn-and-landscaping'), note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
       { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'seeding a new lawn from bare soil instead of laying sod? use this for the exact rate.' },
       { name: 'Overseeding Calculator', url: '/calculators/overseeding-calculator/', note: 'thickening an existing lawn rather than starting fresh? use the reduced overseeding rate.' },
       { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'need to add or level soil before laying sod? get the exact volume here.' },

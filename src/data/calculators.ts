@@ -467,3 +467,20 @@ export function getCalculatorsForCluster(slug: string): Calculator[] {
 export function getCalculator(slug: string): Calculator | undefined {
   return calculators.find((c) => c.slug === slug);
 }
+
+/**
+ * Standard "back to the cluster pillar page" entry for a calculator's
+ * Related Calculators list. Returns a real page title -- "<Cluster Name>
+ * Guide" -- rather than letting each calculator page hand-write its own
+ * link text, which is how this site repeatedly ended up with a full
+ * sentence fragment (e.g. "see our complete guide to lawn care") standing
+ * in for a title. Callers add their own `note` for the descriptive text
+ * that goes after the dash:
+ *
+ *   { ...clusterGuideLink(cluster.slug), note: 'new lawns, overseeding, sod...' }
+ */
+export function clusterGuideLink(clusterSlug: string): { name: string; url: string } {
+  const cluster = getCluster(clusterSlug);
+  if (!cluster) throw new Error(`clusterGuideLink: unknown cluster slug "${clusterSlug}"`);
+  return { name: `${cluster.name} Guide`, url: `/clusters/${cluster.slug}/` };
+}

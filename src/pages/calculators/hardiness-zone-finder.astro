@@ -5,7 +5,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 import { ZONE_TEMP_BANDS, formatTempRangeF, formatTempRangeC } from '../../lib/hardinessZoneTemps';
 
 const calculator = getCalculator('hardiness-zone-finder')!;
@@ -280,7 +280,7 @@ const softwareAppJsonLd = {
     <RelatedCalculatorsList id="related-calculators" items={[
       { name: 'Frost Date Calculator', url: '/calculators/frost-date-calculator/', note: 'once you know your zone, get your actual planting timeline — last frost, first frost, and a full seed-to-harvest schedule.' },
       { name: 'Seed Starting Calendar', url: '/calculators/seed-starting-calculator/', note: 'turns your frost dates into exact per-crop indoor-start and transplant dates.' },
-      { name: 'Spacing & Planting cluster', url: '/clusters/spacing-and-planting/', anchorText: 'see our full vegetable garden planning timeline', note: 'zone, frost dates, seed starting, spacing, and yield, all in one place.' },
+      { ...clusterGuideLink('spacing-and-planting'), note: 'zone, frost dates, seed starting, spacing, and yield, all in one place.' },
     ]} />
   </article>
 </CalculatorLayout>

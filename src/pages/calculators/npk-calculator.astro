@@ -5,7 +5,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
-import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('npk-calculator')!;
 const cluster = getCluster(calculator.cluster)!;
@@ -329,7 +329,7 @@ const softwareAppJsonLd = {
     </p>
 
     <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Fertilizer & Nutrients cluster', url: '/clusters/fertilizer-and-nutrients/', anchorText: 'our complete plant nutrition guide', note: 'what N-P-K actually does, soil-based feeding rates, and organic vs. synthetic sources.' },
+      { ...clusterGuideLink('fertilizer-and-nutrients'), note: 'what N-P-K actually does, soil-based feeding rates, and organic vs. synthetic sources.' },
       { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'starting a new lawn? Figure out seed first, then use this to plan your starter fertilizer.' },
       { name: 'Raised Bed Soil Calculator', url: '/calculators/raised-bed-soil-calculator/', note: 'filling a new bed? Get your soil volume right before you fertilize it.' },
     ]} />
