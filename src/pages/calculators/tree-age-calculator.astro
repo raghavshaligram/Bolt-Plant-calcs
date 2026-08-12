@@ -15,10 +15,10 @@ const authorName = 'HarvestMath Editors';
 const authorUrl = '/about/';
 
 const intro =
-  'This tree age calculator lets you estimate age without cutting the tree down. Wrap a tape measure around the trunk at breast height, pick the species, and it converts circumference into diameter and then into an estimated age range — using the same growth-factor method arborists use in the field.';
+  'How old is that tree in your yard? This tree age calculator answers it without cutting the tree down — wrap a tape measure around the trunk at breast height, pick the species, and it converts circumference into diameter and then into an estimated age range, using the same growth-factor method arborists use in the field.';
 
 const tocItems = [
-  { id: 'how-do-you-calculate-a-trees-age', label: 'How to Calculate Tree Age', icon: 'leaf' as const },
+  { id: 'how-do-you-calculate-a-trees-age', label: 'How to Tell Tree Age', icon: 'leaf' as const },
   { id: 'growth-factor-reference-table', label: 'Growth Factor Reference Table', icon: 'table' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
@@ -29,6 +29,10 @@ const tocItems = [
 const shareImage = new URL('/tree-age-calculator-dbh-measurement.svg', Astro.site).href;
 
 const faqs = [
+  {
+    q: 'How can you tell how old a tree is?',
+    a: 'Three real approaches, depending on what you have access to. For a living tree you don’t want to cut down, measure trunk circumference and use a species growth factor — the method this calculator uses, covered below. For a stump or a core sample, count the actual growth rings — the only fully exact method, explained in “How tree rings actually work” further down this page. And if you know when the tree was planted (a receipt, a planting record, a memory of a housewarming sapling), that beats any estimate. Absent records, the circumference method is the practical middle ground.',
+  },
   {
     q: 'How do you calculate the age of a tree?',
     a: 'Measure the trunk circumference at 4.5 ft (breast height), divide by π to get diameter, then multiply diameter by the species’ growth factor. That gives an estimated age in years. This is the standard non-destructive method used by arborists and foresters.',
@@ -181,9 +185,9 @@ const softwareAppJsonLd = {
       <li>Read the trunk diameter and estimated age range.</li>
     </ol>
 
-    <h2 id="how-do-you-calculate-a-trees-age">How Do You Calculate a Tree&rsquo;s Age?</h2>
+    <h2 id="how-do-you-calculate-a-trees-age">How to Tell How Old a Tree Is</h2>
     <p>
-      The standard non-destructive method comes from the <strong>circumference &rarr; diameter &rarr; growth factor</strong> chain. First, measure the trunk&rsquo;s circumference at <strong>4.5 ft above the ground</strong> &mdash; the standard forestry measurement point known as &ldquo;breast height,&rdquo; or DBH (diameter at breast height). Divide that circumference by &pi; (about 3.14159) to get the diameter.
+      The standard non-destructive method &mdash; and the practical answer to how to estimate the age of a tree without cutting it down &mdash; comes from the <strong>circumference &rarr; diameter &rarr; growth factor</strong> chain. First, measure the trunk&rsquo;s circumference at <strong>4.5 ft above the ground</strong> &mdash; the standard forestry measurement point known as &ldquo;breast height,&rdquo; or DBH (diameter at breast height). Divide that circumference by &pi; (about 3.14159) to get the diameter.
     </p>
     <figure class="my-6 float-right ml-6 w-48 sm:w-64">
       <img
