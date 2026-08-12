@@ -494,6 +494,10 @@ export default function SodCalculator() {
                     className="input-field mt-1.5"
                   />
                 </div>
+              ) : grassType === 'unsure' ? (
+                <p className="mt-1.5 text-xs text-bark-500">
+                  ~{GRASS_COVERAGE[grassType]} sq ft per pallet &mdash; industry standard. Confirm with your supplier.
+                </p>
               ) : (
                 <p className="mt-1.5 text-xs text-bark-500">
                   ~{GRASS_COVERAGE[grassType]} sq ft per pallet, sold as {soldAs}. Confirm with your supplier.
