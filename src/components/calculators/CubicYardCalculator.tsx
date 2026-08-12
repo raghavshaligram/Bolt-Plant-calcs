@@ -185,7 +185,15 @@ export default function CubicYardCalculator() {
       const lbs = isMetric ? (w * 1000) / LB_TO_KG : w * 2000;
       const cubicYards = lbs / lbsPerCuYd;
       const cubicMeters = cubicYards * CUYD_TO_CUM;
-      return { cubicYards, cubicMeters };
+      // `kind` is a literal discriminant, not just a label -- it's what lets
+      // TypeScript narrow this union by a plain `weightResult.kind === '...'`
+      // check instead of an `in` check. `in` can't fully eliminate the other
+      // branch here: TS's return-type inference back-fills each branch with
+      // the other's keys as optional `undefined` (so this object also has an
+      // implicit `tons?: undefined`), which means both branches technically
+      // "have" every key and `in` narrowing can't tell them apart -- that
+      // was the actual cause of the 8 pre-existing tsc errors on this file.
+      return { kind: 'volume' as const, cubicYards, cubicMeters };
     } else {
       const v = parseFloat(volumeValue);
       if (!Number.isFinite(v) || v <= 0) return null;
@@ -193,7 +201,7 @@ export default function CubicYardCalculator() {
       const lbs = cubicYards * lbsPerCuYd;
       const tons = lbs / 2000;
       const tonnes = (lbs * LB_TO_KG) / 1000;
-      return { tons, tonnes };
+      return { kind: 'weight' as const, tons, tonnes };
     }
   }, [weightDirection, weightValue, volumeValue, isMetric, lbsPerCuYd]);
 
@@ -259,12 +267,12 @@ export default function CubicYardCalculator() {
       ];
       lines.forEach((line) => { doc.text(line, margin, y); y += 16; });
     } else if (mode === 'weight' && weightResult) {
-      if (weightDirection === 'toVolume' && 'cubicYards' in weightResult) {
+      if (weightResult.kind === 'volume') {
         doc.text(`Mode: Weight to Volume`, margin, y); y += 16;
         doc.text(`Input: ${weightValue || 0} ${weightUnit}`, margin, y); y += 16;
         doc.text(`Cubic yards: ${round(weightResult.cubicYards, 2).toLocaleString()} cu yd`, margin, y); y += 16;
         doc.text(`Cubic meters: ${round(weightResult.cubicMeters, 3).toLocaleString()} m³`, margin, y); y += 16;
-      } else if ('tons' in weightResult) {
+      } else {
         doc.text(`Mode: Volume to Weight`, margin, y); y += 16;
         doc.text(`Input: ${volumeValue || 0} ${volumeUnit}`, margin, y); y += 16;
         doc.text(`Est. weight: ~${round(weightResult.tons, 2).toLocaleString()} tons (~${round(weightResult.tonnes, 2).toLocaleString()} tonnes)`, margin, y); y += 16;
@@ -436,7 +444,7 @@ export default function CubicYardCalculator() {
             {mode === 'weight' && (
               !weightResult ? (
                 <p className="p-5 text-sm text-bark-500">Enter a {weightDirection === 'toVolume' ? 'weight' : 'volume'} to convert.</p>
-              ) : weightDirection === 'toVolume' && 'cubicYards' in weightResult ? (
+              ) : weightResult.kind === 'volume' ? (
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
                   <div className="bg-moss-700 p-5 text-center">
                     <p className="text-xs text-moss-200">Cubic yards</p>
@@ -447,7 +455,7 @@ export default function CubicYardCalculator() {
                     <p className="font-display text-2xl font-bold text-moss-700">{round(weightResult.cubicMeters, 3).toLocaleString()}</p>
                   </div>
                 </div>
-              ) : 'tons' in weightResult ? (
+              ) : (
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
                   <div className="bg-moss-700 p-5 text-center">
                     <p className="text-xs text-moss-200">Est. tons</p>
@@ -458,7 +466,7 @@ export default function CubicYardCalculator() {
                     <p className="font-display text-2xl font-bold text-moss-700">~{round(weightResult.tonnes, 2).toLocaleString()}</p>
                   </div>
                 </div>
-              ) : null
+              )
             )}
 
             {mode === 'area' && (
