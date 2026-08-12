@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="A thermometer beside a bar chart of rising daily heat accumulation, illustrating how growing degree days build up over a season">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="800" height="190" fill="#EDE7D6"/>
+  <circle cx="700" cy="80" r="30" fill="#F0D878" opacity="0.7"/>
+  <circle cx="700" cy="80" r="22" fill="#F0C850" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="420" width="800" height="80" fill="#C8D9A8"/>
+
+  <!-- Rising bar chart: daily GDD accumulation -->
+  <g transform="translate(340,180)">
+    <rect x="0"   y="180" width="46" height="60"  rx="4" fill="#A9C48A"/>
+    <rect x="60"  y="150" width="46" height="90"  rx="4" fill="#93B872"/>
+    <rect x="120" y="115" width="46" height="125" rx="4" fill="#7FA75F"/>
+    <rect x="180" y="75"  width="46" height="165" rx="4" fill="#5C8F49"/>
+    <rect x="240" y="30"  width="46" height="210" rx="4" fill="#3F7A38"/>
+    <path d="M23 210 L83 195 L143 160 L203 120 L263 75" stroke="#5C4433" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 8" opacity="0.6"/>
+  </g>
+
+  <!-- Thermometer -->
+  <g transform="translate(150,120)">
+    <rect x="30" y="0" width="24" height="200" rx="12" fill="#FFFFFF" stroke="#5C4433" stroke-width="3"/>
+    <circle cx="42" cy="230" r="34" fill="#FFFFFF" stroke="#5C4433" stroke-width="3"/>
+    <rect x="36" y="90" width="12" height="150" rx="6" fill="#D96C4A"/>
+    <circle cx="42" cy="230" r="22" fill="#D96C4A"/>
+    <line x1="54" y1="30"  x2="66" y2="30"  stroke="#5C4433" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="54" y1="70"  x2="66" y2="70"  stroke="#5C4433" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="54" y1="110" x2="66" y2="110" stroke="#5C4433" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="54" y1="150" x2="66" y2="150" stroke="#5C4433" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Small sprout beside the chart, tying heat accumulation to plant/pest development -->
+  <g transform="translate(600,300)">
+    <path d="M0 90 C0 40 -18 20 -30 0" stroke="#3F7A38" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M0 60 C10 40 30 35 40 20" stroke="#3F7A38" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <ellipse cx="-32" cy="-4" rx="16" ry="10" fill="#5C8F49" transform="rotate(-30 -32 -4)"/>
+    <ellipse cx="42" cy="16" rx="16" ry="10" fill="#7FA75F" transform="rotate(20 42 16)"/>
+  </g>
+
+  <path d="M0 420 Q200 405 400 415 T800 410" stroke="#B7CB94" stroke-width="4" fill="none" opacity="0.6"/>
+</svg>

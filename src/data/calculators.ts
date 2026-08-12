@@ -420,6 +420,19 @@ export const calculators: Calculator[] = [
     href: '/calculators/vegetable-yield-calculator/',
     status: 'live',
   },
+  {
+    slug: 'growing-degree-days-calculator',
+    title: 'Growing Degree Days Calculator',
+    shortTitle: 'Growing Degree Days',
+    description:
+      'Calculate growing degree days (GDD/GDU) from daily high and low temperatures, with base temperature presets, the 86/50 cap, and single-day or season-long accumulation tracking.',
+    metaDescription:
+      'Calculate growing degree days from daily high and low temps — with base temperature presets, the 86/50 cap, and pest emergence thresholds.',
+    seoTitle: 'Growing Degree Days Calculator (GDD & GDU)',
+    cluster: 'spacing-and-planting',
+    href: '/calculators/growing-degree-days-calculator/',
+    status: 'live',
+  },
 ];
 
 // Brevo lead-magnet listId + display label per cluster, shared by both the

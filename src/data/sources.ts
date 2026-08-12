@@ -131,6 +131,36 @@ export const sourceCategories: SourceCategory[] = [
     name: 'Spacing & Planting',
     sources: [
       {
+        title: '"Using Growing Degree Days to Manage the Home Garden"',
+        url: 'https://yardandgarden.extension.iastate.edu/how-to/using-growing-degree-days-manage-home-garden',
+        institution: 'Iowa State University Extension',
+        citedBy: [{ title: 'Growing Degree Days Calculator', href: '/calculators/growing-degree-days-calculator/' }],
+      },
+      {
+        title: '"Degree Days for Common Insect Pests"',
+        url: 'https://hort.extension.wisc.edu/degree-days-for-common-insect-pests/',
+        institution: 'University of Wisconsin Extension',
+        citedBy: [{ title: 'Growing Degree Days Calculator', href: '/calculators/growing-degree-days-calculator/' }],
+      },
+      {
+        title: 'GDDTracker',
+        url: 'https://gddtracker.msu.edu/about',
+        institution: 'Michigan State University Extension',
+        citedBy: [{ title: 'Growing Degree Days Calculator', href: '/calculators/growing-degree-days-calculator/' }],
+      },
+      {
+        title: '"Using growing degree days to predict germination"',
+        url: 'https://extension.wvu.edu/lawn-gardening-pests/publications/ipm-chronicle-archives/2018/05/18/using-growing-degree-days-to-predict-germination',
+        institution: 'West Virginia University Extension',
+        citedBy: [{ title: 'Growing Degree Days Calculator', href: '/calculators/growing-degree-days-calculator/' }],
+      },
+      {
+        title: 'Bagworm fact sheet',
+        url: 'https://ag.umass.edu/landscape/fact-sheets/bagworm',
+        institution: 'University of Massachusetts Amherst Extension',
+        citedBy: [{ title: 'Growing Degree Days Calculator', href: '/calculators/growing-degree-days-calculator/' }],
+      },
+      {
         title: 'Clemson Cooperative Extension\'s guide to bush and pole-type snap beans',
         url: 'https://hgic.clemson.edu/factsheet/bush-pole-type-snap-beans/',
         institution: 'Clemson Cooperative Extension (HGIC)',

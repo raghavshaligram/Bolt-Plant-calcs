@@ -1,0 +1,297 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import GrowingDegreeDaysCalculator from '../../components/calculators/GrowingDegreeDaysCalculator.tsx';
+import TableOfContents from '../../components/TableOfContents.astro';
+import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
+import FAQBlock from '../../components/FAQBlock.astro';
+import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
+
+const calculator = getCalculator('growing-degree-days-calculator')!;
+const cluster = getCluster(calculator.cluster)!;
+const leadMagnet = leadMagnetConfig[cluster.slug]!;
+
+const authorName = 'HarvestMath Editors';
+const authorUrl = '/about/';
+
+const intro =
+  'The calendar is a poor predictor of when pests emerge or plants hit their next growth stage — a warm spring and a cold one produce very different timing on the exact same date. This growing degree days calculator (also called a GDD calculator or GDU calculator) tracks accumulated heat instead: enter daily highs and lows and it converts them into growing degree days using your chosen base temperature and, optionally, the 86/50 cap most free calculators skip. Run a single day, or switch to accumulation mode and use it as a full growing degree day tracker across a season.';
+
+const tocItems = [
+  { id: 'what-are-growing-degree-days', label: 'What Are Growing Degree Days?', icon: 'leaf' as const },
+  { id: 'start-date-matters', label: 'Start Date Matters', icon: 'warning' as const },
+  { id: 'pest-emergence-thresholds', label: 'Pest Emergence Thresholds', icon: 'table' as const },
+  { id: 'crabgrass-pre-emergent-timing', label: 'Crabgrass Pre-Emergent Timing', icon: 'table' as const },
+  { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
+  { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
+  { id: 'growing-degree-days-faq', label: 'FAQ', icon: 'question' as const },
+  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
+];
+
+const shareImage = new URL('/growing-degree-days-calculator-heat-accumulation.svg', Astro.site).href;
+
+const faqs = [
+  {
+    q: 'What’s the difference between GDD and GDU?',
+    a: 'Nothing, functionally — they’re the same formula producing the same numbers, just different dialects. GDU (Growing Degree Units) is the term the corn seed industry uses; GDD (Growing Degree Days) is the term used in horticulture and by university extension services. If you searched “what is GDU” expecting something different from GDD, the short answer is: it isn’t — use this calculator for either one.',
+  },
+  {
+    q: 'What base temperature should I use?',
+    a: 'It depends on what you’re tracking. 50°F is the standard base for most landscape and horticultural pests and for warm-season plants — start there if you’re not sure. Some cool-season insects use 43°F, and turf models (including the crabgrass pre-emergent threshold discussed below) commonly use 32°F. Whatever published threshold you’re comparing your total to, match its base — a GDD number without a stated base temperature isn’t usable.',
+  },
+  {
+    q: 'When do you start counting growing degree days?',
+    a: 'It depends on the model, and this trips people up more than the base temperature does. Michigan State University’s GDDTracker starts counting on February 15; Iowa State’s growing degree day map suggests March 1, since GDD rarely accumulates meaningfully before then in most climates; other models start January 1. There’s no universal default — use whatever start date the threshold you’re comparing against assumes.',
+  },
+  {
+    q: 'How accurate are growing degree day predictions?',
+    a: 'GDD is a heat model, and heat is one of several things driving development — it’s a useful predictor, not a perfect one. It doesn’t account for moisture, day length, or soil fertility, all of which also affect how fast a plant or insect actually develops. Use it to narrow a scouting or application window to a few days, not to pinpoint a single calendar date, and confirm with direct observation when the stakes are high enough to matter.',
+  },
+];
+
+// FAQBlock component handles FAQPage schema injection automatically.
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Calculate growing degree days (GDD/GDU)',
+  description:
+    'Use the growing degree days calculator to convert daily high and low temperatures into GDD/GDU, for a single day or as a running seasonal total.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Choose units and base temperature',
+      text: 'Choose °F or °C and pick a base temperature preset, or enter a custom one.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Decide whether to apply the 86/50 cap',
+      text: 'Decide whether the 86/50 cap should apply — on by default at base 50°F.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Enter your temperatures',
+      text: 'Enter a single day’s high and low, or switch to accumulation mode and add a row for each day.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Read your GDD total',
+      text: 'Read your growing degree days — in accumulation mode, watch the running cumulative total build as you add days.',
+    },
+  ],
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://harvestmath.com/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Spacing & Planting',
+      item: 'https://harvestmath.com/clusters/spacing-and-planting/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Growing Degree Days Calculator',
+      item: 'https://harvestmath.com/calculators/growing-degree-days-calculator/',
+    },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: authorName,
+  url: new URL(authorUrl, Astro.site).href,
+  jobTitle: 'Editor',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+
+const softwareAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Growing Degree Days Calculator',
+  applicationCategory: 'CalculatorApplication',
+  operatingSystem: 'Web',
+  url: new URL('/calculators/growing-degree-days-calculator/', Astro.site).href,
+  description: calculator.metaDescription,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  author: {
+    '@type': 'Person',
+    name: authorName,
+    url: new URL(authorUrl, Astro.site).href,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'HarvestMath',
+  },
+};
+---
+
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
+
+  <!-- Desktop sticky TOC in the right sidebar column -->
+  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+
+  <!-- Calculator tool — immediately after intro, visible without scrolling -->
+  <GrowingDegreeDaysCalculator client:load />
+
+  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
+  <TableOfContents items={tocItems} variant="accordion" />
+
+  <LeadMagnetForm
+    client:load
+    listId={leadMagnet.listId}
+    tag={leadMagnet.tag}
+    clusterName={leadMagnet.clusterName}
+    icon={leadMagnet.icon}
+    description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
+  />
+
+  <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+    <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
+    <ol>
+      <li>Choose &deg;F or &deg;C and pick a base temperature preset, or enter a custom one.</li>
+      <li>Decide whether the 86/50 cap should apply &mdash; it&rsquo;s on by default at base 50&deg;F.</li>
+      <li>Enter a single day&rsquo;s high and low, or switch to Accumulation mode and add a row for each day.</li>
+      <li>Read your growing degree days &mdash; in accumulation mode, watch the running cumulative total build as you add days.</li>
+    </ol>
+
+    <h2 id="what-are-growing-degree-days">What Are Growing Degree Days? (Also Called GDU)</h2>
+    <p>
+      <strong>Growing degree days &mdash; also called GDU, for Growing Degree Units</strong> &mdash; measure how much heat was available for a plant or insect to develop on a given day, above whatever minimum temperature its development actually requires. The two terms describe the exact same measurement; which one you hear tends to depend on the industry, not the math.
+    </p>
+    <p>
+      The formula is simple:
+    </p>
+    <p class="font-mono text-sm">GDD = ((Tmax + Tmin) &divide; 2) &minus; Tbase</p>
+    <p>
+      Average the day&rsquo;s high and low, then subtract the base temperature for whatever you&rsquo;re tracking. If the result comes out negative &mdash; a day that never got warm enough to count &mdash; it&rsquo;s recorded as zero, not a negative number, since development doesn&rsquo;t run backward on a cold day. Add each day&rsquo;s total to a running sum, and that <strong>accumulated GDD</strong> (or accumulated GDU) is the number you actually compare against a published threshold, like the pest emergence figures further down this page.
+    </p>
+
+    <h2 id="start-date-matters">Start Date Matters</h2>
+    <p>
+      This is the part most calculators skip, and it&rsquo;s the single easiest way to end up with a meaningless number: <strong>an accumulated GDD total means nothing without knowing when the counting began.</strong> Different published models use different start dates. Michigan State University&rsquo;s GDDTracker starts counting on <strong>February 15</strong>. Iowa State&rsquo;s growing degree day map suggests <strong>March 1</strong> as a practical starting point, since GDD rarely accumulates meaningfully before then in most climates. Other models start on <strong>January 1</strong>.
+    </p>
+    <p>
+      These aren&rsquo;t interchangeable. The same real weather produces a different cumulative total depending on which date you started counting from &mdash; a &ldquo;500 GDD&rdquo; reading measured from a February 15 start and a &ldquo;500 GDD&rdquo; reading measured from a January 1 start represent two different amounts of accumulated heat. Before comparing your total to any published threshold &mdash; the pest table below or anywhere else &mdash; check what start date that threshold assumes, and start your own count from the same date.
+    </p>
+
+    <h2 id="choosing-a-base-temperature">Choosing a Base Temperature</h2>
+    <p>
+      The base temperature is the point below which development effectively stops for whatever you&rsquo;re tracking &mdash; degrees below it don&rsquo;t subtract from the total, they just don&rsquo;t add to it. <strong>50&deg;F is the standard base</strong> for most landscape and horticultural pests, and for most warm-season garden plants; it&rsquo;s the right default if you&rsquo;re not tracking something specific. <strong>43&deg;F</strong> shows up for some cool-season insects. <strong>32&deg;F</strong> is common in turf models, including the crabgrass pre-emergent threshold covered below, since it&rsquo;s being used as a proxy for soil temperature rather than a biological development floor.
+    </p>
+    <p>
+      Use the preset buttons in the calculator above for these three, or enter a custom base if you&rsquo;re working from a specific published threshold that names a different one.
+    </p>
+
+    <h2 id="why-the-86-50-cap-exists">Why the 86/50 Cap Exists</h2>
+    <p>
+      Above roughly 86&deg;F, development for most tracked organisms doesn&rsquo;t meaningfully speed up any further &mdash; and below 50&deg;F, as covered above, it effectively stops. The <strong>86/50 cap</strong> (sometimes called the modified GDD method) accounts for both ends: before averaging the day&rsquo;s high and low, it treats any high above 86&deg;F as 86&deg;F, and raises any low below 50&deg;F up to 50&deg;F. A 92&deg;F/45&deg;F day and an 87&deg;F/51&deg;F day don&rsquo;t actually represent that much more useful heat than a straight 86&deg;F/50&deg;F day would, and without the cap, extreme days quietly inflate the total.
+    </p>
+    <p>
+      Most free GDD calculators skip this step entirely and just average the raw numbers. The calculator above applies it by default whenever the base is set to 50&deg;F &mdash; toggle it off if you&rsquo;re working from a threshold that doesn&rsquo;t use it, or on manually at another base if your source calls for it.
+    </p>
+
+    <h2 id="pest-emergence-thresholds">Pest Emergence Thresholds (Base 50&deg;F)</h2>
+    <p>
+      These are common home-landscape pests with published GDD50 emergence windows &mdash; useful for timing scouting or treatment instead of guessing from the calendar. Every figure below assumes base 50&deg;F <strong>except cabbage maggot, which is measured at base 43&deg;F</strong> &mdash; note the different base carefully if you&rsquo;re comparing your own accumulated total against it.
+    </p>
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Pest</th>
+            <th>Threshold</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Codling moth</td><td>First moth emergence: <strong>150 GDD50</strong></td></tr>
+          <tr><td>Cabbage maggot</td><td>1st generation flies: <strong>300 GDD43</strong> &mdash; base 43&deg;F, not 50</td></tr>
+          <tr><td>Bronze birch borer</td><td>Larvae: <strong>400&ndash;500 GDD50</strong></td></tr>
+          <tr><td>Black vine weevil</td><td>1st-generation adults: <strong>400&ndash;600 GDD50</strong></td></tr>
+          <tr><td>Bagworm</td><td>Egg hatch through early caterpillars: <strong>600&ndash;900 GDD50</strong></td></tr>
+          <tr><td>Squash vine borer</td><td>Egg laying: <strong>900&ndash;1,000 GDD50</strong></td></tr>
+          <tr><td>Apple maggot</td><td>First fly: <strong>900 GDD50</strong> &middot; first egg laying: <strong>1,100 GDD50</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Source: University of Wisconsin Extension&rsquo;s <a href="https://hort.extension.wisc.edu/degree-days-for-common-insect-pests/" rel="noopener">&ldquo;Degree Days for Common Insect Pests&rdquo;</a>, except the bagworm figure, which comes from University of Massachusetts Amherst Extension and Rutgers Cooperative Extension&rsquo;s Plant &amp; Pest Advisory. These are reference midpoints, not guarantees &mdash; local populations and microclimates shift actual emergence by a week or more in either direction.
+    </p>
+
+    <h2 id="crabgrass-pre-emergent-timing">Crabgrass Pre-Emergent Timing</h2>
+    <p>
+      Crabgrass timing is where the &ldquo;always state your base temperature&rdquo; rule matters most, because two genuinely different published models are both in wide use, and quoting a number from one without its base is misleading.
+    </p>
+    <p>
+      <strong>Base 32&deg;F model:</strong> apply pre-emergent between <strong>250&ndash;500 GDD32</strong> (Michigan State University Extension&rsquo;s GDDTracker, citing Calhoun, MSU 2004). This is the model behind MSU&rsquo;s Crabgrass Preemergence Timer, and it counts from <strong>February 15</strong>. It uses GDD32 as an indirect proxy for soil temperature rather than crabgrass&rsquo;s own biological floor.
+    </p>
+    <p>
+      <strong>Base 50&deg;F model:</strong> smooth crabgrass begins germinating around <strong>150 GDD50</strong>, with large crabgrass needing roughly <strong>150&ndash;200 more</strong> GDD50 on top of that (West Virginia University Extension). Kansas State University&rsquo;s turf program cites a similar figure of approximately <strong>200 GDD50</strong> for germination onset.
+    </p>
+    <p>
+      Why the discrepancy? They&rsquo;re not actually disagreeing &mdash; they&rsquo;re measuring the same biological event on two different temperature scales, and a degree-day count on a 32&deg;F base accumulates much faster than the same weather counted on a 50&deg;F base, so the raw numbers aren&rsquo;t interchangeable. <strong>A GDD threshold is only usable alongside its base temperature and start date</strong> &mdash; pick one model, use its base and start date consistently, and don&rsquo;t mix a GDD32 reading against a GDD50 threshold or vice versa.
+    </p>
+    <p>
+      Timing a new lawn or overseeding job around this same spring window? See the <a href="/calculators/grass-seed-calculator/">Grass Seed Calculator</a> for seeding rates, or the <a href="/calculators/overseeding-calculator/">Overseeding Calculator</a> if you&rsquo;re thickening an existing lawn instead &mdash; both interact with pre-emergent timing, since most pre-emergent herbicides also block grass seed from germinating.
+    </p>
+
+    <h2 id="worked-example">Worked Example</h2>
+    <p>
+      Three short examples, all at <strong>base 50&deg;F</strong>, showing the formula, the zero-floor rule, and the 86/50 cap in action.
+    </p>
+    <ol>
+      <li><strong>A normal day:</strong> high 75&deg;F, low 55&deg;F. ((75 + 55) &divide; 2) &minus; 50 = <strong>15 GDD</strong>.</li>
+      <li><strong>A cold day:</strong> high 45&deg;F, low 30&deg;F. ((45 + 30) &divide; 2) &minus; 50 = &minus;12.5, which counts as <strong>0 GDD</strong> &mdash; not a negative number.</li>
+      <li><strong>A hot day, with the cap:</strong> high 92&deg;F, low 45&deg;F. Capped, the high becomes 86&deg;F and the low is raised to 50&deg;F: ((86 + 50) &divide; 2) &minus; 50 = <strong>18 GDD</strong>. Uncapped, the same day would read ((92 + 45) &divide; 2) &minus; 50 = <strong>18.5 GDD</strong> &mdash; a small difference on one day, but one that compounds over a season of hot days.</li>
+    </ol>
+
+    <h2 id="common-mistakes">Common Mistakes</h2>
+    <ul>
+      <li><strong>Comparing a total to a threshold without checking the base and start date.</strong> The single biggest source of wrong conclusions. A 400 GDD50 reading and a 400 GDD32 reading aren&rsquo;t the same amount of heat, and neither is comparable across two different start dates. Always match both before comparing.</li>
+      <li><strong>Using base 50 for an organism with a different published threshold.</strong> Some pests and models genuinely use 43&deg;F or 32&deg;F &mdash; defaulting to 50 for everything produces a total that doesn&rsquo;t line up with the actual research it&rsquo;s meant to be checked against.</li>
+      <li><strong>Forgetting that negative days count as zero.</strong> A cold snap doesn&rsquo;t subtract from an accumulated total &mdash; it just contributes nothing that day. Manually summing negative values instead of flooring them at zero will understate the real total.</li>
+      <li><strong>Expecting GDD to predict everything.</strong> It&rsquo;s a heat model, not a complete one &mdash; moisture, day length, and soil fertility all also drive plant and insect development, and none of them show up in this formula. Use GDD to narrow a window, not to promise an exact date.</li>
+    </ul>
+
+    <FAQBlock id="growing-degree-days-faq" heading="Growing Degree Days FAQ" faqs={faqs} />
+
+    <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+    <p>
+      The GDD formula, the negative-days-count-as-zero rule, and general home-garden application draw on Iowa State University Extension&rsquo;s <a href="https://yardandgarden.extension.iastate.edu/how-to/using-growing-degree-days-manage-home-garden" rel="noopener">&ldquo;Using Growing Degree Days to Manage the Home Garden&rdquo;</a>. Pest emergence thresholds come from the University of Wisconsin Extension&rsquo;s <a href="https://hort.extension.wisc.edu/degree-days-for-common-insect-pests/" rel="noopener">&ldquo;Degree Days for Common Insect Pests&rdquo;</a> (bagworm figure from University of Massachusetts Amherst Extension). The base-32&deg;F crabgrass model, its 250&ndash;500 GDD32 range, and the February 15 GDDTracker start date come directly from <a href="https://gddtracker.msu.edu/about" rel="noopener">Michigan State University Extension&rsquo;s GDDTracker</a>. The base-50&deg;F crabgrass germination figures come from West Virginia University Extension&rsquo;s <a href="https://extension.wvu.edu/lawn-gardening-pests/publications/ipm-chronicle-archives/2018/05/18/using-growing-degree-days-to-predict-germination" rel="noopener">&ldquo;Using growing degree days to predict germination&rdquo;</a>. For more on how we source and review the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a> and the full <a href="/sources/">source list</a>.
+    </p>
+
+    <RelatedCalculatorsList id="related-calculators" items={[
+      { name: 'Frost Date Calculator', url: '/calculators/frost-date-calculator/', note: 'know your frost window first — it sets the season this calculator tracks heat across.' },
+      { name: 'Seed Starting Calendar', url: '/calculators/seed-starting-calculator/', note: 'turns your frost dates into exact per-crop indoor-start and transplant dates.' },
+      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'timing a new lawn around the same spring pre-emergent window? Get your seeding rate here.' },
+      { ...clusterGuideLink('spacing-and-planting'), note: 'frost date, seed starting, spacing, and yield, all in one place.' },
+    ]} />
+  </article>
+</CalculatorLayout>
