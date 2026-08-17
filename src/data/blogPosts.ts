@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'why-are-there-holes-in-my-plant-leaves',
+    title: 'Why Are There Holes in My Plant Leaves? A Diagnostic Guide',
+    description:
+      "Diagnose holes in plant leaves fast -- bugs vs. no bugs, ragged vs. round, natural fenestration vs. real damage, plus the fix for each.",
+    pubDate: new Date('2026-08-18'),
+  },
+  {
     slug: 'why-is-my-plant-wilting',
     title: 'Why Is My Plant Wilting? A Diagnostic Guide',
     description:
