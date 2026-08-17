@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'why-is-my-plant-wilting',
+    title: 'Why Is My Plant Wilting? A Diagnostic Guide',
+    description:
+      "Diagnose wilting or drooping leaves fast -- sudden vs. gradual, soil-wet vs. soil-dry, plus the real fix for each cause.",
+    pubDate: new Date('2026-08-17'),
+  },
+  {
     slug: 'why-are-my-plant-leaves-turning-yellow',
     title: 'Why Are My Plant Leaves Turning Yellow? A Diagnostic Guide',
     description:
