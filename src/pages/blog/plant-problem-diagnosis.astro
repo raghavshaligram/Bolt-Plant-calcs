@@ -1,0 +1,121 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const description =
+  "Diagnose what's actually wrong with your plant — yellowing leaves, wilting, and more — by symptom pattern, not guesswork.";
+
+interface DiagnosisPost {
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  alt: string;
+  imgWidth: number;
+  imgHeight: number;
+}
+
+// The Plant Problem Diagnosis series. Add a new entry here whenever a new
+// diagnosis article is published, alongside its entries in blogPosts.ts and
+// blog/index.astro's postMeta.
+const diagnosisPosts: DiagnosisPost[] = [
+  {
+    slug: 'why-are-my-plant-leaves-turning-yellow',
+    title: 'Why Are My Plant Leaves Turning Yellow? A Diagnostic Guide',
+    description:
+      'Why are my plant leaves turning yellow? Diagnose by pattern -- old leaves vs. new, whole-leaf vs. between the veins -- to find the real cause and fix.',
+    image: '/plant-leaf-interveinal-yellowing-chlorosis-closeup.webp',
+    alt: 'Houseplant leaf with yellowing between the veins, for diagnosing why plant leaves turn yellow',
+    imgWidth: 1200,
+    imgHeight: 675,
+  },
+  {
+    slug: 'why-is-my-plant-wilting',
+    title: 'Why Is My Plant Wilting? A Diagnostic Guide',
+    description:
+      "Diagnose wilting or drooping leaves fast -- sudden vs. gradual, soil-wet vs. soil-dry, plus the real fix for each cause.",
+    image: '/wilted-houseplant-drooping-leaves-windowsill.webp',
+    alt: 'Wilted houseplant with drooping leaves on a windowsill, for diagnosing why a plant is wilting',
+    imgWidth: 1200,
+    imgHeight: 675,
+  },
+  {
+    slug: 'why-are-my-tomato-leaves-turning-yellow',
+    title: 'Why Are My Tomato Leaves Turning Yellow? A Diagnostic Guide',
+    description:
+      "Diagnose yellowing tomato leaves by symptom -- bottom-up yellowing, spots, or curling each point to a different cause and fix.",
+    image: '/tomato-leaves-yellowing-bottom-up.webp',
+    alt: 'Tomato plant with yellowing lower leaves supported by bamboo stakes and wire cages in a raised garden bed, healthy green growth and flowers above',
+    imgWidth: 1600,
+    imgHeight: 873,
+  },
+];
+---
+
+<Layout title="Plant Problem Diagnosis" description={description}>
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/blog/" class="hover:text-moss-800">Blog</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Plant Problem Diagnosis</span>
+      </nav>
+      <span class="mt-4 inline-flex w-fit items-center rounded-full bg-rose-100 px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-rose-800">
+        Plant Diagnosis
+      </span>
+      <h1 class="mt-3 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        Plant Problem Diagnosis
+      </h1>
+      <p class="mt-3 max-w-2xl text-base leading-relaxed text-bark-600 sm:text-lg">
+        {description}
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {diagnosisPosts.map((post) => (
+        <a
+          href={`/blog/${post.slug}/`}
+          class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+        >
+          <div class="aspect-[16/9] overflow-hidden">
+            <img
+              src={post.image}
+              alt={post.alt}
+              width={post.imgWidth}
+              height={post.imgHeight}
+              loading="lazy"
+              class="h-full w-full object-cover"
+            />
+          </div>
+          <div class="flex flex-1 flex-col p-5">
+            <h2
+              class="text-lg font-semibold text-bark-900 group-hover:text-moss-800"
+              style="font-family: 'Playfair Display', Georgia, serif;"
+            >
+              {post.title}
+            </h2>
+            <p class="mt-1.5 text-sm text-bark-600">
+              {post.description}
+            </p>
+          </div>
+        </a>
+      ))}
+
+      <div class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-moss-200 bg-white/60 p-8 text-center">
+        <p class="font-display text-base font-semibold text-bark-900">More diagnosis guides landing soon.</p>
+        <p class="mt-2 text-sm text-bark-600">
+          New symptoms and crops get added to the series regularly.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center">
+      <a href="/blog/" class="btn-secondary">
+        Browse all guides
+      </a>
+    </div>
+  </section>
+</Layout>

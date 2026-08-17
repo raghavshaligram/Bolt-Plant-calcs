@@ -7,10 +7,74 @@ import { clusters, calculators } from '../data/calculators';
 const liveCalculators = calculators.filter((c) => c.status === 'live');
 
 const description =
-  'Free garden and plant calculators for soil, mulch, fertilizer, watering, spacing, lawns, indoor plants, and hydroponics — the numbers that get you from planting day to harvest. Fast, mobile-friendly, no sign-up.';
+  "Free garden and plant calculators for soil, mulch, fertilizer, watering, spacing, lawns, and more — plus growing guides and plant diagnosis for when something's actually wrong. Fast, mobile-friendly, no sign-up.";
+
+// Homepage "Guides for Every Stage of the Garden" section. Three short rows
+// pulled from the blog library so the homepage isn't calculator-only. Titles
+// and descriptions are kept in sync with src/data/blogPosts.ts by hand since
+// this is a curated, hand-picked subset (not the full blog list).
+interface GuideCard {
+  slug: string;
+  title: string;
+  description: string;
+}
+
+const diagnoseRow: GuideCard[] = [
+  {
+    slug: 'why-are-my-plant-leaves-turning-yellow',
+    title: 'Why Are My Plant Leaves Turning Yellow?',
+    description: 'Diagnose by pattern — old leaves vs. new, whole-leaf vs. between the veins — to find the real cause.',
+  },
+  {
+    slug: 'why-is-my-plant-wilting',
+    title: 'Why Is My Plant Wilting?',
+    description: 'Sudden vs. gradual, soil-wet vs. soil-dry — the two quick checks that narrow it down fast.',
+  },
+  {
+    slug: 'why-are-my-tomato-leaves-turning-yellow',
+    title: 'Why Are My Tomato Leaves Turning Yellow?',
+    description: 'Bottom-up yellowing, spots, or curling each point to a different cause and fix.',
+  },
+];
+
+const cropGuidesRow: GuideCard[] = [
+  {
+    slug: 'how-to-grow-tomatoes-from-seed',
+    title: 'How to Grow Tomatoes from Seed',
+    description: 'Germination temps, the heat mat mistake to avoid, and when to transplant.',
+  },
+  {
+    slug: 'growing-tomatoes-in-raised-beds',
+    title: 'Growing Tomatoes in Raised Beds',
+    description: 'Spacing and bed depth, plus why raised beds get blossom end rot more often.',
+  },
+  {
+    slug: 'how-to-start-a-vegetable-garden',
+    title: 'How to Start a Vegetable Garden',
+    description: "A complete beginner's guide — pick the spot, size it right, choose what to plant first.",
+  },
+];
+
+const guidesHowTosRow: GuideCard[] = [
+  {
+    slug: 'companion-planting-chart',
+    title: 'Companion Planting Chart',
+    description: 'What to grow together, what to avoid, and why — for vegetables and herbs.',
+  },
+  {
+    slug: 'how-to-read-soil-test-results',
+    title: 'How to Read Your Soil Test Results',
+    description: 'pH, organic matter, N-P-K, and how to turn them into an actual fertilizer plan.',
+  },
+  {
+    slug: '8-mulch-mistakes-hurting-your-plants',
+    title: '8 Mulch Mistakes That Are Secretly Hurting Your Plants',
+    description: 'From volcano mulching to guessing the amount — and exactly how to avoid each one.',
+  },
+];
 ---
 
-<Layout title="HarvestMath - Free Garden & Plant Calculators" description={description} ogTitle="HarvestMath">
+<Layout title="HarvestMath - Garden Calculators &amp; Plant Care Guides" description={description} ogTitle="HarvestMath">
   <!-- Hero -->
   <section class="relative overflow-hidden">
     <div class="absolute inset-0 -z-10 bg-gradient-to-b from-moss-50 via-sand-50 to-sand-50"></div>
@@ -87,6 +151,98 @@ const description =
           </a>
         ))}
       </div>
+    </div>
+  </section>
+
+  <!-- Guides for every stage of the garden -->
+  <section class="container-wide py-16 sm:py-20">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
+        Guides for Every Stage of the Garden
+      </h2>
+      <p class="mt-3 text-base text-bark-600">
+        Calculators answer &ldquo;how much do I need.&rdquo; These guides cover the rest &mdash; what to plant when, what&rsquo;s gone wrong, and how to fix it.
+      </p>
+    </div>
+
+    <div class="mt-12 space-y-12">
+      <!-- Diagnose a Problem -->
+      <div>
+        <div class="mb-5 flex items-end justify-between gap-4">
+          <h3 class="font-display text-xl font-semibold text-bark-900">Diagnose a Problem</h3>
+          <a href="/blog/plant-problem-diagnosis/" class="shrink-0 text-sm font-medium text-moss-700 hover:text-moss-800">
+            See all &rarr;
+          </a>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {diagnoseRow.map((post) => (
+            <a
+              href={`/blog/${post.slug}/`}
+              class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+            >
+              <span class="text-xs font-medium uppercase tracking-wider text-rose-600">Guide</span>
+              <h4 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
+                {post.title}
+              </h4>
+              <p class="text-sm leading-relaxed text-bark-600">{post.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Crop Guides -->
+      <div>
+        <div class="mb-5 flex items-end justify-between gap-4">
+          <h3 class="font-display text-xl font-semibold text-bark-900">Crop Guides</h3>
+          <a href="/blog/" class="shrink-0 text-sm font-medium text-moss-700 hover:text-moss-800">
+            See all &rarr;
+          </a>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {cropGuidesRow.map((post) => (
+            <a
+              href={`/blog/${post.slug}/`}
+              class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+            >
+              <span class="text-xs font-medium uppercase tracking-wider text-bark-600">Guide</span>
+              <h4 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
+                {post.title}
+              </h4>
+              <p class="text-sm leading-relaxed text-bark-600">{post.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Guides & How-Tos -->
+      <div>
+        <div class="mb-5 flex items-end justify-between gap-4">
+          <h3 class="font-display text-xl font-semibold text-bark-900">Guides &amp; How-Tos</h3>
+          <a href="/blog/" class="shrink-0 text-sm font-medium text-moss-700 hover:text-moss-800">
+            See all &rarr;
+          </a>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {guidesHowTosRow.map((post) => (
+            <a
+              href={`/blog/${post.slug}/`}
+              class="group flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+            >
+              <span class="text-xs font-medium uppercase tracking-wider text-moss-600">Guide</span>
+              <h4 class="font-display text-lg font-semibold text-bark-900 group-hover:text-moss-800">
+                {post.title}
+              </h4>
+              <p class="text-sm leading-relaxed text-bark-600">{post.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center">
+      <a href="/blog/" class="btn-secondary">
+        Browse All Guides
+      </a>
     </div>
   </section>
 
