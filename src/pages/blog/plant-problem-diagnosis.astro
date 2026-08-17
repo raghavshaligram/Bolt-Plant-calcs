@@ -2,9 +2,11 @@
 import Layout from '../../layouts/Layout.astro';
 
 const description =
-  "Diagnose what's actually wrong with your plant — yellowing leaves, wilting, and more — by symptom pattern, not guesswork.";
+  "Not sure what's wrong with your plant? Find your symptom below and jump straight to the diagnosis -- yellowing, wilting, spots, damage, and more.";
+const pageUrl = new URL('/blog/plant-problem-diagnosis/', Astro.site).href;
 
-interface DiagnosisPost {
+interface LivePost {
+  status: 'live';
   slug: string;
   title: string;
   description: string;
@@ -14,44 +16,141 @@ interface DiagnosisPost {
   imgHeight: number;
 }
 
-// The Plant Problem Diagnosis series. Add a new entry here whenever a new
-// diagnosis article is published, alongside its entries in blogPosts.ts and
-// blog/index.astro's postMeta.
-const diagnosisPosts: DiagnosisPost[] = [
+interface ComingSoonPost {
+  status: 'coming-soon';
+  title: string;
+}
+
+type SymptomEntry = LivePost | ComingSoonPost;
+
+interface SymptomGroup {
+  id: string;
+  name: string;
+  entries: SymptomEntry[];
+}
+
+// The Plant Problem Diagnosis series, organized the way a reader would
+// actually triage a problem: by symptom, not alphabetically. Add a new
+// live entry to its matching group (or a new group) whenever a diagnosis
+// article ships, alongside its entries in blogPosts.ts and
+// blog/index.astro's postMeta. "Coming soon" entries represent the
+// planned queue -- move them to `status: 'live'` (with slug/description/
+// image) once the article is published; don't delete the placeholder
+// until then, so the series map stays honest about what's covered.
+const symptomGroups: SymptomGroup[] = [
   {
-    slug: 'why-are-my-plant-leaves-turning-yellow',
-    title: 'Why Are My Plant Leaves Turning Yellow? A Diagnostic Guide',
-    description:
-      'Why are my plant leaves turning yellow? Diagnose by pattern -- old leaves vs. new, whole-leaf vs. between the veins -- to find the real cause and fix.',
-    image: '/plant-leaf-interveinal-yellowing-chlorosis-closeup.webp',
-    alt: 'Houseplant leaf with yellowing between the veins, for diagnosing why plant leaves turn yellow',
-    imgWidth: 1200,
-    imgHeight: 675,
+    id: 'leaves-turning-yellow',
+    name: 'Leaves Turning Yellow',
+    entries: [
+      {
+        status: 'live',
+        slug: 'why-are-my-plant-leaves-turning-yellow',
+        title: 'Why Are My Plant Leaves Turning Yellow?',
+        description: 'Diagnose by pattern -- old leaves vs. new, whole-leaf vs. between the veins -- to find the real cause.',
+        image: '/plant-leaf-interveinal-yellowing-chlorosis-closeup.webp',
+        alt: 'Houseplant leaf with yellowing between the veins, for diagnosing why plant leaves turn yellow',
+        imgWidth: 1200,
+        imgHeight: 675,
+      },
+      {
+        status: 'live',
+        slug: 'why-are-my-tomato-leaves-turning-yellow',
+        title: 'Why Are My Tomato Leaves Turning Yellow?',
+        description: 'Bottom-up yellowing, spots, or curling each point to a different cause and fix.',
+        image: '/tomato-leaves-yellowing-bottom-up.webp',
+        alt: 'Tomato plant with yellowing lower leaves supported by bamboo stakes and wire cages in a raised garden bed, healthy green growth and flowers above',
+        imgWidth: 1600,
+        imgHeight: 873,
+      },
+    ],
   },
   {
-    slug: 'why-is-my-plant-wilting',
-    title: 'Why Is My Plant Wilting? A Diagnostic Guide',
-    description:
-      "Diagnose wilting or drooping leaves fast -- sudden vs. gradual, soil-wet vs. soil-dry, plus the real fix for each cause.",
-    image: '/wilted-houseplant-drooping-leaves-windowsill.webp',
-    alt: 'Wilted houseplant with drooping leaves on a windowsill, for diagnosing why a plant is wilting',
-    imgWidth: 1200,
-    imgHeight: 675,
+    id: 'wilting-or-drooping',
+    name: 'Wilting or Drooping',
+    entries: [
+      {
+        status: 'live',
+        slug: 'why-is-my-plant-wilting',
+        title: 'Why Is My Plant Wilting?',
+        description: 'Sudden vs. gradual, soil-wet vs. soil-dry -- the two quick checks that narrow it down fast.',
+        image: '/wilted-houseplant-drooping-leaves-windowsill.webp',
+        alt: 'Wilted houseplant with drooping leaves on a windowsill, for diagnosing why a plant is wilting',
+        imgWidth: 1200,
+        imgHeight: 675,
+      },
+    ],
   },
   {
-    slug: 'why-are-my-tomato-leaves-turning-yellow',
-    title: 'Why Are My Tomato Leaves Turning Yellow? A Diagnostic Guide',
-    description:
-      "Diagnose yellowing tomato leaves by symptom -- bottom-up yellowing, spots, or curling each point to a different cause and fix.",
-    image: '/tomato-leaves-yellowing-bottom-up.webp',
-    alt: 'Tomato plant with yellowing lower leaves supported by bamboo stakes and wire cages in a raised garden bed, healthy green growth and flowers above',
-    imgWidth: 1600,
-    imgHeight: 873,
+    id: 'holes-or-damage',
+    name: 'Holes or Damage',
+    entries: [{ status: 'coming-soon', title: 'Holes in Leaves (Pest Damage)' }],
+  },
+  {
+    id: 'spots-or-discoloration',
+    name: 'Spots or Discoloration',
+    entries: [
+      { status: 'coming-soon', title: 'Brown Leaf Tips' },
+      { status: 'coming-soon', title: 'Powdery Mildew (White Spots)' },
+    ],
+  },
+  {
+    id: 'not-growing-stunted',
+    name: 'Not Growing or Stunted',
+    entries: [
+      { status: 'coming-soon', title: 'Leggy Seedlings' },
+      { status: 'coming-soon', title: 'Damping Off (Seedlings Dying)' },
+    ],
+  },
+  {
+    id: 'blossom-and-fruit-problems',
+    name: 'Blossom & Fruit Problems',
+    entries: [
+      { status: 'coming-soon', title: 'Blossom End Rot' },
+      { status: 'coming-soon', title: 'Blossom Drop' },
+    ],
+  },
+  {
+    id: 'root-problems',
+    name: 'Root Problems',
+    entries: [{ status: 'coming-soon', title: 'Root Rot' }],
   },
 ];
+
+const liveArticles = symptomGroups.flatMap((g) => g.entries.filter((e): e is LivePost => e.status === 'live'));
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: new URL('/blog/', Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: 'Plant Problem Diagnosis', item: pageUrl },
+  ],
+};
+
+const collectionPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Plant Problem Diagnosis',
+  description,
+  url: pageUrl,
+  about: { '@type': 'Thing', name: 'Plant symptom diagnosis and troubleshooting' },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: liveArticles.map((post, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: post.title,
+      url: new URL(`/blog/${post.slug}/`, Astro.site).href,
+    })),
+  },
+};
 ---
 
 <Layout title="Plant Problem Diagnosis" description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(collectionPageJsonLd)} slot="head" />
+
   <section class="border-b border-moss-100 bg-moss-50/60">
     <div class="container-wide py-12 sm:py-16">
       <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
@@ -68,51 +167,70 @@ const diagnosisPosts: DiagnosisPost[] = [
         Plant Problem Diagnosis
       </h1>
       <p class="mt-3 max-w-2xl text-base leading-relaxed text-bark-600 sm:text-lg">
-        {description}
+        Something's wrong with your plant, but you don't know what yet -- that's what this hub is for. Find the symptom that matches what you're seeing below, and jump straight to the diagnosis instead of scrolling a general how-to guide looking for your problem. Each group covers a different symptom pattern, from yellowing leaves to pests to stunted growth, and grows as new diagnoses ship.
       </p>
     </div>
   </section>
 
   <section class="container-wide py-12 sm:py-16">
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {diagnosisPosts.map((post) => (
-        <a
-          href={`/blog/${post.slug}/`}
-          class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
-        >
-          <div class="aspect-[16/9] overflow-hidden">
-            <img
-              src={post.image}
-              alt={post.alt}
-              width={post.imgWidth}
-              height={post.imgHeight}
-              loading="lazy"
-              class="h-full w-full object-cover"
-            />
+    <div class="space-y-14">
+      {symptomGroups.map((group) => (
+        <div id={group.id} class="scroll-mt-20">
+          <h2 class="font-display text-xl font-semibold text-bark-900 sm:text-2xl">
+            {group.name}
+          </h2>
+          <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {group.entries.map((entry) =>
+              entry.status === 'live' ? (
+                <a
+                  href={`/blog/${entry.slug}/`}
+                  class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60 transition hover:-translate-y-0.5 hover:shadow-cardHover"
+                >
+                  <div class="aspect-[16/9] overflow-hidden">
+                    <img
+                      src={entry.image}
+                      alt={entry.alt}
+                      width={entry.imgWidth}
+                      height={entry.imgHeight}
+                      loading="lazy"
+                      class="h-full w-full object-cover"
+                    />
+                  </div>
+                  <div class="flex flex-1 flex-col p-5">
+                    <h3
+                      class="text-lg font-semibold text-bark-900 group-hover:text-moss-800"
+                      style="font-family: 'Playfair Display', Georgia, serif;"
+                    >
+                      {entry.title}
+                    </h3>
+                    <p class="mt-1.5 text-sm text-bark-600">
+                      {entry.description}
+                    </p>
+                  </div>
+                </a>
+              ) : (
+                <div class="flex flex-col overflow-hidden rounded-2xl border-2 border-dashed border-moss-200 bg-white/60 p-5">
+                  <span class="inline-flex w-fit items-center rounded-full bg-bark-100 px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-bark-600">
+                    Coming soon
+                  </span>
+                  <h3
+                    class="mt-3 text-lg font-semibold text-bark-700"
+                    style="font-family: 'Playfair Display', Georgia, serif;"
+                  >
+                    {entry.title}
+                  </h3>
+                  <p class="mt-1.5 text-sm text-bark-500">
+                    This diagnosis guide is on the way -- check back soon.
+                  </p>
+                </div>
+              )
+            )}
           </div>
-          <div class="flex flex-1 flex-col p-5">
-            <h2
-              class="text-lg font-semibold text-bark-900 group-hover:text-moss-800"
-              style="font-family: 'Playfair Display', Georgia, serif;"
-            >
-              {post.title}
-            </h2>
-            <p class="mt-1.5 text-sm text-bark-600">
-              {post.description}
-            </p>
-          </div>
-        </a>
+        </div>
       ))}
-
-      <div class="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-moss-200 bg-white/60 p-8 text-center">
-        <p class="font-display text-base font-semibold text-bark-900">More diagnosis guides landing soon.</p>
-        <p class="mt-2 text-sm text-bark-600">
-          New symptoms and crops get added to the series regularly.
-        </p>
-      </div>
     </div>
 
-    <div class="mt-10 text-center">
+    <div class="mt-14 text-center">
       <a href="/blog/" class="btn-secondary">
         Browse all guides
       </a>
