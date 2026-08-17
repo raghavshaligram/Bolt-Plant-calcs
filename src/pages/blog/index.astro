@@ -8,7 +8,7 @@ const description =
 // Per-post display metadata (image + category chip) that isn't part of the
 // RSS-feeding blogPosts.ts source of truth. Add an entry here whenever a new
 // article is published, alongside its blogPosts.ts entry.
-type ClusterKey = 'soil-and-amendments' | 'fertilizer-and-nutrients' | 'watering-and-irrigation' | 'lawn-and-landscaping' | 'spacing-and-planting' | 'indoor-plants';
+type ClusterKey = 'soil-and-amendments' | 'fertilizer-and-nutrients' | 'watering-and-irrigation' | 'lawn-and-landscaping' | 'spacing-and-planting' | 'indoor-plants' | 'plant-diagnosis';
 
 interface PostMeta {
   image: string;
@@ -19,6 +19,13 @@ interface PostMeta {
 }
 
 const postMeta: Record<string, PostMeta> = {
+  'why-are-my-plant-leaves-turning-yellow': {
+    image: '/plant-leaves-yellowing-old-vs-new-leaf-diagnostic.svg',
+    alt: 'Diagnostic illustration comparing an older, lower leaf with uniform yellowing to a newer, upper leaf with interveinal yellowing where the veins stay green',
+    imgWidth: 1600,
+    imgHeight: 873,
+    cluster: 'plant-diagnosis',
+  },
   'how-to-start-a-vegetable-garden': {
     image: '/beginner-raised-bed-vegetable-garden.webp',
     alt: 'A modest backyard vegetable garden with raised wooden beds growing lettuce, tomatoes, and pole beans on a bamboo trellis, gardening tools nearby',
@@ -169,6 +176,7 @@ const postMeta: Record<string, PostMeta> = {
 };
 
 const clusterChips: Record<ClusterKey, { label: string; bg: string; text: string }> = {
+  'plant-diagnosis': { label: 'Plant Diagnosis', bg: 'bg-rose-100', text: 'text-rose-800' },
   'soil-and-amendments': { label: 'Soil', bg: 'bg-clay-100', text: 'text-clay-800' },
   'fertilizer-and-nutrients': { label: 'Fertilizer', bg: 'bg-sand-100', text: 'text-sand-800' },
   'watering-and-irrigation': { label: 'Watering', bg: 'bg-leaf-100', text: 'text-leaf-800' },

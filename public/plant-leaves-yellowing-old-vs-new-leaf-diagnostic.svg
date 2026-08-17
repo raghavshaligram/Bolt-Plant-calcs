@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 873" fill="none" role="img" aria-label="Diagnostic illustration comparing a lower, older leaf with uniform yellowing to an upper, newer leaf with interveinal yellowing where the veins stay green">
+  <rect width="1600" height="873" fill="#F5F1E8"/>
+  <rect x="0" y="0" width="1600" height="330" fill="#EDE7D6"/>
+  <path d="M0 330 Q400 280 800 315 T1600 320 V380 H0 Z" fill="#D4DCC4" opacity="0.5"/>
+
+  <!-- Central stem -->
+  <path d="M800 850 L800 160" stroke="#5C7A42" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- OLD LEAF (lower, uniform yellow) -->
+  <g>
+    <path d="M800 660 C650 610 560 520 560 440 C560 400 610 380 660 400 C740 430 800 520 800 660 Z" fill="#D9C24A"/>
+    <path d="M800 660 C950 610 1040 520 1040 440 C1040 400 990 380 940 400 C860 430 800 520 800 660 Z" fill="#D9C24A"/>
+    <path d="M800 655 L800 420" stroke="#B8A73A" stroke-width="5"/>
+    <path d="M800 470 L680 425 M800 520 L650 480 M800 570 L660 555" stroke="#B8A73A" stroke-width="3" opacity="0.6"/>
+    <path d="M800 470 L920 425 M800 520 L950 480 M800 570 L940 555" stroke="#B8A73A" stroke-width="3" opacity="0.6"/>
+  </g>
+  <rect x="700" y="700" width="200" height="52" rx="10" fill="#8B6535"/>
+  <text x="800" y="734" fill="#FFFFFF" font-family="Georgia, serif" font-size="24" font-weight="700" text-anchor="middle">OLD LEAF</text>
+  <text x="800" y="800" fill="#5C4433" font-family="Georgia, serif" font-size="22" text-anchor="middle">Uniform yellow &#8212; nitrogen</text>
+
+  <!-- NEW LEAF (upper, interveinal, veins green) -->
+  <g>
+    <path d="M800 380 C650 330 560 240 560 160 C560 120 610 100 660 120 C740 150 800 240 800 380 Z" fill="#E4D96A"/>
+    <path d="M800 380 C950 330 1040 240 1040 160 C1040 120 990 100 940 120 C860 150 800 240 800 380 Z" fill="#E4D96A"/>
+    <path d="M800 375 L800 140" stroke="#5C7A42" stroke-width="7"/>
+    <path d="M800 190 L690 148 M800 240 L660 202 M800 290 L668 278" stroke="#5C7A42" stroke-width="6" stroke-linecap="round"/>
+    <path d="M800 190 L910 148 M800 240 L940 202 M800 290 L932 278" stroke="#5C7A42" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <rect x="700" y="30" width="200" height="52" rx="10" fill="#4A7C59"/>
+  <text x="800" y="64" fill="#FFFFFF" font-family="Georgia, serif" font-size="24" font-weight="700" text-anchor="middle">NEW LEAF</text>
+  <text x="800" y="105" fill="#5C4433" font-family="Georgia, serif" font-size="20" text-anchor="middle">Veins stay green &#8212; iron</text>
+
+  <!-- Ground -->
+  <rect x="0" y="800" width="1600" height="73" fill="#C8D9A8"/>
+  <g fill="#9AB870" opacity="0.7">
+    <path d="M120 800 Q116 782 120 768 Q124 782 120 800Z"/>
+    <path d="M1460 800 Q1456 782 1460 768 Q1464 782 1460 800Z"/>
+    <path d="M300 800 Q296 786 300 774 Q304 786 300 800Z"/>
+    <path d="M1250 800 Q1246 786 1250 774 Q1254 786 1250 800Z"/>
+  </g>
+</svg>

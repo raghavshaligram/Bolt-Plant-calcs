@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'why-are-my-plant-leaves-turning-yellow',
+    title: 'Why Are My Plant Leaves Turning Yellow? A Diagnostic Guide',
+    description:
+      'Why are my plant leaves turning yellow? Diagnose by pattern -- old leaves vs. new, whole-leaf vs. between the veins -- to find the real cause and fix.',
+    pubDate: new Date('2026-08-17'),
+  },
+  {
     slug: 'how-to-start-a-vegetable-garden',
     title: "How to Start a Vegetable Garden: A Complete Beginner's Guide",
     description:
