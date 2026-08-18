@@ -78,7 +78,7 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
       options: [
         { label: "Old, lower leaves", next: "q2a" },
         { label: "New, upper leaves", next: "q2b" },
-        { label: "Neither — soft stems, wet soil, or a recent move", next: "other-causes" },
+        { label: "Neither — soft stems, wet soil, or a recent move", next: "q2-other" },
       ],
     },
     {
@@ -97,13 +97,28 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
         { label: "Just between the veins, veins stay green", next: "iron-manganese" },
       ],
     },
+    {
+      id: "q2-other",
+      prompt: "Which of these best matches what you're seeing?",
+      options: [
+        { label: "Soil is wet, or stems feel soft or mushy", next: "overwatering-yellow" },
+        { label: "Soil is dry, leaves feel crispy or thin", next: "underwatering-yellow" },
+        { label: "Just a few old, lower leaves — rest of the plant looks healthy", next: "natural-aging-yellow" },
+        { label: "This started right after repotting or a move", next: "transplant-yellow" },
+        { label: "There are also spots, bugs, webbing, or stickiness", next: "pest-disease-yellow" },
+      ],
+    },
   ]}
   results={{
     nitrogen: { label: "Nitrogen Deficiency", blurb: "Uniform yellowing, oldest leaves first", anchor: "#nitrogen-deficiency" },
     "magnesium-or-potassium": { label: "Magnesium or Potassium Deficiency", blurb: "Interveinal yellowing or edge browning on older leaves", anchor: "#old-leaves-yellowing-first-mobile-nutrients" },
     "iron-manganese": { label: "Iron or Manganese Deficiency", blurb: "Interveinal yellowing on new growth, usually a soil pH issue", anchor: "#new-leaves-yellowing-first-immobile-nutrients" },
     sulfur: { label: "Sulfur Deficiency", blurb: "Pale, uniform yellowing on new growth", anchor: "#calcium-and-sulfur-deficiency" },
-    "other-causes": { label: "Not a Nutrient Problem", blurb: "Overwatering, underwatering, aging, or transplant shock", anchor: "#not-a-nutrient-problem-other-causes" },
+    "overwatering-yellow": { label: "Overwatering", blurb: "Wet soil, soft stems — oxygen-starved roots", anchor: "#do-yellow-leaves-mean-too-much-water" },
+    "underwatering-yellow": { label: "Underwatering", blurb: "Dry, crispy leaves and soil pulling away from the pot", anchor: "#underwatering-yellow-leaves" },
+    "natural-aging-yellow": { label: "Natural Aging", blurb: "Normal — oldest leaves shed to feed new growth", anchor: "#natural-aging-yellow-leaves" },
+    "transplant-yellow": { label: "Transplant or Root Shock", blurb: "Normal stress response, usually resolves in 1-2 weeks", anchor: "#transplant-or-root-shock-yellow-leaves" },
+    "pest-disease-yellow": { label: "Pest or Disease", blurb: "Look for stippling, webbing, or spots alongside the yellowing", anchor: "#pest-or-disease-yellow-leaves" },
   }}
 />
 
@@ -151,7 +166,7 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
 </p>
 
 <h2 id="not-a-nutrient-problem-other-causes">Not a Nutrient Problem: Other Causes of Yellow Leaves</h2>
-<h3>Do Yellow Leaves Mean Too Much Water?</h3>
+<h3 id="do-yellow-leaves-mean-too-much-water">Do Yellow Leaves Mean Too Much Water?</h3>
 <p>
   Often, yes. Per the Royal Horticultural Society, overwatered plants typically show <strong>old and new leaves yellowing at the same time</strong> -- not the clean old-leaf/new-leaf split of a nutrient deficiency -- plus soft or mushy stems, and roots that feel waterlogged rather than firm. Saturated soil pushes oxygen away from the root zone, and roots that can't get oxygen struggle to take up nutrients even when the soil has plenty, which is why overwatering can produce yellowing that looks confusingly like a deficiency. The fix is letting the soil dry out between waterings and improving drainage; our <a href="/calculators/soil-type-calculator/">Soil Type Calculator</a> can help confirm whether heavy, slow-draining soil is working against you, and it's worth taking a moment to <a href="/clusters/watering-and-irrigation/">check your watering schedule</a> against the plant's actual needs rather than a fixed routine. And <a href="/blog/why-is-my-plant-wilting/">if your plant is wilting as well as yellowing</a>, our dedicated wilting diagnostic guide covers that overlap in more depth.
 </p>
@@ -165,19 +180,19 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
   class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
 />
 
-<h3>Underwatering</h3>
+<h3 id="underwatering-yellow-leaves">Underwatering</h3>
 <p>
   The contrast case: yellowing paired with leaves that feel dry, crispy, or thin rather than soft, and soil that's pulled away from the pot edge or cracked at the surface. Consistent, deep watering on a real schedule fixes it faster than a single heavy soak. Our <a href="/calculators/drip-irrigation-calculator/">Drip Irrigation Calculator</a> works out a consistent run time for an in-ground bed.
 </p>
-<h3>Natural Aging</h3>
+<h3 id="natural-aging-yellow-leaves">Natural Aging</h3>
 <p>
   A few of the lowest, oldest leaves yellowing and dropping occasionally, with the rest of the plant green and vigorous, is completely normal. Plants shed leaves that have already done their job to redirect energy toward new growth. This is not a problem to fix -- it's worth ruling out first before assuming something's actually wrong. Or if it's progressed to browning rather than just yellowing, see our <a href="/blog/why-are-my-plant-leaf-tips-turning-brown/">guide to brown leaf tips</a> for that side of it.
 </p>
-<h3>Transplant or Root Shock</h3>
+<h3 id="transplant-or-root-shock-yellow-leaves">Transplant or Root Shock</h3>
 <p>
   Yellowing shortly after a move -- repotting, transplanting outdoors, or a big environmental change -- is usually stress, not disease or deficiency. Roots damaged or disturbed during the move take time to recover function. Most plants bounce back within a week or two with consistent (not excessive) watering and no fertilizer until new growth resumes.
 </p>
-<h3>Pest or Disease</h3>
+<h3 id="pest-or-disease-yellow-leaves">Pest or Disease</h3>
 <p>
   Sap-sucking pests (spider mites, aphids, scale) and fungal or viral diseases can both cause yellowing, usually alongside other tells -- stippling, webbing, sticky residue, spots, or curling that a pure nutrient or watering issue won't produce. If the yellowing comes with visible insects, holes, or leaf spots rather than a clean pattern, treat it as a pest or disease question rather than a feeding or watering one -- we'll cover specific pest and disease diagnosis in future guides.
 </p>

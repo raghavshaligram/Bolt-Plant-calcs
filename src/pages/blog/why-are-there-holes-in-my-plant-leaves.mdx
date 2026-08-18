@@ -79,8 +79,16 @@ import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
       id: "q1",
       prompt: "Is it a Monstera or similar species, with neat holes following the leaf veins?",
       options: [
-        { label: "Yes", next: "fenestration" },
+        { label: "Yes", next: "q1b" },
         { label: "No", next: "q2" },
+      ],
+    },
+    {
+      id: "q1b",
+      prompt: "Are the holes symmetrical, and did they appear as the leaf unfurled — not scattered across an already-mature leaf?",
+      options: [
+        { label: "Yes, matches that pattern", next: "fenestration" },
+        { label: "No, it's scattered or appeared after the leaf matured", next: "q2" },
       ],
     },
     {

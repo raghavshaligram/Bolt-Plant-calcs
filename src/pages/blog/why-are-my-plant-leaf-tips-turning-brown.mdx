@@ -73,14 +73,44 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
       id: "q1",
       prompt: "Is it just the tip or edge, with the rest of the leaf still green?",
       options: [
-        { label: "Yes, just the tip/edge", next: "tip-burn" },
-        { label: "No, the whole leaf is browning", next: "whole-leaf" },
+        { label: "Yes, just the tip/edge", next: "q2-tip" },
+        { label: "No, the whole leaf is browning", next: "q2-whole" },
+      ],
+    },
+    {
+      id: "q2-tip",
+      prompt: "Which of these matches what you're seeing?",
+      options: [
+        { label: "Tap water, and it's a sensitive species (Dracaena, spider plant, palm, etc.)", next: "tap-water" },
+        { label: "White crust on the soil surface or pot rim", next: "fertilizer-salts" },
+        { label: "Dry indoor air, especially near a heating vent", next: "low-humidity" },
+        { label: "Haven't repotted in a couple of years, or roots are circling", next: "root-bound" },
+        { label: "Soil dry and pulling away from the pot", next: "underwatering-tip" },
+      ],
+    },
+    {
+      id: "q2-whole",
+      prompt: "Which of these matches what happened?",
+      options: [
+        { label: "Also wilting or drooping before it browned", next: "severe-watering" },
+        { label: "Moved outside or into direct sun recently", next: "sunscald" },
+        { label: "Near a cold window, AC vent, or drafty door", next: "cold-damage" },
+        { label: "Yellowed first, then browned", next: "natural-aging-whole" },
+        { label: "Spots, fuzzy texture, or a foul smell", next: "disease-whole" },
       ],
     },
   ]}
   results={{
-    "tip-burn": { label: "Classic Tip Burn", blurb: "Tap water minerals, salt buildup, humidity, or root-bound roots", anchor: "#just-the-tips-or-edges-classic-tip-burn" },
-    "whole-leaf": { label: "Whole-Leaf Browning", blurb: "A more serious problem — watering, sunscald, cold, or disease", anchor: "#the-whole-leaf-is-browning-a-different-more-serious-problem" },
+    "tap-water": { label: "Tap Water Minerals or Fluoride", blurb: "Slow tip burn from fluoride, chlorine, or dissolved salts", anchor: "#tap-water-minerals-and-fluoride" },
+    "fertilizer-salts": { label: "Fertilizer Salt Buildup", blurb: "Mineral salts drawing water back out of leaf tips", anchor: "#fertilizer-salt-buildup" },
+    "low-humidity": { label: "Low Humidity", blurb: "The single most common cause — dry indoor air", anchor: "#low-humidity-tip-burn" },
+    "root-bound": { label: "Root-Bound Roots", blurb: "Roots can't keep the whole leaf hydrated", anchor: "#root-bound-plants-tip-burn" },
+    "underwatering-tip": { label: "Underwatering", blurb: "Tips are farthest from the water source, so they stress first", anchor: "#underwatering-tip-burn" },
+    "severe-watering": { label: "Severe Under- or Overwatering", blurb: "A watering problem that's gone on long enough to brown the whole leaf", anchor: "#severe-under-or-overwatering" },
+    sunscald: { label: "Sunscald or Leaf Burn", blurb: "Sudden direct sun on leaves that developed indoors", anchor: "#sunscald-or-leaf-burn" },
+    "cold-damage": { label: "Cold Damage or Drafts", blurb: "A cold window, AC vent, or drafty door", anchor: "#cold-damage-or-drafts" },
+    "natural-aging-whole": { label: "Natural End-of-Life", blurb: "Browning is often the final stage after yellowing", anchor: "#natural-end-of-life-brown-tips" },
+    "disease-whole": { label: "Disease", blurb: "Less common — usually with spots or an uneven pattern", anchor: "#disease-whole-leaf-browning" },
   }}
 />
 
@@ -88,7 +118,7 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
 <p>
   What causes brown tips on plants? Five real, common mechanisms, usually acting in combination rather than any single one alone. The same causes are also why are the edges of my plant leaves turning brown -- tips and edges are the same tissue-death pattern, just showing up in a different spot on the leaf, so treat them as one diagnosis.
 </p>
-<p>
+<p id="tap-water-minerals-and-fluoride">
   <strong>Tap water minerals and fluoride.</strong> Many common houseplants -- <em>Dracaena</em>, spider plants, prayer plants, and palms in particular -- react to fluoride, chlorine, or dissolved mineral salts in tap water with slow tip burn over months of exposure. Per Iowa State University Extension, spider plant, ti plant, dracaena, prayer plant, and calathea are especially sensitive to water quality for exactly this reason. The fix is switching to distilled water or rainwater; letting tap water sit out 24 hours helps chlorine off-gas, but it won't do anything for fluoride or dissolved mineral salts, so be realistic about that limitation before assuming it's solved the problem. Chlorine is the easy one to deal with, since it evaporates out of standing water on its own; fluoride and dissolved salts don't evaporate at all, which is exactly why they build up in leaf tissue over months rather than causing a sudden reaction.
 </p>
 
@@ -101,13 +131,13 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
   class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
 />
 
-<p>
+<p id="fertilizer-salt-buildup">
   <strong>Fertilizer salt buildup.</strong> Over-fertilizing, or fertilizing regularly without ever flushing the soil, lets mineral salts accumulate in the potting mix. Per the University of Missouri Extension, those salts draw water back out of root tips and leaf tips rather than letting the plant take water up normally, which is why tipburn often shows up even when watering seems consistent. Flush the soil thoroughly with plain water every few months, and cut fertilizer strength if you see a white crust forming on the soil surface or pot rim.
 </p>
-<p>
+<p id="low-humidity-tip-burn">
   <strong>Low humidity.</strong> Many tropical houseplants show tip browning in dry indoor air, especially near heating vents in winter -- this is genuinely the most common single cause according to Iowa State Extension's houseplant FAQ. Raising humidity with a pebble tray, humidifier, or grouping plants together helps, and it's worth taking a moment to check <a href="/clusters/watering-and-irrigation/">your watering schedule</a> too, since humidity and watering problems often compound each other.
 </p>
-<p>
+<p id="root-bound-plants-tip-burn">
   <strong>Root-bound plants.</strong> Roots that have outgrown their pot and started circling can't take up enough water to keep the entire leaf hydrated, and tips -- being farthest from the roots -- show the stress first. If you haven't repotted in a couple of years and suspect this, use our <a href="/calculators/pot-size-calculator/">Pot Size Calculator</a> to find the right next container size before you repot.
 </p>
 
@@ -120,7 +150,7 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
   class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
 />
 
-<p>
+<p id="underwatering-tip-burn">
   <strong>Underwatering.</strong> The simplest cause on this list -- tips are the tissue farthest from the water source, so they're the first to show stress when the plant isn't getting enough water consistently. If tip burn shows up alongside dry, pulling-away-from-the-pot soil, this is probably it.
 </p>
 
@@ -128,19 +158,19 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
 <p>
   Why are my plant leaves turning brown, not just at the tips? This is a genuinely different question from tip burn, and it usually points to something more urgent.
 </p>
-<p>
+<p id="severe-under-or-overwatering">
   <strong>Severe under- or overwatering.</strong> Once a watering problem goes on long enough, the whole leaf can brown rather than just the tip. If the leaf is also wilting or drooping before it browns, see our <a href="/blog/why-is-my-plant-wilting/">wilting diagnostic guide</a> -- there's real symptom overlap between the two.
 </p>
-<p>
+<p id="sunscald-or-leaf-burn">
   <strong>Sunscald or leaf burn.</strong> A plant moved outside too abruptly, or suddenly exposed to direct sun it wasn't acclimated to, can develop bleached or browned patches across the whole leaf within days, not weeks. The mechanism is straightforward: leaves that developed indoors under filtered, indirect light don't have the protective pigment concentration that outdoor-grown leaves build up gradually, so direct sun essentially cooks the tissue before the plant can adapt. Moving a plant outside for the season should happen over a week or two of increasing exposure, not all at once.
 </p>
-<p>
+<p id="cold-damage-or-drafts">
   <strong>Cold damage or drafts.</strong> A leaf pressed against a cold window in winter, or sitting in the path of an AC vent or a drafty door, can brown across large sections rather than just at the tip, since cold damages cell structure broadly rather than starting at the leaf margin.
 </p>
-<p>
+<p id="natural-end-of-life-brown-tips">
   <strong>Natural end-of-life for that leaf.</strong> Browning is often the final stage after yellowing, not a separate problem -- see our <a href="/blog/why-are-my-plant-leaves-turning-yellow/">guide to natural leaf aging</a> if the leaf yellowed first and only browned afterward, since that's a normal progression, not damage.
 </p>
-<p>
+<p id="disease-whole-leaf-browning">
   <strong>Disease.</strong> Less commonly, a fungal or bacterial leaf disease can cause whole-leaf browning, usually with an uneven or spreading pattern rather than a clean edge, and often accompanied by spots, a fuzzy or powdery texture, or a foul smell near the soil line if roots are involved too. This is the least common cause on this list for typical houseplants, but it's worth ruling in or out if the browning looks patchy and irregular rather than uniform. A dedicated diagnosis guide for specific leaf diseases is planned for this series; in the meantime, if none of the causes above match, see the fallback link below.
 </p>
 

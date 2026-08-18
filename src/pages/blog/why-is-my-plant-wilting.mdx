@@ -79,9 +79,25 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
       id: "q1",
       prompt: "Is the soil wet or dry right now?",
       options: [
-        { label: "Dry", next: "underwatering" },
-        { label: "Wet or waterlogged", next: "overwatering" },
+        { label: "Dry", next: "q2-dry" },
+        { label: "Wet or waterlogged", next: "q2-wet" },
         { label: "Neither fits — it recovers by evening, or just repotted", next: "q2" },
+      ],
+    },
+    {
+      id: "q2-dry",
+      prompt: "Does it perk back up within a few hours of a deep watering?",
+      options: [
+        { label: "Yes, recovers quickly after watering", next: "underwatering" },
+        { label: "No, stays wilted even after watering", next: "disease" },
+      ],
+    },
+    {
+      id: "q2-wet",
+      prompt: "If you check the roots, are they firm and light-colored, or soft, dark, and mushy/foul-smelling?",
+      options: [
+        { label: "Firm and light-colored (or haven't checked)", next: "overwatering" },
+        { label: "Soft, dark, mushy, or foul-smelling", next: "root-rot" },
       ],
     },
     {
@@ -96,7 +112,8 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
   ]}
   results={{
     underwatering: { label: "Underwatering", blurb: "Dry soil, perks up within hours of watering", anchor: "#soil-is-dry-underwatering" },
-    overwatering: { label: "Overwatering or Root Rot", blurb: "Wilting despite wet soil — oxygen-starved roots", anchor: "#soil-is-wet-overwatering-and-root-rot" },
+    overwatering: { label: "Overwatering", blurb: "Wilting despite wet soil — oxygen-starved roots", anchor: "#soil-is-wet-overwatering-and-root-rot" },
+    "root-rot": { label: "Root Rot", blurb: "Roots have started to rot — same fix, but act quickly", anchor: "#root-rot-vs-overwatering" },
     "transplant-shock": { label: "Transplant or Root Shock", blurb: "Normal, usually resolves in 1-2 weeks", anchor: "#heat-and-transplant-stress" },
     "heat-stress": { label: "Normal Heat Response", blurb: "No action needed", anchor: "#heat-and-transplant-stress" },
     disease: { label: "Vascular Wilt Disease", blurb: "Doesn't recover despite adequate watering", anchor: "#disease-and-vascular-wilt" },
@@ -129,7 +146,7 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
 <p>
   This is the counterintuitive one: plant leaves drooping despite soil that's already wet, sometimes visibly waterlogged. Per the University of Maryland Extension, roots sitting in saturated soil are starved of oxygen, and roots that can't function properly can't take up water either -- functionally mimicking drought even though the pot is holding more than enough. Heavy, slow-draining soil makes this worse, since it stays saturated far longer after watering or rain than a looser mix; our <a href="/calculators/soil-type-calculator/">Soil Type Calculator</a> can help confirm whether that's working against you.
 </p>
-<p>
+<p id="root-rot-vs-overwatering">
   A pot without a drainage hole is one of the most common hidden causes of this -- water has nowhere to go, so the bottom of the root ball stays saturated indefinitely even if the surface looks dry between waterings. Root rot is the more serious version of the same problem. Healthy roots are firm and typically white or light tan; rotted roots turn soft, dark, and mushy, often with a distinct foul smell when you pull the plant to check. The fix for both is letting soil dry out between waterings and improving drainage -- a pot with an actual drainage hole, a looser mix, or fewer waterings on a real schedule rather than a fixed one; it's worth checking <a href="/clusters/watering-and-irrigation/">your watering schedule against the plant's actual needs</a> rather than watering out of habit.
 </p>
 
