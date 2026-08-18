@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'blossom-end-rot',
+    title: 'Blossom End Rot: Why It Happens and How to Actually Fix It',
+    description:
+      "Usually not a calcium problem -- the real cause is inconsistent watering. Here's how to actually stop blossom end rot on tomatoes, peppers, zucchini, and watermelon.",
+    pubDate: new Date('2026-08-19'),
+  },
+  {
     slug: 'powdery-mildew',
     title: 'Powdery Mildew: How to Identify, Treat, and Prevent It',
     description:

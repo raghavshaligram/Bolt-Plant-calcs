@@ -32,7 +32,10 @@ interface QuizQuestion {
 interface QuizResult {
   label: string;
   blurb: string;
-  anchor: string; // e.g. "#nitrogen-deficiency" -- must match a real heading id on the page
+  anchor: string; // "#some-heading-id" to scroll within the page, or a full path like
+                   // "/blog/plant-problem-diagnosis/" to send the reader elsewhere when
+                   // this result isn't covered on the current article
+  ctaLabel?: string; // overrides the button text -- defaults to "See this section"
 }
 
 interface DiagnosticQuizProps {
@@ -66,8 +69,12 @@ export default function DiagnosticQuiz({ questions, results }: DiagnosticQuizPro
   }
 
   function seeSection(anchor: string) {
-    const el = document.querySelector(anchor);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (anchor.startsWith('#')) {
+      const el = document.querySelector(anchor);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.location.href = anchor;
+    }
   }
 
   const currentQuestion = resultKey ? null : questions.find((q) => q.id === stack[stack.length - 1]);
@@ -106,7 +113,7 @@ export default function DiagnosticQuiz({ questions, results }: DiagnosticQuizPro
             onClick={() => seeSection(activeResult.anchor)}
             className="btn-primary mt-4 w-full sm:w-auto"
           >
-            See this section
+            {activeResult.ctaLabel ?? 'See this section'}
           </button>
         </div>
       ) : currentQuestion ? (

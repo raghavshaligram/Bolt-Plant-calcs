@@ -1,0 +1,254 @@
+---
+layout: '../../layouts/BlogPostLayout.astro'
+title: 'Blossom End Rot: Why It Happens and How to Actually Fix It'
+heading: 'Blossom End Rot: Why It Happens and How to Actually Fix It'
+description: "Usually not a calcium problem -- the real cause is inconsistent watering. Here's how to actually stop blossom end rot on tomatoes, peppers, zucchini, and watermelon."
+lastUpdated: '2026-08-19'
+readingTime: '8 min read'
+breadcrumbLabel: 'Blossom End Rot'
+ogImage: '/tomato-blossom-end-rot-dark-sunken-patch.webp'
+slug: 'blossom-end-rot'
+tocItems:
+  - id: 'quick-answer-is-this-blossom-end-rot'
+    label: 'Quick Answer'
+    icon: 'question'
+  - id: 'what-blossom-end-rot-actually-is'
+    label: 'What It Is'
+    icon: 'leaf'
+  - id: 'the-calcium-myth-why-spraying-doesnt-usually-work'
+    label: 'The Calcium Myth'
+    icon: 'warning'
+  - id: 'the-real-cause-inconsistent-watering'
+    label: 'The Real Cause'
+    icon: 'leaf'
+  - id: 'which-plants-get-it'
+    label: 'Which Plants Get It'
+    icon: 'leaf'
+  - id: 'how-to-actually-fix-and-prevent-it'
+    label: 'How to Fix It'
+    icon: 'leaf'
+  - id: 'can-you-eat-the-rest-of-the-fruit'
+    label: 'Can You Eat It?'
+    icon: 'question'
+  - id: 'quick-reference-table'
+    label: 'Quick Reference'
+    icon: 'table'
+  - id: 'blossom-end-rot-faq'
+    label: 'FAQ'
+    icon: 'question'
+---
+
+import FAQBlock from '../../components/FAQBlock.astro';
+import LeadMagnet from '../../components/LeadMagnet.astro';
+import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
+
+<a
+  href="/blog/plant-problem-diagnosis/"
+  class="not-prose mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-rose-100 px-3 py-1 text-xs font-medium text-rose-800 transition hover:bg-rose-200"
+>
+  Part of our Plant Problem Diagnosis series
+  <svg class="h-3 w-3" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+
+<p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg">
+  If your tomato has a dark, leathery, sunken patch at the bottom, you're looking at blossom end rot -- and if you've already read that it's a calcium deficiency and reached for a calcium spray, here's the uncomfortable truth: that spray almost certainly won't fix it. Blossom end rot is usually a watering problem wearing a calcium-deficiency costume. The real fix is boring, cheap, and has nothing to do with feeding your plant more calcium.
+</p>
+
+<img
+  src="/tomato-blossom-end-rot-dark-sunken-patch.webp"
+  alt="Tomato with dark, leathery, sunken patch at the blossom end, showing classic blossom end rot"
+  width="1200"
+  height="675"
+  loading="eager"
+  class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
+/>
+
+<h2 id="quick-answer-is-this-blossom-end-rot">Quick Answer: Is This Blossom End Rot?</h2>
+<p>
+  One question sorts out whether this is blossom end rot or something else.
+</p>
+<div class="not-prose my-6 rounded-2xl border border-moss-200 bg-moss-50/60 p-6">
+  <ol class="space-y-3 text-bark-700">
+    <li><strong>Is the dark, sunken patch specifically at the blossom end (bottom) of the fruit -- not spreading mushy rot from elsewhere, and not fuzzy mold?</strong></li>
+  </ol>
+  <ul class="mt-3 space-y-2 text-bark-700">
+    <li><strong>Yes -- leathery, sunken, right at the bottom</strong> -- this is blossom end rot. Keep reading below for the real cause and the actual fix.</li>
+    <li><strong>No -- it's mushy, spreading, or fuzzy/moldy</strong> -- likely a different problem, such as fruit rot or a fungal disease. See our full diagnosis hub to find the right guide.</li>
+  </ul>
+</div>
+
+<DiagnosticQuiz
+  client:load
+  questions={[
+    {
+      id: "q1",
+      prompt: "Is the dark, sunken patch specifically at the blossom end (bottom) of the fruit -- not spreading mushy rot from elsewhere, and not fuzzy mold?",
+      options: [
+        { label: "Yes -- leathery, sunken, right at the bottom", next: "blossom-end-rot" },
+        { label: "No -- it's mushy, spreading, or fuzzy/moldy", next: "different-problem" },
+      ],
+    },
+  ]}
+  results={{
+    "blossom-end-rot": {
+      label: "Blossom End Rot",
+      blurb: "Usually a watering problem, not a calcium problem -- here's the real cause and the actual fix.",
+      anchor: "#the-real-cause-inconsistent-watering",
+    },
+    "different-problem": {
+      label: "Likely a Different Problem",
+      blurb: "This guide covers blossom end rot specifically. For mushy, spreading, or moldy fruit symptoms, check the full diagnosis hub to find the right guide.",
+      anchor: "/blog/plant-problem-diagnosis/",
+      ctaLabel: "See the diagnosis hub",
+    },
+  }}
+/>
+
+<h2 id="what-blossom-end-rot-actually-is">What Blossom End Rot Actually Is</h2>
+<p>
+  Blossom end rot is a physiological disorder, not a disease -- no pathogen is involved, and it isn't contagious to other plants. Per the University of Wisconsin-Madison's Plant Disease Diagnostics Clinic, it shows up as decayed, sunken areas on the bottom (blossom end) of the fruit, and it's caused by a localized calcium deficiency in the developing fruit tissue itself. That's the part that trips people up: a "calcium deficiency" sounds like a soil problem you fix by adding more calcium, but it's almost always a delivery problem instead. Calcium moves through a plant mainly with water, riding along in the transpiration stream, and it doesn't travel back out of leaves once it's there. If water delivery to the fruit is inconsistent, even a fruit growing in calcium-rich soil can end up short on calcium right where it's needed most.
+</p>
+
+<h2 id="the-calcium-myth-why-spraying-doesnt-usually-work">The Calcium Myth: Why Spraying Doesn't Usually Work</h2>
+<p>
+  This is the most persistent piece of bad gardening advice around blossom end rot, and it's worth addressing directly: foliar calcium sprays, and folk remedies like crushed Tums or eggshells worked into the soil, generally don't fix an active problem. According to Clemson Cooperative Extension's Home &amp; Garden Information Center, the skin of the fruit can't effectively absorb calcium sprayed onto it, and calcium that does reach the leaves can't move through the plant's phloem into the fruit -- calcium is what's called an immobile nutrient once it's deposited in plant tissue. Clemson also makes the more important point: blossom end rot can happen even when soil calcium levels are perfectly adequate, because the underlying problem usually isn't a shortage of calcium in the ground. It's a shortage of calcium reaching the fruit, which comes down to water.
+</p>
+<p>
+  Eggshells and Tums aren't harmful additions to garden soil, but treat them as a slow, marginal soil amendment at best -- not a fix for fruit that's already showing symptoms. If you want to know for certain whether your soil is actually calcium-deficient rather than guessing, <a href="/blog/how-to-read-soil-test-results/">an actual soil test</a> will tell you far more reliably than a spray bottle will.
+</p>
+
+<h2 id="the-real-cause-inconsistent-watering">The Real Cause: Inconsistent Watering</h2>
+<p>
+  Per Clemson HGIC and the Iowa State University Yard and Garden program, the most effective way to prevent blossom end rot is maintaining uniform soil moisture -- avoiding the swing between bone-dry and soaking wet that disrupts calcium delivery to developing fruit. Fluctuating soil moisture from overwatering, drought, or an inconsistent watering schedule is the condition most closely tied to blossom end rot showing up, especially early in the season when fruit is expanding fastest and demand for water (and the calcium riding along with it) is highest.
+</p>
+<p>
+  The fix is almost entirely about consistency rather than volume: a drip irrigation system on a timer, or at minimum a fixed watering schedule rather than watering only when you remember, does more for blossom end rot than any spray. If you're not sure your current routine is actually consistent, <a href="/clusters/watering-and-irrigation/">our watering and irrigation calculators</a> can help you turn "water it sometimes" into an actual schedule based on your plant, pot or bed size, and climate.
+</p>
+
+<img
+  src="/zucchini-blossom-end-rot-damage.webp"
+  alt="Zucchini with dark, sunken blossom end rot damage at the blossom end of the fruit"
+  width="1000"
+  height="750"
+  loading="lazy"
+  class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
+/>
+
+<h2 id="which-plants-get-it">Which Plants Get It</h2>
+<p>
+  Blossom end rot on tomatoes (<em>Solanum lycopersicum</em>) is the most common version people search for, but it's a fruit-development issue that affects several other vegetables too, especially in the same growing conditions that stress tomatoes. Zucchini and other summer squash (<em>Cucurbita pepo</em>) are prone to it, often showing up as a dark, sunken patch at the blossom end that's easy to mistake for rot from contact with wet soil. Bell peppers (<em>Capsicum annuum</em>) get it as well -- per the UF/IFAS Extension factsheet on bell pepper blossom-end rot, symptoms start as a light green or yellowish sunken spot that expands and eventually turns black as saprophytic fungi colonize the already-dead tissue, which is a secondary effect, not the original cause. Watermelon (<em>Citrullus lanatus</em>) can also develop it, particularly during hot, dry stretches when water demand spikes and watering tends to fall behind.
+</p>
+<p>
+  Across all of these, the trigger is the same: rapidly expanding fruit tissue with an inconsistent water supply, not a plant-specific quirk.
+</p>
+
+<h2 id="how-to-actually-fix-and-prevent-it">How to Actually Fix and Prevent It</h2>
+<p>
+  How you treat blossom end rot and how you prevent blossom end rot from coming back are really the same short list -- there's no separate "cure" beyond removing already-affected fruit and fixing the conditions that caused it.
+</p>
+<p>
+  <strong>Water consistently.</strong> This is the single biggest lever. Aim for roughly 1 to 1½ inches of water per week for tomatoes during the growing season, per Iowa State University Extension, delivered on a regular schedule rather than in occasional heavy soakings after the soil has already gone dry.
+</p>
+<p>
+  <strong>Mulch around the base of the plant.</strong> A layer of mulch or pine straw slows evaporation and buffers the soil against the wet-dry swings that disrupt calcium delivery -- both Clemson HGIC and Wisconsin Extension name this as a standard prevention step alongside consistent watering.
+</p>
+
+<img
+  src="/mulch-around-tomato-plant-base-blossom-end-rot-prevention.webp"
+  alt="Mulch spread around the base of a tomato plant to conserve soil moisture and prevent blossom end rot"
+  width="1000"
+  height="750"
+  loading="lazy"
+  class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
+/>
+
+<p>
+  <strong>Don't over-fertilize with nitrogen.</strong> Heavy nitrogen fertilization pushes fast, leafy growth that outpaces root development and water uptake, which can make blossom end rot worse rather than better. If you're unsure what your soil actually needs, <a href="/clusters/fertilizer-and-nutrients/">our fertilizer and nutrient calculators</a> can help you feed based on an actual rate instead of a habit.
+</p>
+<p>
+  <strong>Skip the extra calcium.</strong> Per Iowa State University Extension, most garden soils -- Iowa's included -- already contain more than adequate calcium, so adding more to the soil rarely addresses the actual bottleneck. If you want to confirm rather than guess, <a href="/blog/how-to-read-soil-test-results/">reading an actual soil test</a> will tell you what your soil truly has and needs.
+</p>
+<p>
+  <strong>Remove affected fruit.</strong> Fruit that already shows blossom end rot won't recover. Picking and discarding it lets the plant put its energy into the fruit still developing, per Iowa State University Extension.
+</p>
+
+<h2 id="can-you-eat-the-rest-of-the-fruit">Can You Eat the Rest of the Fruit?</h2>
+<p>
+  In most cases, yes. Blossom end rot is a physiological disorder, not a pathogen, so it isn't a food-safety hazard on its own. If the affected area is small, firm, and dry-looking, many gardeners simply cut away the damaged section and eat the rest of the fruit normally. That said, use ordinary judgment: if the spot has become soft, mushy, or shows the fuzzy growth of a secondary mold or fungal infection moving in on the dead tissue -- which can happen once the fruit's skin has broken down -- it's best to discard that fruit rather than eat around it. When in doubt, or if a large portion of the fruit is affected, throwing it out is the safer call.
+</p>
+
+<h2 id="quick-reference-table">Quick Reference Table</h2>
+<div class="not-prose my-6 overflow-x-auto rounded-2xl border border-moss-100">
+  <table class="w-full text-left text-sm">
+    <thead class="bg-moss-50">
+      <tr>
+        <th class="p-3 font-semibold text-bark-900">Symptom</th>
+        <th class="p-3 font-semibold text-bark-900">Likely Cause</th>
+        <th class="p-3 font-semibold text-bark-900">Fix</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-moss-100">
+      <tr>
+        <td class="p-3">Dark, leathery, sunken patch at the blossom end</td>
+        <td class="p-3">Blossom end rot (inconsistent watering)</td>
+        <td class="p-3">Water on a consistent schedule; mulch to buffer soil moisture</td>
+      </tr>
+      <tr>
+        <td class="p-3">Symptom on tomatoes, peppers, zucchini, or watermelon</td>
+        <td class="p-3">Rapidly expanding fruit with uneven water supply</td>
+        <td class="p-3">Same fix regardless of plant -- consistency, not more calcium</td>
+      </tr>
+      <tr>
+        <td class="p-3">Spraying calcium isn't helping</td>
+        <td class="p-3">Foliar calcium can't reach the fruit tissue that needs it</td>
+        <td class="p-3">Stop spraying -- fix watering consistency instead</td>
+      </tr>
+      <tr>
+        <td class="p-3">Worse during hot, dry stretches</td>
+        <td class="p-3">Water demand spikes faster than watering keeps up</td>
+        <td class="p-3">Drip irrigation on a timer or a fixed watering schedule</td>
+      </tr>
+      <tr>
+        <td class="p-3">Fruit already has a black, sunken spot</td>
+        <td class="p-3">Existing damage won't reverse</td>
+        <td class="p-3">Remove affected fruit; focus care on fruit still developing</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="not-prose my-8 rounded-2xl border border-moss-200 bg-moss-50/60 p-6">
+  <p class="text-bark-700">
+    If this doesn't match what you're seeing, see our <a href="/blog/plant-problem-diagnosis/" class="font-medium underline underline-offset-2 hover:text-moss-900">full Plant Problem Diagnosis guide</a> to find the right one.
+  </p>
+</div>
+
+<LeadMagnet variant="compact" clusterTag="irrigation-cluster" listId={7} headline="Stop guessing on watering. Get the Watering & Irrigation Cheat Sheet — flow rates and run times, in one page." />
+
+<FAQBlock id="blossom-end-rot-faq" heading="Blossom End Rot FAQ" faqs={[
+  {
+    q: 'What causes blossom end rot?',
+    a: "Blossom end rot is a calcium deficiency in tomatoes and other fruit -- specifically a localized deficiency in developing fruit tissue -- but in most home gardens the root cause is inconsistent soil moisture, not a lack of calcium in the soil. Calcium travels through a plant along with water, so when watering swings between too dry and too wet, calcium delivery to fast-growing fruit gets disrupted even if the soil itself has plenty."
+  },
+  {
+    q: 'Does Tums actually work for blossom end rot?',
+    a: "Not for fruit that already shows symptoms. Crushed Tums and eggshells are a very slow-release, marginal source of calcium for the soil at best, and per Clemson Cooperative Extension the real bottleneck in most cases is water delivery, not soil calcium levels. Consistent watering does far more than any calcium remedy, sprayed or worked into the soil."
+  },
+  {
+    q: 'Can you eat tomatoes with blossom end rot?',
+    a: "Generally yes, if you cut away the affected portion first. Blossom end rot is a physiological disorder rather than a pathogen, so it isn't inherently a food-safety issue. If the spot has turned soft, mushy, or moldy from secondary organisms moving into the damaged tissue, discard that fruit instead of eating around it."
+  },
+  {
+    q: 'How do you stop blossom end rot on tomatoes?',
+    a: "Water on a consistent schedule rather than sporadically, mulch around the base of the plant to buffer soil moisture swings, and avoid heavy nitrogen fertilization that outpaces root development. Skip calcium sprays and soil calcium additives unless a soil test actually shows a deficiency -- most garden soils already have enough."
+  },
+  {
+    q: 'Does blossom end rot affect plants other than tomatoes?',
+    a: "Yes. Peppers, zucchini and other summer squash, and watermelon are all prone to blossom end rot under the same conditions -- rapidly expanding fruit combined with inconsistent watering. The cause and the fix are the same across all of them."
+  }
+]} />
+
+<h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+<p>
+  Identification and calcium-mechanism details come from the <a href="https://hort.extension.wisc.edu/articles/blossom-end-rot/" rel="noopener">University of Wisconsin-Madison Plant Disease Diagnostics Clinic's guide to blossom end rot</a>. The calcium-spray myth and the uniform-moisture prevention guidance come from <a href="https://hgic.clemson.edu/gardening-myths-fix-blossom-end-rot-with-calcium-sprays/" rel="noopener">Clemson Cooperative Extension's HGIC gardening myths article on calcium sprays</a>. Bell pepper-specific symptoms and progression come from the <a href="https://ask.ifas.ufl.edu/publication/SS497" rel="noopener">University of Florida IFAS Extension's factsheet on blossom-end rot in bell pepper</a>. Watering rates, soil calcium adequacy, and affected-fruit removal guidance come from <a href="https://yardandgarden.extension.iastate.edu/encyclopedia/blossom-end-rot" rel="noopener">Iowa State University Extension's Yard and Garden encyclopedia entry on blossom end rot</a>. For more on <a href="/methodology/">our sourcing approach</a>, see our methodology page. And for the full picture on watering consistently enough to prevent this in the first place, see our <a href="/clusters/watering-and-irrigation/">Watering &amp; Irrigation cluster</a>, or our <a href="/clusters/fertilizer-and-nutrients/">Fertilizer &amp; Nutrients cluster</a> if over-fertilizing is the more likely culprit. If your plant's symptom doesn't match what's covered here, see our <a href="/blog/plant-problem-diagnosis/">full Plant Problem Diagnosis guide</a> to find the right one.
+</p>
