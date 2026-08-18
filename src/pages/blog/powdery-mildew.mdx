@@ -84,14 +84,39 @@ import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
       id: "q1",
       prompt: "Where exactly is the white or fuzzy stuff, and what does it look like?",
       options: [
-        { label: "White, powdery coating on top of leaves, stems, or buds", next: "powdery-mildew" },
-        { label: "Fuzzy, yellow-to-brown patches, mostly on the underside of leaves", next: "downy-mildew" },
-        { label: "White or fuzzy growth on the soil surface, not on the plant itself", next: "soil-mold" },
+        { label: "White, powdery coating on top of leaves, stems, or buds", next: "q2-pm" },
+        { label: "Fuzzy, yellow-to-brown patches, mostly on the underside of leaves", next: "q2-downy" },
+        { label: "White or fuzzy growth on the soil surface, not on the plant itself", next: "q2-soil" },
+      ],
+    },
+    {
+      id: "q2-pm",
+      prompt: "How far has it spread — just a few small spots, or already covering many leaves and stems?",
+      options: [
+        { label: "Just a few small spots, caught early", next: "pm-early" },
+        { label: "Already spread across many leaves or stems", next: "pm-established" },
+      ],
+    },
+    {
+      id: "q2-downy",
+      prompt: "Does the top of that same leaf show yellowing or blotchy patches lining up with the fuzzy patches underneath?",
+      options: [
+        { label: "Yes, matches that pattern", next: "downy-mildew" },
+        { label: "No, the top of the leaf looks fine", next: "q1" },
+      ],
+    },
+    {
+      id: "q2-soil",
+      prompt: "Has the soil surface been staying damp or wet longer than usual between waterings?",
+      options: [
+        { label: "Yes, soil's been staying wet", next: "soil-mold" },
+        { label: "No, watering has been pretty normal", next: "q1" },
       ],
     },
   ]}
   results={{
-    "powdery-mildew": { label: "Powdery Mildew", blurb: "The real thing — treatment and prevention below", anchor: "#how-to-treat-powdery-mildew" },
+    "pm-early": { label: "Powdery Mildew — Caught Early", blurb: "Good timing — sulfur and potassium bicarbonate work best now, before it spreads further", anchor: "#how-to-treat-powdery-mildew" },
+    "pm-established": { label: "Powdery Mildew — Already Spread", blurb: "Remove the worst-affected leaves, then treat what's left with copper fungicide or horticultural oil", anchor: "#how-to-treat-powdery-mildew" },
     "downy-mildew": { label: "Likely Downy Mildew", blurb: "A different disease — not covered in full here yet", anchor: "#powdery-mildew-vs-downy-mildew-vs-harmless-soil-mold" },
     "soil-mold": { label: "Likely Harmless Soil Mold", blurb: "Not a plant disease — nothing to treat", anchor: "#powdery-mildew-vs-downy-mildew-vs-harmless-soil-mold" },
   }}
