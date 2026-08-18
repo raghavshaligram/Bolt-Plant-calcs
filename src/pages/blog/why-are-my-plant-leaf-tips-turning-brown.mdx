@@ -30,6 +30,7 @@ tocItems:
 ---
 
 import FAQBlock from '../../components/FAQBlock.astro';
+import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
 import LeadMagnet from '../../components/LeadMagnet.astro';
 
 <a
@@ -64,6 +65,24 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
   </ol>
   <p class="mt-4 text-sm text-bark-500">Whether you'd call it plant leaf tips turning brown or just tip burn, the diagnosis below is the same either way.</p>
 </div>
+
+<DiagnosticQuiz
+  client:load
+  questions={[
+    {
+      id: "q1",
+      prompt: "Is it just the tip or edge, with the rest of the leaf still green?",
+      options: [
+        { label: "Yes, just the tip/edge", next: "tip-burn" },
+        { label: "No, the whole leaf is browning", next: "whole-leaf" },
+      ],
+    },
+  ]}
+  results={{
+    "tip-burn": { label: "Classic Tip Burn", blurb: "Tap water minerals, salt buildup, humidity, or root-bound roots", anchor: "#just-the-tips-or-edges-classic-tip-burn" },
+    "whole-leaf": { label: "Whole-Leaf Browning", blurb: "A more serious problem — watering, sunscald, cold, or disease", anchor: "#the-whole-leaf-is-browning-a-different-more-serious-problem" },
+  }}
+/>
 
 <h2 id="just-the-tips-or-edges-classic-tip-burn">Just the Tips or Edges: Classic Tip Burn</h2>
 <p>

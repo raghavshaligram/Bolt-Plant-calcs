@@ -36,6 +36,7 @@ tocItems:
 ---
 
 import FAQBlock from '../../components/FAQBlock.astro';
+import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
 
 <a
   href="/blog/plant-problem-diagnosis/"
@@ -70,6 +71,33 @@ import FAQBlock from '../../components/FAQBlock.astro';
   </ol>
   <p class="mt-4 text-sm text-bark-500">Match your answers to the matching section below.</p>
 </div>
+
+<DiagnosticQuiz
+  client:load
+  questions={[
+    {
+      id: "q1",
+      prompt: "Is it a Monstera or similar species, with neat holes following the leaf veins?",
+      options: [
+        { label: "Yes", next: "fenestration" },
+        { label: "No", next: "q2" },
+      ],
+    },
+    {
+      id: "q2",
+      prompt: "Can you see bugs, or evidence of them (slime trails, frass)?",
+      options: [
+        { label: "Yes, or clear evidence", next: "visible-pest" },
+        { label: "No bugs anywhere in sight", next: "no-bugs" },
+      ],
+    },
+  ]}
+  results={{
+    fenestration: { label: "Natural Fenestration — Not a Problem", blurb: "Normal growth pattern, nothing to fix", anchor: "#not-actually-a-problem-natural-leaf-fenestration" },
+    "visible-pest": { label: "A Visible Pest", blurb: "Japanese beetles, flea beetles, slugs, or caterpillars", anchor: "#visible-culprit-the-two-most-common-real-pests" },
+    "no-bugs": { label: "No Bugs Visible", blurb: "Nocturnal feeders, old damage, or shot hole disease", anchor: "#no-bugs-visible-now-what" },
+  }}
+/>
 
 <h2 id="not-actually-a-problem-natural-leaf-fenestration">Not Actually a Problem: Natural Leaf Fenestration</h2>
 <p>

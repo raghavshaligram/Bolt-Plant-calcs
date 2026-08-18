@@ -36,6 +36,7 @@ tocItems:
 ---
 
 import FAQBlock from '../../components/FAQBlock.astro';
+import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
 import LeadMagnet from '../../components/LeadMagnet.astro';
 
 <a
@@ -70,6 +71,37 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
   </ol>
   <p class="mt-4 text-sm text-bark-500">Answer both, then jump to the matching section below.</p>
 </div>
+
+<DiagnosticQuiz
+  client:load
+  questions={[
+    {
+      id: "q1",
+      prompt: "Is the soil wet or dry right now?",
+      options: [
+        { label: "Dry", next: "underwatering" },
+        { label: "Wet or waterlogged", next: "overwatering" },
+        { label: "Neither fits — it recovers by evening, or just repotted", next: "q2" },
+      ],
+    },
+    {
+      id: "q2",
+      prompt: "Did this happen after repotting, or in hot weather?",
+      options: [
+        { label: "After repotting/transplanting", next: "transplant-shock" },
+        { label: "In hot weather, recovers by evening", next: "heat-stress" },
+        { label: "Neither — it just won't recover", next: "disease" },
+      ],
+    },
+  ]}
+  results={{
+    underwatering: { label: "Underwatering", blurb: "Dry soil, perks up within hours of watering", anchor: "#soil-is-dry-underwatering" },
+    overwatering: { label: "Overwatering or Root Rot", blurb: "Wilting despite wet soil — oxygen-starved roots", anchor: "#soil-is-wet-overwatering-and-root-rot" },
+    "transplant-shock": { label: "Transplant or Root Shock", blurb: "Normal, usually resolves in 1-2 weeks", anchor: "#heat-and-transplant-stress" },
+    "heat-stress": { label: "Normal Heat Response", blurb: "No action needed", anchor: "#heat-and-transplant-stress" },
+    disease: { label: "Vascular Wilt Disease", blurb: "Doesn't recover despite adequate watering", anchor: "#disease-and-vascular-wilt" },
+  }}
+/>
 
 <h2 id="the-mechanism-why-wilting-happens-at-all">The Mechanism: Why Wilting Happens At All</h2>
 <p>

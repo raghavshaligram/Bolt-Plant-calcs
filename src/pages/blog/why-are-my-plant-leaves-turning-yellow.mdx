@@ -33,6 +33,7 @@ tocItems:
 ---
 
 import FAQBlock from '../../components/FAQBlock.astro';
+import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
 import LeadMagnet from '../../components/LeadMagnet.astro';
 
 <a
@@ -68,6 +69,44 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
   <p class="mt-4 text-sm text-bark-500">Answer both, then jump to the matching section below. If neither fits -- soft stems, wet soil, or a recent move -- skip to <a href="#not-a-nutrient-problem-other-causes">Other Causes</a>.</p>
 </div>
 
+<DiagnosticQuiz
+  client:load
+  questions={[
+    {
+      id: "q1",
+      prompt: "Which leaves are yellowing?",
+      options: [
+        { label: "Old, lower leaves", next: "q2a" },
+        { label: "New, upper leaves", next: "q2b" },
+        { label: "Neither — soft stems, wet soil, or a recent move", next: "other-causes" },
+      ],
+    },
+    {
+      id: "q2a",
+      prompt: "Is the whole leaf yellow, or just between the veins?",
+      options: [
+        { label: "Whole leaf, veins included", next: "nitrogen" },
+        { label: "Just between the veins", next: "magnesium-or-potassium" },
+      ],
+    },
+    {
+      id: "q2b",
+      prompt: "Is the whole leaf yellow, or just between the veins?",
+      options: [
+        { label: "Whole leaf", next: "sulfur" },
+        { label: "Just between the veins, veins stay green", next: "iron-manganese" },
+      ],
+    },
+  ]}
+  results={{
+    nitrogen: { label: "Nitrogen Deficiency", blurb: "Uniform yellowing, oldest leaves first", anchor: "#nitrogen-deficiency" },
+    "magnesium-or-potassium": { label: "Magnesium or Potassium Deficiency", blurb: "Interveinal yellowing or edge browning on older leaves", anchor: "#old-leaves-yellowing-first-mobile-nutrients" },
+    "iron-manganese": { label: "Iron or Manganese Deficiency", blurb: "Interveinal yellowing on new growth, usually a soil pH issue", anchor: "#new-leaves-yellowing-first-immobile-nutrients" },
+    sulfur: { label: "Sulfur Deficiency", blurb: "Pale, uniform yellowing on new growth", anchor: "#calcium-and-sulfur-deficiency" },
+    "other-causes": { label: "Not a Nutrient Problem", blurb: "Overwatering, underwatering, aging, or transplant shock", anchor: "#not-a-nutrient-problem-other-causes" },
+  }}
+/>
+
 <img
   src="/plant-leaf-old-vs-new-yellowing-comparison.webp"
   alt="Comparison of an older yellowing leaf and a healthy newer leaf on the same plant, showing old-leaf-first yellowing pattern"
@@ -81,7 +120,7 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
 <p>
   Nitrogen, magnesium, and potassium are all <strong>mobile</strong> within the plant -- when supply runs short, the plant pulls these nutrients out of older leaves and relocates them to new growth, sacrificing the old leaf to keep the growing tip fed. That's why deficiency in any of these three shows up on the <strong>oldest leaves first</strong>, per Cornell University's Cooperative Extension.
 </p>
-<h3>Nitrogen Deficiency</h3>
+<h3 id="nitrogen-deficiency">Nitrogen Deficiency</h3>
 <p>
   The most common cause of plant leaves turning yellow. Yellowing of leaves is due to deficiency of nitrogen more often than any other single nutrient problem: uniform yellowing -- the whole leaf, veins included -- starting on the lowest, oldest leaves and working upward as it worsens. Per the University of Maryland Extension, affected leaves are also smaller than normal and the plant looks generally pale and slow. The fix is a balanced or nitrogen-heavy feed timed to the plant's active growing season -- our <a href="/calculators/npk-calculator/">NPK Calculator</a> turns that into an actual application rate instead of a guess, or browse all of <a href="/clusters/fertilizer-and-nutrients/">our fertilizer and nutrient calculators</a> if you're not sure which one you need.
 </p>
@@ -106,7 +145,7 @@ import LeadMagnet from '../../components/LeadMagnet.astro';
 <p>
   A similar interveinal pattern on new growth, less common than iron chlorosis but easy to confuse with it. Per the University of Maryland Extension, manganese-deficient leaves tend to show darker green banding right along the veins rather than the crisp green-vein-on-yellow contrast of iron. A soil test is the reliable way to tell them apart before treating.
 </p>
-<h3>Calcium and Sulfur Deficiency</h3>
+<h3 id="calcium-and-sulfur-deficiency">Calcium and Sulfur Deficiency</h3>
 <p>
   Both are genuinely rare in home gardens with reasonable soil, and both are also immobile, showing on new growth -- calcium deficiency as small, distorted new leaves with dead tips (blossom end rot on tomatoes and peppers (<em>Capsicum annuum</em>) is the same underlying mechanism, just in the fruit instead of the leaf); sulfur deficiency as a pale, uniform yellowing on new growth that can look like nitrogen deficiency until you notice it's hitting the top of the plant instead of the bottom.
 </p>
