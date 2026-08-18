@@ -1,0 +1,266 @@
+---
+layout: '../../layouts/BlogPostLayout.astro'
+title: 'Powdery Mildew: Identify, Treat & Prevent It'
+heading: 'Powdery Mildew: How to Identify, Treat, and Prevent It'
+description: "Identify powdery mildew fast, tell it apart from downy mildew and harmless soil mold, then treat it with what actually works."
+lastUpdated: '2026-08-18'
+readingTime: '9 min read'
+breadcrumbLabel: 'Powdery Mildew'
+ogImage: '/powdery-mildew-white-coating-leaf.webp'
+slug: 'powdery-mildew'
+tocItems:
+  - id: 'quick-answer-is-this-powdery-mildew'
+    label: 'Quick Answer'
+    icon: 'question'
+  - id: 'what-powdery-mildew-actually-is'
+    label: 'What It Is'
+    icon: 'leaf'
+  - id: 'what-does-powdery-mildew-look-like-early-signs'
+    label: 'Early Signs'
+    icon: 'warning'
+  - id: 'which-plants-get-it-most'
+    label: 'Which Plants Get It'
+    icon: 'leaf'
+  - id: 'how-to-treat-powdery-mildew'
+    label: 'Treatment'
+    icon: 'leaf'
+  - id: 'preventing-powdery-mildew'
+    label: 'Prevention'
+    icon: 'leaf'
+  - id: 'powdery-mildew-vs-downy-mildew-vs-harmless-soil-mold'
+    label: 'Powdery vs. Downy vs. Soil Mold'
+    icon: 'grid'
+  - id: 'quick-reference-table'
+    label: 'Quick Reference'
+    icon: 'table'
+  - id: 'powdery-mildew-faq'
+    label: 'FAQ'
+    icon: 'question'
+---
+
+import FAQBlock from '../../components/FAQBlock.astro';
+import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
+
+<a
+  href="/blog/plant-problem-diagnosis/"
+  class="not-prose mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-rose-100 px-3 py-1 text-xs font-medium text-rose-800 transition hover:bg-rose-200"
+>
+  Part of our Plant Problem Diagnosis series
+  <svg class="h-3 w-3" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+
+<p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg">
+  Powdery mildew is one of the most recognizable plant diseases there is -- a fungal disease, in the family <em>Erysiphaceae</em>, that coats leaves, stems, and buds in what looks like a dusting of flour or powdered sugar. That white coating is genuinely distinctive once you know what to look for, but it gets confused with two other things worth ruling out first: downy mildew, a completely different disease, and a harmless mold that sometimes shows up on damp potting soil and isn't a plant disease at all.
+</p>
+
+<img
+  src="/powdery-mildew-white-coating-leaf.webp"
+  alt="Plant leaf covered in white powdery fungal coating, for identifying powdery mildew"
+  width="1200"
+  height="675"
+  loading="eager"
+  class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
+/>
+
+<h2 id="quick-answer-is-this-powdery-mildew">Quick Answer: Is This Powdery Mildew?</h2>
+<p>
+  One question sorts out which of three things you're actually looking at.
+</p>
+<div class="not-prose my-6 rounded-2xl border border-moss-200 bg-moss-50/60 p-6">
+  <ol class="space-y-3 text-bark-700">
+    <li><strong>Where exactly is the white or fuzzy stuff, and what does it look like?</strong></li>
+  </ol>
+  <ul class="mt-3 space-y-2 text-bark-700">
+    <li><strong>White, powdery coating on TOP of leaves, stems, or buds</strong> -- this is powdery mildew. Keep reading below.</li>
+    <li><strong>Fuzzy, yellow-to-brown patches, mostly on the UNDERSIDE of leaves</strong> -- likely downy mildew, a different disease. See the comparison section below.</li>
+    <li><strong>White or fuzzy growth on the SOIL surface, not on the plant itself</strong> -- likely a harmless mold, not a plant disease at all. See the comparison section below.</li>
+  </ul>
+</div>
+
+<DiagnosticQuiz
+  client:load
+  questions={[
+    {
+      id: "q1",
+      prompt: "Where exactly is the white or fuzzy stuff, and what does it look like?",
+      options: [
+        { label: "White, powdery coating on top of leaves, stems, or buds", next: "powdery-mildew" },
+        { label: "Fuzzy, yellow-to-brown patches, mostly on the underside of leaves", next: "downy-mildew" },
+        { label: "White or fuzzy growth on the soil surface, not on the plant itself", next: "soil-mold" },
+      ],
+    },
+  ]}
+  results={{
+    "powdery-mildew": { label: "Powdery Mildew", blurb: "The real thing — treatment and prevention below", anchor: "#how-to-treat-powdery-mildew" },
+    "downy-mildew": { label: "Likely Downy Mildew", blurb: "A different disease — not covered in full here yet", anchor: "#powdery-mildew-vs-downy-mildew-vs-harmless-soil-mold" },
+    "soil-mold": { label: "Likely Harmless Soil Mold", blurb: "Not a plant disease — nothing to treat", anchor: "#powdery-mildew-vs-downy-mildew-vs-harmless-soil-mold" },
+  }}
+/>
+
+<h2 id="what-powdery-mildew-actually-is">What Powdery Mildew Actually Is</h2>
+<p>
+  What causes powdery mildew on plants? A group of closely related fungi in the family <em>Erysiphaceae</em>, all sharing the same white, powdery symptom the disease is named for. Unlike most fungal leaf diseases, powdery mildew fungi don't need wet leaves or free water on the plant surface to infect -- they only need high relative humidity in the air around the plant. That's part of why the disease is so common and so persistent: per the University of Minnesota Extension, powdery mildew fungi thrive with cool, humid nights that trigger spore production, followed by warm (70 to 80°F), dry days that let those spores spread on the wind. Poor air circulation makes both halves of that cycle worse. It's also genuinely widespread -- powdery mildew affects over 10,000 plant species, according to research cited on Wikipedia's Erysiphaceae entry, from garden vegetables and roses to shade trees.
+</p>
+
+<h2 id="what-does-powdery-mildew-look-like-early-signs">What Does Powdery Mildew Look Like? Early Signs</h2>
+<p>
+  The early signs of powdery mildew are small, circular, white or gray powdery spots on the upper leaf surface, often starting on the lower or older leaves first. As the infection progresses, those spots expand and merge until they cover large areas of the leaf, and eventually spread to stems and flower buds too. Common powdery mildew symptoms as the disease advances include leaf curling, twisting, and yellowing, and severely infected leaves may eventually dry out, turn brown, and drop.
+</p>
+<p>
+  On some plants, the visible white coating isn't the first thing you'll notice -- per Clemson Cooperative Extension's HGIC, abnormal leaf curling, twisting, or a reddish or yellowish discoloration can show up before the powdery growth itself becomes obvious, so it's worth checking the leaf surface closely even if the classic white dusting isn't there yet.
+</p>
+
+<img
+  src="/powdery-mildew-early-stage-squash-leaf.webp"
+  alt="Squash leaf with early-stage powdery mildew spots, showing what powdery mildew looks like in early stages"
+  width="1000"
+  height="750"
+  loading="lazy"
+  class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
+/>
+
+<h2 id="which-plants-get-it-most">Which Plants Get It Most</h2>
+<p>
+  Powdery mildew fungi are mostly host-specific -- a species that infects oak leaves generally won't jump to a nearby zinnia -- but a few plant groups show up constantly across the real search data and extension guidance alike. Cucurbits (squash, zucchini, cucumbers) are among the most commonly affected vegetables. In the flower garden, per the University of Minnesota Extension, zinnia, phlox, bee balm, and peony are regularly infected. Roses, crape myrtle, and dogwood are also frequent hosts, according to Clemson's HGIC. If you're seeing it on one of these and want to confirm proper airflow isn't part of the problem, our <a href="/clusters/spacing-and-planting/">plant spacing guides</a> cover the real spacing distances that keep foliage from staying damp and crowded.
+</p>
+
+<h2 id="how-to-treat-powdery-mildew">How to Treat Powdery Mildew</h2>
+<p>
+  Powdery mildew treatment options range from doing nothing at all to specific fungicides, roughly in order of how accessible and low-risk they are. Fungicides won't cure leaves that are already infected -- per the University of Minnesota Extension, they only protect healthy tissue that hasn't been infected yet, so timing matters more than which product you pick.
+</p>
+<p>
+  <strong>Potassium bicarbonate</strong> is the strongest real organic option in the data. It's listed as its own dedicated active ingredient by both the University of Minnesota Extension (among the "low impact fungicides" it recommends, alongside sulfur and horticultural oils) and Clemson's HGIC fungicide table. If you're looking for how to get rid of powdery mildew without a synthetic chemical, this is the one to reach for first.
+</p>
+<p>
+  <strong>Baking soda spray</strong> (sodium bicarbonate) is a common home remedy in the same general category, but it's a less standardized option -- Clemson's guidance lists it only as a substitute ingredient in a homemade combination (mixed with horticultural oil), rather than as its own dedicated fungicide product the way potassium bicarbonate is listed. Treat it as a real but secondary option, not a direct swap-in with identical results.
+</p>
+<p>
+  <strong>Copper fungicide for powdery mildew</strong> is another real, specific option -- copper-based fungicides appear as their own listed active ingredient category in Clemson's fungicide table for ornamental plants.
+</p>
+<p>
+  <strong>Organic fungicide for powdery mildew</strong> more broadly includes horticultural oils and neem oil. Per UC IPM, to treat mild to moderate infections, a horticultural oil such as a plant-based neem or jojoba oil can work well. Neem oil is a legitimate, real option here -- just don't expect it to be a cure-all on its own; it works best as part of the same early-intervention approach as the other options above.
+</p>
+<p>
+  Sulfur is another long-used option -- per UC IPM, sulfur products have been used to manage powdery mildew for centuries, but they're only effective when applied before symptoms appear, not after.
+</p>
+<p>
+  Whatever you use, remove and destroy (don't compost) any heavily infected leaves or stems you prune off. Powdery mildew fungi survive winter on plant debris, so leaving infected material in the compost pile just gives next season's infection a head start.
+</p>
+
+<img
+  src="/powdery-mildew-vs-downy-mildew-comparison.webp"
+  alt="Comparison of powdery mildew's white top-surface coating and downy mildew's fuzzy underside patches"
+  width="1000"
+  height="750"
+  loading="lazy"
+  class="my-2 w-full rounded-2xl border border-moss-100 object-cover"
+/>
+
+<h2 id="preventing-powdery-mildew">Preventing Powdery Mildew</h2>
+<p>
+  Prevention does more real work here than treatment. Air circulation is the single biggest lever -- proper plant spacing keeps humidity from building up in a crowded canopy, which is exactly the condition powdery mildew needs to spread; see our <a href="/clusters/spacing-and-planting/">Spacing &amp; Planting cluster</a> for real spacing distances by crop. Water at the soil line instead of overhead, and water in the morning rather than the evening so any foliage that does get wet has all day to dry -- both practices reduce the humidity around the leaves without reducing how much water the plant actually gets.
+</p>
+<p>
+  Choosing resistant varieties where they're available is a real, meaningful prevention step too. Cornell's cucurbit disease research notes that resistance is now standard in most modern cucumber varieties, though resistance in other cucurbit types like pumpkin and squash is more limited and shouldn't be relied on alone without good cultural practices. Avoid over-fertilizing with nitrogen as well -- per the University of Minnesota Extension, heavy nitrogen pushes soft, succulent new growth that powdery mildew infects easily.
+</p>
+
+<h2 id="powdery-mildew-vs-downy-mildew-vs-harmless-soil-mold">Powdery Mildew vs. Downy Mildew vs. Harmless Soil Mold</h2>
+<p>
+  This is the genuine differentiation that matters most, and it comes down to exactly where the growth appears and what it looks like up close.
+</p>
+<p>
+  <strong>Powdery mildew</strong> forms a white to grayish, powdery or dusty coating on the <strong>upper leaf surface</strong> -- the top of leaves, stems, and buds. It looks dry and dusty, almost like flour was sprinkled on.
+</p>
+<p>
+  <strong>Downy mildew</strong> is a completely different disease, caused by unrelated fungus-like organisms (family Peronosporaceae) despite the similar name. Per Wikipedia's entry on the powdery mildew family, downy mildews "always grow on the underside of leaves, often causing yellowing on the upperside" -- the growth itself looks fuzzy or felt-like rather than powdery, and is usually grayish, yellowish, or brownish rather than pure white. If what you're looking at is on the bottom of the leaf and the top just looks yellowed or blotchy, that's the tell.
+</p>
+<p>
+  <strong>Harmless soil mold</strong> is a different situation entirely -- white or fuzzy growth on the surface of damp potting soil, not on the plant's leaves at all. This is typically just a saprophytic fungus feeding on decaying organic matter in the potting mix, not a disease affecting the plant. It's usually a sign the soil has been staying too wet rather than a problem in itself; letting the top of the soil dry out more between waterings and improving airflow around the pot generally clears it up on its own. Nothing needs to be treated on the plant.
+</p>
+<p>
+  A dedicated diagnosis guide for downy mildew specifically -- a real, distinct disease worth its own full treatment -- is planned for a future addition to this series.
+</p>
+
+<h2 id="quick-reference-table">Quick Reference Table</h2>
+<div class="not-prose my-6 overflow-x-auto rounded-2xl border border-moss-100">
+  <table class="w-full text-left text-sm">
+    <thead class="bg-moss-50">
+      <tr>
+        <th class="p-3 font-semibold text-bark-900">Appearance &amp; Location</th>
+        <th class="p-3 font-semibold text-bark-900">Likely Cause</th>
+        <th class="p-3 font-semibold text-bark-900">Fix</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-moss-100">
+      <tr>
+        <td class="p-3">White, powdery coating on top of leaves</td>
+        <td class="p-3">Powdery mildew</td>
+        <td class="p-3">Potassium bicarbonate, copper fungicide, or horticultural oil</td>
+      </tr>
+      <tr>
+        <td class="p-3">Fuzzy, yellow-brown patches on leaf undersides</td>
+        <td class="p-3">Downy mildew (different disease)</td>
+        <td class="p-3">See our full Plant Problem Diagnosis guide for now</td>
+      </tr>
+      <tr>
+        <td class="p-3">White/fuzzy growth on soil surface only</td>
+        <td class="p-3">Harmless saprophytic mold</td>
+        <td class="p-3">Let soil dry out more between waterings</td>
+      </tr>
+      <tr>
+        <td class="p-3">White spots starting on lower/older leaves</td>
+        <td class="p-3">Early-stage powdery mildew</td>
+        <td class="p-3">Treat now, before it spreads further</td>
+      </tr>
+      <tr>
+        <td class="p-3">On squash, zucchini, or cucumbers</td>
+        <td class="p-3">Cucurbit powdery mildew</td>
+        <td class="p-3">Resistant varieties + fungicide if needed</td>
+      </tr>
+      <tr>
+        <td class="p-3">On roses, zinnias, phlox, or bee balm</td>
+        <td class="p-3">Ornamental/flower garden powdery mildew</td>
+        <td class="p-3">Improve spacing and airflow first</td>
+      </tr>
+      <tr>
+        <td class="p-3">Crowded planting, poor airflow</td>
+        <td class="p-3">Conditions favor powdery mildew spread</td>
+        <td class="p-3">Space and prune for better circulation</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="not-prose my-8 rounded-2xl border border-moss-200 bg-moss-50/60 p-6">
+  <p class="text-bark-700">
+    If this doesn't match what you're seeing, see our <a href="/blog/plant-problem-diagnosis/">full Plant Problem Diagnosis guide</a> to find the right one.
+  </p>
+</div>
+
+<FAQBlock id="powdery-mildew-faq" heading="Powdery Mildew FAQ" faqs={[
+  {
+    q: 'What is powdery mildew?',
+    a: "Powdery mildew is the common name for a group of related fungal diseases, in the family Erysiphaceae, that coat plant leaves, stems, and buds in a white to grayish powdery growth. It affects thousands of plant species and is one of the most common and recognizable plant diseases in home gardens."
+  },
+  {
+    q: 'Is powdery mildew harmful to humans?',
+    a: "Generally no -- powdery mildew is a plant-specific fungal disease, not a human health hazard for most people. It's not the same thing as household mold. That said, anyone with mold or fungal-spore allergies or sensitivities may want to wear gloves and avoid close, prolonged contact when handling heavily infected plant material, and wash hands afterward as a normal precaution."
+  },
+  {
+    q: "What's the difference between mildew and mold?",
+    a: "In everyday gardening language the two terms overlap a lot, but powdery mildew and downy mildew both refer to specific, well-defined plant fungal diseases with a characteristic appearance and location on the plant. \"Mold\" is a much broader, more general term that can refer to many different fungi, including the harmless saprophytic fungus that sometimes grows on damp potting soil and isn't a plant disease at all."
+  },
+  {
+    q: 'How long does it take to get rid of powdery mildew?',
+    a: "There's no single timeline, since it depends on how established the infection already is and which treatment you use. Fungicides won't reverse existing white patches -- they only protect healthy tissue going forward -- so visible improvement really comes from new, unaffected growth coming in while you keep treating and improving airflow, which typically takes several weeks rather than days."
+  },
+  {
+    q: 'Do I need to throw away a plant with powdery mildew?',
+    a: "Almost never. Powdery mildew makes a plant look bad and can reduce vigor and flowering if it's severe, but per the University of Minnesota Extension it's rarely fatal on its own. Removing the worst-affected leaves, treating with an appropriate option above, and improving air circulation is usually enough to bring a plant back."
+  }
+]} />
+
+<h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+<p>
+  Identification, causes, and management guidance come from the <a href="https://extension.umn.edu/plant-diseases/powdery-mildew-flower-garden" rel="noopener">University of Minnesota Extension's guide to powdery mildew in the flower garden</a>, the <a href="https://ipm.ucanr.edu/PMG/GARDEN/VEGES/DISEASES/powderymildew.html" rel="noopener">UC Statewide IPM Program's guidance on powdery mildew</a>, and <a href="https://hgic.clemson.edu/factsheet/powdery-mildew/" rel="noopener">Clemson Cooperative Extension's HGIC factsheet on powdery mildew on landscape and garden plants</a>. Fungal family background and the downy mildew comparison draw on the <a href="https://en.wikipedia.org/wiki/Erysiphaceae" rel="noopener">Erysiphaceae entry on Wikipedia</a>. Resistant cucurbit variety information comes from <a href="https://www.vegetables.cornell.edu/pest-management/disease-factsheets/cucurbit-powdery-mildew/" rel="noopener">Cornell Vegetables' cucurbit powdery mildew factsheet</a>. For more on <a href="/methodology/">our sourcing approach</a>, see our methodology page. If your plant's symptom doesn't match what's covered here, see our <a href="/blog/plant-problem-diagnosis/">full Plant Problem Diagnosis guide</a> to find the right one.
+</p>

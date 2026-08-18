@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'powdery-mildew',
+    title: 'Powdery Mildew: How to Identify, Treat, and Prevent It',
+    description:
+      "Identify powdery mildew fast, tell it apart from downy mildew and harmless soil mold, then treat it with what actually works.",
+    pubDate: new Date('2026-08-18'),
+  },
+  {
     slug: 'why-are-my-plant-leaf-tips-turning-brown',
     title: 'Why Are the Tips of My Plants Turning Brown? A Diagnostic Guide',
     description:
