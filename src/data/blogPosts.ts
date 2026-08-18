@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'why-are-my-plant-leaf-tips-turning-brown',
+    title: 'Why Are the Tips of My Plants Turning Brown? A Diagnostic Guide',
+    description:
+      "Diagnose brown, crispy leaf tips fast -- tips-only vs. whole-leaf browning, tap water minerals, root-bound roots, and the fix for each.",
+    pubDate: new Date('2026-08-18'),
+  },
+  {
     slug: 'why-are-there-holes-in-my-plant-leaves',
     title: 'Why Are There Holes in My Plant Leaves? A Diagnostic Guide',
     description:
