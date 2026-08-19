@@ -15,7 +15,7 @@ const authorName = 'HarvestMath Editors';
 const authorUrl = '/about/';
 
 const intro =
-  'Calculate soil volume for pots, containers, raised beds, or any rectangular or cylindrical space \u2014 in cubic feet, cubic yards, and liters. Think of it as a cubic feet soil calculator that also converts straight to cubic yards and liters in the same pass. This multi-shape tool covers both round pots and rectangular beds in one place, with liters output for container growing alongside cubic feet and cubic yards for ordering. For rectangular raised beds with presets, see our Raised Bed Soil Calculator; for bulk topsoil by the truckload, see the Topsoil Calculator.';
+  'Calculate soil volume for pots, containers, raised beds, or any rectangular or cylindrical space \u2014 in cubic feet, cubic yards, and liters. Think of it as a volume calculator for soil that also converts straight to cubic yards and liters in the same pass, whatever the shape. This multi-shape tool covers both round pots and rectangular beds in one place, with liters output for container growing alongside cubic feet and cubic yards for ordering. For rectangular raised beds with presets, see our Raised Bed Soil Calculator; for bulk topsoil by the truckload, see the Topsoil Calculator.';
 
 const tocItems = [
   { id: 'how-much-soil-do-i-need', label: 'How Much Soil Do I Need', icon: 'leaf' as const },
@@ -47,6 +47,10 @@ const faqs = [
   {
     q: 'How do I calculate soil volume for an irregular-shaped area?',
     a: 'Break the area into rectangles or cylinders, calculate each section separately, then add the volumes. For a curved or freeform bed, divide it into rough rectangles on graph paper, calculate each, sum them, and add 10\u201315% for irregular edges. For a very irregular shape, measure the longest length and widest width as a bounding rectangle, calculate that volume, then subtract 20\u201330% for the portions outside the actual bed. This \u201covercount then subtract\u201d approach usually gets you within a bag or two.',
+  },
+  {
+    q: 'Need mulch too?',
+    a: 'If you\u2019re filling a bed or container with soil and topping it with mulch in the same project, think of this as a mulch soil calculator job in two passes: use this page for the soil volume, then switch to our [Mulch Calculator](/calculators/mulch-calculator/) for the top layer. Same footprint, different material, and a much shallower depth \u2014 typically 2\u20133 inches of mulch on top of whatever soil depth you just calculated.',
   },
 ];
 

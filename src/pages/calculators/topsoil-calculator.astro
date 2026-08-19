@@ -29,6 +29,10 @@ const shareImage = new URL('/topsoil-calculator-raised-bed-fill.svg', Astro.site
 
 const faqs = [
   {
+    q: 'How do I calculate cubic yards of soil?',
+    a: 'The formula for how to calculate cubic yards of soil (or how to calculate yards of soil, same question) is: area in square feet \u00d7 depth in feet, divided by 27. Measure length \u00d7 width for your area, convert your depth from inches to feet by dividing by 12, multiply the two together for cubic feet, then divide by 27 to get cubic yards. The calculator above does all three steps live as you type, so you don\u2019t have to do the division by hand.',
+  },
+  {
     q: 'How do I calculate how much topsoil I need?',
     a: 'Measure your area in square feet (length \u00d7 width), multiply by your depth in inches divided by 12 to get cubic feet, then divide by 27 for cubic yards. The calculator above does this live as you type and also gives you an estimated weight in tons.',
   },
@@ -42,7 +46,7 @@ const faqs = [
   },
   {
     q: 'Should I buy topsoil in bulk or in bags?',
-    a: 'Bulk (sold by the cubic yard, delivered by truck) almost always wins past about 2 cubic yards. Below that, bagged topsoil (typically 1\u20131.5 cu ft bags) is easier to transport and not much more expensive. For a full raised bed that needs 3+ yards, get a bulk quote \u2014 you\u2019ll save on both the material and the bag-hauling.',
+    a: 'Bulk (sold by the cubic yard, delivered by truck) almost always wins past about 2 cubic yards. Below that, bagged topsoil (typically 1\u20131.5 cu ft bags) is easier to transport and not much more expensive. For a full raised bed that needs 3+ yards, get a bulk quote \u2014 you\u2019ll save on both the material and the bag-hauling. This yards of soil calculator makes that bulk-vs-bags comparison easy \u2014 just check the cubic yards line above before you decide.',
   },
   {
     q: 'Can I use this to level or topdress my lawn?',
@@ -50,11 +54,19 @@ const faqs = [
   },
   {
     q: 'How many bags of topsoil are in a yard?',
-    a: 'One cubic yard is 27 cubic feet. A standard 40 lb bag of topsoil holds about 0.75 cubic feet, so you need approximately 36 bags per cubic yard. Bag sizes vary \u2014 some are sold as 1 cu ft or 1.5 cu ft bags. Check the label and divide 27 by the bag volume to get an exact count for whatever product you\u2019re buying. Past about 2 yards, bulk delivery almost always costs less than buying bags.',
+    a: 'One cubic yard is 27 cubic feet. A standard 40 lb bag of topsoil holds about 0.75 cubic feet, so you need approximately 36 bags per cubic yard. Bag sizes vary \u2014 some are sold as 1 cu ft or 1.5 cu ft bags. Check the label and divide 27 by the bag volume to get an exact count for whatever product you\u2019re buying. Past about 2 yards, bulk delivery almost always costs less than buying bags. If you\u2019d rather see your soil calculator in yards instead of counting individual bags, that\u2019s exactly the cubic yards figure shown above.',
   },
   {
     q: 'How many wheelbarrows is a yard of topsoil?',
     a: 'Plan on 8\u20139 wheelbarrow loads per cubic yard with a standard contractor wheelbarrow (3\u20133.5 cu ft capacity). Smaller garden wheelbarrows hold 2\u20132.5 cu ft, putting you closer to 11\u201314 loads per yard. Knowing this helps you plan your time and decide whether it\u2019s worth paying for dump-and-spread delivery instead of unloading by hand.',
+  },
+  {
+    q: 'Can I use this for soil excavation, not just fill?',
+    a: 'Yes \u2014 the same volume math works whether you\u2019re adding soil or removing it. Use this as a soil excavation calculator by entering the same length, width, and depth you plan to dig \u2014 for a pond, a footing, a drainage trench, or a bed you\u2019re digging out rather than filling \u2014 and the tool gives you the cubic feet, cubic yards, and estimated weight of what\u2019s coming out. The only real difference is which number you\u2019re solving for: material to bring in, or material to haul away.',
+  },
+  {
+    q: 'Need mulch too?',
+    a: 'If you\u2019re filling a bed with topsoil and topping it with mulch in the same project, this is really a soil and mulch calculator job in two steps: use this page for the topsoil volume, then switch to our [Mulch Calculator](/calculators/mulch-calculator/) for the top layer. It\u2019s the same footprint, just a different material and a much shallower depth \u2014 typically 2\u20133 inches of mulch on top of 8\u201312 inches of soil.',
   },
 ];
 
@@ -197,10 +209,13 @@ const softwareAppJsonLd = {
 
     <h2 id="how-much-topsoil-do-i-need">How Much Topsoil Do I Need?</h2>
     <p>
+      Whether you&rsquo;re using this top soil calculator (often searched as two words) or specifically want the top soil calculator yards result, the number that matters most sits at the top of the tool: your cubic yards figure, the unit bulk suppliers actually quote over the phone.
+    </p>
+    <p>
       The right amount of topsoil depends entirely on <strong>what you&rsquo;re doing with it</strong>. A raised bed needs to be filled almost to the rim &mdash; usually 8 to 12 inches deep. A lawn topdressing is a thin dusting, a quarter to half an inch, just enough to level low spots and work organic matter into the surface. These are wildly different volumes, and mixing them up is the most common reason people order the wrong amount.
     </p>
     <p>
-      Quick reference: <strong>1 cubic yard covers about 324 sq ft at 1 inch deep, or 108 sq ft at 3 inches deep</strong>. Coverage drops fast as depth increases, which is why getting the depth right before you order matters more than getting the area exactly right.
+      Quick reference: <strong>1 cubic yard covers about 324 sq ft at 1 inch deep, or 108 sq ft at 3 inches deep</strong>. Coverage drops fast as depth increases, which is why getting the depth right before you order matters more than getting the area exactly right. That soil calculator cubic yards figure is exactly what most bulk suppliers ask for when you call to place an order.
     </p>
     <p>
       One distinction worth making before you order: topsoil is not the same thing as <strong>fill dirt</strong>. Fill dirt is typically subsoil or excavation spoil dug from well below the surface &mdash; largely sterile mineral material with little to no organic matter or biological activity, sold cheap because its only job is occupying volume. Topsoil, even unscreened, comes from the biologically active surface layer and retains some organic matter that supports plant growth. If a listing doesn&rsquo;t specify which one you&rsquo;re getting, ask &mdash; fill dirt is fine for a low spot nobody will plant in, but a poor substitute anywhere roots need to grow.
