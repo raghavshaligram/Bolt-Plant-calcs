@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'usda-hardiness-zones-explained',
+    title: 'Understanding USDA Hardiness Zones: What They Actually Mean',
+    description:
+      "What a hardiness zone actually measures, why it's not the whole picture, and what you can realistically grow in yours.",
+    pubDate: new Date('2026-08-24'),
+  },
+  {
     slug: 'blossom-end-rot',
     title: 'Blossom End Rot: Why It Happens and How to Actually Fix It',
     description:
