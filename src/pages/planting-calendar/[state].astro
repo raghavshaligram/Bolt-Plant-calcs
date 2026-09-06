@@ -1,0 +1,153 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { liveStates, type LiveState } from '../../data/states';
+import { buildStateCalendar, getStateFrostAverages, formatDate } from '../../data/plantingCalendar';
+
+export function getStaticPaths() {
+  return liveStates.map((state) => ({
+    params: { state: state.slug },
+    props: { state },
+  }));
+}
+
+const { state } = Astro.props as { state: LiveState };
+
+const averages = getStateFrostAverages(state);
+const calendar = buildStateCalendar(state);
+const frostFree = calendar === null;
+
+const pageUrl = new URL(`/planting-calendar/${state.slug}/`, Astro.site).href;
+const title = `${state.name} Planting Calendar: When to Plant Vegetables`;
+const description = frostFree
+  ? `When to plant vegetables in ${state.name}, where most areas are effectively frost-free year-round.`
+  : `When to plant vegetables in ${state.name}: real planting windows calculated from the state's average last frost (${formatDate(averages.lastFrost!)}) and first frost (${formatDate(averages.firstFrost!)}) dates.`;
+
+const formattedLastUpdated = new Date(state.lastUpdated + 'T00:00:00').toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Planting Calendar', item: new URL('/planting-calendar/', Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: state.name, item: pageUrl },
+  ],
+};
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: `When to Plant Vegetables in ${state.name}`,
+  description,
+  url: pageUrl,
+  datePublished: '2026-09-06',
+  dateModified: state.lastUpdated,
+  author: { '@type': 'Person', name: 'HarvestMath Editors', url: new URL('/about/', Astro.site).href },
+  publisher: { '@type': 'Organization', name: 'HarvestMath', url: Astro.site!.href },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+};
+---
+
+<Layout title={title} description={description} rawTitle canonical={pageUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} slot="head" />
+
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex flex-wrap text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/planting-calendar/" class="hover:text-moss-800">Planting Calendar</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">{state.name}</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        When to Plant Vegetables in {state.name}
+      </h1>
+      <p class="mt-3 text-sm text-bark-500">
+        Last updated <time datetime={state.lastUpdated}>{formattedLastUpdated}</time>
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+        {frostFree ? (
+          <p>
+            Most of {state.name} is effectively frost-free year-round, so the "weeks before/after last frost" math that drives planting calendars everywhere else in the US doesn't really apply here. Instead of a calculated table, see {state.name}'s <a href={`/growing-zones/${state.slug}/`}>Growing Zone page</a> for the elevation-driven zone differences that matter more for timing in {state.name} than frost ever will.
+          </p>
+        ) : (
+          <>
+            <p>
+              {state.name}'s average last frost falls around <strong>{formatDate(averages.lastFrost!)}</strong>, and its average first fall frost falls around <strong>{formatDate(averages.firstFrost!)}</strong>, based on this site's own zone-based frost data for the state. Every date in the table below is calculated directly from those two real dates using standard, extension-verified planting-offset rules &mdash; not generic advice with the state name swapped in.
+              {averages.hasFrostFreeRegion && (
+                <> Some parts of {state.name} are effectively frost-free year-round; if that's you, these calculated windows will be too conservative &mdash; see the note below.</>
+              )}
+            </p>
+
+            <h2 id={`${state.slug}-planting-calendar`}>{state.name} Planting Calendar</h2>
+            <div class="not-prose my-6 overflow-x-auto rounded-2xl border border-moss-100">
+              <table class="w-full text-left text-sm">
+                <thead class="bg-moss-50">
+                  <tr>
+                    <th class="p-3 font-semibold text-bark-900">Crop</th>
+                    <th class="p-3 font-semibold text-bark-900">Method</th>
+                    <th class="p-3 font-semibold text-bark-900">Spring window</th>
+                    <th class="p-3 font-semibold text-bark-900">Fall window</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-moss-100">
+                  {calendar!.map(({ crop, windows, fallWindowText }) => (
+                    <tr>
+                      <td class="p-3 font-medium text-bark-900">
+                        {crop.guide ? <a href={crop.guide.url}>{crop.name}</a> : crop.name}
+                      </td>
+                      <td class="p-3 text-bark-600">{crop.method}</td>
+                      <td class="p-3 text-bark-600">
+                        {windows.map((w) => (
+                          <div>{windows.length > 1 ? `${w.label}: ` : ''}{w.rangeText}</div>
+                        ))}
+                      </td>
+                      <td class="p-3 text-bark-600">{fallWindowText ?? '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="text-sm text-bark-500">
+              {calendar!.some((c) => c.crop.note) && (
+                <>Notes: {calendar!.filter((c) => c.crop.note).map((c) => `${c.crop.name} — ${c.crop.note}`).join(' ')}</>
+              )}
+            </p>
+
+            <h2 id="understanding-your-planting-windows">Understanding Your Planting Windows</h2>
+            <p>
+              These windows come from a simple, real calculation: take {state.name}'s average last-frost and first-frost dates, then apply fixed, extension-verified offset rules for each crop (for example, "start tomato seeds indoors 6-8 weeks before your last frost"). Because the offset rules are the same nationwide but {state.name}'s actual frost dates are specific to {state.name}, the resulting dates are genuinely {state.name}'s own &mdash; not a generic template.
+            </p>
+            <p>
+              These are state averages, though, and your own yard may run warmer or colder depending on elevation, urban heat, or microclimate. For that more specific picture &mdash; including {state.name}'s full zone range from coldest to warmest areas &mdash; see the <a href={`/growing-zones/${state.slug}/`}>{state.name} Growing Zone &amp; Frost Date page</a>.
+            </p>
+
+            <div class="not-prose my-8 rounded-2xl border border-moss-200 bg-moss-50/60 p-6">
+              <p class="text-bark-700">
+                Want exact seed-starting dates for your specific ZIP code, not just the state average? Use the <a href="/calculators/seed-starting-calculator/" class="font-medium underline underline-offset-2 hover:text-moss-900">Seed Starting Calculator</a>.
+              </p>
+            </div>
+          </>
+        )}
+
+        <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+        <p>
+          Frost dates are calculated from this site's own zone-based frost data for {state.name} &mdash; see the <a href={`/growing-zones/${state.slug}/`}>{state.name} Growing Zone &amp; Frost Date page</a> for the underlying city-level data. Planting-offset rules are drawn from US Cooperative Extension sources including UGA, UMN, NC State, Utah State, Iowa State, Penn State, and UConn Extension, cited crop-by-crop in the table above.
+          {' '}For more on how we build and verify reference data across this site, see our <a href="/methodology/">methodology page</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

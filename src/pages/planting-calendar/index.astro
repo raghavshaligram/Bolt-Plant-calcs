@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { liveStates } from '../../data/states';
+
+const description =
+  'When to plant vegetables in every US state, calculated from each state\'s real average frost dates and extension-verified planting-offset rules.';
+const pageUrl = new URL('/planting-calendar/', Astro.site).href;
+
+const sortedStates = [...liveStates].sort((a, b) => a.name.localeCompare(b.name));
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Planting Calendar', item: pageUrl },
+  ],
+};
+
+const collectionPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Planting Calendar by State',
+  description,
+  url: pageUrl,
+  about: { '@type': 'Thing', name: 'Vegetable planting calendars by US state' },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: sortedStates.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: s.name,
+      url: new URL(`/planting-calendar/${s.slug}/`, Astro.site).href,
+    })),
+  },
+};
+---
+
+<Layout title="Planting Calendar by State" description={description} rawTitle canonical={pageUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(collectionPageJsonLd)} slot="head" />
+
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Planting Calendar</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        Planting Calendar by State
+      </h1>
+      <p class="mt-4 max-w-2xl text-base text-bark-600 sm:text-lg">
+        Real planting windows for 19 common vegetables, calculated from each state's own average frost dates and extension-verified planting-offset rules &mdash; not generic advice with the state name swapped in. For your exact ZIP code, use the <a href="/calculators/seed-starting-calculator/" class="font-medium text-moss-700 underline underline-offset-2 hover:text-moss-900">Seed Starting Calculator</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-4xl">
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        {sortedStates.map((s) => (
+          <a
+            href={`/planting-calendar/${s.slug}/`}
+            class="group flex flex-col rounded-xl border border-moss-100 bg-white p-4 shadow-card ring-1 ring-transparent transition hover:-translate-y-0.5 hover:shadow-cardHover hover:ring-moss-200"
+          >
+            <span class="font-display text-base font-semibold text-bark-900 group-hover:text-moss-800">{s.name}</span>
+            <span class="mt-1 text-xs text-bark-500">Zone {s.zoneRangeLow}&ndash;{s.zoneRangeHigh}</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="mx-auto mt-12 max-w-3xl">
+        <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-a:text-moss-700">
+          <p>
+            Every state page above uses the same real calculation: each state's own average last-frost and first-frost date (sourced from our <a href="/growing-zones/">Growing Zones &amp; Frost Dates by State</a> pages), run through fixed, extension-verified planting-offset rules for 19 common vegetables. For what a frost date actually measures and how these offsets are sourced, see our <a href="/methodology/">methodology page</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
