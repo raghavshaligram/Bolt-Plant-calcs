@@ -113,6 +113,7 @@ const articleJsonLd = {
                         {windows.map((w) => (
                           <div>{windows.length > 1 ? `${w.label}: ` : ''}{w.rangeText}</div>
                         ))}
+                        {crop.note && <div class="mt-1 text-xs italic text-bark-400">{crop.note}</div>}
                       </td>
                       <td class="p-3 text-bark-600">{fallWindowText ?? '—'}</td>
                     </tr>
@@ -120,11 +121,6 @@ const articleJsonLd = {
                 </tbody>
               </table>
             </div>
-            <p class="text-sm text-bark-500">
-              {calendar!.some((c) => c.crop.note) && (
-                <>Notes: {calendar!.filter((c) => c.crop.note).map((c) => `${c.crop.name} — ${c.crop.note}`).join(' ')}</>
-              )}
-            </p>
 
             <h2 id="understanding-your-planting-windows">Understanding Your Planting Windows</h2>
             <p>
