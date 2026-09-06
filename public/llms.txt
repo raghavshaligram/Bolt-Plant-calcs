@@ -66,6 +66,7 @@ HarvestMath.com provides calculators for home gardeners, landscapers, and housep
 
 ## Reference
 
+- [Growing Zones & Frost Dates by State](https://harvestmath.com/growing-zones/): USDA hardiness zone range, major city zones, frost dates, and real zone-appropriate plants for 15 states (Texas, California, Florida, Michigan, Illinois, New York, Ohio, Wisconsin, New Jersey, Indiana, North Carolina, Maryland, Pennsylvania, Georgia, Virginia), with the rest of the US listed as coming soon
 - [Methodology](https://harvestmath.com/methodology/): how calculator formulas are sourced and verified
 - [Sources](https://harvestmath.com/sources/): every external citation used across the site, grouped by category
 - [About](https://harvestmath.com/about/): who runs HarvestMath and why

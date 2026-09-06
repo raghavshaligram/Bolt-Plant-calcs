@@ -1,0 +1,155 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { liveStates, type LiveState } from '../../data/states';
+
+export function getStaticPaths() {
+  return liveStates.map((state) => ({
+    params: { state: state.slug },
+    props: { state },
+  }));
+}
+
+const { state } = Astro.props as { state: LiveState };
+
+const pageUrl = new URL(`/growing-zones/${state.slug}/`, Astro.site).href;
+const title = `${state.name} Growing Zones & Frost Dates (USDA 2023 Map)`;
+const description = `What USDA hardiness zone is ${state.name} in? Zone ${state.zoneRangeLow} to ${state.zoneRangeHigh} across the state, major city zones, frost dates, and what actually grows well.`;
+
+const formattedLastUpdated = new Date(state.lastUpdated + 'T00:00:00').toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Growing Zones', item: new URL('/growing-zones/', Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: state.name, item: pageUrl },
+  ],
+};
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: `What Growing Zone Is ${state.name} In?`,
+  description,
+  url: pageUrl,
+  datePublished: '2026-09-06',
+  dateModified: state.lastUpdated,
+  author: { '@type': 'Person', name: 'HarvestMath Editors', url: new URL('/about/', Astro.site).href },
+  publisher: { '@type': 'Organization', name: 'HarvestMath', url: Astro.site!.href },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+};
+---
+
+<Layout title={title} description={description} rawTitle canonical={pageUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} slot="head" />
+
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex flex-wrap text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/growing-zones/" class="hover:text-moss-800">Growing Zones</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">{state.name}</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        What Growing Zone Is {state.name} In?
+      </h1>
+      <p class="mt-3 text-sm text-bark-500">
+        Last updated <time datetime={state.lastUpdated}>{formattedLastUpdated}</time>
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+
+        <p>
+          {state.name} spans USDA hardiness zone <strong>{state.zoneRangeLow} to {state.zoneRangeHigh}</strong> across its major population centers, according to the 2023 USDA Plant Hardiness Zone Map. That's a real range, not a single number &mdash; where you fall in it depends on where in the state you actually are.
+        </p>
+
+        <h2 id={`${state.slug}-usda-hardiness-zones`}>{state.name}'s USDA Hardiness Zones</h2>
+        <p>
+          Here's how the zone shifts across {state.name}'s major cities:
+        </p>
+        <div class="not-prose my-6 overflow-x-auto rounded-2xl border border-moss-100">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-moss-50">
+              <tr>
+                <th class="p-3 font-semibold text-bark-900">City</th>
+                <th class="p-3 font-semibold text-bark-900">USDA Zone</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-moss-100">
+              {state.cities.map((c) => (
+                <tr>
+                  <td class="p-3">{c.city}</td>
+                  <td class="p-3">{c.zone}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>
+          For your exact zone by ZIP code, use the <a href="/calculators/hardiness-zone-finder/">Hardiness Zone Finder</a> &mdash; and for what a zone number actually measures (and doesn't), see <a href="/blog/usda-hardiness-zones-explained/">how zones actually work</a>.
+        </p>
+
+        <h2 id={`frost-dates-in-${state.slug}`}>Frost Dates in {state.name}</h2>
+        <p>
+          Frost dates track zone, so they shift across {state.name} the same way the zone number does:
+        </p>
+        <ul>
+          <li>
+            <strong>{state.coldestBand.label}</strong> (zone {state.coldestBand.zone}): average last frost {state.coldestBand.lastFrostRange}, average first frost {state.coldestBand.firstFrostRange}.
+          </li>
+          <li>
+            <strong>{state.warmestBand.label}</strong> (zone {state.warmestBand.zone}): average last frost {state.warmestBand.lastFrostRange}, average first frost {state.warmestBand.firstFrostRange}.
+          </li>
+        </ul>
+        <p>
+          These are averages, not guarantees &mdash; for your specific frost window and a full planting calendar built from it, use the <a href="/calculators/frost-date-calculator/">Frost Date Calculator</a>.
+        </p>
+
+        {state.climateNote && (
+          <div class="not-prose my-6 rounded-2xl border border-moss-200 bg-moss-50/60 p-5">
+            <p class="text-sm text-bark-700">{state.climateNote}</p>
+          </div>
+        )}
+
+        <h2 id={`what-grows-well-in-${state.slug}`}>What Grows Well in {state.name}'s Zones</h2>
+        <p>
+          A few real, zone-appropriate picks recommended by {state.plantsSourceLabel} for {state.name} landscapes &mdash; not an exhaustive list, but a genuine starting point:
+        </p>
+        <ul>
+          {state.plants.map((p) => (
+            <li>
+              <strong>{p.commonName}</strong>{p.scientificName && <> ({p.scientificName})</>}
+            </li>
+          ))}
+        </ul>
+
+        <div class="not-prose my-8 rounded-2xl border border-moss-200 bg-moss-50/60 p-6">
+          <p class="text-bark-700">
+            Ready to find your exact zone? Use the <a href="/calculators/hardiness-zone-finder/" class="font-medium underline underline-offset-2 hover:text-moss-900">Hardiness Zone Finder</a> &mdash; enter your ZIP code for a precise match against the 2023 USDA map.
+          </p>
+        </div>
+
+        <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
+        <p>
+          Zone and city data checked against the official <a href="https://planthardiness.ars.usda.gov/" rel="noopener">USDA Plant Hardiness Zone Map</a>. Plant recommendations sourced from <a href={state.plantsSourceUrl} rel="noopener">{state.plantsSourceLabel}</a>.
+          {state.climateNoteSourceUrl && state.climateNoteSourceLabel && (
+            <> Climate note sourced from <a href={state.climateNoteSourceUrl} rel="noopener">{state.climateNoteSourceLabel}</a>.</>
+          )}
+          {' '}For more on how we build and verify reference data across this site, see our <a href="/methodology/">methodology page</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
