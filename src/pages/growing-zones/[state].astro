@@ -72,7 +72,11 @@ const articleJsonLd = {
       <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
         <p>
-          {state.name} spans USDA hardiness zone <strong>{state.zoneRangeLow} to {state.zoneRangeHigh}</strong> across its major population centers, according to the 2023 USDA Plant Hardiness Zone Map. That's a real range, not a single number &mdash; where you fall in it depends on where in the state you actually are.
+          {state.zoneRangeLow === state.zoneRangeHigh ? (
+            <>{state.name} falls entirely within USDA hardiness zone <strong>{state.zoneRangeLow}</strong>, according to the 2023 USDA Plant Hardiness Zone Map &mdash; one of the more spatially uniform areas on the map.</>
+          ) : (
+            <>{state.name} spans USDA hardiness zone <strong>{state.zoneRangeLow} to {state.zoneRangeHigh}</strong> across its major population centers, according to the 2023 USDA Plant Hardiness Zone Map. That's a real range, not a single number &mdash; where you fall in it depends on where in the state you actually are.</>
+          )}
         </p>
 
         <h2 id={`${state.slug}-usda-hardiness-zones`}>{state.name}'s USDA Hardiness Zones</h2>
@@ -102,17 +106,32 @@ const articleJsonLd = {
         </p>
 
         <h2 id={`frost-dates-in-${state.slug}`}>Frost Dates in {state.name}</h2>
-        <p>
-          Frost dates track zone, so they shift across {state.name} the same way the zone number does:
-        </p>
-        <ul>
-          <li>
-            <strong>{state.coldestBand.label}</strong> (zone {state.coldestBand.zone}): average last frost {state.coldestBand.lastFrostRange}, average first frost {state.coldestBand.firstFrostRange}.
-          </li>
-          <li>
-            <strong>{state.warmestBand.label}</strong> (zone {state.warmestBand.zone}): average last frost {state.warmestBand.lastFrostRange}, average first frost {state.warmestBand.firstFrostRange}.
-          </li>
-        </ul>
+        {state.coldestBand.zone === state.warmestBand.zone ? (
+          <>
+            <p>
+              Because {state.name} sits in a single zone, frost dates are consistent statewide:
+            </p>
+            <ul>
+              <li>
+                <strong>Zone {state.coldestBand.zone}</strong>: average last frost {state.coldestBand.lastFrostRange}, average first frost {state.coldestBand.firstFrostRange}.
+              </li>
+            </ul>
+          </>
+        ) : (
+          <>
+            <p>
+              Frost dates track zone, so they shift across {state.name} the same way the zone number does:
+            </p>
+            <ul>
+              <li>
+                <strong>{state.coldestBand.label}</strong> (zone {state.coldestBand.zone}): average last frost {state.coldestBand.lastFrostRange}, average first frost {state.coldestBand.firstFrostRange}.
+              </li>
+              <li>
+                <strong>{state.warmestBand.label}</strong> (zone {state.warmestBand.zone}): average last frost {state.warmestBand.lastFrostRange}, average first frost {state.warmestBand.firstFrostRange}.
+              </li>
+            </ul>
+          </>
+        )}
         <p>
           These are averages, not guarantees &mdash; for your specific frost window and a full planting calendar built from it, use the <a href="/calculators/frost-date-calculator/">Frost Date Calculator</a>.
         </p>
