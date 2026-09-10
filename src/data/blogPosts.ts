@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'plant-pot-sizes-explained',
+    title: 'Plant Pot Sizes Explained (Gallon to Inches, and When to Size Up)',
+    description:
+      'How are plant pots measured? A real gallon-to-inches chart with diameter and height, how to measure a pot yourself, and when to size up.',
+    pubDate: new Date('2026-09-10'),
+  },
+  {
     slug: 'how-to-tell-the-age-of-a-tree',
     title: 'How to Tell the Age of a Tree (3 Real Methods, Compared)',
     description:
