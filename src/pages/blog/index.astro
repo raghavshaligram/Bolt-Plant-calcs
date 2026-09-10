@@ -8,7 +8,7 @@ const description =
 // Per-post display metadata (image + category chip) that isn't part of the
 // RSS-feeding blogPosts.ts source of truth. Add an entry here whenever a new
 // article is published, alongside its blogPosts.ts entry.
-type ClusterKey = 'soil-and-amendments' | 'fertilizer-and-nutrients' | 'watering-and-irrigation' | 'lawn-and-landscaping' | 'spacing-and-planting' | 'indoor-plants' | 'plant-diagnosis';
+type ClusterKey = 'soil-and-amendments' | 'fertilizer-and-nutrients' | 'watering-and-irrigation' | 'lawn-and-landscaping' | 'spacing-and-planting' | 'indoor-plants' | 'plant-diagnosis' | 'trees-and-shrubs';
 
 interface PostMeta {
   image: string;
@@ -19,6 +19,13 @@ interface PostMeta {
 }
 
 const postMeta: Record<string, PostMeta> = {
+  'how-to-tell-the-age-of-a-tree': {
+    image: '/tree-age-measuring-trunk-circumference.webp',
+    alt: 'A man with a backpack measuring the circumference of a large oak tree trunk with a yellow tape measure in a forest',
+    imgWidth: 2000,
+    imgHeight: 1125,
+    cluster: 'trees-and-shrubs',
+  },
   'usda-hardiness-zones-explained': {
     image: '/healthy-fertilized-garden-bed.webp',
     alt: 'Healthy garden bed with a variety of plants, for understanding USDA hardiness zones',
@@ -225,6 +232,7 @@ const clusterChips: Record<ClusterKey, { label: string; bg: string; text: string
   'lawn-and-landscaping': { label: 'Lawn', bg: 'bg-moss-100', text: 'text-moss-800' },
   'spacing-and-planting': { label: 'Planning', bg: 'bg-bark-100', text: 'text-bark-800' },
   'indoor-plants': { label: 'Indoor Plants', bg: 'bg-emerald-100', text: 'text-emerald-800' },
+  'trees-and-shrubs': { label: 'Trees & Shrubs', bg: 'bg-bark-100', text: 'text-bark-800' },
 };
 
 const sortedPosts = blogPosts

@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-tell-the-age-of-a-tree',
+    title: 'How to Tell the Age of a Tree (3 Real Methods, Compared)',
+    description:
+      'Ring counting, increment boring, or circumference math -- three real ways to age a tree, and which one actually fits your situation.',
+    pubDate: new Date('2026-09-09'),
+  },
+  {
     slug: 'usda-hardiness-zones-explained',
     title: 'Understanding USDA Hardiness Zones: What They Actually Mean',
     description:
