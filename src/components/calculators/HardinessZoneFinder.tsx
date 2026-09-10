@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { jsPDF } from 'jspdf';
 import { findZoneForZip, sanitizeZip as sharedSanitizeZip } from '../../lib/frostZones';
 import { ZONE_TEMP_BANDS, formatTempRangeF, formatTempRangeC } from '../../lib/hardinessZoneTemps';
+import { trackEvent, getCalculatorName } from '../../lib/analytics';
 
 const STORAGE_KEY = 'hardiness-zone-finder-state-v1';
 
@@ -61,6 +62,9 @@ export default function HardinessZoneFinder() {
   }, [lookup]);
 
   const exportPdf = () => {
+    // Fires on the export click itself, before jsPDF runs, so a slow or
+    // failed PDF render still records the user's intent to export.
+    trackEvent('pdf_export_click', { calculator_name: getCalculatorName() });
     if (!lookup || !band) return;
     const doc = new jsPDF({ unit: 'pt', format: 'letter' });
     const margin = 48;

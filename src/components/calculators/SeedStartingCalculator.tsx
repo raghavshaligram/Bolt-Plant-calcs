@@ -13,6 +13,7 @@ import {
 } from '../../lib/frostZones';
 import { loadGardenProject, saveGardenProject, upsertSelectedCrop, emptyGardenProject, fuzzyMatchCropName } from '../../lib/gardenProject';
 import type { SeedStartingResultsSnapshot } from '../../lib/gardenProject';
+import { trackEvent, getCalculatorName } from '../../lib/analytics';
 
 type InputMode = 'zip' | 'zone';
 type SowMethod = 'indoor' | 'direct';
@@ -222,6 +223,9 @@ export default function SeedStartingCalculator() {
   };
 
   const exportPdf = () => {
+    // Fires on the export click itself, before jsPDF runs, so a slow or
+    // failed PDF render still records the user's intent to export.
+    trackEvent('pdf_export_click', { calculator_name: getCalculatorName() });
     if (!result || !activeZone) return;
     const doc = new jsPDF({ unit: 'pt', format: 'letter' });
     const margin = 48;

@@ -1,6 +1,7 @@
 import { useId, useState } from 'react';
 import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous, Thermometer } from 'lucide-react';
 import { leadMagnetCopy } from '../data/leadMagnetCopy';
+import { trackEvent } from '../lib/analytics';
 
 // Maps the string icon name coming from leadMagnetConfig (src/data/calculators.ts)
 // to the actual lucide-react component. A string is what crosses the Astro
@@ -90,6 +91,16 @@ export default function LeadMagnetForm({ listId, tag, clusterName, description, 
 
       if (res.ok && data.success) {
         setStatus('success');
+        // Fired here and nowhere else: this is the single branch where Brevo
+        // has actually accepted the contact and the "Check your inbox!" state
+        // renders. Not on focus, not on click, not on submit -- a failed or
+        // rejected submission falls through to the error branch below and
+        // sends nothing, so this counts real signups only.
+        trackEvent('lead_magnet_signup', {
+          list_id: listId,
+          cluster_tag: tag,
+          cluster_name: clusterName,
+        });
         return;
       }
 
@@ -113,7 +124,13 @@ export default function LeadMagnetForm({ listId, tag, clusterName, description, 
     // mt-8/sm:mt-10 gives consistent breathing room (32px/40px) above
     // whatever content sits before it, instead of relying on each page to
     // remember a margin.
-    <div className="mt-6 w-full rounded-2xl bg-gradient-to-br from-[#E8A94A]/20 via-[#F5F1E8] to-[#4A7C59]/10 p-4 shadow-card ring-1 ring-[#5C4433]/15 sm:mt-10 sm:p-8">
+    // data-lead-magnet marks this subtree as NOT part of the calculator, so the
+    // calculator-usage listener in CalculatorLayout ignores typing in the email
+    // field. Without it, entering an email would count as "used the calculator".
+    <div
+      data-lead-magnet
+      className="mt-6 w-full rounded-2xl bg-gradient-to-br from-[#E8A94A]/20 via-[#F5F1E8] to-[#4A7C59]/10 p-4 shadow-card ring-1 ring-[#5C4433]/15 sm:mt-10 sm:p-8"
+    >
       {status === 'success' ? (
         <div className="rounded-xl bg-[#3D6647] p-6">
           <p

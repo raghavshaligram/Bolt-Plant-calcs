@@ -14,6 +14,7 @@ import {
 } from '../../lib/frostZones';
 import { saveGardenProject } from '../../lib/gardenProject';
 import type { FrostDateResultsSnapshot } from '../../lib/gardenProject';
+import { trackEvent, getCalculatorName } from '../../lib/analytics';
 
 
 type InputMode = 'zip' | 'zone';
@@ -140,6 +141,9 @@ export default function FrostDateCalculator() {
   };
 
   const exportPdf = () => {
+    // Fires on the export click itself, before jsPDF runs, so a slow or
+    // failed PDF render still records the user's intent to export.
+    trackEvent('pdf_export_click', { calculator_name: getCalculatorName() });
     if (!result || !activeZone) return;
     const doc = new jsPDF({ unit: 'pt', format: 'letter' });
     const margin = 48;

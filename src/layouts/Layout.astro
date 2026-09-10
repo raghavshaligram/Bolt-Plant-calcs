@@ -41,11 +41,21 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Google Analytics (GA4) — loaded site-wide from this shared layout only. -->
+    <!--
+      Google Analytics (GA4) — loaded site-wide from this shared layout only.
+
+      `is:inline` is REQUIRED here, not cosmetic. Without it Astro treats the
+      snippet as a bundled ES module and minifies it, so `function gtag()`
+      becomes module-scoped (and renamed) and `window.gtag` is never defined.
+      Pageviews still work in that state — the module calls its own local
+      reference — which is why the breakage is invisible until the first
+      custom event silently sends nothing. Keep this attribute.
+    -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L7SK0FES3Q"></script>
-    <script>
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
       gtag('js', new Date());
       gtag('config', 'G-L7SK0FES3Q');
     </script>

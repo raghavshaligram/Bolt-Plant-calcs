@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { trackEvent, getArticleSlug } from '../../lib/analytics';
 
 // Reusable branching quiz for the Plant Problem Diagnosis series. Sits
 // directly below the prose "Quick Answer" section on every diagnosis
@@ -47,6 +48,10 @@ export default function DiagnosticQuiz({ questions, results }: DiagnosticQuizPro
   const firstId = questions[0]?.id;
   const [stack, setStack] = useState<string[]>(firstId ? [firstId] : []);
   const [resultKey, setResultKey] = useState<string | null>(null);
+  // Results already reported this mount. Going Back and re-reaching the same
+  // leaf shouldn't inflate the count, but genuinely reaching a *different*
+  // diagnosis is a real second completion and does get its own event.
+  const reportedResults = useRef<Set<string>>(new Set());
 
   if (!firstId) return null;
 
@@ -57,6 +62,17 @@ export default function DiagnosticQuiz({ questions, results }: DiagnosticQuizPro
       setResultKey(null);
     } else if (results[next]) {
       setResultKey(next);
+      // Only this branch is a completed quiz -- the branch above is a
+      // mid-quiz answer that advances to another question, and starting the
+      // quiz sends nothing at all.
+      if (!reportedResults.current.has(next)) {
+        reportedResults.current.add(next);
+        trackEvent('diagnostic_quiz_completed', {
+          article_slug: getArticleSlug(),
+          quiz_result: next,
+          quiz_result_label: results[next].label,
+        });
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { jsPDF } from 'jspdf';
+import { trackEvent, getCalculatorName } from '../../lib/analytics';
 
 type UnitSystem = 'imperial' | 'metric';
 type Mode = 'single' | 'accumulation';
@@ -223,6 +224,9 @@ export default function GrowingDegreeDaysCalculator() {
     `((${hi} + ${lo}) ÷ 2) − ${b} = ${round(gdd, 1)} GDD`;
 
   const exportPdf = () => {
+    // Fires on the export click itself, before jsPDF runs, so a slow or
+    // failed PDF render still records the user's intent to export.
+    trackEvent('pdf_export_click', { calculator_name: getCalculatorName() });
     const doc = new jsPDF({ unit: 'pt', format: 'letter' });
     const margin = 48;
     let y = margin;

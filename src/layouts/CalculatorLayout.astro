@@ -126,4 +126,52 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
       </div>
     </div>
   )}
+
+  <script>
+    import { trackEvent, getCalculatorName } from '../lib/analytics';
+
+    /**
+     * `calculator_result_generated` — the "actually used the tool" signal.
+     *
+     * Implemented once here as a delegated listener rather than 25 times
+     * inside the components, for two reasons:
+     *
+     *  - Only 16 of the 25 calculators expose a uniform `const result =
+     *    useMemo(...)`; the other 9 compute results differently. A shared
+     *    hook would need 9 bespoke integrations and would re-break whenever
+     *    a calculator was refactored.
+     *  - Every calculator recomputes live from its form controls, so the
+     *    first genuine input change IS the moment a user-driven result
+     *    appears on screen. Observing the input is equivalent to observing
+     *    the output, and is far more robust.
+     *
+     * Fires at most once per pageview, deliberately: results recompute on
+     * every keystroke, and counting those would measure typing speed rather
+     * than usage. One event per pageview makes the GA4 count read as
+     * "sessions where someone actually used the calculator".
+     */
+    let fired = false;
+
+    function onCalculatorInput(event: Event) {
+      if (fired) return;
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (!target.matches('input, select, textarea')) return;
+
+      // The email capture form lives on these pages too. Typing an address
+      // there is a lead-magnet interaction, not calculator usage.
+      if (target.closest('[data-lead-magnet]')) return;
+
+      fired = true;
+      trackEvent('calculator_result_generated', {
+        calculator_name: getCalculatorName(),
+      });
+    }
+
+    // Capture phase + passive: sees the event regardless of how React
+    // handles it downstream, and never delays input handling.
+    document.addEventListener('input', onCalculatorInput, { capture: true, passive: true });
+    document.addEventListener('change', onCalculatorInput, { capture: true, passive: true });
+  </script>
 </Layout>
