@@ -1,0 +1,39 @@
+{
+  "name": "harvestmath-plantcare",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "HarvestMath Plant Care — one HTML file, no account, no subscription, works offline.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --outDir build-tmp && node scripts/emit.mjs && node scripts/demo-file.mjs && node scripts/emit-pwa.mjs",
+    "port": "node scripts/port-data.mjs && node scripts/build-toxicity.mjs && node scripts/build-species.mjs",
+    "build:species": "node scripts/build-species.mjs",
+    "build:toxicity": "node scripts/build-toxicity.mjs",
+    "verify:data": "node scripts/verify-data.mjs",
+    "verify:species": "node scripts/verify-species.mjs",
+    "verify:schedule": "node scripts/verify-schedule.mjs",
+    "verify": "npm run verify:data && npm run verify:species && npm run verify:schedule && npm run verify:file && npm run verify:camera",
+    "shots": "node scripts/shots.mjs",
+    "demo": "node scripts/demo-file.mjs",
+    "guide": "node scripts/start-here-pdf.mjs",
+    "verify:file": "node scripts/verify-file.mjs",
+    "verify:camera": "node scripts/verify-camera.mjs",
+    "build:pwa": "node scripts/emit-pwa.mjs",
+    "verify:pwa": "node scripts/verify-pwa.mjs"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.0.1",
+    "playwright": "^1.63.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2",
+    "vite-plugin-singlefile": "^2.3.3"
+  }
+}

@@ -1,6 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { jsPDF } from 'jspdf';
 import { trackEvent, getCalculatorName } from '../../lib/analytics';
+import LeadMagnetForm from '../LeadMagnetForm.jsx';
+import { leadMagnetConfig } from '../../data/calculators';
+
+// Inline post-result lead-magnet test: a single, specific offer placed
+// directly under whichever mode's result is showing, in place of the
+// generic cluster-wide "Indoor Plants Cheat Sheet" that used to sit at the
+// bottom of this page (see pot-size-calculator.astro -- hideLeadMagnetForm
+// suppresses that one so this is the only ask on the page). Still uses the
+// Indoor Plants cluster's existing Brevo list, just with copy specific to
+// what this calculator actually does. `source` tags the resulting
+// lead_magnet_signup GA4 event so this placement's conversion rate can be
+// read on its own.
+const potLeadMagnet = leadMagnetConfig['indoor-plants'];
 
 type Mode = 'convert' | 'sizeup' | 'guide';
 type UnitSystem = 'imperial' | 'metric';
@@ -609,6 +622,18 @@ export default function PotSizeCalculator() {
               </div>
             </>
           )}
+
+          {/* Inline post-result lead-magnet offer -- see the potLeadMagnet
+              comment above the imports for why this replaced the old
+              bottom-of-page form rather than adding a second ask. */}
+          <LeadMagnetForm
+            variant="inline"
+            headline="Repotting Cheat Sheet — pot sizes and soil mixes for 30 common houseplants"
+            listId={potLeadMagnet.listId}
+            tag={potLeadMagnet.tag}
+            clusterName={potLeadMagnet.clusterName}
+            source="pot-size-calculator-inline"
+          />
 
           <div className="flex justify-end">
             <button

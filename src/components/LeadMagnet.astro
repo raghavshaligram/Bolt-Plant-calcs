@@ -21,7 +21,7 @@
 //   listId     — Brevo list ID to actually submit the signup to. If omitted,
 //                the form renders but doesn't submit anywhere (matches prior
 //                behavior on articles that haven't been wired to a list yet).
-import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous, Thermometer } from 'lucide-react';
+import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous, Thermometer, Stethoscope } from 'lucide-react';
 import { leadMagnetCopy } from '../data/leadMagnetCopy';
 import { leadMagnetIcon } from '../data/leadMagnetIcon';
 
@@ -34,6 +34,7 @@ const iconMap: Record<string, any> = {
   Flower2,
   TreeDeciduous,
   Thermometer,
+  Stethoscope,
 };
 
 export interface Props {
@@ -160,7 +161,20 @@ const headingSize = isFull ? 'text-lg sm:text-xl' : 'text-base';
   </div>
 </div>
 
-<script define:vars={{ formId, successId, errorId, listId }}>
+<script define:vars={{ formId, successId, errorId, listId, clusterTag }}>
+  // A `define:vars` script compiles to a plain (non-module) inline script
+  // wrapped in an IIFE, not `type="module"` -- import specifiers (static OR
+  // dynamic) aren't resolved/rewritten by Astro's bundler here at all, so a
+  // relative path like '../lib/analytics' passes through as literal text
+  // and the browser tries (and fails) to resolve it against the current
+  // page URL instead of this component's source file. (Both a static
+  // `import` and a `const {..} = await import(...)` were tried and failed
+  // here during the 2026-09-12 lead-magnet audit -- caught by re-running
+  // the Playwright check rather than assuming success.) Dispatching a
+  // plain CustomEvent works in any script and needs no module resolution;
+  // the separate module script below (using the same static-import pattern
+  // CalculatorLayout.astro's script already uses successfully) listens for
+  // it and calls the real analytics helper.
   if (listId) {
     const form = document.getElementById(formId);
     const view = document.getElementById(`${formId}-view`);
@@ -195,6 +209,16 @@ const headingSize = isFull ? 'text-lg sm:text-xl' : 'text-base';
           if (res.ok && data.success) {
             if (view) view.style.display = 'none';
             if (success) success.classList.remove('hidden');
+            // Dispatched here and nowhere else, matching LeadMagnetForm.jsx's
+            // calculator-page version of this same event: only a real,
+            // Brevo-accepted signup counts. No blog-article signup had ever
+            // recorded lead_magnet_signup before the 2026-09-12 lead-magnet
+            // audit -- see the listener at the bottom of this file.
+            window.dispatchEvent(
+              new CustomEvent('lead-magnet-astro-signup', {
+                detail: { listId, clusterTag },
+              })
+            );
             return;
           }
 
@@ -219,4 +243,21 @@ const headingSize = isFull ? 'text-lg sm:text-xl' : 'text-base';
       });
     }
   }
+</script>
+
+<script>
+  // Plain module script (no define:vars) so the static import actually gets
+  // resolved/bundled by Astro -- same pattern CalculatorLayout.astro's
+  // inline script already uses successfully. Listens globally rather than
+  // per-instance; Astro dedupes this exact script across however many
+  // LeadMagnet components render on one page, so it only runs once.
+  import { trackEvent } from '../lib/analytics';
+
+  window.addEventListener('lead-magnet-astro-signup', (event) => {
+    const { listId, clusterTag } = event.detail;
+    trackEvent('lead_magnet_signup', {
+      list_id: listId,
+      cluster_tag: clusterTag,
+    });
+  });
 </script>

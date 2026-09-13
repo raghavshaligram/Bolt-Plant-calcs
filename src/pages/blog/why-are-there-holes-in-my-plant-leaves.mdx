@@ -37,6 +37,7 @@ tocItems:
 
 import FAQBlock from '../../components/FAQBlock.astro';
 import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
+import LeadMagnet from '../../components/LeadMagnet.astro';
 
 <a
   href="/blog/plant-problem-diagnosis/"
@@ -255,6 +256,8 @@ import DiagnosticQuiz from '../../components/blog/DiagnosticQuiz.tsx';
     <strong>Symptom doesn't match?</strong> Holes aren't the only thing that goes wrong with plant leaves. See our <a href="/blog/plant-problem-diagnosis/" class="font-medium underline underline-offset-2 hover:text-moss-900">full Plant Problem Diagnosis guide</a> to find the right symptom group and the right diagnosis.
   </p>
 </div>
+
+<LeadMagnet variant="compact" clusterTag="diagnosis-cluster" listId={14} />
 
 <FAQBlock id="holes-in-plant-leaves-faq" heading="Holes in Plant Leaves FAQ" faqs={[
   {

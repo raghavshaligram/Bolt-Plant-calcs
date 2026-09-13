@@ -14,8 +14,13 @@
 // over this lookup.
 
 export const leadMagnetCopy: Record<string, string> = {
+  // Matches soil-amendments-cheat-sheet.pdf's actual contents exactly:
+  // bag counts by volume, mix ratios for three specific use cases, mulch
+  // depth by goal, and a coverage-per-cubic-yard reference. (2026-09-12:
+  // rewritten from a generic "bag counts, mix ratios, and mulch depths for
+  // every project" line -- see the lead-magnet audit for why.)
   'soil-cluster':
-    'Get the Soil & Amendments Cheat Sheet — bag counts, mix ratios, and mulch depths for every project, in one page.',
+    'Get the Soil & Amendments Cheat Sheet — bag counts by volume, mix ratios for raised beds, containers, and seed starting, mulch depth by goal, and coverage per cubic yard, in one page.',
   'fertilizer-cluster':
     'Get the Fertilizer Cheat Sheet — application rates and dilution ratios for every common fertilizer type, in one page.',
   'irrigation-cluster':
@@ -24,10 +29,22 @@ export const leadMagnetCopy: Record<string, string> = {
     'Get the Spacing & Planting Cheat Sheet — frost dates, seed-starting timing, and spacing charts for your favorite crops, in one page.',
   'lawn-cluster':
     'Get the Lawn Cheat Sheet — seeding rates for new lawns and overseeding, by grass type, in one page.',
+  // Matches repotting-cheat-sheet.pdf's actual contents: pot sizing and
+  // soil-mix categories for 30 named houseplants. Previously promised
+  // "light requirements" too, which this PDF doesn't cover -- fixed rather
+  // than adding light content to the PDF to match the old copy.
   'indoor-plants-cluster':
-    'Get the Indoor Plants Cheat Sheet — light requirements and pot sizing for common houseplants, in one page.',
+    'Get the Indoor Plants Cheat Sheet — pot sizing and soil mixes for 30 common houseplants, in one page.',
   'hydroponics-cluster':
     'Get the Hydroponics & Greenhouse Cheat Sheet — heater sizing and nutrient dosing basics, in one page.',
+  // Matches tree-care-cheat-sheet.pdf's actual contents: watering, mulching,
+  // and feeding schedules across 4 tree-age brackets.
   'trees-cluster':
     'Get the Trees & Shrubs Cheat Sheet — mulching, watering, and feeding schedules by tree age, in one page.',
+  // New bucket (2026-09-12): the Plant Problem Diagnosis series was
+  // previously scattered across fertilizer/irrigation/indoor-plants/spacing
+  // offers that didn't match the diagnosis content. No real PDF exists yet
+  // for this one -- see the lead-magnet audit's build queue, item 5.
+  'diagnosis-cluster':
+    'Get the Plant Problem Diagnosis Quick Reference — symptom-to-cause checklists for yellowing, wilting, holes, spots, and fruit problems, in one page.',
 };

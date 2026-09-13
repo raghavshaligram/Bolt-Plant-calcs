@@ -24,6 +24,15 @@ export interface Props {
    * git history (see src/lib/lastUpdated.ts), never a prop.
    */
   lastUpdatedNote?: string;
+  /**
+   * Suppresses the automatic cluster-wide LeadMagnetForm rendered below,
+   * for a page that places its own lead-magnet ask elsewhere (e.g. inline
+   * right after the calculator's result, via LeadMagnetForm variant="inline"
+   * inside the calculator component itself) and doesn't want a second,
+   * competing ask lower on the same page. Defaults to false -- every other
+   * calculator page keeps the standard bottom-of-page offer unchanged.
+   */
+  hideLeadMagnetForm?: boolean;
 }
 
 const {
@@ -34,6 +43,7 @@ const {
   authorUrl = '/about/',
   shareImage,
   lastUpdatedNote,
+  hideLeadMagnetForm = false,
 } = Astro.props;
 
 // Derived from git history (see src/lib/lastUpdated.ts) instead of a
@@ -106,7 +116,7 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
     </div>
   </div>
 
-  {leadMagnet && (
+  {leadMagnet && !hideLeadMagnetForm && (
     <div class="container-wide">
       {/* Same lg:grid grid-cols-[1fr_240px] template as the content area
           above -- guarantees the form's column resolves to the exact same

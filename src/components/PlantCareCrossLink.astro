@@ -1,0 +1,58 @@
+---
+/**
+ * The cross-promotion block, which renders nothing until the product launches.
+ *
+ * It is placed on the three pages the brief names — Pot Size Calculator, Plant
+ * Problem Diagnosis, Companion Planting Chart — and nowhere else. Those three
+ * because they are the pages where somebody is already doing the thing the app
+ * does; every other page would be an advertisement rather than a suggestion.
+ *
+ * The `LAUNCHED` guard is the whole reason this is a component rather than
+ * three blocks of copy. Until payments work, every one of these renders an
+ * empty string, so the pages ship with the wiring in place and no way for a
+ * visitor to reach a checkout that does not yet take money.
+ *
+ * Usage, once per page, near the end of the content:
+ *
+ *   ---
+ *   import PlantCareCrossLink from '../../components/PlantCareCrossLink.astro';
+ *   ---
+ *   <PlantCareCrossLink context="pot-size" />
+ */
+import { LAUNCHED, PATHS, PRICE_DISPLAY, FACTS } from '../data/plantCare';
+
+export interface Props {
+  /** Which page this is on, so the sentence matches what the reader is doing. */
+  context?: 'pot-size' | 'diagnosis' | 'companion' | 'general';
+}
+
+const { context = 'general' } = Astro.props;
+
+const LINES: Record<string, string> = {
+  'pot-size': `Pot size is the single biggest thing after the plant itself: it moves a watering interval by about a factor of two. HarvestMath Plant Care keeps that number per plant and works the schedule out from it.`,
+  diagnosis: `Diagnosed it, and want to remember what you tried? HarvestMath Plant Care runs these same walkthroughs offline and writes the result to that plant's journal.`,
+  companion: `This same table is built into HarvestMath Plant Care, alongside care schedules for ${FACTS.species} plants — in your pocket, in the garden, with no signal.`,
+  general: `Track your plants' watering, light and care in one app you own — no subscription.`,
+};
+---
+
+{
+  LAUNCHED && (
+    <aside class="not-prose my-10 rounded-2xl border border-moss-100 bg-moss-50/60 p-5 sm:p-6">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <div class="flex-1">
+          <p class="font-display text-lg font-semibold text-bark-900">
+            HarvestMath Plant Care
+          </p>
+          <p class="mt-1 text-sm leading-relaxed text-bark-600">{LINES[context]}</p>
+          <p class="mt-2 text-xs text-bark-500">
+            {PRICE_DISPLAY} once. No subscription, no account, works offline.
+          </p>
+        </div>
+        <div class="flex-none">
+          <a href={PATHS.marketing} class="btn-primary">See HarvestMath Plant Care</a>
+        </div>
+      </div>
+    </aside>
+  )
+}

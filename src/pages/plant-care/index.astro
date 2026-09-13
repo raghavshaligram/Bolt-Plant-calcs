@@ -1,0 +1,384 @@
+---
+/**
+ * /plant-care/ — the product page.
+ *
+ * NO THIRD-PARTY SCRIPTS OF ITS OWN. Not the PayPal SDK, not a React island,
+ * not a widget. The only script this page loads is the site-wide analytics tag
+ * in Layout.astro, which is on every page here and is a deliberate, separate
+ * decision — the point of the rule is that the page people read does not pull
+ * in a payment SDK that costs 100 KB, blocks the main thread, and tracks them
+ * before they have decided to buy anything. That lives on /plant-care/buy/ and
+ * nowhere else.
+ *
+ * Everything on this page is Astro and Tailwind, rendered to static HTML at
+ * build time. The screenshots are real captures of the built app, produced by
+ * its own `npm run shots` against dist/PlantCare.html — not mockups, not
+ * renders, not a designer's idea of the app.
+ *
+ * `noindex` until LAUNCHED. See src/data/plantCare.ts for why.
+ */
+import Layout from '../../layouts/Layout.astro';
+import {
+  COMPARISON,
+  FACTS,
+  FEATURES,
+  LAUNCHED,
+  NOT_INCLUDED,
+  PATHS,
+  PRICE_DISPLAY,
+  PRODUCT_NAME,
+  SHOTS,
+} from '../../data/plantCare';
+
+const title = 'Plant care software you buy once and own';
+const description = `Care schedules for ${FACTS.species} plants, symptom diagnosis, a light meter and a pot measurer. ${PRICE_DISPLAY} once — no subscription, no account, works offline.`;
+
+/*
+ * Structured data: what the product is and what it costs. Deliberately no
+ * aggregateRating — there are no reviews yet, inventing them would poison the
+ * one thing this product sells, and Google penalises it.
+ */
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: PRODUCT_NAME,
+  applicationCategory: 'LifestyleApplication',
+  operatingSystem: 'Any browser. Windows, macOS, Linux, iOS, Android.',
+  description,
+  offers: {
+    '@type': 'Offer',
+    price: '29.00',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+    url: `https://harvestmath.com${PATHS.marketing}`,
+  },
+};
+
+const faqs = [
+  {
+    q: 'Is this really a one-time payment?',
+    a: `Yes. ${PRICE_DISPLAY}, once. There is no subscription, nothing to cancel, and no account to close. Updates are free forever — you bookmark the updates page and download the newer file whenever you like.`,
+  },
+  {
+    q: 'What exactly do I get?',
+    a: 'Two things, from the same build. A single HTML file you download and keep, and access to an installable version you can add to a phone home screen. They are the same app; the file is yours forever, and the installed one is more convenient on a phone.',
+  },
+  {
+    q: 'Which browsers does it work in?',
+    a: 'The installable version works in any modern browser. The downloadable file works everywhere too, but saving back to your own file directly needs the File System Access API — that is Chrome, Edge and other Chromium browsers. In Safari and Firefox the downloaded file saves by producing a download instead, which works, with one extra click.',
+  },
+  {
+    q: 'Where is my data?',
+    a: 'The downloaded file keeps it in a file you chose, in plain readable JSON. The installed version keeps it inside that browser on that device, and can export the same file at any time. The two do not sync — they cannot, because nothing joins them without a server, and there is no server.',
+  },
+  {
+    q: 'Can it identify a plant from a photo?',
+    a: 'No, and that is not on the roadmap. Doing it properly needs a paid API call every time or a vision model inside the file, and the good versions are built on years of proprietary photo data. If that is the feature you want, the subscription apps do it well.',
+  },
+  {
+    q: 'Will it remind me when the app is closed?',
+    a: 'No. A local file and an installed web app cannot do background notifications reliably — on iOS it would need a push server, and a server is what this product is the absence of. The due and overdue lists work. A recurring calendar reminder to open the app works well.',
+  },
+  {
+    q: 'Is there a refund?',
+    a: 'No refunds, because there is nothing to return — the file is on your computer the moment you pay. Everything the app does is described on this page, including what it does not do, so you can decide before rather than after.',
+  },
+];
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<Layout title={title} description={description} noindex={!LAUNCHED} ogImage="/plant-care/shots/today.png">
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqLd)} slot="head" />
+
+  {
+    !LAUNCHED && (
+      <div class="border-b border-clay-200 bg-clay-50">
+        <div class="container-wide py-3 text-sm text-clay-800">
+          <strong>Not live yet.</strong> This page is not linked from anywhere on the site and is not indexed. The
+          checkout does not take payments until the PayPal configuration is finished.
+        </div>
+      </div>
+    )
+  }
+
+  <!-- ── hero ──────────────────────────────────────────────────────────── -->
+  <section class="border-b border-moss-100 bg-gradient-to-b from-moss-50/70 to-sand-50">
+    <div class="container-wide grid gap-10 py-14 lg:grid-cols-2 lg:items-center lg:py-20">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-moss-700">HarvestMath Plant Care</p>
+        <h1 class="mt-3 text-4xl font-semibold tracking-tight text-bark-900 sm:text-5xl">
+          Plant care software you buy once and own
+        </h1>
+        <p class="mt-5 text-lg leading-relaxed text-bark-600">
+          Care schedules that are genuinely different for every plant, a reference book of {FACTS.species} species with
+          sourced pet-safety answers, and the diagnosis walkthroughs from this site — working with the wifi off.
+        </p>
+        <p class="mt-4 text-lg leading-relaxed text-bark-600">
+          {PRICE_DISPLAY} once. No subscription, no account, nothing to cancel.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href={PATHS.buy} class="btn-primary px-7 py-3 text-base">Buy for {PRICE_DISPLAY}</a>
+          <a href="#what-it-does" class="btn-secondary px-6 py-3 text-base">See what it does</a>
+        </div>
+
+        <ul class="mt-8 grid gap-2 text-sm text-bark-600 sm:grid-cols-2">
+          <li>· One HTML file, about {FACTS.fileSizeKB} KB</li>
+          <li>· Plus an installable version for your phone</li>
+          <li>· {FACTS.careTypes} care types, not just watering</li>
+          <li>· Free updates, forever</li>
+        </ul>
+      </div>
+
+      {/*
+        Two images, one shown at a time.
+
+        A 900px-wide desktop screenshot scaled into a 390px phone viewport is a
+        picture of text nobody can read — which on the page most likely to be
+        opened on a phone is the first thing a buyer sees. The phone capture is
+        the same screen at a size that survives the scaling, so small screens get
+        that one and wide screens get the desktop shot. Both are real captures;
+        neither is loaded by the viewport that does not show it.
+      */}
+      <div class="lg:pl-6">
+        <img
+          src="/plant-care/shots/phone-today.png"
+          alt="The Today screen of HarvestMath Plant Care on a phone, listing late and due jobs"
+          width="420"
+          height="884"
+          class="mx-auto w-full max-w-[300px] rounded-2xl border border-moss-100 shadow-card sm:hidden"
+          loading="eager"
+        />
+        <img
+          src="/plant-care/shots/today.png"
+          alt="The Today screen of HarvestMath Plant Care, listing late and due jobs across ten plants"
+          width="900"
+          height="726"
+          class="hidden w-full rounded-2xl border border-moss-100 shadow-card sm:block"
+          loading="eager"
+        />
+        <p class="mt-3 text-center text-xs text-bark-500 sm:text-left">
+          A real screenshot of the built app, not a mockup. Every image on this page is.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── the one-paragraph argument ────────────────────────────────────── -->
+  <section class="border-b border-moss-100 bg-white">
+    <div class="container-prose py-14">
+      <h2 class="text-2xl font-semibold text-bark-900">Why this exists</h2>
+      <div class="prose prose-bark mt-4 max-w-none">
+        <p>
+          Most plant apps are a subscription for a reminder. You pay every year, the reminders are the same seven days
+          for everything, and the moment you stop paying — or the company does — you lose the record of what you have
+          been growing.
+        </p>
+        <p>
+          This is the other shape. You pay once, you get a file, and the file keeps working. The schedule is worked out
+          properly from the species, the pot, the season and your zone, and it shows you the arithmetic so you can
+          disagree with it. The reference data is the same data behind the calculators on this site, generated from the
+          same source so the two can never drift apart.
+        </p>
+        <p>
+          It does less than the subscription apps in three specific ways, listed further down at the same size as
+          everything else. If one of those three is what you need, buy theirs.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── features ──────────────────────────────────────────────────────── -->
+  <section id="what-it-does" class="border-b border-moss-100 bg-sand-50 scroll-mt-20">
+    <div class="container-wide py-14">
+      <h2 class="text-2xl font-semibold text-bark-900">What it does</h2>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        {
+          FEATURES.map((f) => (
+            <div class="card">
+              <h3 class="font-display text-lg font-semibold text-bark-900">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-bark-600">{f.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── screenshots ───────────────────────────────────────────────────── -->
+  <section class="border-b border-moss-100 bg-white">
+    <div class="container-wide py-14">
+      <h2 class="text-2xl font-semibold text-bark-900">The actual app</h2>
+      <p class="mt-2 max-w-2xl text-sm text-bark-600">
+        Captured from the built file by the project's own screenshot script, driven over <code>file://</code> — which is
+        exactly how you will open it.
+      </p>
+      {/*
+        Columns rather than a grid.
+
+        These are screenshots of real screens, so they are all different heights
+        — the journal is three times the light meter. In a two-column grid every
+        row is as tall as its tallest cell, which leaves a caption stranded in
+        the middle of a white gap and makes a set of tidy screenshots look like a
+        broken layout. Columns let each figure sit directly under the one above
+        it, and `break-inside-avoid` keeps an image and its caption together.
+      */}
+      <div class="mt-8 columns-1 gap-8 md:columns-2">
+        {
+          SHOTS.map((s) => (
+            <figure class="mb-8 break-inside-avoid">
+              <img
+                src={`/plant-care/shots/${s.file}`}
+                alt={s.alt}
+                width="900"
+                class="w-full rounded-xl border border-moss-100 shadow-card"
+                loading="lazy"
+              />
+              <figcaption class="mt-2 text-sm text-bark-600">{s.caption}</figcaption>
+            </figure>
+          ))
+        }
+        <figure class="mb-8 break-inside-avoid">
+          <img
+            src="/plant-care/shots/phone-today.png"
+            alt="The same Today screen on a phone"
+            width="420"
+            class="mx-auto w-full max-w-[280px] rounded-xl border border-moss-100 shadow-card"
+            loading="lazy"
+          />
+          <figcaption class="mt-2 text-center text-sm text-bark-600">
+            The same app on a phone, installed to the home screen.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── against the subscription apps ─────────────────────────────────── -->
+  <section class="border-b border-moss-100 bg-sand-50">
+    <div class="container-wide py-14">
+      <h2 class="text-2xl font-semibold text-bark-900">Against Planta, PlantIn and Plantum</h2>
+      <p class="mt-2 max-w-2xl text-sm text-bark-600">
+        Three rows here go against us. They are in the table because a comparison where every row is a win is an
+        advertisement, and you would be right to discount all of it.
+      </p>
+
+      <div class="mt-8 overflow-x-auto">
+        <table class="w-full min-w-[42rem] border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-bark-200 text-left">
+              <th class="py-3 pr-4 font-semibold text-bark-500"></th>
+              <th class="py-3 pr-4 font-semibold text-moss-800">This</th>
+              <th class="py-3 font-semibold text-bark-500">The subscription apps</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              COMPARISON.map((row) => (
+                <tr class="border-b border-bark-100 align-top">
+                  <td class="py-3 pr-4 font-medium text-bark-800">{row.what}</td>
+                  <td class={`py-3 pr-4 ${row.againstUs ? 'text-clay-700' : 'text-bark-700'}`}>{row.ours}</td>
+                  <td class={`py-3 ${row.againstUs ? 'font-medium text-moss-800' : 'text-bark-600'}`}>{row.theirs}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-xs text-bark-500">
+        Subscription prices change; check theirs rather than trusting a number on our page.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── what it does not do ───────────────────────────────────────────── -->
+  <section class="border-b border-moss-100 bg-white">
+    <div class="container-wide py-14">
+      <h2 class="text-2xl font-semibold text-bark-900">What it does not do</h2>
+      <p class="mt-2 max-w-2xl text-sm text-bark-600">
+        Same size as the features, because finding this out after paying is how a product earns a one-star review.
+      </p>
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
+        {
+          NOT_INCLUDED.map((f) => (
+            <div class="rounded-2xl border border-clay-200 bg-clay-50/50 p-6">
+              <h3 class="font-display text-lg font-semibold text-clay-800">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-bark-700">{f.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── browser support, stated plainly ───────────────────────────────── -->
+  <section class="border-b border-moss-100 bg-sand-50">
+    <div class="container-prose py-14">
+      <h2 class="text-2xl font-semibold text-bark-900">Browser support, in plain terms</h2>
+      <div class="prose prose-bark mt-4 max-w-none">
+        <p>
+          <strong>The installable version works everywhere</strong> — any current browser on a phone, tablet or
+          computer. It stores your plants inside that browser and can export the file whenever you want it.
+        </p>
+        <p>
+          <strong>The downloadable file saves back to your own file in Chrome, Edge and other Chromium browsers.</strong>
+          That needs the File System Access API, which Safari and Firefox do not have. In those two the file still runs
+          perfectly and does everything else; saving produces a download instead of writing in place, and you press Save
+          yourself rather than it happening as you go.
+        </p>
+        <p>
+          <strong>The camera tools need https.</strong> The light meter and the pot measurer work in the installable
+          version. Opened straight from your disk, a browser will not hand a page the camera — so if those two are why
+          you are buying, use the installed version for them.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── faq ───────────────────────────────────────────────────────────── -->
+  <section class="border-b border-moss-100 bg-white">
+    <div class="container-prose py-14">
+      <h2 class="text-2xl font-semibold text-bark-900">Questions</h2>
+      <dl class="mt-6 divide-y divide-bark-100">
+        {
+          faqs.map((f) => (
+            <div class="py-5">
+              <dt class="font-display text-base font-semibold text-bark-900">{f.q}</dt>
+              <dd class="mt-2 text-sm leading-relaxed text-bark-600">{f.a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- ── close ─────────────────────────────────────────────────────────── -->
+  <section class="bg-moss-800">
+    <div class="container-prose py-14 text-center">
+      <h2 class="text-2xl font-semibold text-white">{PRICE_DISPLAY}, once.</h2>
+      <p class="mx-auto mt-3 max-w-xl text-moss-100">
+        The file downloads as soon as the payment clears, and the installable version is on the same page. Free updates
+        forever.
+      </p>
+      <div class="mt-7">
+        <a
+          href={PATHS.buy}
+          class="inline-flex items-center justify-center rounded-lg bg-white px-8 py-3 text-base font-semibold text-moss-800 transition hover:bg-moss-50"
+        >
+          Buy for {PRICE_DISPLAY}
+        </a>
+      </div>
+      <p class="mt-4 text-xs text-moss-200">No refunds — everything it does and does not do is on this page.</p>
+    </div>
+  </section>
+</Layout>

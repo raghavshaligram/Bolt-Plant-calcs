@@ -18,4 +18,5 @@ export const leadMagnetIcon: Record<string, string> = {
   'indoor-plants-cluster': 'Flower2',
   'hydroponics-cluster': 'Thermometer',
   'trees-cluster': 'TreeDeciduous',
+  'diagnosis-cluster': 'Stethoscope',
 };

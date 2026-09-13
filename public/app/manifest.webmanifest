@@ -1,0 +1,37 @@
+{
+  "name": "HarvestMath Plant Care",
+  "short_name": "Plant Care",
+  "description": "Care schedules, a 303-plant reference, symptom diagnosis and a light meter. Buy once, works offline, no account.",
+  "id": "/app/",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#385030",
+  "background_color": "#faf8f3",
+  "categories": [
+    "lifestyle",
+    "utilities",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

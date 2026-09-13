@@ -1,0 +1,319 @@
+# HarvestMath Plant Care — species reference.
+#
+# Columns: id, common, botanical, group, light, water, baseDays, humidity, size, feed, mist, repotYears, notes
+#
+#   light     low | medium | bright | direct       (bright = bright indirect)
+#   water     arid | dry-between | evenly-moist | wet
+#   baseDays  days between waterings for a mid-size indoor pot in growing season.
+#             The scheduler moves this by pot size, season, indoor/outdoor and zone —
+#             see calc/schedule.ts. It is a starting point, never the answer.
+#   humidity  low | average | high
+#   feed      none | light | average | heavy
+#   mist      y | n   (whether misting does anything useful for this plant)
+#
+# Toxicity is NOT a column here. It comes from the ASPCA list at lookup time —
+# see data/ported/toxicity.ts. One source, and a safety claim never retyped.
+id	common	botanical	group	light	water	baseDays	humidity	size	feed	mist	repotYears	notes
+pothos-golden	Golden Pothos	Epipremnum aureum	vine	medium	dry-between	9	average	6–10 ft trailing	light	n	2	Tolerates low light but variegation fades. Roots easily in water from a cutting.
+pothos-marble	Marble Queen Pothos	Epipremnum aureum 'Marble Queen'	vine	bright	dry-between	10	average	5–8 ft trailing	light	n	2	More white in the leaf means less chlorophyll — needs brighter light than golden and grows slower.
+monstera	Swiss Cheese Plant	Monstera deliciosa	foliage	bright	dry-between	9	average	6–8 ft indoors	average	n	2	Leaf holes appear with maturity and enough light, not with age alone. Wants something to climb.
+monstera-adansonii	Swiss Cheese Vine	Monstera adansonii	vine	bright	dry-between	7	high	4–6 ft trailing	average	y	2	Thinner leaves than deliciosa, dries out faster, and shows crisp edges sooner if the air is dry.
+philo-heartleaf	Heartleaf Philodendron	Philodendron hederaceum	vine	medium	dry-between	9	average	4–8 ft trailing	light	n	2	One of the few genuinely low-light-tolerant trailers. Pinch tips to stop it going bare at the top.
+philo-brasil	Philodendron Brasil	Philodendron hederaceum 'Brasil'	vine	bright	dry-between	9	average	4–8 ft trailing	light	n	2	Variegation is unstable — cut back to a variegated node if it reverts to plain green.
+philo-selloum	Tree Philodendron	Philodendron bipinnatifidum	foliage	bright	dry-between	8	average	4–6 ft wide	average	n	3	Wants floor space more than height. Older plants form a visible trunk.
+zz-plant	ZZ Plant	Zamioculcas zamiifolia	foliage	low	arid	21	low	2–3 ft	light	n	3	Stores water in rhizomes. The most common way to kill one is watering it on a schedule.
+snake-plant	Snake Plant	Dracaena trifasciata	succulent	low	arid	21	low	2–4 ft	light	n	4	Happy pot-bound. Water far less in winter — cold wet soil is what rots them.
+snake-plant-cyl	Cylindrical Snake Plant	Dracaena angolensis	succulent	bright	arid	21	low	2–3 ft	light	n	4	Same care as trifasciata. The fanned braid is done at the nursery, not by the plant.
+spider-plant	Spider Plant	Chlorophytum comosum	foliage	bright	evenly-moist	7	average	1–2 ft	light	n	2	Brown tips are usually fluoride and salts in tap water. Rainwater or distilled fixes it.
+peace-lily	Peace Lily	Spathiphyllum wallisii	flowering	medium	evenly-moist	6	high	1–3 ft	average	y	2	Wilts dramatically then recovers, which trains people to underwater it. Water before the droop.
+zz-raven	Raven ZZ	Zamioculcas zamiifolia 'Raven'	foliage	medium	arid	21	low	2–3 ft	light	n	3	New growth emerges lime green and darkens to near-black. Slower than the plain form.
+rubber-plant	Rubber Plant	Ficus elastica	tree	bright	dry-between	10	average	6–10 ft indoors	average	n	3	Drops lower leaves when moved. Give it one spot and leave it there.
+fiddle-leaf	Fiddle Leaf Fig	Ficus lyrata	tree	bright	dry-between	9	average	6–10 ft indoors	average	n	3	Hates change and cold draughts. Brown crispy edges are usually underwatering; dark spots are usually over.
+weeping-fig	Weeping Fig	Ficus benjamina	tree	bright	dry-between	8	average	6–10 ft indoors	average	n	3	Leaf drop after any move is normal and it grows back. Keep away from doorways.
+ficus-audrey	Ficus Audrey	Ficus benghalensis	tree	bright	dry-between	10	average	5–8 ft indoors	average	n	3	More forgiving than a fiddle leaf and often sold as its easier replacement.
+dracaena-marginata	Dragon Tree	Dracaena marginata	tree	medium	dry-between	12	average	4–8 ft	light	n	3	Sensitive to fluoride — brown tips are usually the tap water, not the watering.
+dracaena-fragrans	Corn Plant	Dracaena fragrans	tree	medium	dry-between	12	average	4–6 ft	light	n	3	Slow and long-lived. Wipe the leaves; dust noticeably dulls it.
+dracaena-lemon-lime	Lemon Lime Dracaena	Dracaena fragrans 'Lemon Lime'	tree	bright	dry-between	12	average	3–5 ft	light	n	3	Same plant as corn plant with brighter variegation and the same fluoride sensitivity.
+yucca-cane	Yucca Cane	Yucca elephantipes	tree	direct	arid	16	low	4–8 ft	light	n	4	Wants more direct sun than most houseplants. Rot from overwatering is the usual end.
+ponytail-palm	Ponytail Palm	Beaucarnea recurvata	succulent	direct	arid	21	low	3–6 ft indoors	light	n	4	Not a palm. The swollen base is a water store — treat it like a succulent.
+parlour-palm	Parlour Palm	Chamaedorea elegans	palm	medium	evenly-moist	8	average	2–4 ft	light	y	3	One of the few palms that genuinely copes with low light. Prone to spider mite in dry air.
+kentia-palm	Kentia Palm	Howea forsteriana	palm	medium	dry-between	10	average	6–10 ft indoors	light	y	4	Expensive because it is slow. Very tolerant of low light and neglect once settled.
+areca-palm	Areca Palm	Dypsis lutescens	palm	bright	evenly-moist	7	high	5–7 ft indoors	average	y	3	Thirsty and humidity-hungry. Brown tips are almost always dry air or fluoride.
+majesty-palm	Majesty Palm	Ravenea rivularis	palm	bright	evenly-moist	6	high	4–8 ft indoors	average	y	3	Sold everywhere and struggles indoors — it wants swamp humidity and strong light.
+boston-fern	Boston Fern	Nephrolepis exaltata	fern	medium	evenly-moist	5	high	2–3 ft	light	y	2	Dries out fast. A pebble tray does more than misting, which is over by the time you put the bottle down.
+maidenhair-fern	Maidenhair Fern	Adiantum raddianum	fern	medium	wet	4	high	1–2 ft	light	y	2	Unforgiving about drying out — one missed week and the fronds crisp. Best in a bathroom.
+birds-nest-fern	Bird's Nest Fern	Asplenium nidus	fern	medium	evenly-moist	7	high	2–3 ft	light	y	3	Water the soil, not the central rosette — water sitting in the crown rots it.
+staghorn-fern	Staghorn Fern	Platycerium bifurcatum	fern	bright	dry-between	7	high	2–3 ft	light	y	4	An epiphyte. Usually mounted, and soaked rather than watered.
+rabbits-foot-fern	Rabbit's Foot Fern	Davallia fejeensis	fern	medium	evenly-moist	6	high	1–2 ft	light	y	3	The furry rhizomes belong on the surface — burying them rots the plant.
+calathea-orbifolia	Calathea Orbifolia	Calathea orbifolia	prayer	medium	evenly-moist	6	high	2–3 ft	light	y	2	Crisp edges mean tap water or dry air. Rainwater or distilled, and keep it off a radiator.
+calathea-medallion	Calathea Medallion	Calathea roseopicta	prayer	medium	evenly-moist	6	high	1–2 ft	light	y	2	Folds its leaves up at night. Drooping in daylight is thirst or cold.
+calathea-rattlesnake	Rattlesnake Plant	Goeppertia insignis	prayer	medium	evenly-moist	6	high	2–3 ft	light	y	2	Reclassified out of Calathea but sold under the old name everywhere.
+maranta	Prayer Plant	Maranta leuconeura	prayer	medium	evenly-moist	6	high	1 ft trailing	light	y	2	Leaves fold at dusk and open at dawn. Stops doing it when it is unhappy.
+stromanthe	Stromanthe Triostar	Stromanthe sanguinea	prayer	bright	evenly-moist	6	high	2–3 ft	light	y	2	The pink is real variegation, not a dye. Needs bright light to keep it.
+ctenanthe	Never Never Plant	Ctenanthe burle-marxii	prayer	medium	evenly-moist	6	high	1–2 ft	light	y	2	Same family and the same demands as Calathea — humidity and clean water.
+rex-begonia	Rex Begonia	Begonia rex	flowering	bright	evenly-moist	6	high	1 ft	light	n	2	Grown for foliage, not flowers. Never mist — wet leaves invite mildew.
+polka-dot-begonia	Polka Dot Begonia	Begonia maculata	flowering	bright	dry-between	7	average	2–4 ft	average	n	2	Cane-type. Needs staking once it gets tall or it snaps under its own weight.
+african-violet	African Violet	Saintpaulia ionantha	flowering	bright	evenly-moist	6	average	6–8 in	average	n	2	Water from the bottom. Cold water on the leaves leaves permanent pale rings.
+anthurium	Flamingo Flower	Anthurium andraeanum	flowering	bright	evenly-moist	7	high	1–2 ft	average	y	2	The red part is a spathe, not a petal. Blooms for months in enough light.
+orchid-phal	Moth Orchid	Phalaenopsis spp.	flowering	bright	dry-between	7	average	1–2 ft	light	n	2	Not potted in soil. Bark mix, a soak once a week, and never leave it sitting in water.
+christmas-cactus	Christmas Cactus	Schlumbergera bridgesii	succulent	bright	dry-between	10	average	1–2 ft	light	n	3	A jungle cactus, not a desert one — it wants more water than it looks like it should.
+jade	Jade Plant	Crassula ovata	succulent	direct	arid	18	low	2–4 ft	light	n	4	Wrinkled leaves mean thirst; soft mushy ones mean too much. Very long-lived.
+aloe-vera	Aloe Vera	Aloe barbadensis	succulent	direct	arid	18	low	1–2 ft	light	n	3	Wants far more sun than it usually gets indoors. Drain sharply.
+echeveria	Echeveria	Echeveria elegans	succulent	direct	arid	16	low	6–8 in	light	n	3	Stretching towards the window means not enough light — rosettes should stay tight.
+haworthia	Zebra Haworthia	Haworthiopsis fasciata	succulent	bright	arid	18	low	4–6 in	light	n	3	Tolerates less light than most succulents. Small enough for a windowsill forever.
+string-of-pearls	String of Pearls	Curio rowleyanus	succulent	direct	arid	14	low	2–3 ft trailing	light	n	3	Shrivelled beads mean underwatering; mushy ones mean over. Shallow roots want a shallow pot.
+string-of-hearts	String of Hearts	Ceropegia woodii	succulent	bright	arid	14	low	3–6 ft trailing	light	n	3	Tubers along the strands can be pressed into soil to make new plants.
+burros-tail	Burro's Tail	Sedum morganianum	succulent	direct	arid	16	low	2–3 ft trailing	light	n	3	Leaves drop at the lightest touch. Put it somewhere it will not be brushed past.
+pilea	Chinese Money Plant	Pilea peperomioides	foliage	bright	dry-between	8	average	1 ft	light	n	2	Rotate it weekly or it leans hard towards the light. Produces pups you can separate.
+peperomia-obtusifolia	Baby Rubber Plant	Peperomia obtusifolia	foliage	bright	dry-between	10	average	1 ft	light	n	3	Semi-succulent leaves — treat it more like a succulent than a tropical.
+peperomia-watermelon	Watermelon Peperomia	Peperomia argyreia	foliage	bright	dry-between	9	average	8–12 in	light	n	3	Striped leaves scorch in direct sun. Bright but filtered.
+hoya-carnosa	Wax Plant	Hoya carnosa	vine	bright	dry-between	12	average	4–8 ft trailing	light	n	3	Flowers only when a bit pot-bound. Never cut off the bare flower spur — it reblooms from it.
+hoya-kerrii	Sweetheart Hoya	Hoya kerrii	vine	bright	arid	14	low	trailing, slow	light	n	4	A single leaf sold in a pot will usually never grow — it needs a node to become a plant.
+schefflera	Umbrella Plant	Schefflera arboricola	foliage	bright	dry-between	9	average	4–8 ft indoors	average	n	3	Gets leggy in low light. Prune hard and it branches.
+umbrella-tree	Dwarf Umbrella Tree	Schefflera actinophylla	tree	bright	dry-between	10	average	6–10 ft indoors	average	n	3	The larger cousin, and better suited to a bright corner than a shelf.
+croton	Croton	Codiaeum variegatum	foliage	direct	evenly-moist	7	high	3–5 ft	average	y	2	Colour needs strong light. Drops every leaf when moved, then regrows them.
+aglaonema	Chinese Evergreen	Aglaonema commutatum	foliage	low	dry-between	10	average	1–3 ft	light	n	3	One of the genuinely low-light plants. Pink and red cultivars need more light than green ones.
+dieffenbachia	Dumb Cane	Dieffenbachia seguine	foliage	medium	dry-between	9	average	3–5 ft	average	n	2	Sap is a serious irritant — the common name is a warning. Wash hands after pruning.
+syngonium	Arrowhead Vine	Syngonium podophyllum	vine	medium	dry-between	8	average	3–6 ft trailing	light	n	2	Leaves change shape as it matures — arrow-shaped young, lobed later.
+tradescantia-zebrina	Inch Plant	Tradescantia zebrina	vine	bright	evenly-moist	7	average	2–3 ft trailing	light	n	2	Grows fast and goes bare at the base. Cut it back hard twice a year.
+tradescantia-nanouk	Tradescantia Nanouk	Tradescantia albiflora 'Nanouk'	vine	bright	evenly-moist	7	average	1–2 ft trailing	light	n	2	Needs strong light for the pink. Pinch tips constantly to keep it full.
+fittonia	Nerve Plant	Fittonia albivenis	foliage	medium	evenly-moist	4	high	6–8 in	light	y	2	Collapses theatrically when dry and recovers within hours of watering. A terrarium plant really.
+oxalis	Purple Shamrock	Oxalis triangularis	flowering	bright	dry-between	7	average	8–12 in	light	n	2	Dies back and looks dead, then returns from the tubers. Let it rest rather than binning it.
+alocasia-polly	African Mask Plant	Alocasia × amazonica	foliage	bright	evenly-moist	6	high	1–2 ft	average	y	2	Goes dormant in winter and looks dead. Keep it barely moist and it comes back.
+alocasia-zebrina	Zebra Alocasia	Alocasia zebrina	foliage	bright	evenly-moist	6	high	2–3 ft	average	y	2	Striped stems are the point. Spider mites love it — check the undersides.
+colocasia	Elephant Ear	Colocasia esculenta	foliage	direct	wet	3	high	3–6 ft	heavy	n	2	A bog plant. It can sit in a saucer of water, which is true of almost nothing else here.
+caladium	Caladium	Caladium bicolor	foliage	medium	evenly-moist	5	high	1–2 ft	average	y	1	Grown from tubers, dies back every year, and that is normal rather than a failure.
+cast-iron-plant	Cast Iron Plant	Aspidistra elatior	foliage	low	dry-between	14	low	2–3 ft	light	n	4	Named for what it survives. Genuinely the plant for a dark hallway.
+norfolk-pine	Norfolk Island Pine	Araucaria heterophylla	tree	bright	evenly-moist	8	high	6–10 ft indoors	light	y	3	Not a real pine and not frost hardy. Drops lower branches permanently if it dries out.
+money-tree	Money Tree	Pachira aquatica	tree	bright	dry-between	10	average	4–6 ft indoors	light	n	3	The braid is done at the nursery. Yellow leaves are usually too much water.
+lucky-bamboo	Lucky Bamboo	Dracaena sanderiana	foliage	medium	wet	7	average	1–3 ft	light	n	0	Not bamboo. Usually grown in water — change it fortnightly and keep it off tap water.
+air-plant	Air Plant	Tillandsia ionantha	other	bright	dry-between	7	average	2–4 in	light	y	0	No soil at all. Soak for 20 minutes weekly and shake it out — trapped water in the base rots it.
+venus-flytrap	Venus Flytrap	Dionaea muscipula	carnivore	direct	wet	2	high	4–6 in	none	n	2	Distilled or rainwater only — tap water minerals kill it. Never feed it meat.
+pitcher-plant	Pitcher Plant	Sarracenia purpurea	carnivore	direct	wet	2	high	1 ft	none	n	2	Needs a cold winter dormancy. A windowsill all year round will exhaust it.
+nepenthes	Tropical Pitcher Plant	Nepenthes ventricosa	carnivore	bright	wet	3	high	1–2 ft	none	y	2	Pitchers form only in high humidity. Distilled water, never fertiliser in the soil.
+english-ivy	English Ivy	Hedera helix	vine	medium	evenly-moist	7	average	6–8 ft trailing	light	y	2	Spider mites are near-inevitable in dry indoor air. Rinse the foliage monthly.
+grape-ivy	Grape Ivy	Cissus rhombifolia	vine	medium	dry-between	8	average	4–6 ft trailing	light	n	2	Tougher than English ivy indoors and far less mite-prone.
+swedish-ivy	Swedish Ivy	Plectranthus australis	vine	bright	evenly-moist	6	average	2–3 ft trailing	light	n	2	Not ivy. Grows fast, roots from any cutting, and wants pinching often.
+purple-passion	Purple Passion Plant	Gynura aurantiaca	foliage	bright	evenly-moist	6	average	1–2 ft	light	n	2	The purple fuzz needs bright light. The flowers smell unpleasant — most people cut them off.
+nerve-hypoestes	Polka Dot Plant	Hypoestes phyllostachya	foliage	bright	evenly-moist	5	high	1 ft	light	y	1	Short-lived and leggy. Pinch constantly, and take cuttings before it gives up.
+aluminium-plant	Aluminium Plant	Pilea cadierei	foliage	medium	evenly-moist	7	average	1 ft	light	y	2	Silver markings are natural. Cut back hard in spring to stop it sprawling.
+friendship-plant	Friendship Plant	Pilea involucrata	foliage	medium	evenly-moist	6	high	8–12 in	light	y	2	Textured leaves hold water — a pebble tray suits it better than misting.
+basil	Basil	Ocimum basilicum	herb	direct	evenly-moist	2	average	1–2 ft	average	n	1	Pinch the flower spikes the moment they appear or the leaves turn bitter.
+mint	Mint	Mentha spicata	herb	bright	evenly-moist	3	average	1–2 ft	average	n	1	Invasive in the ground. Keep it in a pot of its own, always.
+rosemary	Rosemary	Salvia rosmarinus	herb	direct	dry-between	9	low	2–4 ft	light	n	3	More rosemary is killed by overwatering than by cold. Sharp drainage matters most.
+thyme	Thyme	Thymus vulgaris	herb	direct	dry-between	8	low	6–12 in	light	n	3	Mediterranean — poor soil and full sun. Rich compost makes it floppy and flavourless.
+oregano	Oregano	Origanum vulgare	herb	direct	dry-between	6	low	1–2 ft	light	n	2	Flavour is strongest just before it flowers.
+parsley	Parsley	Petroselinum crispum	herb	bright	evenly-moist	3	average	1 ft	average	n	1	Biennial — it bolts in its second year and that is the end of it.
+cilantro	Cilantro	Coriandrum sativum	herb	bright	evenly-moist	3	average	1–2 ft	average	n	1	Bolts fast in heat. Sow a new pot every three weeks rather than fighting it.
+chives	Chives	Allium schoenoprasum	herb	direct	evenly-moist	4	average	1 ft	average	n	2	Cut from the outside. Shearing the whole clump to the base sets it back weeks.
+sage	Sage	Salvia officinalis	herb	direct	dry-between	8	low	1–2 ft	light	n	3	Woody and short-lived. Replace every three or four years.
+dill	Dill	Anethum graveolens	herb	direct	evenly-moist	3	average	2–3 ft	light	n	1	Does not transplant well — sow it where it will grow.
+lemon-balm	Lemon Balm	Melissa officinalis	herb	bright	evenly-moist	4	average	1–2 ft	light	n	2	Spreads like mint. Pot it.
+lavender	Lavender	Lavandula angustifolia	herb	direct	arid	10	low	2–3 ft	none	n	3	Wants poor, gritty, dry soil. Feeding it is how most people kill it.
+tomato	Tomato	Solanum lycopersicum	vegetable	direct	evenly-moist	2	average	3–8 ft	heavy	n	1	Water at the base and evenly — irregular watering is what splits fruit and causes blossom end rot.
+pepper	Pepper	Capsicum annuum	vegetable	direct	evenly-moist	3	average	2–3 ft	heavy	n	1	Needs warmth more than anything. Cold nights stall it completely.
+cucumber	Cucumber	Cucumis sativus	vegetable	direct	wet	2	average	4–6 ft vining	heavy	n	1	Bitter fruit is usually irregular watering. Give it something to climb.
+lettuce	Lettuce	Lactuca sativa	vegetable	bright	evenly-moist	2	average	8–12 in	average	n	1	Bolts in heat. Afternoon shade buys weeks.
+spinach	Spinach	Spinacia oleracea	vegetable	bright	evenly-moist	2	average	8–12 in	average	n	1	Cool-season. Sow in spring and again in autumn, not in midsummer.
+kale	Kale	Brassica oleracea	vegetable	direct	evenly-moist	3	average	2–3 ft	heavy	n	1	Sweeter after a frost. Pick from the bottom up and it keeps producing.
+carrot	Carrot	Daucus carota	vegetable	direct	evenly-moist	3	average	1 ft	light	n	1	Forked roots come from stony or freshly manured soil, not from bad seed.
+radish	Radish	Raphanus sativus	vegetable	direct	evenly-moist	2	average	6 in	light	n	1	Ready in a month. All leaf and no root means too much nitrogen.
+beans-bush	Bush Beans	Phaseolus vulgaris	vegetable	direct	evenly-moist	3	average	2 ft	light	n	1	Fixes its own nitrogen — do not feed it like a tomato.
+peas	Peas	Pisum sativum	vegetable	direct	evenly-moist	3	average	3–6 ft	light	n	1	Cool-season and quick. Sow as soon as the soil can be worked.
+onion	Onion	Allium cepa	vegetable	direct	evenly-moist	4	average	1–2 ft	average	n	1	Bulb size is set by day length — pick a variety for your latitude.
+courgette	Zucchini	Cucurbita pepo	vegetable	direct	evenly-moist	2	average	3–4 ft	heavy	n	1	One plant feeds a household. Two feeds a street.
+strawberry	Strawberry	Fragaria × ananassa	vegetable	direct	evenly-moist	3	average	8–12 in	average	n	2	Runners drain the parent. Cut them off unless you want more plants.
+philo-micans	Velvet Leaf Philodendron	Philodendron hederaceum var. hederaceum	vine	bright	dry-between	8	high	3–6 ft trailing	light	n	2	The velvet finish only holds in humid air; in dry rooms new leaves come out matte and smaller.
+philo-birkin	Philodendron Birkin	Philodendron 'Birkin'	foliage	bright	dry-between	9	average	1–2 ft	light	n	2	A sport, so it can revert to plain green or go fully white. Remove all-white leaves — they cannot feed themselves.
+philo-xanadu	Xanadu	Thaumatophyllum xanadu	foliage	bright	dry-between	9	average	2–4 ft wide	average	n	3	Self-heading, so it stays a mound rather than climbing. Wider than it is tall.
+philo-pink-princess	Pink Princess Philodendron	Philodendron erubescens 'Pink Princess'	vine	bright	dry-between	9	high	3–5 ft	light	n	2	Pink is variegation, not a flower. Half-pink leaves are the target; a fully pink leaf will brown off.
+philo-congo	Rojo Congo	Philodendron 'Rojo Congo'	foliage	bright	dry-between	9	average	2–4 ft	average	n	3	New leaves unfurl burgundy and settle to dark green. Wipe the leaves — they show dust badly.
+monstera-deliciosa-variegata	Variegated Monstera	Monstera deliciosa 'Albo-Variegata'	foliage	bright	dry-between	10	average	5–7 ft indoors	light	n	2	Slow, and the white sections photosynthesise nothing. Prune back to a variegated node if a plain green run takes over.
+rhaphidophora	Mini Monstera	Rhaphidophora tetrasperma	vine	bright	dry-between	8	average	4–8 ft climbing	average	n	2	Not a monstera and not a philodendron. Fast on a pole, leggy without one.
+epipremnum-cebu	Cebu Blue Pothos	Epipremnum pinnatum 'Cebu Blue'	vine	bright	dry-between	9	average	5–8 ft trailing	light	n	2	Leaves stay small and silver-blue until it climbs; given a pole they fenestrate and change shape entirely.
+epipremnum-neon	Neon Pothos	Epipremnum aureum 'Neon'	vine	bright	dry-between	9	average	5–8 ft trailing	light	n	2	Brightest in good light — in a dim corner the neon dulls to ordinary green.
+scindapsus	Silver Satin Pothos	Scindapsus pictus	vine	medium	dry-between	10	average	4–6 ft trailing	light	n	2	The silver is a surface layer; do not scrub it. Tolerates a dim room better than most trailers.
+aglaonema-siam	Siam Aurora	Aglaonema 'Siam Aurora'	foliage	medium	dry-between	10	average	1–3 ft	light	n	3	The red holds in medium light, unlike most coloured foliage. Sulks below 15°C.
+aglaonema-silver-bay	Silver Bay	Aglaonema 'Silver Bay'	foliage	low	dry-between	11	average	2–3 ft	light	n	3	One of the genuinely low-light-tolerant plants in this list, and forgiving of a missed week.
+alocasia-frydek	Alocasia Frydek	Alocasia micholitziana 'Frydek'	foliage	bright	evenly-moist	6	high	1–3 ft	average	y	2	Goes dormant rather than dying when unhappy — if it drops every leaf, keep the tuber barely moist and wait.
+alocasia-black-velvet	Black Velvet Alocasia	Alocasia reginula	foliage	medium	evenly-moist	7	high	8–14 in	light	n	2	Small and slow. The velvet leaves mark with water spots, so water the soil and not the plant.
+alocasia-dragon	Dragon Scale Alocasia	Alocasia baginda 'Dragon Scale'	foliage	bright	evenly-moist	7	high	1–2 ft	light	n	2	Textured leaves trap dust and spider mites. Check the undersides monthly.
+xanthosoma	Lime Zinger	Xanthosoma aurea 'Lime Zinger'	foliage	bright	evenly-moist	6	high	3–5 ft	average	n	2	Thirsty and fast in warmth. Outdoors in summer it doubles; indoors it slows right down.
+anthurium-clarinervium	Velvet Cardboard Anthurium	Anthurium clarinervium	foliage	bright	dry-between	8	high	1–2 ft	light	n	2	Grown for the white veining, not flowers. Wants a chunky bark mix, not potting compost.
+anthurium-crystallinum	Crystal Anthurium	Anthurium crystallinum	foliage	bright	evenly-moist	7	high	1–2 ft	light	n	2	New leaves emerge coppery and soft, then harden. Do not touch them while they unfurl.
+spathiphyllum-sensation	Sensation Peace Lily	Spathiphyllum 'Sensation'	flowering	medium	evenly-moist	7	average	3–5 ft	average	n	3	The largest peace lily sold. Same wilting habit as the small one, but a full-size plant droops hard enough to look dead.
+homalomena	Queen of Hearts	Homalomena rubescens	foliage	medium	dry-between	9	average	1–3 ft	light	n	3	Red stems, heart leaves, and far less fuss than the aroids it resembles.
+dieffenbachia-camille	Camille Dumb Cane	Dieffenbachia 'Camille'	foliage	medium	dry-between	9	average	2–3 ft	average	n	2	Sap irritates mouth and throat — the common name is literal. Wash hands after pruning.
+aspidistra-variegata	Variegated Cast Iron Plant	Aspidistra elatior 'Variegata'	foliage	low	dry-between	14	low	2 ft	none	n	4	Slower and fussier about light than the plain form; too much feed turns the stripes green.
+ficus-lyrata-bambino	Bambino Fiddle Leaf	Ficus lyrata 'Bambino'	tree	bright	dry-between	9	average	2–3 ft	average	n	3	A dwarf, so it stays a tabletop plant. Same intolerance of being moved as the full-size tree.
+ficus-benjamina-variegata	Variegated Weeping Fig	Ficus benjamina 'Starlight'	tree	bright	dry-between	9	average	4–6 ft indoors	average	n	3	Drops leaves at any change — light, draught, new pot. Leaf fall after a move is normal, not a diagnosis.
+ficus-ginseng	Ginseng Ficus	Ficus microcarpa	tree	bright	dry-between	9	average	1–2 ft	light	n	3	The swollen root is the point. Sold as bonsai; prune the top to keep the proportion.
+ficus-triangularis	Triangle Ficus	Ficus triangularis	tree	bright	dry-between	10	average	2–4 ft	light	n	3	Thicker leaves than benjamina and far less prone to dropping them.
+umbrella-plant-gold	Gold Capella Schefflera	Schefflera arboricola 'Gold Capella'	foliage	bright	dry-between	9	average	3–5 ft	average	n	3	Goes leggy fast in low light. Cut it back hard in spring and it branches rather than stretching.
+polyscias	Ming Aralia	Polyscias fruticosa	tree	bright	evenly-moist	8	high	3–6 ft	light	n	3	Drops leaves in dry winter air and looks dead for a month, then re-flushes. Do not repot it in a sulk.
+fatsia	Japanese Aralia	Fatsia japonica	foliage	medium	evenly-moist	7	average	3–6 ft	average	n	3	Wants a cool room. Above 22°C all winter it goes soft and pale.
+aralia-fabian	Fabian Stump Aralia	Polyscias scutellaria 'Fabian'	tree	bright	dry-between	10	average	3–5 ft	light	n	3	Sold as a grafted stump. Water at the base only; the trunk rots if it sits wet.
+crassula-gollum	Gollum Jade	Crassula ovata 'Gollum'	succulent	direct	arid	18	low	1–2 ft	none	n	4	Tubular leaves with red tips in strong sun. Green tips mean it wants more light, not more water.
+crassula-arborescens	Silver Dollar Jade	Crassula arborescens	succulent	direct	arid	20	low	2–3 ft	none	n	4	Blue-grey coin leaves. Slower than common jade and even less tolerant of a wet winter.
+graptopetalum	Ghost Plant	Graptopetalum paraguayense	succulent	direct	arid	18	low	8–12 in	none	n	3	Powder-coated leaves; handling rubs it off permanently. Drops leaves readily and each one is a new plant.
+sempervivum	Hens and Chicks	Sempervivum tectorum	succulent	direct	arid	18	low	4–8 in	none	n	3	Hardy outdoors through frost. The main rosette dies after flowering — that is the plant finishing, not failing.
+kalanchoe-blossfeldiana	Flaming Katy	Kalanchoe blossfeldiana	flowering	direct	arid	14	low	8–16 in	light	n	2	Re-blooms only after about six weeks of long, uninterrupted nights. A lamp in the room is enough to stop it.
+kalanchoe-tomentosa	Panda Plant	Kalanchoe tomentosa	succulent	direct	arid	18	low	1–2 ft	none	n	3	Furry leaves hold water against the surface — water the soil, never overhead.
+kalanchoe-daigremontiana	Mother of Thousands	Kalanchoe daigremontiana	succulent	direct	arid	16	low	1–3 ft	none	n	3	Drops plantlets from every leaf edge and they root in any nearby pot. Keep it away from other plants.
+euphorbia-trigona	African Milk Tree	Euphorbia trigona	succulent	direct	arid	18	low	3–6 ft	none	n	4	Not a cactus. The white sap burns skin and eyes — gloves, and never prune it near your face.
+euphorbia-tirucalli	Firestick	Euphorbia tirucalli 'Sticks on Fire'	succulent	direct	arid	20	low	3–6 ft	none	n	4	The orange only develops in full sun and cool nights. Same caustic sap as the rest of the genus.
+opuntia	Prickly Pear	Opuntia microdasys	succulent	direct	arid	24	low	1–2 ft	none	n	4	The fine golden tufts are glochids and are far worse than spines — they detach on contact and are hard to remove.
+mammillaria	Pincushion Cactus	Mammillaria spp.	succulent	direct	arid	24	low	4–8 in	none	n	4	Flowers in a ring around the crown if given a dry, cold winter rest with no water at all.
+gymnocalycium	Moon Cactus	Gymnocalycium mihanovichii	succulent	bright	arid	21	low	3–6 in	none	n	4	The coloured top is a mutant with no chlorophyll, grafted onto the green base. It lives only as long as the graft does.
+echinocactus	Golden Barrel Cactus	Echinocactus grusonii	succulent	direct	arid	28	low	1–3 ft	none	n	5	Very slow. A specimen the size of a football is decades old, which is what you are paying for.
+schlumbergera-easter	Easter Cactus	Rhipsalidopsis gaertneri	succulent	bright	dry-between	10	average	1 ft	light	n	3	Not a desert cactus. Needs more water than it looks like, and buds drop if it is moved while setting.
+rhipsalis	Mistletoe Cactus	Rhipsalis baccifera	succulent	bright	dry-between	10	average	2–4 ft trailing	light	y	3	A jungle cactus that grows in tree forks — it wants humidity and shade, not a windowsill bake.
+epiphyllum	Fishbone Cactus	Disocactus anguliger	succulent	bright	dry-between	10	average	2–3 ft trailing	light	n	3	Night-flowering, one night only, strongly scented. Buds form after a cool dry spell.
+senecio-string-of-bananas	String of Bananas	Curio radicans	succulent	bright	arid	14	low	3–5 ft trailing	none	n	3	Faster and far more forgiving than string of pearls, and it fails the same way — from the top, in wet compost.
+senecio-string-of-dolphins	String of Dolphins	Curio × peregrinus	succulent	bright	arid	14	low	2–3 ft trailing	none	n	3	The dolphin shape only forms on mature growth in good light; new strands come out plain.
+ceropegia-string-of-spades	String of Spades	Ceropegia woodii 'Heartless'	vine	bright	arid	14	low	3–6 ft trailing	none	n	3	Forms tubers along the strands. Pin one onto compost and it roots without cutting anything.
+peperomia-hope	Peperomia Hope	Peperomia tetraphylla 'Hope'	succulent	bright	dry-between	12	average	1 ft trailing	light	n	3	Semi-succulent leaves — it stores water, so treat it as a succulent rather than a peperomia.
+gasteria	Ox Tongue	Gasteria bicolor	succulent	medium	arid	20	low	6–10 in	none	n	4	The most shade-tolerant common succulent. Tolerates a north window where echeverias stretch.
+agave	Century Plant	Agave americana	succulent	direct	arid	21	low	3–6 ft	none	n	5	Spine-tipped and genuinely dangerous at eye height. Dies after flowering, once, after decades.
+adenium	Desert Rose	Adenium obesum	succulent	direct	arid	14	low	1–3 ft	light	n	3	The swollen caudex is a water store; a soft one means rot has already started. Drops all leaves in winter.
+pachypodium	Madagascar Palm	Pachypodium lamerei	succulent	direct	arid	18	low	2–5 ft	light	n	4	Neither a palm nor a cactus. Deciduous — bare in winter is the plant resting, not dying.
+lithops	Living Stones	Lithops spp.	succulent	direct	arid	30	low	1–2 in	none	n	5	Do not water while a new pair of leaves is absorbing the old one. Watering then splits the plant.
+aeonium	Black Rose Aeonium	Aeonium arboreum 'Zwartkop'	succulent	direct	arid	12	low	2–3 ft	none	n	3	Grows in winter and rests in summer — the opposite of most succulents. Summer leaf drop is normal.
+portulacaria	Elephant Bush	Portulacaria afra	succulent	direct	arid	14	low	2–4 ft	none	n	3	Takes hard pruning and is often trained as bonsai. Edible, mildly sour — unlike the jade it resembles.
+cotyledon	Bear's Paw	Cotyledon tomentosa	succulent	direct	arid	16	low	8–12 in	none	n	3	The red claw tips need direct sun. Loses leaves at the base if watered overhead.
+asparagus-fern	Asparagus Fern	Asparagus setaceus	fern	bright	evenly-moist	7	high	2–3 ft	light	y	2	Not a fern at all — it flowers and sets berries, and it has thorns on older stems.
+foxtail-fern	Foxtail Fern	Asparagus densiflorus 'Myersii'	fern	bright	dry-between	9	average	2 ft	light	n	3	Stores water in tuberous roots, so it forgives a missed week that would kill a true fern.
+button-fern	Button Fern	Pellaea rotundifolia	fern	medium	evenly-moist	6	high	8–12 in	light	y	2	The one small fern that tolerates ordinary room humidity, though it still resents drying out fully.
+kimberley-queen	Kimberley Queen Fern	Nephrolepis obliterata	fern	bright	evenly-moist	6	high	2–3 ft	average	y	2	Sheds far less than a Boston fern, which is usually why people buy it.
+blue-star-fern	Blue Star Fern	Phlebodium aureum	fern	medium	evenly-moist	7	high	1–2 ft	light	y	2	Grows from a furry surface rhizome — bury that and it rots. Sensitive to chlorine; use filtered water.
+crocodile-fern	Crocodile Fern	Microsorum musifolium	fern	medium	evenly-moist	6	high	1–2 ft	light	y	2	Wants genuinely humid air. In a dry room it browns at the edges within weeks whatever the watering.
+autumn-fern	Autumn Fern	Dryopteris erythrosora	fern	medium	evenly-moist	7	average	1–2 ft	light	n	3	Hardy outdoors to about -20°C. New fronds emerge copper and green up over a few weeks.
+lemon-button-fern	Lemon Button Fern	Nephrolepis cordifolia 'Duffii'	fern	medium	evenly-moist	6	high	8–12 in	light	y	2	Faintly lemon-scented when brushed. The most compact of the Boston fern relatives.
+chinese-fan-palm	Chinese Fan Palm	Livistona chinensis	palm	bright	dry-between	9	average	4–8 ft indoors	average	n	3	Slow indoors. Leaf tips brown on every palm in dry air — trim following the natural edge, not straight across.
+lady-palm	Lady Palm	Rhapis excelsa	palm	medium	evenly-moist	8	average	3–6 ft	light	n	4	Tolerates lower light than any other palm sold indoors, and lives for decades in the same pot.
+sago-palm	Sago Palm	Cycas revoluta	palm	bright	dry-between	12	low	2–4 ft	light	n	4	A cycad, not a palm. Every part is severely toxic to dogs and cats — keep it out of reach entirely.
+pygmy-date-palm	Pygmy Date Palm	Phoenix roebelenii	palm	bright	dry-between	8	average	4–6 ft	average	n	3	Has spines at the frond base near the trunk. Wear gloves when cleaning out old fronds.
+cat-palm	Cat Palm	Chamaedorea cataractarum	palm	bright	evenly-moist	6	high	3–4 ft	average	y	3	Clumping and thirsty — it grows beside streams in the wild and shows it the moment the pot dries.
+bamboo-palm	Bamboo Palm	Chamaedorea seifrizii	palm	medium	evenly-moist	7	average	4–6 ft	light	n	3	Handles a dim corner better than areca and is far less prone to spider mite.
+calathea-white-fusion	Calathea White Fusion	Goeppertia lietzei 'White Fusion'	prayer	bright	evenly-moist	6	high	1 ft	light	y	2	The hardest calathea sold. Tap water minerals brown the white sections within a month — use distilled.
+calathea-ornata	Pinstripe Calathea	Goeppertia ornata	prayer	bright	evenly-moist	6	high	1–2 ft	light	y	2	Pink pinstripes fade with age on each leaf; that is normal, not a care failure.
+calathea-lancifolia	Rattlesnake Calathea	Goeppertia lancifolia	prayer	medium	evenly-moist	7	high	1–2 ft	light	y	2	Wavy leaf edges are the species, not dehydration. Judge thirst by the soil, not the leaf shape.
+maranta-lemon-lime	Lemon Lime Maranta	Maranta leuconeura 'Lemon Lime'	prayer	medium	evenly-moist	6	high	1 ft trailing	light	y	2	Folds up at night and reopens by morning. A plant that stays folded at midday is thirsty.
+calathea-makoyana	Peacock Plant	Goeppertia makoyana	prayer	medium	evenly-moist	6	high	1–2 ft	light	y	2	Thin papery leaves show every mistake. Keep it away from radiators and draughts both.
+sundew	Cape Sundew	Drosera capensis	carnivore	direct	wet	2	high	6–12 in	none	n	2	Stand the pot in rainwater or distilled. Tap water kills every carnivorous plant in this list within weeks.
+butterwort	Butterwort	Pinguicula moranensis	carnivore	bright	wet	3	high	3–5 in	none	n	2	Catches fungus gnats on its sticky leaves, which is why people keep it near other houseplants.
+cobra-lily	Cobra Lily	Darlingtonia californica	carnivore	bright	wet	2	high	1–2 ft	none	n	3	Wants cold roots and warm tops — it grows in mountain seeps. The hardest of the common carnivores.
+tillandsia-xerographica	Xerographica Air Plant	Tillandsia xerographica	other	bright	arid	10	low	1–2 ft across	light	n	0	Soak for 20 minutes, then shake it out and dry it upside down. Water left in the centre rots the crown.
+spanish-moss	Spanish Moss	Tillandsia usneoides	other	bright	evenly-moist	4	high	2–6 ft draping	light	y	0	Needs misting several times a week in a normal room; it has no roots and no reservoir.
+orchid-dendrobium	Dendrobium Orchid	Dendrobium nobile	flowering	bright	dry-between	7	average	1–2 ft	light	n	2	Needs a cool, dry winter rest to set buds. Fed and watered all winter it grows leaves instead of flowers.
+orchid-oncidium	Dancing Lady Orchid	Oncidium spp.	flowering	bright	dry-between	6	average	1–2 ft	light	n	2	Pleated leaves mean it went dry too long — the fold is permanent on that leaf, so judge by new growth.
+orchid-cattleya	Cattleya Orchid	Cattleya spp.	flowering	direct	dry-between	8	average	1–2 ft	light	n	2	Wants more light than a phalaenopsis: leaves should be mid-green, not dark. Flowers last two to three weeks.
+orchid-cymbidium	Cymbidium Orchid	Cymbidium spp.	flowering	bright	evenly-moist	6	average	2–3 ft	average	n	3	Needs a 10°C day-night swing in autumn to spike. Outdoors in early autumn is the usual trick.
+orchid-jewel	Jewel Orchid	Ludisia discolor	flowering	medium	evenly-moist	7	high	6–10 in	light	n	2	Grown for the velvet leaves and their red veins; the flowers are small and white. Happy in a terrarium.
+bromeliad-guzmania	Guzmania	Guzmania lingulata	flowering	bright	evenly-moist	8	high	1–2 ft	light	y	0	Water into the central cup and flush it monthly. Flowers once, then pups — the parent is finishing, not sick.
+bromeliad-neoregelia	Neoregelia	Neoregelia carolinae	flowering	bright	evenly-moist	8	high	1 ft	light	y	0	The centre turns red as it comes into flower. Same cup watering, same one-and-done life cycle.
+aechmea	Urn Plant	Aechmea fasciata	flowering	bright	evenly-moist	9	average	1–2 ft	light	y	0	The pink bract lasts months; the actual flowers are small and brief. Keep the cup topped up.
+clivia	Clivia	Clivia miniata	flowering	medium	dry-between	10	average	1–2 ft	light	n	4	Needs six weeks cold and nearly dry in winter to flower. Resents being repotted and flowers better pot-bound.
+amaryllis	Amaryllis	Hippeastrum spp.	flowering	bright	dry-between	8	average	1–2 ft	average	n	3	Flowers from the stored bulb. To rebloom, feed the leaves all summer, then rest it dry and dark for eight weeks.
+cyclamen	Cyclamen	Cyclamen persicum	flowering	bright	evenly-moist	5	average	6–10 in	light	n	2	Wants a cool room, 12–16°C. Water from below only — the crown rots if water sits in it. Dormant in summer.
+gloxinia	Gloxinia	Sinningia speciosa	flowering	bright	evenly-moist	5	high	8–12 in	average	n	2	Furry leaves spot if splashed. Goes fully dormant after flowering; store the tuber dry and it returns.
+streptocarpus	Cape Primrose	Streptocarpus spp.	flowering	bright	dry-between	7	average	8–12 in	light	n	2	Flowers for most of the year in a bright north window. Related to African violets and watered the same way.
+episcia	Flame Violet	Episcia cupreata	flowering	medium	evenly-moist	6	high	6–10 in	light	n	2	Runs on stolons like a strawberry. Wants warmth — below 15°C it stops and rots at the crown.
+kohleria	Kohleria	Kohleria spp.	flowering	bright	evenly-moist	7	high	1–2 ft	average	n	2	Grows from scaly rhizomes and takes a dormant spell. Cut it back and keep it barely damp when it sulks.
+gardenia	Gardenia	Gardenia jasminoides	flowering	direct	evenly-moist	5	high	2–4 ft	heavy	y	2	Wants acidic soil, soft water and humidity, and drops buds if any one changes. The hardest plant on this list.
+jasmine-polyanthum	Pink Jasmine	Jasminum polyanthum	flowering	direct	evenly-moist	5	average	4–8 ft climbing	average	n	2	Needs about six weeks below 13°C in autumn to set buds. A warm room all winter means no flowers.
+hibiscus	Tropical Hibiscus	Hibiscus rosa-sinensis	flowering	direct	evenly-moist	4	average	3–6 ft	heavy	n	2	Each flower lasts one day. Bud drop after a move or a dry spell is the plant reacting, not a pest.
+bougainvillea	Bougainvillea	Bougainvillea glabra	flowering	direct	dry-between	7	low	4–10 ft	average	n	3	Flowers hardest when kept slightly dry and slightly hungry. Well-fed and well-watered it makes leaves only.
+citrus-meyer-lemon	Meyer Lemon	Citrus × meyeri	tree	direct	dry-between	7	average	3–6 ft in a pot	heavy	n	3	Needs six hours of direct sun to fruit indoors, and a citrus feed — yellow leaves are usually nitrogen, not water.
+citrus-calamondin	Calamondin Orange	Citrus × microcarpa	tree	direct	dry-between	7	average	2–4 ft	heavy	n	3	The most reliable indoor citrus. Fruit is edible but sour; it hangs on the tree for months.
+olive-tree	Olive Tree	Olea europaea	tree	direct	dry-between	12	low	3–6 ft in a pot	light	n	3	Wants a bright cold winter, not a warm dark one. Indoors year-round it slowly thins and drops leaves.
+camellia	Camellia	Camellia japonica	flowering	bright	evenly-moist	6	average	3–6 ft	light	n	3	Acidic soil and a cool spot. Buds form in late summer, so a dry August is what costs you spring flowers.
+azalea-indoor	Indoor Azalea	Rhododendron simsii	flowering	bright	evenly-moist	4	high	1–2 ft	light	n	2	Sold in flower, then usually killed by a warm room. It wants 10–15°C and soil that never dries.
+poinsettia	Poinsettia	Euphorbia pulcherrima	flowering	bright	dry-between	6	average	1–3 ft	light	n	2	The red is bracts, triggered by 14 hours of true darkness nightly for eight weeks. Milky sap irritates skin.
+hoya-pubicalyx	Hoya Pubicalyx	Hoya pubicalyx	vine	bright	dry-between	12	average	4–8 ft trailing	light	n	3	Never cut the bare stalk a flower cluster came from — next year's flowers come from that same spur.
+hoya-linearis	Hoya Linearis	Hoya linearis	vine	bright	dry-between	8	high	2–4 ft trailing	light	y	3	The one hoya that will not tolerate drying hard. Wants cool, humid air and fine bark, not compost.
+hoya-obovata	Hoya Obovata	Hoya obovata	vine	bright	dry-between	13	average	3–6 ft trailing	light	n	3	Thick coin leaves store weeks of water. Splashed silver flecking is the plant, not a deficiency.
+hoya-compacta	Hindu Rope Hoya	Hoya carnosa 'Compacta'	vine	bright	dry-between	14	average	2–4 ft trailing	light	n	3	The crumpled leaves trap water and mealybugs equally. Check inside the folds when something looks off.
+dischidia	Million Hearts	Dischidia ruscifolia	vine	bright	dry-between	8	high	2–3 ft trailing	light	y	3	An epiphyte — it wants bark and air at the roots. In dense compost it rots from the base within a season.
+aeschynanthus	Lipstick Plant	Aeschynanthus radicans	vine	bright	evenly-moist	7	high	2–3 ft trailing	average	y	2	Flowers on mature growth, so resist cutting it back hard. Leaf drop means cold, not thirst.
+columnea	Goldfish Plant	Columnea gloriosa	vine	bright	evenly-moist	6	high	2–3 ft trailing	average	y	2	Wants the same care as a lipstick plant. Buds abort if it dries out while they are forming.
+philo-cordatum-lime	Neon Philodendron	Philodendron hederaceum 'Lemon Lime'	vine	bright	dry-between	9	average	4–8 ft trailing	light	n	2	Brightest chartreuse in good light; in a dim spot it goes plain green and the stems stretch.
+cissus-discolor	Rex Begonia Vine	Cissus discolor	vine	bright	evenly-moist	6	high	4–6 ft climbing	average	y	2	Needs real humidity or it drops everything and dies back to the tuber. Often returns in spring if kept barely damp.
+senecio-wax-ivy	Wax Ivy	Curio macroglossus 'Variegatus'	vine	bright	arid	14	low	3–5 ft trailing	none	n	3	Looks like ivy, drinks like a succulent. Watered like ivy it collapses.
+rhoicissus	Grape Ivy	Rhoicissus rhomboidea	vine	medium	dry-between	8	average	4–8 ft	light	n	3	Tolerates offices and dim corners. Mildews in stagnant air — give it a little movement.
+hedera-needlepoint	Needlepoint Ivy	Hedera helix 'Needlepoint'	vine	medium	evenly-moist	6	average	3–6 ft trailing	light	y	2	Spider mite is the usual end of an indoor ivy. Cool and humid keeps them off better than any spray.
+peperomia-caperata	Emerald Ripple Peperomia	Peperomia caperata	foliage	medium	dry-between	11	average	8–10 in	light	n	3	Deeply corrugated leaves. Water into the compost, not the crown, which rots readily.
+peperomia-prostrata	String of Turtles	Peperomia prostrata	vine	bright	dry-between	12	average	1–2 ft trailing	light	n	3	Tiny and slow. Buried strands root where they touch, so it thickens if you tuck them back in.
+peperomia-polybotrya	Raindrop Peperomia	Peperomia polybotrya	foliage	bright	dry-between	12	average	1 ft	light	n	3	Often mistaken for a pilea. Thicker, more succulent leaves and a longer safe gap between waterings.
+begonia-rhizomatous	Rhizomatous Begonia	Begonia 'Escargot'	flowering	medium	dry-between	8	high	1 ft	light	n	2	Grows from a surface rhizome. Powdery mildew is the usual problem; airflow beats any treatment.
+begonia-tuberous	Tuberous Begonia	Begonia × tuberhybrida	flowering	bright	evenly-moist	5	average	1–2 ft	average	n	2	Goes dormant in autumn. Store the tuber dry and frost-free and it comes back bigger.
+saxifraga	Strawberry Begonia	Saxifraga stolonifera	foliage	medium	evenly-moist	6	average	8 in plus runners	light	n	2	Neither strawberry nor begonia. Sends out runners with plantlets that root in any pot you place under them.
+chlorophytum-bonnie	Bonnie Spider Plant	Chlorophytum comosum 'Bonnie'	foliage	bright	evenly-moist	7	average	1 ft	light	n	2	Curling leaves are the cultivar, not a problem. Same fluoride sensitivity as the plain spider plant.
+nephthytis-pink	Pink Syngonium	Syngonium podophyllum 'Neon Robusta'	vine	bright	dry-between	8	average	3–5 ft	light	n	2	Juvenile leaves are arrowhead-shaped and pink; on a pole it matures into large lobed green leaves.
+tradescantia-pallida	Purple Heart	Tradescantia pallida	vine	direct	dry-between	9	low	1–2 ft	light	n	2	The purple needs real sun. In shade it greens and the stems run. Cuttings root in water in under a week.
+callisia	Turtle Vine	Callisia repens	vine	bright	dry-between	8	average	1–2 ft trailing	light	n	2	Fast and cheap to replace, which is the honest reason to buy it. Goes bald at the centre — restart it yearly.
+cyanotis	Teddy Bear Vine	Cyanotis kewensis	vine	bright	dry-between	10	average	1–2 ft trailing	light	n	3	Furry leaves mark if watered overhead, and the fuzz traps dust. Water at the soil line.
+tarragon	French Tarragon	Artemisia dracunculus 'Sativa'	herb	direct	dry-between	6	low	2 ft	light	n	2	Only the French form has flavour, and it sets no seed — anything grown from seed is the tasteless Russian one.
+marjoram	Sweet Marjoram	Origanum majorana	herb	direct	dry-between	6	low	1 ft	light	n	2	Sweeter and less peppery than oregano, and far less hardy. Treat it as an annual outside zone 9.
+bay	Bay Laurel	Laurus nobilis	herb	direct	dry-between	10	low	3–6 ft in a pot	light	n	3	Slow, long-lived, and happiest pot-bound. Scale insects on the leaf undersides are the usual problem.
+lemongrass	Lemongrass	Cymbopogon citratus	herb	direct	evenly-moist	4	average	3–4 ft	average	n	2	Thirsty and frost-tender. A supermarket stalk stood in water roots in a fortnight and becomes a plant.
+chervil	Chervil	Anthriscus cerefolium	herb	medium	evenly-moist	4	average	1–2 ft	light	n	1	Bolts in heat and full sun. Sow it in succession in part shade and treat each sowing as six weeks of leaf.
+fennel-herb	Florence Fennel	Foeniculum vulgare	vegetable	direct	evenly-moist	4	low	3–5 ft	average	n	2	Inhibits most neighbours — grow it on its own. Bolts to seed if it is checked by drought when young.
+savory	Summer Savory	Satureja hortensis	herb	direct	dry-between	6	low	1–2 ft	light	n	1	The classic bean herb. Annual, so let one plant set seed and it returns in the same bed.
+stevia	Stevia	Stevia rebaudiana	herb	direct	evenly-moist	4	average	1–2 ft	light	n	2	Sweetest just before it flowers; pinch the buds out to keep the leaves worth picking.
+shiso	Shiso	Perilla frutescens	herb	direct	evenly-moist	4	average	2–3 ft	average	n	1	Self-seeds enthusiastically. Pinch the flower spikes or the leaves go coarse and bitter.
+catnip	Catnip	Nepeta cataria	herb	direct	dry-between	7	low	2–3 ft	light	n	2	A cat will flatten a young plant. Grow it caged or out of reach until it is established.
+chamomile	German Chamomile	Matricaria chamomilla	herb	direct	dry-between	6	low	1–2 ft	none	n	1	Pick the flowers every few days or it stops making them. Poor soil gives better scent than rich soil.
+aubergine	Aubergine	Solanum melongena	vegetable	direct	evenly-moist	3	average	2–4 ft	heavy	n	1	Needs warmth above 20°C to set fruit. Flea beetles shred the leaves of young plants — cover them early.
+broccoli	Broccoli	Brassica oleracea var. italica	vegetable	direct	evenly-moist	3	average	2 ft	heavy	n	1	Cut the central head and it makes side shoots for weeks. Heat makes it bolt and go loose.
+cauliflower	Cauliflower	Brassica oleracea var. botrytis	vegetable	direct	evenly-moist	3	average	2 ft	heavy	n	1	The fussiest brassica: any check in growth — drought, transplant shock, cold — gives a button head.
+cabbage	Cabbage	Brassica oleracea var. capitata	vegetable	direct	evenly-moist	3	average	1–2 ft	heavy	n	1	Heads split after heavy rain following a dry spell. Harvest before, or twist the plant to break some roots.
+brussels-sprouts	Brussels Sprouts	Brassica oleracea var. gemmifera	vegetable	direct	evenly-moist	3	average	2–3 ft	heavy	n	1	Needs a long season and firm soil. Sprouts that blow open usually mean loose planting, not bad seed.
+chard	Swiss Chard	Beta vulgaris subsp. cicla	vegetable	direct	evenly-moist	3	average	1–2 ft	average	n	1	Crops for months from one sowing if you take outer leaves and leave the centre alone.
+beetroot	Beetroot	Beta vulgaris	vegetable	direct	evenly-moist	4	low	1 ft	average	n	1	Each seed is a cluster of several. Thin them or you get a knot of small roots instead of one good one.
+turnip	Turnip	Brassica rapa subsp. rapa	vegetable	direct	evenly-moist	4	low	1 ft	average	n	1	Fast — six to eight weeks. Left longer they go woody and hot rather than larger and sweeter.
+potato	Potato	Solanum tuberosum	vegetable	direct	evenly-moist	4	low	2–3 ft	average	n	1	Earth up as the stems grow. Any tuber exposed to light goes green, and green potato is not edible.
+sweet-potato	Sweet Potato	Ipomoea batatas	vegetable	direct	dry-between	6	low	6–10 ft trailing	light	n	1	Needs a long hot season. The ornamental trailing kinds sold for pots are the same species and do make tubers.
+pumpkin	Pumpkin	Cucurbita maxima	vegetable	direct	evenly-moist	3	low	10–20 ft trailing	heavy	n	1	Hand-pollinate on cool mornings if the small fruit yellow and drop — that is a pollination failure, not disease.
+squash-butternut	Butternut Squash	Cucurbita moschata	vegetable	direct	evenly-moist	3	low	8–12 ft trailing	heavy	n	1	Cure the fruit in warmth for a fortnight after cutting, and it keeps until spring.
+sweetcorn	Sweetcorn	Zea mays	vegetable	direct	evenly-moist	3	low	5–7 ft	heavy	n	1	Wind-pollinated, so plant it in a block rather than a row or the cobs come out half filled.
+melon	Cantaloupe	Cucumis melo	vegetable	direct	evenly-moist	3	low	6–10 ft trailing	heavy	n	1	Stop watering as the fruit ripens — wet roots at the end give a watery, flavourless melon.
+watermelon	Watermelon	Citrullus lanatus	vegetable	direct	evenly-moist	3	low	10–15 ft trailing	heavy	n	1	Ripe when the curly tendril nearest the fruit dries and the patch on the ground turns cream.
+leek	Leek	Allium ampeloprasum	vegetable	direct	evenly-moist	4	low	2–3 ft	average	n	1	Drop the seedlings into deep dibbed holes and water them in without backfilling — that is what blanches the shank.
+garlic	Garlic	Allium sativum	vegetable	direct	dry-between	7	low	1–2 ft	light	n	1	Plant in autumn; it needs a cold spell to split into cloves. Spring-planted garlic often makes one round bulb.
+shallot	Shallot	Allium cepa var. aggregatum	vegetable	direct	dry-between	6	low	1 ft	light	n	1	One set makes a cluster. Stop watering once the necks soften, then lift and dry them hard.
+celery	Celery	Apium graveolens	vegetable	direct	wet	2	average	1–2 ft	heavy	n	1	One of the few vegetables that genuinely wants constantly wet soil. Dry spells give stringy, bitter stalks.
+asparagus	Asparagus	Asparagus officinalis	vegetable	direct	evenly-moist	5	low	4–5 ft	average	n	0	Do not cut any spears for two years after planting. A bed left to establish then crops for twenty.
+rhubarb	Rhubarb	Rheum × hybridum	vegetable	direct	evenly-moist	5	low	2–3 ft	heavy	n	0	Pull the stalks, never cut them. The leaves are toxic — compost them, do not eat them.
+raspberry	Raspberry	Rubus idaeus	vegetable	direct	evenly-moist	4	low	4–6 ft	average	n	0	Summer kinds fruit on last year's canes and autumn kinds on this year's. Pruning the wrong one costs a whole crop.
+blueberry	Blueberry	Vaccinium corymbosum	vegetable	direct	evenly-moist	4	average	3–5 ft	light	n	3	Needs acidic soil, pH 4.5–5.5, and rainwater. Tap water alone will slowly yellow it in a pot.
+fig-tree	Fig	Ficus carica	tree	direct	dry-between	7	low	6–10 ft in a pot	light	n	3	Fruits better with the roots restricted. A fig in open rich ground makes wood and very little fruit.
+bird-of-paradise	Bird of Paradise	Strelitzia reginae	foliage	direct	dry-between	8	average	4–6 ft	average	n	3	Needs several years and a lot of direct sun before it flowers indoors. Split leaves are normal, not damage.
+strelitzia-nicolai	Giant White Bird of Paradise	Strelitzia nicolai	foliage	direct	dry-between	9	average	6–10 ft indoors	average	n	3	Grows to the ceiling and does not branch. Buy it for the leaves; indoor flowers are rare.
+banana-dwarf	Dwarf Cavendish Banana	Musa acuminata 'Dwarf Cavendish'	foliage	direct	evenly-moist	4	high	5–8 ft	heavy	y	2	Drinks and feeds more than anything else indoors. Each stem fruits once and is then replaced by a pup.
+coffee-plant	Coffee Plant	Coffea arabica	tree	bright	evenly-moist	7	high	3–6 ft	average	n	2	Leaf edges brown in dry air and scorch in direct sun. Fruits after three or four years in good conditions.
+cordyline	Ti Plant	Cordyline fruticosa	foliage	bright	evenly-moist	7	high	3–5 ft	light	y	3	Fluoride and salts brown the tips like a spider plant. Filtered water fixes more than any change in feeding.
+dracaena-janet-craig	Janet Craig Dracaena	Dracaena deremensis 'Janet Craig'	tree	low	dry-between	12	low	3–6 ft	light	n	3	The standard dim-office plant, and deservedly so. Over-watering is the only reliable way to kill it.
+dracaena-song-of-india	Song of India	Dracaena reflexa	tree	bright	dry-between	11	average	3–6 ft	light	n	3	Wants brighter light than other dracaenas to keep the yellow margins from fading out.
+calla-lily	Calla Lily	Zantedeschia aethiopica	flowering	bright	wet	3	average	1–3 ft	average	n	2	Grows from a rhizome and wants boggy soil while in leaf, then a dry rest after the foliage dies back.
+sensitive-plant	Sensitive Plant	Mimosa pudica	foliage	direct	evenly-moist	4	high	1–2 ft	light	n	1	Folds when touched and reopens in minutes. Short-lived — treat it as a one- or two-year plant and save seed.
+papyrus	Dwarf Papyrus	Cyperus papyrus 'Nanus'	foliage	direct	wet	2	high	2–3 ft	average	n	2	Stand the pot in a saucer of water permanently. It is a marginal aquatic and cannot be over-watered.
+umbrella-sedge	Umbrella Sedge	Cyperus alternifolius	foliage	bright	wet	2	high	2–4 ft	average	n	2	Same standing-water treatment as papyrus. The one houseplant where a full saucer is correct.
+coleus	Coleus	Plectranthus scutellarioides	foliage	bright	evenly-moist	4	average	1–2 ft	average	n	1	Pinch the flower spikes off — flowering ends the leaf colour. Cuttings root in water in days.
+geranium-zonal	Zonal Geranium	Pelargonium × hortorum	flowering	direct	dry-between	6	low	1–2 ft	average	n	2	Flowers best kept slightly dry and slightly pot-bound. Deadhead by snapping the whole stalk at the base.
+scented-geranium	Scented Geranium	Pelargonium graveolens	herb	direct	dry-between	7	low	2–3 ft	light	n	2	Grown for the leaf scent rather than the small flowers. Takes hard pruning and roots from any cutting.
+fuchsia	Fuchsia	Fuchsia × hybrida	flowering	medium	evenly-moist	4	average	1–3 ft	heavy	n	2	Wants cool shade, not sun. Pinch tips until midsummer for flowers all over rather than only at the ends.
+impatiens	Busy Lizzie	Impatiens walleriana	flowering	medium	evenly-moist	3	average	1 ft	average	n	1	The shade bedding plant. Downy mildew wipes out whole beds — rotate where you plant it each year.
+begonia-semperflorens	Wax Begonia	Begonia semperflorens	flowering	bright	dry-between	6	average	8–12 in	light	n	1	Takes sun or shade, which is rare. One of the few bedding plants that does not need deadheading.
+petunia	Petunia	Petunia × atkinsiana	flowering	direct	evenly-moist	3	low	1 ft	heavy	n	1	In containers it is a heavy feeder — flowering stops within weeks without regular liquid feed.
+marigold-french	French Marigold	Tagetes patula	flowering	direct	dry-between	5	low	8–12 in	light	n	1	Planted among vegetables for a reason: the scent deters whitefly. Deadhead and it flowers until frost.
+nasturtium	Nasturtium	Tropaeolum majus	flowering	direct	dry-between	5	low	1–6 ft trailing	none	n	1	Do not feed it — rich soil gives leaves and no flowers. Leaves and flowers are edible and peppery.
+sunflower	Sunflower	Helianthus annuus	flowering	direct	evenly-moist	3	low	3–10 ft	average	n	1	Young heads track the sun; mature ones settle facing east. Stake tall kinds before they need it.
+zinnia	Zinnia	Zinnia elegans	flowering	direct	dry-between	5	low	1–3 ft	average	n	1	Water at the base. Wet foliage in still air gives powdery mildew every time.
+cosmos	Cosmos	Cosmos bipinnatus	flowering	direct	dry-between	5	low	3–5 ft	none	n	1	Thrives on neglect and poor soil. Feed it and you get a tall leafy plant that flops and barely flowers.
+sweet-pea	Sweet Pea	Lathyrus odoratus	flowering	direct	evenly-moist	3	average	5–8 ft climbing	average	n	1	Pick every few days. The moment it sets a seed pod the whole plant starts shutting down.
+pansy	Pansy	Viola × wittrockiana	flowering	bright	evenly-moist	3	average	6–8 in	light	n	1	A cool-season plant. It flowers through frost and collapses in summer heat — that is its life span, not failure.
+nertera	Coral Bead Plant	Nertera granadensis	flowering	bright	evenly-moist	4	high	2–4 in	light	n	2	The orange beads last months in a cool room and drop fast in a warm one. Water from below.
+mimosa-acacia	Mimosa Tree	Acacia dealbata	tree	direct	dry-between	8	low	6–15 ft	light	n	3	Needs a bright cold winter to flower. Fast, shallow-rooted and easily blown over in a pot.
+eucalyptus-gunnii	Cider Gum	Eucalyptus gunnii	tree	direct	dry-between	7	low	4–8 ft in a pot	light	n	2	Cut it back hard every spring for the round juvenile leaves; left alone it makes long adult ones and a tree.
+bamboo-fargesia	Clumping Bamboo	Fargesia murielae	foliage	bright	evenly-moist	4	average	8–12 ft	average	n	3	Clumping, so it does not run — the invasive reputation belongs to Phyllostachys, not this one.

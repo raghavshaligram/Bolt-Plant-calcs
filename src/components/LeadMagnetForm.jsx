@@ -63,13 +63,37 @@ function PlanterIllustration({ className = '' }) {
  * "<name>-cluster" identifier stored on each leadMagnetConfig entry) so the
  * heading is cluster-specific instead of a generic "Get the free cheat
  * sheet" -- falls back to that generic line only if `tag` isn't recognized.
+ * An explicit `headline` prop overrides the lookup entirely, for a one-off
+ * offer tied to specific on-page content rather than the cluster default.
+ *
+ * `variant`: 'card' (default) is the full illustrated card described above.
+ * 'inline' is a deliberately minimal single-row strip -- one line of copy,
+ * one email field, one button, no illustration -- meant to sit directly
+ * beneath a calculator's result output rather than at the bottom of the
+ * page. See PotSizeCalculator.tsx / TreeAgeCalculator.tsx for the inline
+ * post-result placement this was built for.
+ *
+ * `source`: an optional free-text tag (e.g. 'pot-size-calculator-inline')
+ * folded into the lead_magnet_signup GA4 event so signups from a specific
+ * placement/experiment can be measured separately from any other lead
+ * magnet on the site. Omitted entirely for existing callers -- trackEvent
+ * already drops undefined params, so this is a no-op unless passed.
  *
  * Brand spec (used exactly, per design):
  *   soil brown #5C4433 · leaf green #4A7C59 · deep forest green #3D6647
  *   cream #F5F1E8 · sun gold #E8A94A
  *   Headings: Playfair Display · Body/UI: Inter
  */
-export default function LeadMagnetForm({ listId, tag, clusterName, description, icon }) {
+export default function LeadMagnetForm({
+  listId,
+  tag,
+  clusterName,
+  description,
+  icon,
+  variant = 'card',
+  headline: headlineProp,
+  source,
+}) {
   const inputId = useId();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
@@ -100,6 +124,7 @@ export default function LeadMagnetForm({ listId, tag, clusterName, description, 
           list_id: listId,
           cluster_tag: tag,
           cluster_name: clusterName,
+          source,
         });
         return;
       }
@@ -112,10 +137,67 @@ export default function LeadMagnetForm({ listId, tag, clusterName, description, 
     }
   }
 
-  const headline = (tag && leadMagnetCopy[tag]) || 'Get the free cheat sheet';
+  const headline = headlineProp || (tag && leadMagnetCopy[tag]) || 'Get the free cheat sheet';
 
   const cheatSheetDescription =
     description ?? `A one-page PDF of the ${clusterName} math from this site, emailed once.`;
+
+  if (variant === 'inline') {
+    return (
+      // Same data-lead-magnet exclusion as the card variant below -- this
+      // sits inside the calculator's own result card, so without it typing
+      // an email here would mis-count as "used the calculator".
+      <div
+        data-lead-magnet
+        className="mt-3 w-full rounded-xl border border-[#5C4433]/20 bg-gradient-to-r from-[#E8A94A]/15 via-[#F5F1E8] to-[#4A7C59]/10 px-4 py-3 shadow-sm sm:px-5"
+      >
+        {status === 'success' ? (
+          <p className="font-sans text-sm font-medium text-[#3D6647]">
+            Check your inbox! Sending it to your email now — check spam/promotions if you don&rsquo;t see it in a minute.
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <p className="flex-1 font-sans text-sm leading-snug text-[#5C4433]">
+              <span
+                className="font-semibold text-[#3D6647]"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                {headline}
+              </span>{' '}
+              &mdash; free PDF, emailed once.
+            </p>
+            <div className="flex shrink-0 gap-2">
+              <label htmlFor={inputId} className="sr-only">
+                Email address
+              </label>
+              <input
+                id={inputId}
+                type="email"
+                name="email"
+                required
+                autoComplete="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                disabled={status === 'loading'}
+                className="w-40 rounded-md border border-[#5C4433] bg-white px-3 py-2 font-sans text-sm text-[#5C4433] placeholder:text-[#5C4433]/50 shadow-sm transition focus:border-[#3D6647] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] disabled:opacity-60 sm:w-52"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-[#3D6647] px-4 py-2 font-sans text-sm font-semibold text-[#F5F1E8] shadow-sm transition-colors duration-200 hover:bg-[#4A7C59] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-[#3D6647]/70"
+              >
+                {status === 'loading' ? 'Sending…' : 'Send it'}
+              </button>
+            </div>
+            {status === 'error' && (
+              <p className="basis-full font-sans text-xs text-red-600">{errorMessage}</p>
+            )}
+          </form>
+        )}
+      </div>
+    );
+  }
 
   return (
     // w-full, no max-width cap: stretches to fill the full width of

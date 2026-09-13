@@ -1,0 +1,180 @@
+---
+/**
+ * /plant-care/welcome/ — where a buyer lands, and where both copies are handed over.
+ *
+ * Rendered on the server so the token can be checked before anything is shown.
+ * A page that renders the download link and then hides it with JavaScript is a
+ * page whose link is in the HTML for anybody who looks.
+ *
+ * `noindex` permanently. Nobody should arrive here from a search result.
+ *
+ * THE PARAGRAPH THIS PAGE EXISTS FOR
+ *
+ * The buyer gets two things that look like one thing. If nobody tells them the
+ * file and the installed app keep separate data, they will add plants on their
+ * phone, look for them on their laptop, and conclude the product is broken. It
+ * is not broken; it was never explained. So it is explained here, in bold, above
+ * both download buttons rather than below them.
+ */
+import Layout from '../../layouts/Layout.astro';
+import { APP_URL, PATHS, PRODUCT_NAME } from '../../data/plantCare';
+import { readConfig, verifyToken } from '../../lib/plantCarePayments';
+
+export const prerender = false;
+
+const token = Astro.url.searchParams.get('t') ?? '';
+
+let valid = false;
+let reason: 'malformed' | 'bad signature' | 'expired' | 'unconfigured' | null = null;
+
+try {
+  const cfg = readConfig();
+  const result = verifyToken(cfg.downloadSecret, token);
+  valid = result.ok;
+  if (!result.ok) reason = result.reason;
+} catch {
+  reason = 'unconfigured';
+}
+
+const downloadHref = `/api/plant-care/download?t=${encodeURIComponent(token)}`;
+---
+
+<Layout
+  title={`Thank you · ${PRODUCT_NAME}`}
+  description="Your download and your installable app."
+  noindex={true}
+  canonical={`https://harvestmath.com${PATHS.marketing}`}
+>
+  <section class="bg-sand-50">
+    <div class="container-prose py-12">
+      {
+        !valid ? (
+          <div class="rounded-2xl border border-clay-200 bg-clay-50 p-6">
+            <h1 class="font-display text-2xl font-semibold text-clay-800">This link is not valid</h1>
+            <p class="mt-3 text-sm leading-relaxed text-bark-700">
+              {reason === 'expired'
+                ? 'That link has expired. Links last thirty days; the updates page is the permanent route back to your download — the address is in your purchase email.'
+                : reason === 'unconfigured'
+                  ? 'The checkout is not finished being set up, so this page cannot check the link yet.'
+                  : 'This page is reached automatically after a purchase. If you have bought the app and got here by mistake, the link in your purchase email still works.'}
+            </p>
+            <p class="mt-4 text-sm">
+              <a href={PATHS.marketing} class="text-moss-700 underline">
+                Back to {PRODUCT_NAME}
+              </a>
+            </p>
+          </div>
+        ) : (
+          <>
+            <p class="text-sm font-semibold uppercase tracking-wide text-moss-700">Payment received</p>
+            <h1 class="mt-3 text-3xl font-semibold tracking-tight text-bark-900">
+              Thank you — here is {PRODUCT_NAME}
+            </h1>
+            <p class="mt-4 text-base leading-relaxed text-bark-600">
+              You get it twice, from the same build: a file you download and keep, and a version you can install on a
+              phone. Use whichever suits you. Most people install it on their phone and keep the file as a backup.
+            </p>
+
+            {/* The sentence that prevents the worst support email there is. */}
+            <div class="mt-6 rounded-2xl border border-clay-200 bg-clay-50 p-5">
+              <p class="text-sm leading-relaxed text-bark-800">
+                <strong>These two keep separate data and do not sync.</strong> The downloaded file stores your plants in
+                a file on that computer; the installed app stores them inside that browser on that device. Nothing joins
+                them, because joining them would need a server and this product does not have one. Pick one as your real
+                record. Moving between them is a download and an import, and takes about ten seconds.
+              </p>
+            </div>
+
+            {/* ── 1. the file ─────────────────────────────────────────── */}
+            <div class="mt-10 card">
+              <p class="text-xs font-semibold uppercase tracking-wide text-moss-700">One</p>
+              <h2 class="mt-1 font-display text-xl font-semibold text-bark-900">Download the file</h2>
+              <p class="mt-2 text-sm leading-relaxed text-bark-600">
+                A single HTML file. Save it wherever you like and open it by double-clicking. It never needs the
+                internet again.
+              </p>
+              <div class="mt-5 flex flex-wrap gap-3">
+                <a href={downloadHref} class="btn-primary">Download PlantCare.html</a>
+                <a href="/plant-care/START-HERE.pdf" class="btn-secondary" download>
+                  START-HERE guide (PDF)
+                </a>
+              </div>
+              <p class="mt-3 text-xs text-bark-500">
+                Saving back to your own file works in Chrome, Edge and other Chromium browsers. In Safari and Firefox the
+                app runs fine and saving produces a download instead — one extra click, nothing else changes.
+              </p>
+            </div>
+
+            {/* ── 2. the app ──────────────────────────────────────────── */}
+            <div class="mt-6 card">
+              <p class="text-xs font-semibold uppercase tracking-wide text-moss-700">Two</p>
+              <h2 class="mt-1 font-display text-xl font-semibold text-bark-900">Install the app</h2>
+              <p class="mt-2 text-sm leading-relaxed text-bark-600">
+                The same app, installable to a home screen, working offline once it has loaded. Open this address on the
+                device you want it on:
+              </p>
+
+              <p class="mt-4">
+                <a
+                  href={APP_URL}
+                  class="inline-block rounded-lg border border-moss-200 bg-white px-4 py-3 font-mono text-sm text-moss-800 hover:bg-moss-50"
+                >
+                  harvestmath.com{APP_URL}
+                </a>
+              </p>
+
+              <div class="mt-6 grid gap-5 sm:grid-cols-2">
+                <div>
+                  <h3 class="font-display text-base font-semibold text-bark-900">On iPhone or iPad</h3>
+                  <ol class="mt-2 list-decimal space-y-1 pl-5 text-sm text-bark-600">
+                    <li>Open that address in <strong>Safari</strong> — this does not work in Chrome on iOS.</li>
+                    <li>Tap the <strong>Share</strong> button (the square with an arrow out of it).</li>
+                    <li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>
+                    <li>Tap <strong>Add</strong>. It appears as an icon like any other app.</li>
+                  </ol>
+                </div>
+                <div>
+                  <h3 class="font-display text-base font-semibold text-bark-900">On Android, or a computer</h3>
+                  <ol class="mt-2 list-decimal space-y-1 pl-5 text-sm text-bark-600">
+                    <li>Open that address in Chrome, Edge or Brave.</li>
+                    <li>
+                      Either accept the <strong>Install</strong> prompt, or use the install icon in the address bar — a
+                      small screen with a downward arrow.
+                    </li>
+                    <li>On Android you may find it under the ⋮ menu as <strong>Install app</strong>.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="mt-5 rounded-xl border border-moss-100 bg-moss-50/60 p-4">
+                <p class="text-sm leading-relaxed text-bark-700">
+                  <strong>Use the installed version for the camera tools.</strong> The light meter and the pot measurer
+                  need a secure connection, which a file opened from your own disk is not. Everything else works
+                  identically in both.
+                </p>
+              </div>
+            </div>
+
+            {/* ── 3. coming back ──────────────────────────────────────── */}
+            <div class="mt-6 card">
+              <p class="text-xs font-semibold uppercase tracking-wide text-moss-700">Three</p>
+              <h2 class="mt-1 font-display text-xl font-semibold text-bark-900">Bookmark the updates page</h2>
+              <p class="mt-2 text-sm leading-relaxed text-bark-600">
+                Updates are free forever. New versions appear on the updates page — bookmark it now, because that is the
+                route back to your download once this link expires in thirty days.
+              </p>
+              <p class="mt-4">
+                <a href={PATHS.updates} class="btn-secondary">Open the updates page</a>
+              </p>
+            </div>
+
+            <p class="mt-10 text-xs leading-relaxed text-bark-500">
+              Keep this page's address if you like, but the updates page is the one worth bookmarking. No account was
+              created and nothing about you is stored beyond the record of the sale itself.
+            </p>
+          </>
+        )
+      }
+    </div>
+  </section>
+</Layout>

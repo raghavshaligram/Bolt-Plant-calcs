@@ -1,6 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { jsPDF } from 'jspdf';
 import { trackEvent, getCalculatorName } from '../../lib/analytics';
+import LeadMagnetForm from '../LeadMagnetForm.jsx';
+import { leadMagnetConfig } from '../../data/calculators';
+
+// Inline post-result lead-magnet test -- see the matching comment in
+// PotSizeCalculator.tsx. Same pattern here: replaces the old bottom-of-page
+// "Trees & Shrubs Cheat Sheet" form (suppressed in tree-age-calculator.astro
+// via hideLeadMagnetForm) with one specific offer placed right under the
+// age estimate, still using the Trees & Shrubs cluster's existing Brevo
+// list. The asset is deliberately care-focused (watering/mulch/feeding by
+// age range) rather than a repeat of the growth-factor table already on
+// this page below.
+const treeLeadMagnet = leadMagnetConfig['trees-and-shrubs'];
 
 type UnitSystem = 'imperial' | 'metric';
 
@@ -392,6 +404,20 @@ export default function TreeAgeCalculator() {
               </>
             )}
           </div>
+
+          {/* Inline post-result lead-magnet offer -- see the treeLeadMagnet
+              comment above the imports for why this replaced the old
+              bottom-of-page form rather than adding a second ask. Shown
+              regardless of hasResult so the offer doesn't disappear before
+              a circumference is entered (the default state already has one). */}
+          <LeadMagnetForm
+            variant="inline"
+            headline="Tree Care Cheat Sheet — watering, mulching & feeding by your tree's age"
+            listId={treeLeadMagnet.listId}
+            tag={treeLeadMagnet.tag}
+            clusterName={treeLeadMagnet.clusterName}
+            source="tree-age-calculator-inline"
+          />
 
           {/* Growth factor reference table */}
           <div className="overflow-x-auto">

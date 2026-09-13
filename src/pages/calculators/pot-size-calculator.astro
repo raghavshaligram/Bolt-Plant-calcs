@@ -2,7 +2,6 @@
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 import PotSizeCalculator from '../../components/calculators/PotSizeCalculator.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
@@ -145,7 +144,7 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage} hideLeadMagnetForm={true}>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
@@ -164,14 +163,14 @@ const softwareAppJsonLd = {
   <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
   <TableOfContents items={tocItems} variant="accordion" />
 
-  <LeadMagnetForm
-    client:load
-    listId={leadMagnet.listId}
-    tag={leadMagnet.tag}
-    clusterName={leadMagnet.clusterName}
-    icon={leadMagnet.icon}
-    description={`A one-page PDF of the ${cluster.name.toLowerCase()} math from this site, emailed once.`}
-  />
+  {/*
+    Lead-magnet test (inline-post-result experiment): the single ask for this
+    page now lives inside <PotSizeCalculator> itself, directly below whichever
+    mode's result is showing -- not here, and not the cluster-wide form
+    CalculatorLayout would otherwise add at the bottom (suppressed above via
+    hideLeadMagnetForm). Keeping only one ask on this page is deliberate; see
+    PotSizeCalculator.tsx for the inline placement and its `source` tag.
+  */}
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 

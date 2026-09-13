@@ -1,0 +1,165 @@
+---
+/**
+ * /plant-care/buy/ — the only page on this site that loads a payment script.
+ *
+ * Taking a card payment cannot be done without a third-party SDK, and putting
+ * it here rather than on the product page means the page people actually read
+ * stays free of a 100 KB script that blocks the main thread and starts tracking
+ * before anybody has decided to buy anything. Nobody reaches this page until
+ * they have.
+ *
+ * `noindex` permanently, not just until launch: this is a card form, not a
+ * search result. The product page is the canonical thing.
+ *
+ * The inline script below is the client half of the checkout and is deliberately
+ * small. It asks the server to open an order, hands the id back on approval, and
+ * does nothing else — it never sees a price, never decides whether the payment
+ * worked, and never receives the file. See src/lib/plantCarePayments.ts for why.
+ */
+import Layout from '../../layouts/Layout.astro';
+import { LAUNCHED, PATHS, PRICE_DISPLAY, PRODUCT_NAME } from '../../data/plantCare';
+
+/*
+ * The client id is public by design — it identifies the merchant to PayPal and
+ * appears in the SDK URL on every PayPal checkout on the web. The SECRET is the
+ * one that matters and it exists only as a Netlify environment variable, read
+ * server-side, never sent to a browser and never committed.
+ */
+const clientId = import.meta.env.PUBLIC_PAYPAL_CLIENT_ID ?? '';
+const configured = Boolean(clientId);
+---
+
+<Layout
+  title={`Checkout · ${PRODUCT_NAME}`}
+  description={`Buy ${PRODUCT_NAME} for ${PRICE_DISPLAY}, once.`}
+  noindex={true}
+  canonical={`https://harvestmath.com${PATHS.marketing}`}
+>
+  <section class="bg-sand-50">
+    <div class="container-prose py-12">
+      <p class="text-sm text-bark-500">
+        <a href={PATHS.marketing} class="hover:text-moss-800">← Back to {PRODUCT_NAME}</a>
+      </p>
+
+      <h1 class="mt-6 text-3xl font-semibold tracking-tight text-bark-900">{PRODUCT_NAME}</h1>
+      <p class="mt-2 font-display text-4xl font-semibold text-moss-800">{PRICE_DISPLAY}.00</p>
+      <p class="mt-3 text-sm leading-relaxed text-bark-600">
+        Once. Not a subscription, nothing to cancel, free updates forever. Both the downloadable file and the
+        installable app are on the page you land on as soon as the payment clears.
+      </p>
+
+      <ul class="mt-6 space-y-2 text-sm text-bark-700">
+        <li>· One HTML file, plus an installable version for your phone.</li>
+        <li>· Yours on as many of your own devices as you like.</li>
+        <li>· No account is created. Nothing is stored about you except the sale itself.</li>
+        <li>
+          · No refunds — everything it does and does not do is set out on the
+          <a href={PATHS.marketing} class="text-moss-700 underline">product page</a>.
+        </li>
+      </ul>
+
+      <div class="mt-10">
+        {
+          !configured || !LAUNCHED ? (
+            <div class="rounded-2xl border border-clay-200 bg-clay-50 p-6">
+              <h2 class="font-display text-lg font-semibold text-clay-800">Checkout is not live yet</h2>
+              <p class="mt-2 text-sm leading-relaxed text-bark-700">
+                {!configured
+                  ? 'The PayPal client id has not been set, so the payment buttons are not being loaded at all. Nothing on this page can take money in this state.'
+                  : 'The product has not launched. The payment buttons are deliberately not loaded.'}
+              </p>
+              <p class="mt-3 text-xs text-bark-600">
+                For the person deploying this: set PUBLIC_PAYPAL_CLIENT_ID, PAYPAL_CLIENT_ID, PAYPAL_SECRET and
+                DOWNLOAD_SECRET in Netlify, then flip LAUNCHED in src/data/plantCare.ts. DEPLOY-PLANT-CARE.md has the
+                order to do it in and the sandbox test to run first.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div id="paypal-buttons" class="min-h-[3rem]"></div>
+              <p id="checkout-status" class="mt-4 text-sm text-bark-600" role="status" aria-live="polite"></p>
+              <noscript>
+                <p class="rounded-lg border border-clay-200 bg-clay-50 p-4 text-sm text-clay-800">
+                  The checkout needs JavaScript, because the payment is handled by PayPal's own form. Nothing else on
+                  this site does.
+                </p>
+              </noscript>
+            </>
+          )
+        }
+      </div>
+
+      <p class="mt-10 text-xs leading-relaxed text-bark-500">
+        Payment is handled by PayPal. This page never sees your card details, and this site never stores them. The
+        amount is fixed on our server — it is not sent from your browser, and it cannot be changed from it.
+      </p>
+    </div>
+  </section>
+
+  {
+    configured && LAUNCHED && (
+      <script
+        is:inline
+        src={`https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&intent=capture&components=buttons&disable-funding=paylater,credit`}
+      />
+    )
+  }
+
+  {
+    configured && LAUNCHED && (
+      <script is:inline define:vars={{ welcome: PATHS.welcome }}>
+        {`
+        (function () {
+          var status = document.getElementById('checkout-status');
+          var say = function (msg) { if (status) status.textContent = msg; };
+
+          if (!window.paypal) {
+            say('PayPal did not load. If you block scripts, this page needs an exception for paypal.com.');
+            return;
+          }
+
+          window.paypal.Buttons({
+            style: { layout: 'vertical', shape: 'rect', label: 'pay' },
+
+            // The server opens the order. The amount is never sent from here.
+            createOrder: function () {
+              say('Opening a secure PayPal order…');
+              return fetch('/api/plant-care/create-order', { method: 'POST' })
+                .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, b: b }; }); })
+                .then(function (res) {
+                  if (!res.ok || !res.b.id) throw new Error(res.b.error || 'Could not open an order.');
+                  say('');
+                  return res.b.id;
+                });
+            },
+
+            // The server captures and decides. This callback is only a courier
+            // for the order id — it cannot unlock anything on its own.
+            onApprove: function (data) {
+              say('Taking payment…');
+              return fetch('/api/plant-care/capture-order', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ orderId: data.orderID })
+              })
+                .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, b: b }; }); })
+                .then(function (res) {
+                  if (!res.ok || !res.b.token) throw new Error(res.b.error || 'The payment did not complete.');
+                  say('Paid. Taking you to your download…');
+                  window.location.href = welcome + '?t=' + encodeURIComponent(res.b.token);
+                });
+            },
+
+            onCancel: function () { say('Cancelled. Nothing has been charged.'); },
+
+            onError: function (err) {
+              say('Something went wrong with the payment and nothing has been charged. If money did leave your account, email support and it will be refunded.');
+              if (window.console) console.error(err);
+            }
+          }).render('#paypal-buttons');
+        })();
+      `}
+      </script>
+    )
+  }
+</Layout>
