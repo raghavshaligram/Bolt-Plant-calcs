@@ -173,21 +173,30 @@ const confidencePoints = [
         </div>
       </div>
 
-      <div class="relative mx-auto w-full max-w-md lg:max-w-none">
+      <div class="relative mx-auto w-full max-w-xl">
         <div class="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-moss-200/70 to-sand-100/70 blur-xl"></div>
-        <div class="relative overflow-hidden rounded-[2rem] border-8 border-bark-900 bg-bark-900 p-2 shadow-2xl">
+        <div class="relative aspect-[4/3] overflow-hidden rounded-3xl border border-moss-100 bg-moss-100 shadow-2xl">
           <img
-            src="/plant-care/shots/phone-today.png"
-            alt="The Today screen of HarvestMath Plant Care on a phone, listing late and due jobs"
-            width="420"
-            height="884"
-            class="w-full rounded-[1.45rem]"
+            src="/plant-care/plant-care-hero.jpg"
+            alt="A plant parent checking a healthy houseplant in a sunlit home"
+            width="1400"
+            height="900"
+            class="h-full w-full object-cover"
             loading="eager"
           />
+          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bark-900/65 to-transparent px-6 pb-5 pt-16">
+            <p class="text-sm font-semibold text-white">Care feels lighter when you know the next step.</p>
+          </div>
         </div>
-        <div class="absolute -bottom-5 -left-4 rounded-2xl border border-moss-100 bg-white px-4 py-3 shadow-card">
-          <p class="text-xs font-semibold uppercase tracking-wide text-moss-700">A calmer morning</p>
-          <p class="mt-0.5 text-sm font-medium text-bark-900">Everything due, in one place.</p>
+        <div class="absolute -bottom-8 right-5 w-36 overflow-hidden rounded-2xl border-4 border-bark-900 bg-bark-900 p-1 shadow-2xl sm:right-8 sm:w-44">
+          <img
+            src="/plant-care/shots/phone-today.png"
+            alt="Plant Care’s Today screen on a phone"
+            width="420"
+            height="884"
+            class="w-full rounded-xl"
+            loading="eager"
+          />
         </div>
       </div>
     </div>
@@ -270,10 +279,10 @@ const confidencePoints = [
       <div class="overflow-hidden rounded-3xl bg-moss-800 px-7 py-10 text-center sm:px-12 sm:py-14">
         <p class="text-sm font-semibold uppercase tracking-wide text-moss-200">Try it before you decide</p>
         <h2 class="mx-auto mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          The demo is the sales pitch.
+          Try it. See if it clicks.
         </h2>
         <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-moss-100">
-          Add a plant, see the care flow, and explore the tools. If it gives you the clarity your plants have been missing, keep it for {PRICE_DISPLAY} once.
+          Explore the app with no pressure. Add a plant, see the care flow, and decide whether it gives you the calm your routine needs.
         </p>
         <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a href={APP_URL} class="inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 text-base font-semibold text-moss-800 transition hover:bg-moss-50">Open the free demo</a>
