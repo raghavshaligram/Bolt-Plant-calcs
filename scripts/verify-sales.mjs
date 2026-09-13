@@ -313,6 +313,28 @@ item(7, 'The app is not linked from site navigation');
   );
   check(/X-Robots-Tag = "noindex, nofollow"/.test(SITE.toml.split('for = "/app/*"')[1] ?? ''), '/app/* is served noindex');
   check(/APP_URL = '\/app\/'/.test(SITE.config), 'the app URL is one constant, so the subdomain alias is a one-line change');
+
+  /*
+   * The demo, and the reason this check exists at all.
+   *
+   * A rewrite of the product page once pointed seven "Try the free demo" links
+   * at /app/ — which is the complete paid build. The page was, in writing,
+   * telling every visitor where to get the product for nothing. Nothing in the
+   * source looked wrong; the URL was simply the wrong one.
+   *
+   * So: the marketing page may invite people to try it, and the URL it invites
+   * them to must be the demo build.
+   */
+  const invites = decomment(SITE.marketing).match(/\b(demo|try it|try the)\b/gi) ?? [];
+  if (invites.length) {
+    check(/href=\{DEMO_URL\}/.test(SITE.marketing), 'the product page invites people to try it, and links DEMO_URL to do it');
+    check(
+      !/href=\{APP_URL\}/.test(decomment(SITE.marketing)),
+      'and never sends them to the app itself',
+      'the product page links /app/ — that is the paid build, not a demo'
+    );
+    check(/DEMO_URL = '\/plant-care\/demo\/'/.test(SITE.config), 'DEMO_URL is the demo path');
+  }
 }
 
 /* ═══════════════════════════════════════════════════ item 8 — extra checks ═ */
@@ -373,6 +395,29 @@ item(8, 'Nothing is wired up, and nothing leaks');
   check(/for = "\/app\/sw\.js"[\s\S]{0,300}max-age=0, must-revalidate/.test(t), 'the service worker is never cached — this is how updates reach buyers');
   check(/application\/manifest\+json/.test(t), 'the manifest has an explicit content type');
   check(/Content-Security-Policy/.test(t) && /for = "\/plant-care\/buy\/\*"/.test(t), 'the checkout has a content security policy');
+
+  /*
+   * The demo is a different artefact from the product.
+   *
+   * plantcare's own `npm run verify:demo` drives a browser and proves the demo
+   * cannot save. This check is the cheaper half that belongs on the site side:
+   * that the file published at /plant-care/demo/ is not simply a copy of the
+   * paid build. If the two ever became the same file, every "try the demo" link
+   * on the sales page would become a free download.
+   */
+  check(has('public/plant-care/demo/index.html'), 'the demo is published at /plant-care/demo/');
+  if (has('public/plant-care/demo/index.html') && has('private/PlantCare.html')) {
+    const demo = read('public/plant-care/demo/index.html');
+    const paid = read('private/PlantCare.html');
+    check(demo !== paid, 'and it is not the paid build', 'the demo IS the paid build — the product is being given away');
+    check(demo.includes('This is the demo.'), 'the demo carries its own banner, so nobody can mistake it for the app');
+    check(!paid.includes('This is the demo.'), 'and the paid build carries none of the demo, so there is nothing in it to unlock');
+    check(!demo.includes('manifest.webmanifest'), 'the demo is not installable — no manifest, no service worker');
+  }
+  check(
+    /for = "\/plant-care\/demo\/\*"[\s\S]{0,200}max-age=0, must-revalidate/.test(t),
+    'the demo is never cached, so a first impression is never a stale build'
+  );
 
   // The PWA half actually being present in the publish directory.
   for (const f of ['index.html', 'manifest.webmanifest', 'sw.js', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png']) {

@@ -12,8 +12,25 @@ import { fileURLToPath } from 'node:url'
  * has to end up inside the document, because the buyer is promised it works
  * with no internet and a single missing asset breaks that promise silently.
  */
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   base: './',
+
+  /*
+   * The demo lock, set here rather than in a .env file.
+   *
+   *   npm run build        the product
+   *   npm run build:demo   `--mode demo`, which lands here as mode === 'demo'
+   *
+   * A `.env.demo` would be the usual way to do this, and it was the first way:
+   * it turns out tooling that syncs this repository refuses to write any file
+   * called `.env*`, which is a good rule that would have left the build silently
+   * producing a demo with no lock in it. One line of config cannot go missing
+   * the same way — and the value is compiled into the bundle either way, which
+   * is the point: the lock is the artefact, not a setting.
+   */
+  define: {
+    'import.meta.env.VITE_DEMO_LOCK': JSON.stringify(mode === 'demo' ? '1' : ''),
+  },
   plugins: [react(), viteSingleFile({ removeViteModuleLoader: true })],
   resolve: {
     alias: {
@@ -29,4 +46,4 @@ export default defineConfig({
     reportCompressedSize: false,
     rollupOptions: { output: { inlineDynamicImports: true } },
   },
-})
+}))

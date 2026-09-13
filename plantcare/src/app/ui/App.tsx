@@ -20,6 +20,7 @@ import {
   SUPPORTS_FS,
   type Recovery,
 } from '../data/persistence.ts'
+import { BUY_URL, DEMO_LOCK } from '../demo-lock.ts'
 import { Book, Journal as JournalIcon, Leaf, Stethoscope, Sun, Tools, Warning } from './icons.tsx'
 import { Today } from './Today.tsx'
 import { Plants } from './Plants.tsx'
@@ -56,6 +57,14 @@ export function App() {
      thing this app must never do is show an empty list to somebody who has data,
      and then autosave that emptiness over it. */
   useEffect(() => {
+    /* The demo build has nothing to recover and must not look: recovery opens
+       the browser's storage, and the demo's whole claim is that it does not
+       touch it. It opens straight into the demo household instead. */
+    if (DEMO_LOCK) {
+      openDemo()
+      return
+    }
+
     let live = true
     recover().then((r) => {
       if (!live) return
@@ -77,14 +86,27 @@ export function App() {
     return () => window.removeEventListener('pagehide', flush)
   }, [])
 
-  const update = useCallback((fn: (s: Store) => Store) => {
-    setStore((prev) => {
-      if (!prev) return prev
-      const next = fn(prev)
-      saver.current.queue(next)
-      return next
-    })
-  }, [])
+  /*
+   * The demo does not queue a save, and that is a correctness fix rather than a
+   * demo feature.
+   *
+   * The masthead has always said "nothing is being saved" while looking at the
+   * demo household — but in hosted mode `savesInPlace()` is true, so every edit
+   * was being autosaved into IndexedDB under the demo's name. The sentence was
+   * true of the downloaded file and false of the installed app. Now it is true
+   * of both.
+   */
+  const update = useCallback(
+    (fn: (s: Store) => Store) => {
+      setStore((prev) => {
+        if (!prev) return prev
+        const next = fn(prev)
+        if (!isDemo) saver.current.queue(next)
+        return next
+      })
+    },
+    [isDemo]
+  )
 
   const openDemo = () => {
     setStore(buildDemo(today, VERSION))
@@ -166,8 +188,10 @@ export function App() {
     }
   }
 
+  /* Belt and braces: the demo build renders no button that reaches either of
+     these, and if a future edit wires one up by accident they still do nothing. */
   const saveNow = async () => {
-    if (!store) return
+    if (!store || DEMO_LOCK) return
     try {
       if (isDemo || !savesInPlace()) await exportFile(store, VERSION)
       else await save(store, VERSION)
@@ -178,7 +202,7 @@ export function App() {
   }
 
   const downloadCopy = async () => {
-    if (!store) return
+    if (!store || DEMO_LOCK) return
     try {
       await exportFile(store, VERSION)
     } catch (e) {
@@ -218,7 +242,13 @@ export function App() {
             <span className="filename">{isDemo ? 'Demo — nothing is being saved' : label}</span>
           </h1>
         </div>
-        {MODE === 'browser' && !isDemo ? (
+        {DEMO_LOCK ? (
+          /* The demo's only button. There is nothing to save, so the place the
+             save button would be is the place the buy button goes. */
+          <a className="btn small primary" href={BUY_URL}>
+            Get the app
+          </a>
+        ) : MODE === 'browser' && !isDemo ? (
           <button className="btn small" onClick={() => void downloadCopy()}>
             Download a copy
           </button>
@@ -255,11 +285,20 @@ export function App() {
         {isDemo ? (
           <div className="notice info" style={{ marginBottom: 16 }}>
             <Leaf size={18} />
-            <div>
-              You are looking at the demo household — ten plants, eight months of history. Change anything you like;
-              nothing here is saved. When you are ready, <b>Save a copy</b> turns it into your own file, or start an
-              empty one from the welcome screen.
-            </div>
+            {DEMO_LOCK ? (
+              <div>
+                <b>This is the demo.</b> Ten plants, eight months of history, and everything works — every schedule is
+                worked out properly, all 303 species are here, the diagnosis walkthroughs run. The one thing it cannot
+                do is keep anything: nothing is saved, and closing this tab forgets it.{' '}
+                <a href={BUY_URL}>The app you buy keeps your plants</a>, on your own device, with no account.
+              </div>
+            ) : (
+              <div>
+                You are looking at the demo household — ten plants, eight months of history. Change anything you like;
+                nothing here is saved. When you are ready, <b>Save a copy</b> turns it into your own file, or start an
+                empty one from the welcome screen.
+              </div>
+            )}
           </div>
         ) : null}
 

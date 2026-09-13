@@ -26,6 +26,7 @@ reversible.
 | `src/components/PlantCareCrossLink.astro` | Cross-promotion. Renders nothing until launch. |
 | `private/PlantCare.html` | The paid build. Outside `public/` — never served directly. |
 | `public/app/` | The installable app: same build, manifest, service worker, icons. |
+| `public/plant-care/demo/` | The demo: a **different** build that cannot save anything. |
 | `public/plant-care/START-HERE.pdf` | The buyer's guide. |
 | `scripts/verify-sales.mjs` | Checks all of the above. `node scripts/verify-sales.mjs`. |
 
@@ -107,13 +108,13 @@ Branch deploys are `noindex` by Netlify's own header, so this cannot be found.
 
 **Do not merge this branch.** It exists to be tested and deleted.
 
-## 5. The sandbox sale, and the four things to check by hand
+## 5. The sandbox sale, and the five things to check by hand
 
 Open the branch URL and buy the app with a sandbox buyer account (Developer
 Dashboard → **Sandbox** → **Accounts** — PayPal creates a personal one for you
 with a fake balance).
 
-Then check these four. Each one is a way this can fail silently in production.
+Then check these five. Each one is a way this can fail silently in production.
 
 **a. The flow lands correctly.** After paying you should arrive at
 `/plant-care/welcome/?t=…`, the download button should produce
@@ -135,13 +136,19 @@ button rendered in the HTML at all (view source and search for `download` —
 there should be nothing to find). The same token against
 `/api/plant-care/download?t=…` must return 403.
 
-**d. The app installs and works offline.** On a phone, open `/app/` and install
+**d. The demo cannot save.** Open `/plant-care/demo/`, mark a job done, reload.
+It must come back exactly as it was, and the browser must have no database for
+the site — devtools, Application, Storage. `npm run verify:demo` checks this
+locally, and it is worth confirming once on the deployed copy, because this is
+the difference between a demo and a free product.
+
+**e. The app installs and works offline.** On a phone, open `/app/` and install
 it — Safari's Share → *Add to Home Screen* on iOS, the install prompt on Android.
 Open it, add a plant, turn on airplane mode, close it, open it again: the plant
 is still there and the app still runs. Then open the light meter and confirm the
 camera is offered, which is the whole reason the installed version exists.
 
-If any of these four is wrong, stop. None of them is a cosmetic problem.
+If any of these five is wrong, stop. None of them is a cosmetic problem.
 
 ## 6. Go live
 
@@ -194,15 +201,21 @@ and a changelog entry:
 
 ```bash
 cd plantcare
-npm run build            # produces dist/PlantCare.html and dist/app/
+npm run build            # dist/PlantCare.html, dist/app/ and dist/demo/
 npm run verify           # data, species, schedule, file, camera
 npm run verify:pwa       # manifest, service worker, offline, camera, IndexedDB
+npm run verify:demo      # the demo works, keeps nothing, and is not the paid build
 npm run guide            # regenerates dist/START-HERE.pdf from START-HERE.md
 
 cp dist/PlantCare.html            ../private/PlantCare.html
 cp -r dist/app/.                  ../public/app/
+cp dist/demo/index.html           ../public/plant-care/demo/index.html
 cp dist/START-HERE.pdf            ../public/plant-care/START-HERE.pdf
 ```
+
+Copy all four. The demo is built from the same source, so a release that updates
+the app and forgets the demo leaves the thing every visitor tries a version
+behind the thing they are being sold.
 
 Then add an entry at the top of `RELEASES` in
 `src/pages/plant-care/updates.astro`, written in terms of what changed for the

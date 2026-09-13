@@ -375,6 +375,12 @@ main {
   font-size: 12.5px;
 }
 
+/* The demo build's buy button is a link wearing a button's clothes. Without
+   this it arrives underlined, which is the one thing that gives it away. */
+a.btn {
+  text-decoration: none;
+}
+
 /* A 28 px control is below WCAG 2.5.5's 44 px target but above 2.5.8's 24 px
    minimum, which is the level this app is held to: the rows are dense on
    purpose and the spacing around each button keeps the effective target clear.

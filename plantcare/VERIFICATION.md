@@ -6,6 +6,7 @@ Nothing below is a claim made by reading the code.
 ```
 npm run verify      # all five verification scripts — 132 assertions, 0 failures
 npm run verify:pwa  # the installable half, driven in a real browser — 28, 0 failures
+npm run verify:demo # the demo: works, keeps nothing, is not the paid build — 22, 0 failures
 npm run build       # guards 1, 1b and 2, plus emit-pwa's byte-identity assertion
 npm run shots       # drives the built file over file:// and fails on a console error
 npm run guide       # START-HERE.md → dist/START-HERE.pdf, refusing unsupported Markdown
@@ -15,7 +16,7 @@ The sales pages and the two deliveries live in the site repository one level up,
 with their own checker:
 
 ```
-node scripts/verify-sales.mjs   # 86 assertions, 0 failures — see DEPLOY-PLANT-CARE.md
+node scripts/verify-sales.mjs   # 95 assertions, 0 failures — see DEPLOY-PLANT-CARE.md
 ```
 
 ## Brief verification pass, item by item
@@ -118,6 +119,30 @@ and are written out in `DEPLOY-PLANT-CARE.md`.
 | 6 | The welcome page states that data does not sync | **PASS** | The sentence is present, in bold, in its own panel, and the checker asserts its position is *above* both the download button and the install section. It also says which copy to treat as the real one, which is the part that prevents the support email. |
 | 7 | The app is not linked from site navigation | **PASS** | No page, layout or component outside the product references `/app/` or the subdomain — checked against the real `Header.astro` and `Footer.astro`. Only the welcome page and the updates page link to it, and `/app/*` is served `noindex`. |
 | 8 | Report PASS/FAIL per item | **This table**, and the checker's own output | — |
+
+### The demo, and the day the page nearly gave the product away
+
+`/app/` is the product. A rewrite of the sales page pointed seven "Try the free
+demo" links at it, and said so in the page description and the FAQ schema too.
+Nothing in that page looked wrong — the URL was simply the wrong one, and the
+effect was a page telling every visitor where to get a $29 app for nothing.
+
+So the demo is now a different artefact. `npm run build:demo` produces
+`dist/demo/index.html` with `VITE_DEMO_LOCK=1`: it opens on the demo household,
+every screen works, every schedule is real — and there is no code path in it that
+writes anything. No file, no IndexedDB, no export, no service worker, not
+installable. `verify:demo` proves that by driving a browser: it marks a job done,
+asserts the list changed, asserts the origin has no database at all, reloads, and
+asserts the job is back.
+
+Two assertions run in both directions, because either one failing is the same
+failure: the demo build must not be the paid build, and the paid build must not
+contain the demo's copy — if it did, the lock would be shipping inside the
+product, waiting for somebody to flip it.
+
+`verify-sales.mjs` then holds the line on the site side: if the product page
+invites anybody to try it, the link has to be `DEMO_URL`, and it must not be
+`APP_URL`.
 
 **The URL is public and that is the deal.** Anyone given the `/app/` address can
 install the app without paying, exactly as anyone given the HTML file can open

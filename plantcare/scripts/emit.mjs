@@ -13,9 +13,23 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const src = resolve(root, 'build-tmp', 'index.html')
-const outDir = resolve(root, 'dist')
-const out = resolve(outDir, 'PlantCare.html')
+
+/*
+ * Two builds come through here: the product (`build-tmp` → dist/PlantCare.html)
+ * and the demo (`build-tmp-demo` → dist/demo/index.html). Both get the same
+ * guards, which is the point of routing both through one script — a demo that
+ * fetched a font at runtime would be a demo that fails on the kitchen table,
+ * and it is the demo that people meet first.
+ *
+ *   node scripts/emit.mjs                              the product
+ *   node scripts/emit.mjs build-tmp-demo demo/index.html   the demo
+ */
+const srcDir = process.argv[2] || 'build-tmp'
+const outRel = process.argv[3] || 'PlantCare.html'
+
+const src = resolve(root, srcDir, 'index.html')
+const out = resolve(root, 'dist', outRel)
+const outDir = dirname(out)
 
 if (!existsSync(src)) {
   console.error(`  no build at ${src} — run \`npm run build\``)
@@ -27,7 +41,7 @@ html = html.replace(/<link[^>]+rel="(modulepreload|prefetch|preload)"[^>]*>/g, '
 
 mkdirSync(outDir, { recursive: true })
 writeFileSync(out, html)
-rmSync(resolve(root, 'build-tmp'), { recursive: true, force: true })
+rmSync(resolve(root, srcDir), { recursive: true, force: true })
 
 // ---- guard 1: nothing is fetched --------------------------------------------
 const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1])
@@ -119,5 +133,5 @@ if (offenders.length) {
 const LIMIT_KB = 900
 const over = bytes / 1024 > LIMIT_KB
 
-console.log(`  ${over ? 'WARN' : 'ok  '}  dist/PlantCare.html  ${kb} KB  (budget ${LIMIT_KB} KB)  nothing fetched, no provider`)
+console.log(`  ${over ? 'WARN' : 'ok  '}  dist/${outRel}  ${kb} KB  (budget ${LIMIT_KB} KB)  nothing fetched, no provider`)
 if (over) process.exit(1)

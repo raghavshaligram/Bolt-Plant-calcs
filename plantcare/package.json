@@ -6,7 +6,7 @@
   "description": "HarvestMath Plant Care — one HTML file, no account, no subscription, works offline.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --outDir build-tmp && node scripts/emit.mjs && node scripts/demo-file.mjs && node scripts/emit-pwa.mjs",
+    "build": "vite build --outDir build-tmp && node scripts/emit.mjs && node scripts/demo-file.mjs && node scripts/emit-pwa.mjs && npm run build:demo",
     "port": "node scripts/port-data.mjs && node scripts/build-toxicity.mjs && node scripts/build-species.mjs",
     "build:species": "node scripts/build-species.mjs",
     "build:toxicity": "node scripts/build-toxicity.mjs",
@@ -20,6 +20,8 @@
     "verify:file": "node scripts/verify-file.mjs",
     "verify:camera": "node scripts/verify-camera.mjs",
     "build:pwa": "node scripts/emit-pwa.mjs",
+    "build:demo": "vite build --mode demo --outDir build-tmp-demo && node scripts/emit.mjs build-tmp-demo demo/index.html",
+    "verify:demo": "node scripts/verify-demo.mjs",
     "verify:pwa": "node scripts/verify-pwa.mjs"
   },
   "dependencies": {
