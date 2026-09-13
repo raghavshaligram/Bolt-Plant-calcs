@@ -12,8 +12,6 @@ import {
   sanitizeZip as sharedSanitizeZip,
   fullZoneNumberFromZone,
 } from '../../lib/frostZones';
-import { saveGardenProject } from '../../lib/gardenProject';
-import type { FrostDateResultsSnapshot } from '../../lib/gardenProject';
 import { trackEvent, getCalculatorName } from '../../lib/analytics';
 
 
@@ -55,7 +53,6 @@ export default function FrostDateCalculator() {
   const [inputMode, setInputMode] = useState<InputMode>('zip');
   const [zip, setZip] = useState('60601');
   const [zone, setZone] = useState('6b');
-  const [projectSaved, setProjectSaved] = useState(false);
 
   useEffect(() => {
     const s = loadSavedState();
@@ -115,30 +112,6 @@ export default function FrostDateCalculator() {
 
     return { data, lastStart, lastEnd, firstStart, firstEnd, seasonLength, timeline };
   }, [fullZoneNumber]);
-
-  const addToGardenProject = () => {
-    if (!result || !activeZone) return;
-    const snapshot: FrostDateResultsSnapshot = result.data.frostFree
-      ? { zone: activeZone, zip: inputMode === 'zip' ? zip : undefined, refCity: zipLookup?.refCity, frostFree: true }
-      : {
-          zone: activeZone,
-          zip: inputMode === 'zip' ? zip : undefined,
-          refCity: zipLookup?.refCity,
-          frostFree: false,
-          lastFrostStart: fmtDate(result.lastStart),
-          lastFrostEnd: fmtDate(result.lastEnd),
-          firstFrostStart: fmtDate(result.firstStart),
-          firstFrostEnd: fmtDate(result.firstEnd),
-          seasonLengthDays: result.seasonLength,
-        };
-    saveGardenProject({
-      zipCode: inputMode === 'zip' ? zip : '',
-      hardinessZone: activeZone,
-      frostDateResults: snapshot,
-    });
-    setProjectSaved(true);
-    window.setTimeout(() => setProjectSaved(false), 2600);
-  };
 
   const exportPdf = () => {
     // Fires on the export click itself, before jsPDF runs, so a slow or
@@ -316,22 +289,7 @@ export default function FrostDateCalculator() {
             )}
           </div>
 
-          <div className="flex flex-col items-end gap-1.5">
-            <p className="max-w-xs text-right text-xs text-bark-500">
-              Save these results and we&rsquo;ll carry your ZIP code and dates into the next 3 calculators automatically &mdash; no re-entering info, and you can export everything as one PDF at the end.
-            </p>
-            <div className="flex flex-wrap justify-end gap-2">
-            <button
-              type="button"
-              onClick={addToGardenProject}
-              disabled={!result}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#E8A94A]/20 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-[#E8A94A]/50 transition hover:bg-[#E8A94A]/30 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 2c3 4 6 8 6 12a6 6 0 0 1-12 0c0-4 3-8 6-12Z" fill="currentColor" />
-              </svg>
-              {projectSaved ? 'Added to Garden Project ✓' : 'Start a Garden Project'}
-            </button>
+          <div className="flex justify-end">
             <button
               type="button"
               onClick={exportPdf}
@@ -343,7 +301,6 @@ export default function FrostDateCalculator() {
               </svg>
               Export Planting Calendar (PDF)
             </button>
-            </div>
           </div>
         </div>
       </div>

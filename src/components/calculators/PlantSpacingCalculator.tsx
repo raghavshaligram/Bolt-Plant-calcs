@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { jsPDF } from 'jspdf';
-import { loadGardenProject, saveGardenProject, fuzzyMatchCropName } from '../../lib/gardenProject';
-import type { SpacingResultsSnapshot } from '../../lib/gardenProject';
 import { trackEvent, getCalculatorName } from '../../lib/analytics';
 
 type GardenMode = 'row' | 'sqft' | 'trees';
@@ -151,12 +149,10 @@ export default function PlantSpacingCalculator() {
   const [sqftPerPlant, setSqftPerPlant] = useState<string>('4');
   const [treeType, setTreeType] = useState<string>('Apple (Semi-Dwarf)');
   const [treeSpacing, setTreeSpacing] = useState<string>('15');
-  const [projectSaved, setProjectSaved] = useState(false);
 
   useEffect(() => {
     const s = loadSavedState();
     saved.current = s;
-    const hadOwnSavedState = Object.keys(s).length > 0;
     if (s.mode) setMode(s.mode);
     if (s.unitSystem) setUnitSystem(s.unitSystem);
     if (s.crop) setCrop(s.crop);
@@ -167,29 +163,6 @@ export default function PlantSpacingCalculator() {
     if (s.sqftPerPlant !== undefined) setSqftPerPlant(s.sqftPerPlant);
     if (s.treeType) setTreeType(s.treeType);
     if (s.treeSpacing !== undefined) setTreeSpacing(s.treeSpacing);
-
-    // No saved state of its own yet -- pull bed dimensions and, if a crop
-    // was chosen upstream (Seed Starting), a best-effort matching preset
-    // from an active Garden Project. A returning visitor's own saved
-    // inputs always take precedence over the project.
-    if (!hadOwnSavedState) {
-      const project = loadGardenProject();
-      if (project?.bedDimensions) {
-        setBedLength(project.bedDimensions.length);
-        setBedWidth(project.bedDimensions.width);
-      }
-      const lastCrop = project?.selectedCrops?.[project.selectedCrops.length - 1];
-      if (lastCrop) {
-        const matchName = fuzzyMatchCropName(lastCrop.name, CROP_PRESETS.map((p) => p.name));
-        const preset = CROP_PRESETS.find((p) => p.name === matchName);
-        if (preset) {
-          setCrop(preset.name);
-          setInRow(String(preset.inRowIn));
-          setBetweenRow(String(preset.betweenRowIn));
-          setSqftPerPlant(String(preset.sqftPerPlant));
-        }
-      }
-    }
     hasLoaded.current = true;
   }, []);
 
@@ -296,28 +269,6 @@ export default function PlantSpacingCalculator() {
       return { totalPlants, treesPerRow, numRows, areaFt, spacingFtUsed: spacingRaw, mode: 'trees' as const };
     }
   }, [mode, unitSystem, bedLength, bedWidth, inRow, betweenRow, sqftPerPlant, treeSpacing, isMetric]);
-
-  const addToGardenProject = () => {
-    if (!result || result.mode === 'trees') return;
-    const snapshot: SpacingResultsSnapshot = {
-      crop,
-      mode: result.mode,
-      bedLength,
-      bedWidth,
-      lengthUnit,
-      totalPlants: result.totalPlants,
-      plantsPerRow: result.mode === 'row' ? result.plantsPerRow : undefined,
-      numRows: result.mode === 'row' ? result.numRows : undefined,
-      gridSpacingIn: result.mode === 'sqft' ? result.gridSpacingIn : undefined,
-      areaFt: result.areaFt,
-    };
-    saveGardenProject({
-      bedDimensions: { length: bedLength, width: bedWidth, unit: lengthUnit },
-      spacingResults: snapshot,
-    });
-    setProjectSaved(true);
-    window.setTimeout(() => setProjectSaved(false), 2600);
-  };
 
   const exportPdf = () => {
     // Fires on the export click itself, before jsPDF runs, so a slow or
@@ -769,25 +720,7 @@ export default function PlantSpacingCalculator() {
                   <p className="text-xs text-bark-500">
                     Results assume a full rectangular bed with no paths or borders.
                   </p>
-                  <div className="flex flex-col items-end gap-1.5">
-                  {result.mode !== 'trees' && (
-                    <p className="max-w-xs text-right text-xs text-bark-500">
-                      Save this to your Garden Project &mdash; carries your saved ZIP code and crops forward from your other results.
-                    </p>
-                  )}
-                  <div className="flex flex-wrap gap-2">
-                    {result.mode !== 'trees' && (
-                      <button
-                        type="button"
-                        onClick={addToGardenProject}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-[#E8A94A]/20 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-[#E8A94A]/50 transition hover:bg-[#E8A94A]/30"
-                      >
-                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                          <path d="M12 2c3 4 6 8 6 12a6 6 0 0 1-12 0c0-4 3-8 6-12Z" fill="currentColor" />
-                        </svg>
-                        {projectSaved ? 'Added to Garden Project ✓' : 'Add to my Garden Project'}
-                      </button>
-                    )}
+                  <div className="flex justify-end">
                     <button
                       type="button"
                       onClick={exportPdf}
@@ -798,7 +731,6 @@ export default function PlantSpacingCalculator() {
                       </svg>
                       Export PDF
                     </button>
-                  </div>
                   </div>
                 </div>
               </>
