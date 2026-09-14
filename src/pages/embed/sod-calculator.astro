@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "sod-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/sod-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import SodCalculator from '../../components/calculators/SodCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('sod-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <SodCalculator client:load />
+</EmbedLayout>

@@ -3,6 +3,7 @@ import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 import TreeAgeCalculator from '../../components/calculators/TreeAgeCalculator.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
 import FAQBlock from '../../components/FAQBlock.astro';
+import EmbedSnippet from '../../components/EmbedSnippet.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
@@ -329,6 +330,8 @@ const softwareAppJsonLd = {
         Note: ring counting only works on a felled stump or an increment borer core sample &mdash; it is not the method this calculator uses. The circumference method above estimates age without touching the living tree.
       </p>
     </aside>
+
+    <EmbedSnippet calculator={calculator} />
 
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>

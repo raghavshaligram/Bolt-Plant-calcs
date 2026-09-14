@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "plant-spacing-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/plant-spacing-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import PlantSpacingCalculator from '../../components/calculators/PlantSpacingCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('plant-spacing-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <PlantSpacingCalculator client:load />
+</EmbedLayout>

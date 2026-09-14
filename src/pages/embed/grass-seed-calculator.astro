@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "grass-seed-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/grass-seed-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import GrassSeedCalculator from '../../components/calculators/GrassSeedCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('grass-seed-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <GrassSeedCalculator client:load />
+</EmbedLayout>

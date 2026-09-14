@@ -1,0 +1,20 @@
+---
+// Auto-generated-style embed page for "tree-age-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/tree-age-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import TreeAgeCalculator from '../../components/calculators/TreeAgeCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('tree-age-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  {/* hideLeadMagnet: this calculator renders its own inline email opt-in
+      form by default -- suppressed here since embeds must carry no
+      opt-in. See the hideLeadMagnet comment in TreeAgeCalculator.tsx. */}
+  <TreeAgeCalculator client:load hideLeadMagnet={true} />
+</EmbedLayout>

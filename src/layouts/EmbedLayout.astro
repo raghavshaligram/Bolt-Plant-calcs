@@ -1,0 +1,132 @@
+---
+// Bare, embeddable shell for a single calculator -- meant to be loaded
+// inside an <iframe> on someone else's site. Deliberately does NOT use
+// Layout.astro: no header, footer, nav, sidebar, TOC, lead-magnet form, or
+// app banner, and no site-wide GA4 tag (see the referrer-ping script below,
+// the only network call this page makes on its own).
+//
+// Used by the 25 individual src/pages/embed/<slug>.astro files, each of
+// which passes its one calculator component as the default slot child --
+// same pattern as CalculatorLayout.astro and the 25 real calculator pages.
+// This indirection (rather than a single dynamic [calculator].astro route
+// switching on a prop) is required: Astro's client:* hydration directives
+// need the hydrated component to be a literal import at its own JSX call
+// site, not a value resolved at runtime from a slug -> component map, so
+// each embed page must import and render its own component directly.
+import '../styles/global.css';
+import type { Calculator } from '../data/calculators';
+
+export interface Props {
+  calculator: Calculator;
+}
+
+const { calculator } = Astro.props;
+const fullPageUrl = new URL(calculator.href, Astro.site).href;
+const title = `${calculator.title} — Embeddable Widget | HarvestMath`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={calculator.metaDescription} />
+    {/*
+      noindex so the embed URL itself never competes with the real
+      calculator page in search results -- but "follow" (not "nofollow") is
+      load-bearing: it's what lets the attribution link below actually pass
+      link equity back to harvestmath.com. Do not change this to nofollow.
+    */}
+    <meta name="robots" content="noindex,follow" />
+    <style>
+      /* Deliberately minimal -- this page renders inside someone else's
+         layout, so it should impose as little of its own as possible. */
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      }
+      body {
+        padding: 12px;
+        box-sizing: border-box;
+      }
+      .hm-embed-attribution {
+        margin: 10px 2px 0;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #8a8578;
+        text-align: right;
+      }
+      .hm-embed-attribution a {
+        color: #3f6b4a;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .hm-embed-attribution a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hm-embed-root">
+      <slot />
+    </div>
+
+    {/*
+      Non-removable attribution. A normal followed link -- no rel="nofollow"
+      -- by design: every embed elsewhere on the web is an editorial
+      backlink to harvestmath.com.
+    */}
+    <p class="hm-embed-attribution">
+      Powered by <a href={fullPageUrl} target="_blank" rel="noopener">HarvestMath.com</a>
+    </p>
+
+    <script define:vars={{ calculatorSlug: calculator.slug }}>
+      // 1. Auto-resize handshake: tell whatever page embedded us how tall we
+      // are, so the embedder's listener snippet can size the iframe exactly
+      // instead of guessing a fixed height. Re-fires on any size change
+      // (inputs revealing/hiding result panels, font loading, etc.).
+      (function () {
+        var root = document.getElementById('hm-embed-root');
+        if (!root || typeof window.ResizeObserver === 'undefined') return;
+
+        function postHeight() {
+          var height = Math.ceil(document.body.getBoundingClientRect().height) + 4;
+          try {
+            window.parent.postMessage({ type: 'hm-embed-resize', calculator: calculatorSlug, height: height }, '*');
+          } catch (e) {
+            /* never let this break the widget */
+          }
+        }
+
+        var ro = new ResizeObserver(postHeight);
+        ro.observe(root);
+        window.addEventListener('load', postHeight);
+        setTimeout(postHeight, 50);
+        setTimeout(postHeight, 500);
+      })();
+
+      // 2. Lightweight referrer ping -- the one thing this page tracks. No
+      // GA4 tag, no third-party script load on the embedder's page. Fires
+      // once, fire-and-forget, and never throws into the page.
+      (function () {
+        try {
+          var payload = JSON.stringify({
+            calculator: calculatorSlug,
+            referrer: document.referrer || '',
+            path: window.location.pathname,
+          });
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/embed-view', new Blob([payload], { type: 'application/json' }));
+          } else {
+            fetch('/api/embed-view', { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json' }, keepalive: true }).catch(function () {});
+          }
+        } catch (e) {
+          /* never let this break the widget */
+        }
+      })();
+    </script>
+  </body>
+</html>

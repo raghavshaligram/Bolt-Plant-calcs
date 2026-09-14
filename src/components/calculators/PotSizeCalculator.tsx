@@ -175,7 +175,7 @@ const PLANT_GUIDE: PlantEntry[] = [
   { id: 'shrub', name: 'Shrub (container-grown)', cat: 'shrub' },
 ];
 
-export default function PotSizeCalculator() {
+export default function PotSizeCalculator({ hideLeadMagnet = false }: { hideLeadMagnet?: boolean } = {}) {
   const hasLoaded = useRef(false);
 
   const [mode, setMode] = useState<Mode>('convert');
@@ -625,15 +625,20 @@ export default function PotSizeCalculator() {
 
           {/* Inline post-result lead-magnet offer -- see the potLeadMagnet
               comment above the imports for why this replaced the old
-              bottom-of-page form rather than adding a second ask. */}
-          <LeadMagnetForm
-            variant="inline"
-            headline="Repotting Cheat Sheet — pot sizes and soil mixes for 30 common houseplants"
-            listId={potLeadMagnet.listId}
-            tag={potLeadMagnet.tag}
-            clusterName={potLeadMagnet.clusterName}
-            source="pot-size-calculator-inline"
-          />
+              bottom-of-page form rather than adding a second ask.
+              hideLeadMagnet is set true only by the embed page
+              (src/pages/embed/pot-size-calculator.astro) -- embeds must not
+              carry an email opt-in per the embeddable-widgets spec. */}
+          {!hideLeadMagnet && (
+            <LeadMagnetForm
+              variant="inline"
+              headline="Repotting Cheat Sheet — pot sizes and soil mixes for 30 common houseplants"
+              listId={potLeadMagnet.listId}
+              tag={potLeadMagnet.tag}
+              clusterName={potLeadMagnet.clusterName}
+              source="pot-size-calculator-inline"
+            />
+          )}
 
           <div className="flex justify-end">
             <button

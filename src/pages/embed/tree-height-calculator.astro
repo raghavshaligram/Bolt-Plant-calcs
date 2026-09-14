@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "tree-height-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/tree-height-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import TreeHeightCalculator from '../../components/calculators/TreeHeightCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('tree-height-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <TreeHeightCalculator client:load />
+</EmbedLayout>

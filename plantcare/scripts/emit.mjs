@@ -11,6 +11,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { findProviderEndpoints } from './guards/weather-endpoints.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -91,24 +92,25 @@ for (const js of scripts) {
 }
 
 /*
- * Guard 1b: no weather provider, anywhere in the artefact.
+ * Guard 1b: no weather provider ENDPOINT in the artefact.
  *
  * The brief is explicit that no provider endpoint may be pre-wired or bundled,
  * and the reason is a licensing one — free weather tiers are non-commercial and
  * this is a paid product. That is a rule about the shipped file, so it is
  * checked against the shipped file rather than trusted to a comment somewhere.
  *
- * It matches hostnames, not the word "weather": the app talks about weather all
- * over the settings screen and should. What it must never contain is somewhere
- * to send a request.
+ * It matches addresses, not the word "weather" and not a brand name in prose:
+ * the settings screen names the one service that needs no account, and should,
+ * because the alternative was a panel that told people to supply an address and
+ * never said where to get one. What the file must never contain is somewhere to
+ * send a request. See scripts/guards/weather-endpoints.mjs for the cases that
+ * define the line, and `npm run verify:file` for them being run.
  */
-const PROVIDERS =
-  /\b(open-meteo|openweathermap|weatherapi|tomorrow\.io|visualcrossing|accuweather|weatherbit|climacell|met\.no|pirateweather|darksky|weatherstack)\b/gi
-const providerHits = [...new Set(html.match(PROVIDERS) ?? [])]
+const providerHits = findProviderEndpoints(html)
 if (providerHits.length) {
   console.error(
-    `\n  FAIL  a weather provider appears in the build: ${providerHits.join(', ')}\n` +
-      '        The app must ship with the capability off and no endpoint. See src/app/data/weather.ts.'
+    `\n  FAIL  a weather provider endpoint appears in the build: ${providerHits.join(', ')}\n` +
+      '        Naming a service in prose is fine; shipping an address is not. See src/app/data/weather.ts.'
   )
   process.exit(1)
 }

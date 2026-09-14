@@ -113,7 +113,7 @@ function roundAge(years: number): number {
   return Math.round(years / 10) * 10;
 }
 
-export default function TreeAgeCalculator() {
+export default function TreeAgeCalculator({ hideLeadMagnet = false }: { hideLeadMagnet?: boolean } = {}) {
   const hasLoaded = useRef(false);
 
   const [unitSystem, setUnitSystem] = useState<UnitSystem>('imperial');
@@ -409,15 +409,20 @@ export default function TreeAgeCalculator() {
               comment above the imports for why this replaced the old
               bottom-of-page form rather than adding a second ask. Shown
               regardless of hasResult so the offer doesn't disappear before
-              a circumference is entered (the default state already has one). */}
-          <LeadMagnetForm
-            variant="inline"
-            headline="Tree Care Cheat Sheet — watering, mulching & feeding by your tree's age"
-            listId={treeLeadMagnet.listId}
-            tag={treeLeadMagnet.tag}
-            clusterName={treeLeadMagnet.clusterName}
-            source="tree-age-calculator-inline"
-          />
+              a circumference is entered (the default state already has one).
+              hideLeadMagnet is set true only by the embed page
+              (src/pages/embed/tree-age-calculator.astro) -- embeds must not
+              carry an email opt-in per the embeddable-widgets spec. */}
+          {!hideLeadMagnet && (
+            <LeadMagnetForm
+              variant="inline"
+              headline="Tree Care Cheat Sheet — watering, mulching & feeding by your tree's age"
+              listId={treeLeadMagnet.listId}
+              tag={treeLeadMagnet.tag}
+              clusterName={treeLeadMagnet.clusterName}
+              source="tree-age-calculator-inline"
+            />
+          )}
 
           {/* Growth factor reference table */}
           <div className="overflow-x-auto">

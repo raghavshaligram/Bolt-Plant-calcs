@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "vegetable-yield-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/vegetable-yield-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import VegetableYieldCalculator from '../../components/calculators/VegetableYieldCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('vegetable-yield-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <VegetableYieldCalculator client:load />
+</EmbedLayout>

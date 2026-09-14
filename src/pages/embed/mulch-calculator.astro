@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "mulch-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/mulch-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import MulchCalculator from '../../components/calculators/MulchCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('mulch-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <MulchCalculator client:load />
+</EmbedLayout>

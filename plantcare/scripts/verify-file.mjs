@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const schema = await import(resolve(root, 'src/app/data/schema.ts'))
 const weather = await import(resolve(root, 'src/app/data/weather.ts'))
+const { findProviderEndpoints, CASES } = await import(resolve(root, 'scripts/guards/weather-endpoints.mjs'))
 const demo = await import(resolve(root, 'src/app/data/demo.ts'))
 const tasks = await import(resolve(root, 'src/app/calc/tasks.ts'))
 const S = await import(resolve(root, 'src/app/calc/schedule.ts'))
@@ -167,6 +168,29 @@ check(
   const src = readFileSync(resolve(root, 'src/app/data/weather.ts'), 'utf8')
   const hosts = src.match(/https?:\/\/[^\s"'`)]+/g) ?? []
   check(hosts.length === 0, 'no URL appears in the weather module at all', `URLs found: ${hosts.join(', ')}`)
+
+  /*
+   * The guard that decides what "no provider is bundled" means.
+   *
+   * It was narrowed on purpose — from banning provider names as words to
+   * banning their addresses — so that the settings screen can name the one
+   * service that needs no account. A guard that has been loosened is exactly
+   * the guard worth testing: these cases are the rule, and they live next to
+   * the matcher in scripts/guards/weather-endpoints.mjs.
+   */
+  let guardFailures = 0
+  for (const c of CASES) {
+    const hits = findProviderEndpoints(c.text).length
+    if (hits !== c.hits) {
+      guardFailures++
+      check(false, '', `guard 1b got ${hits} hit(s) for "${c.text}" — expected ${c.hits}: ${c.why}`)
+    }
+  }
+  check(
+    guardFailures === 0,
+    `guard 1b draws the line in the right place, across ${CASES.length} cases — a brand name in prose passes, an address never does`,
+    `${guardFailures} of ${CASES.length} guard cases are wrong`
+  )
 }
 
 {

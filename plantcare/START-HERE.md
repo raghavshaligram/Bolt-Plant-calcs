@@ -127,7 +127,11 @@ to their service, every buyer's use of it would be a commercial use of their
 free tier, on their behalf, without anyone asking. That is not a risk we are
 willing to put on you or on them.
 
-So the capability ships, and the address is yours to supply:
+So the capability ships, and the address is yours to supply. The full
+instructions — including a service that needs no account and no key at all, the
+exact URL to paste, and what to do when a provider refuses the request — are at
+**harvestmath.com/plant-care/weather**, which is kept up to date as providers
+change their APIs. The short version:
 
 1. Sign up with a weather API for **your own personal use**. Open-Meteo is free
    for personal and home use and needs no key at all; WeatherAPI, Visual

@@ -1,0 +1,169 @@
+---
+// Real, indexable landing page listing every embeddable calculator widget.
+// Unlike the embed routes themselves (noindex), this page IS meant to rank
+// -- for "free garden calculator widget", "embeddable soil calculator", and
+// similar -- and doubles as the single link to hand to bloggers/extension
+// sites during outreach.
+import Layout from '../../layouts/Layout.astro';
+import { calculators, clusters, getCluster } from '../../data/calculators';
+
+const description =
+  'Free embeddable garden calculators for your blog or site. Drop a soil, mulch, spacing, or watering calculator into any page with one line of HTML -- no sign-up, no ads, just an attribution link back to HarvestMath.';
+
+const groupedByCluster = clusters
+  .map((cluster) => ({
+    cluster,
+    items: calculators.filter((c) => c.cluster === cluster.slug),
+  }))
+  .filter((group) => group.items.length > 0);
+
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Free Embeddable Garden Calculators',
+  itemListElement: calculators.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.title,
+    url: new URL(c.href, Astro.site).href,
+  })),
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Embeddable Calculators', item: new URL('/embed/', Astro.site).href },
+  ],
+};
+---
+
+<Layout
+  title="Free Embeddable Garden Calculator Widgets | HarvestMath"
+  description={description}
+  rawTitle
+>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+
+  <section class="border-b border-moss-100 bg-moss-50/60">
+    <div class="container-wide py-12 sm:py-16">
+      <nav class="flex text-sm text-bark-500" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-moss-800">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-bark-700">Embeddable Calculators</span>
+      </nav>
+      <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl lg:text-5xl">
+        Free Embeddable Garden Calculator Widgets
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-bark-600">
+        Drop any of these {calculators.length} calculators into your own site with one line of HTML. Free for any use, commercial included &mdash; no sign-up, no ads inside the widget, no fee. Just keep the small attribution link.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-wide py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-bark max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
+        <h2 id="why-embed">Why embed a HarvestMath calculator?</h2>
+        <p>
+          If you write about gardening, run a nursery or landscaping site, or maintain resources for a university extension office, these tools are built to hand your readers real, working math instead of a static chart they have to do the arithmetic on themselves. A mulch calculator embedded directly in a &ldquo;how much mulch do I need&rdquo; post lets someone plug in their bed dimensions and get an answer without leaving your page &mdash; that&rsquo;s a better reader experience than linking out, and it&rsquo;s free to set up.
+        </p>
+        <p>
+          Every widget is self-contained: it loads in an iframe, carries its own styling, and doesn&rsquo;t pull in ads, trackers, or anything that reflects on your site. The only thing it asks in return is a small, visible &ldquo;Powered by HarvestMath.com&rdquo; link back to the full calculator page &mdash; standard editorial attribution, not a popup or an overlay.
+        </p>
+
+        <h2 id="license">License &mdash; what you can and can&rsquo;t do</h2>
+        <ul>
+          <li><strong>Free to embed</strong> on any site, personal or commercial, at any traffic level. No permission needed, no application, no approval process &mdash; copy the snippet and go.</li>
+          <li><strong>Attribution required.</strong> Leave the &ldquo;Powered by HarvestMath.com&rdquo; link in the widget as provided. Don&rsquo;t hide it with CSS, cover it, or strip it from the snippet.</li>
+          <li><strong>No reselling the widget itself</strong> &mdash; you can embed it on a site you charge visitors or clients to access, but you can&rsquo;t repackage the calculator itself as your own paid product.</li>
+          <li><strong>We may update calculators</strong> (formula corrections, UI changes) without notice. The embed always reflects the current, corrected version, which is a feature, not a bug &mdash; you never end up serving readers an outdated formula.</li>
+        </ul>
+        <p>
+          That&rsquo;s the whole license. If you have a use case that doesn&rsquo;t obviously fit the above, <a href="/contact/">get in touch</a>.
+        </p>
+
+        <h2 id="how-it-works">How it works</h2>
+        <p>
+          Each calculator below has its own ready-to-paste snippet: a standard <code>&lt;iframe&gt;</code> tag with a sensible default height, plus an optional auto-resize script so the widget expands or shrinks to fit its content instead of scrolling inside a fixed box. Paste the iframe wherever you want the calculator to appear; the resize script can go anywhere on the same page (once is enough, even with multiple widgets).
+        </p>
+      </div>
+
+      <h2 class="mt-14 font-display text-2xl font-semibold text-bark-900" id="all-embeddable-calculators">
+        All {calculators.length} embeddable calculators
+      </h2>
+
+      <div class="mt-6 space-y-10">
+        {groupedByCluster.map(({ cluster, items }) => (
+          <div>
+            <h3 class="font-display text-lg font-semibold text-bark-800">{cluster.name}</h3>
+            <div class="mt-4 space-y-5">
+              {items.map((calculator) => {
+                const embedUrl = new URL(`/embed/${calculator.slug}/`, Astro.site).href;
+                const iframeId = `hm-embed-list-${calculator.slug}`;
+                const iframeSnippet = `<iframe id="${iframeId}" src="${embedUrl}"\n  width="100%" height="600" style="border:0;max-width:680px"\n  title="${calculator.title} by HarvestMath"></iframe>`;
+                return (
+                  <div class="rounded-2xl border border-moss-100 bg-white p-5 shadow-card">
+                    <div class="flex flex-wrap items-baseline justify-between gap-2">
+                      <a href={calculator.href} class="font-display text-base font-semibold text-bark-900 hover:text-moss-800">
+                        {calculator.title}
+                      </a>
+                      <a href={`/embed/${calculator.slug}/`} target="_blank" rel="noopener" class="text-sm font-medium text-moss-700 hover:text-moss-900">
+                        Preview embed &rarr;
+                      </a>
+                    </div>
+                    <div class="relative mt-3">
+                      <textarea
+                        id={`embed-snippet-list-${calculator.slug}`}
+                        class="hm-list-embed-textarea w-full resize-none rounded-lg border border-moss-200 bg-moss-50/40 p-3 pr-16 font-mono text-xs leading-relaxed text-bark-700"
+                        rows="3"
+                        readonly
+                        onfocus="this.select()"
+                      >{iframeSnippet}</textarea>
+                      <button
+                        type="button"
+                        class="hm-list-embed-copy-btn absolute right-2 top-2 rounded-md border border-moss-200 bg-white px-2.5 py-1 text-xs font-medium text-moss-800 shadow-sm transition hover:bg-moss-50"
+                        data-copy-target={`embed-snippet-list-${calculator.slug}`}
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-10 text-sm text-bark-500">
+        Questions about embedding, or want a calculator built for something specific to your site? <a href="/contact/" class="font-medium text-moss-700 hover:text-moss-900">Reach out</a>.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener('click', async (e) => {
+    const btn = (e.target as HTMLElement)?.closest<HTMLButtonElement>('.hm-list-embed-copy-btn');
+    if (!btn) return;
+    const targetId = btn.dataset.copyTarget;
+    const textarea = targetId ? document.getElementById(targetId) as HTMLTextAreaElement | null : null;
+    if (!textarea) return;
+
+    const original = btn.textContent;
+    try {
+      await navigator.clipboard.writeText(textarea.value);
+      btn.textContent = 'Copied!';
+    } catch {
+      textarea.focus();
+      textarea.select();
+      btn.textContent = 'Select & copy';
+    }
+    setTimeout(() => {
+      btn.textContent = original;
+    }, 2000);
+  });
+</script>

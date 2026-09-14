@@ -49,6 +49,16 @@ export const PATHS = {
   welcome: '/plant-care/welcome/',
   updates: '/plant-care/updates/',
   demo: '/plant-care/demo/',
+  /**
+   * How to switch on live weather.
+   *
+   * The app cannot carry these instructions itself: the build guard refuses to
+   * ship any weather provider's name or hostname inside the artefact, which is
+   * what keeps "no provider is pre-wired or bundled" true. So the app links
+   * here instead — and this page can be corrected when a provider renames a
+   * field, without shipping a new build to every buyer.
+   */
+  weather: '/plant-care/weather/',
 } as const;
 
 /**

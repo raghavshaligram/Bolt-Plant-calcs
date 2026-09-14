@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "overseeding-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/overseeding-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import OverseedingCalculator from '../../components/calculators/OverseedingCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('overseeding-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <OverseedingCalculator client:load />
+</EmbedLayout>

@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "greenhouse-heater-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/greenhouse-heater-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import GreenhouseHeaterCalculator from '../../components/calculators/GreenhouseHeaterCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('greenhouse-heater-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <GreenhouseHeaterCalculator client:load />
+</EmbedLayout>

@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "drip-irrigation-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/drip-irrigation-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import DripIrrigationCalculator from '../../components/calculators/DripIrrigationCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('drip-irrigation-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <DripIrrigationCalculator client:load />
+</EmbedLayout>

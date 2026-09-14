@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "raised-bed-soil-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/raised-bed-soil-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import RaisedBedSoilCalculator from '../../components/calculators/RaisedBedSoilCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('raised-bed-soil-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <RaisedBedSoilCalculator client:load />
+</EmbedLayout>

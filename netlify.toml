@@ -27,120 +27,16 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# ═══════════════════════════════════════════════════════════════════════════
-# HarvestMath Plant Care
-# ═══════════════════════════════════════════════════════════════════════════
-
-# ---------------------------------------------------------------------------
-# The checkout, and the only page on this site allowed to reach PayPal.
-#
-# This policy is deliberately not a wildcard on paypal.com: the hosts named
-# below are the ones the SDK actually uses, and a policy that allows anything
-# under a domain stops being a policy the day that domain hosts something else.
-#
-# It also names googletagmanager, google-analytics and the two font hosts,
-# because this page uses the site's shared layout and those are already on
-# every page here. A CSP that only allowed PayPal would break the page it was
-# meant to protect — which is the usual way a first CSP gets reverted entirely
-# instead of fixed.
-# ---------------------------------------------------------------------------
+# Embeddable calculator widgets (src/pages/embed/[calculator].astro) are
+# meant to be loaded in an <iframe> on other people's sites -- that's the
+# entire point of the feature (see /embed/ for the pitch and license terms).
+# Nothing else in this repo sets X-Frame-Options or a frame-ancestors CSP, so
+# framing isn't currently blocked site-wide -- this rule is here to make that
+# explicit and permanent for the embed routes specifically, so a future
+# site-wide framing restriction (added for some other reason) can't silently
+# break every widget that's out there on other domains. Deliberately scoped
+# to /embed/* only; the rest of the site is untouched.
 [[headers]]
-  for = "/plant-care/buy/*"
+  for = "/embed/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'none'; script-src 'self' 'unsafe-inline' https://www.paypal.com https://www.paypalobjects.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.paypal.com https://www.paypalobjects.com https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://www.paypal.com https://www.sandbox.paypal.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src https://www.paypal.com https://www.sandbox.paypal.com; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
-    Cache-Control = "public, max-age=0, must-revalidate"
-    X-Robots-Tag = "noindex, nofollow"
-
-# The post-purchase page. Never indexed, never cached — it is rendered per
-# request against a token, and a cached copy would be somebody else's.
-[[headers]]
-  for = "/plant-care/welcome*"
-  [headers.values]
-    Cache-Control = "no-store"
-    X-Robots-Tag = "noindex, nofollow"
-
-# ---------------------------------------------------------------------------
-# Nothing under /api is ever cached, by anything. The download URL carries a
-# credential in its query string and the other two are one-shot operations.
-# ---------------------------------------------------------------------------
-[[headers]]
-  for = "/api/*"
-  [headers.values]
-    Cache-Control = "no-store"
-    X-Robots-Tag = "noindex, nofollow"
-
-# ---------------------------------------------------------------------------
-# The installable app.
-#
-# Two of these files must never be cached by a CDN or a browser, and the reason
-# is the same for both: they are how a buyer receives an update. A service
-# worker fetched from cache is a service worker that can never replace itself,
-# and "free updates forever" is a promise on the sales page.
-#
-# The icons and the manifest change only when their content does, and their
-# names change with the version, so they get a year.
-# ---------------------------------------------------------------------------
-[[headers]]
-  for = "/app/sw.js"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-    # Lets the worker control the whole origin if the app is ever moved to the
-    # root of app.harvestmath.com without re-scoping anything.
-    Service-Worker-Allowed = "/"
-
-[[headers]]
-  for = "/app/index.html"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/app/"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-# Netlify does not map .webmanifest to a content type by default, and a manifest
-# served as text/plain is ignored — the app still loads, the install prompt just
-# never appears, which is a very quiet way for this whole distribution to fail.
-[[headers]]
-  for = "/app/manifest.webmanifest"
-  [headers.values]
-    Content-Type = "application/manifest+json; charset=utf-8"
-    Cache-Control = "public, max-age=86400"
-
-[[headers]]
-  for = "/app/*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# The app is not part of the site's content and should not be in search results
-# — it is reached from the welcome page and the updates page. This is a
-# convention, not a lock: the URL is public and that is accepted deliberately.
-[[headers]]
-  for = "/app/*"
-  [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
-
-# ---------------------------------------------------------------------------
-# The demo.
-#
-# A different build from the app — it opens on the demo household and cannot
-# save anything (see src/data/plantCare.ts and plantcare's verify:demo). This is
-# the only URL the sales copy may send people to.
-#
-# Never cached, for the same reason as the app's own document: a buyer's first
-# impression should be the current build, and a demo pinned in a CDN is a demo
-# showing last month's bugs. Noindex because it would otherwise compete with the
-# product page for the product's own name, and a search result that lands on a
-# copy of the app with no explanation sells nothing.
-# ---------------------------------------------------------------------------
-[[headers]]
-  for = "/plant-care/demo/*"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-    X-Robots-Tag = "noindex, nofollow"
-
-# The product screenshots change when the app does, so a week rather than a year.
-[[headers]]
-  for = "/plant-care/shots/*"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
+    Content-Security-Policy = "frame-ancestors *;"

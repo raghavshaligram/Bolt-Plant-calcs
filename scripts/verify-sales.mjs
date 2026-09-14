@@ -369,7 +369,7 @@ item(8, 'Nothing is wired up, and nothing leaks');
     const filtered = /sitemap\(\{[\s\S]*?filter:/.test(cfg);
     check(filtered, 'the sitemap has a filter, so noindex pages are not submitted');
     if (filtered) {
-      for (const p of ['/plant-care/buy', '/plant-care/welcome', '/plant-care/updates']) {
+      for (const p of ['/plant-care/buy', '/plant-care/welcome', '/plant-care/updates', '/plant-care/weather']) {
         check(cfg.includes(`'${p}'`) || cfg.includes(`"${p}"`), `${p}/ is excluded from the sitemap`);
       }
       check(/\/plant-care\\\/\?\$/.test(cfg) || /plant-care\\\/\?\$/.test(cfg), '/plant-care/ itself is excluded from the sitemap');

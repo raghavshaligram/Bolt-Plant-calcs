@@ -4,6 +4,7 @@ import SoilTypeCalculator from '../../components/calculators/SoilTypeCalculator.
 import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
+import EmbedSnippet from '../../components/EmbedSnippet.astro';
 import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
@@ -230,6 +231,8 @@ const softwareAppJsonLd = {
     </ul>
 
     <FAQBlock id="soil-type-calculator-faq" heading="Soil Type Calculator FAQ" faqs={faqs} />
+
+    <EmbedSnippet calculator={calculator} />
 
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>

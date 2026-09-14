@@ -431,9 +431,32 @@ function WeatherTool({ store, update }: { store: Store; update: (fn: (s: Store) 
               services offer are almost all licensed for personal, non-commercial use, and this is a paid product.
               Bundling one would be us using somebody's free tier commercially, on your behalf, without asking either
               of them or you.
+              {/*
+                This panel used to say "supply your own address" and stop there,
+                because guard 1b refused to ship any provider's name. The guard
+                now refuses addresses rather than names — see
+                scripts/guards/weather-endpoints.mjs — so the one thing somebody
+                actually needs to know can be said here.
+
+                The pasteable URL still is not in this file, on purpose: a
+                hostname in the artefact is the thing that can become a call, and
+                a page can be corrected when a provider renames a JSON field
+                without shipping a new build to every buyer.
+              */}
               <div style={{ marginTop: 6 }}>
-                So you supply the address. Sign up with whichever provider you like, for your own personal use, and
-                paste the URL below — START-HERE names a couple that are free for home use and shows what to paste.
+                So you supply the address. What the app needs is a URL that returns JSON containing two numbers: a
+                daily rainfall total in millimetres and a daily maximum temperature in Celsius. Any service will do.
+              </div>
+              <div style={{ marginTop: 6 }}>
+                <b>Open-Meteo is the quickest — no account and no API key at all</b>, and the two field paths below
+                already match what it returns, so there is nothing to change but the address itself. The exact URL to
+                paste, one that uses a key instead, and what to do if a service refuses the request, are at{' '}
+                <a href="https://harvestmath.com/plant-care/weather/" target="_blank" rel="noreferrer">
+                  harvestmath.com/plant-care/weather
+                </a>
+                . About five minutes.
+              </div>
+              <div style={{ marginTop: 6 }}>
                 Everything else in the app works exactly the same with this switched off: the zone and season data
                 already covers most of the same ground.
               </div>

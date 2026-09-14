@@ -26,8 +26,9 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/plant-care/buy') &&
         !page.includes('/plant-care/welcome') &&
-        // ── delete these two lines at launch ──────────────────────────────
+        // ── delete these three lines at launch ────────────────────────────
         !page.includes('/plant-care/updates') &&
+        !page.includes('/plant-care/weather') &&
         !/\/plant-care\/?$/.test(new URL(page).pathname),
       // ───────────────────────────────────────────────────────────────────
     }),

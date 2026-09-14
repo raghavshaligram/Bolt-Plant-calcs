@@ -1,0 +1,17 @@
+---
+// Auto-generated-style embed page for "soil-volume-calculator" -- thin by design, mirrors
+// the shape of src/pages/calculators/soil-volume-calculator.astro but wraps EmbedLayout
+// instead of CalculatorLayout, with none of the surrounding article/FAQ/lead
+// magnet content. See src/layouts/EmbedLayout.astro for why this has to be
+// one file per calculator rather than a single [calculator].astro dynamic
+// route.
+import EmbedLayout from '../../layouts/EmbedLayout.astro';
+import SoilVolumeCalculator from '../../components/calculators/SoilVolumeCalculator.tsx';
+import { getCalculator } from '../../data/calculators';
+
+const calculator = getCalculator('soil-volume-calculator')!;
+---
+
+<EmbedLayout calculator={calculator}>
+  <SoilVolumeCalculator client:load />
+</EmbedLayout>

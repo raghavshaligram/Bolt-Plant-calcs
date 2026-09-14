@@ -4,7 +4,7 @@ The brief's eleven items, each with a verdict and the command that produces it.
 Nothing below is a claim made by reading the code.
 
 ```
-npm run verify      # all five verification scripts — 132 assertions, 0 failures
+npm run verify      # all five verification scripts — 133 assertions, 0 failures
 npm run verify:pwa  # the installable half, driven in a real browser — 28, 0 failures
 npm run verify:demo # the demo: works, keeps nothing, is not the paid build — 22, 0 failures
 npm run build       # guards 1, 1b and 2, plus emit-pwa's byte-identity assertion
@@ -16,14 +16,14 @@ The sales pages and the two deliveries live in the site repository one level up,
 with their own checker:
 
 ```
-node scripts/verify-sales.mjs   # 95 assertions, 0 failures — see DEPLOY-PLANT-CARE.md
+node scripts/verify-sales.mjs   # 96 assertions, 0 failures — see DEPLOY-PLANT-CARE.md
 ```
 
 ## Brief verification pass, item by item
 
 | # | Item | Verdict | How it is checked |
 | --- | --- | --- | --- |
-| 1 | Single-file build runs fully offline after first load, weather disabled (the default) | **PASS** | `scripts/emit.mjs` guard 1 scans the built markup, inlined CSS and JS for any external reference; guard 1b fails the build if a weather provider's hostname appears anywhere in it. `npm run shots` then drives `dist/PlantCare.html` over `file://` through every screen and fails on any console error. `verify:file` asserts the schedule produces 51 jobs with weather off. |
+| 1 | Single-file build runs fully offline after first load, weather disabled (the default) | **PASS** | `scripts/emit.mjs` guard 1 scans the built markup, inlined CSS and JS for any external reference; guard 1b fails the build if a weather provider's address appears anywhere in it. `npm run shots` then drives `dist/PlantCare.html` over `file://` through every screen and fails on any console error. `verify:file` asserts the schedule produces 51 jobs with weather off. |
 | 2 | FSA save/load round-trips — close, reopen, all data intact | **PASS, with one manual step** | `npm run verify:file` proves the data half: write → read → write is byte-identical, every plant returns field for field, fields this build has never heard of survive, a partial or hand-edited file opens, a newer-version file is refused. The browser half — does Chromium hand back the same handle after a restart — cannot be automated, because the file picker requires a real gesture by design. See "the two manual steps" below. |
 | 3 | Companion planting matches the live article and Etsy PDF | **PASS** | `verify:data` check 3 — re-parses the site's own `CompanionPlantingTable.tsx`, compares row for row, asserts symmetry both ways, and asserts every reason the app can show is a literal substring of the article's own stated reasoning |
 | 4 | Zone/frost data matches the live calculators | **PASS** | `verify:data` check 4 — whole-module byte comparison of `frostZones.ts` and `hardinessZoneTemps.ts` |
@@ -31,7 +31,7 @@ node scripts/verify-sales.mjs   # 95 assertions, 0 failures — see DEPLOY-PLANT
 | 6 | Diagnosis branching matches the live DiagnosticQuiz for all ported conditions | **PASS** | `verify:data` check 6 — 6 trees, 19 questions, 34 outcomes; every prompt and option still present in its article, every branch reachable and terminating |
 | 7 | Care scheduling differs across ≥5 real cases — not a flat default | **PASS** | `verify:schedule` — eight cases spanning 2 to 70 days (a 35× range, six distinct answers), three single-variable sweeps, and all 303 species × 3 placements × 3 dates × 7 care types = 19,089 combinations, every one a usable answer |
 | 8 | Camera features degrade gracefully when permission is denied | **PASS, with one manual step** | `verify:camera` asserts that exactly one file in the app calls `getUserMedia`, that it classifies all six DOMException names by hand plus the insecure-context case, that each carries its own message, and that both tools pass a working fallback into the camera pane so it is shown *on failure*, not instead of it. Photo capture is a separate path with no permission at all — `<input type="file" capture>`, the OS picker. Actually clicking Block is the manual step below. |
-| 9 | Weather OFF by default, app fully functional without it, no provider endpoint pre-wired or bundled | **PASS** | `verify:file` asserts `enabled === false` and `endpoint === ''` in the defaults, in a new file, and in the demo; that no URL of any kind appears in `weather.ts`; and that the schedule works with it off. `emit.mjs` guard 1b fails the build if any of twelve provider hostnames appears in the artefact — it has already caught this app's own settings copy naming one as an example, which is why that naming lives in `START-HERE.md` instead |
+| 9 | Weather OFF by default, app fully functional without it, no provider endpoint pre-wired or bundled | **PASS** | `verify:file` asserts `enabled === false` and `endpoint === ''` in the defaults, in a new file, and in the demo; that no URL of any kind appears in `weather.ts`; and that the schedule works with it off. `emit.mjs` guard 1b fails the build if a provider *address* appears in the artefact, across eleven cases run by `verify:file` that fix where the line is: `Open-Meteo` in a sentence passes, `api.open-meteo.com` and any URL containing it do not. It was narrowed from matching brand names to matching addresses so that the settings screen could name the one service that needs no account — see "the guard that was doing too much" below |
 | 10 | DEMO file has realistic populated data across all features | **PASS** | `verify:file` — all seven care types appear, 8 late / 5 due today / 10 this week, an owner override, an outdoor plant, a humidified plant, a free-draining mix, owner notes, a diagnosis with its answers, care entries, free-text notes, 10 distinct species across 7 rooms, 5 of them cat-toxic |
 | 11 | Report PASS/FAIL per item | **This table** | — |
 
@@ -283,6 +283,17 @@ so it is read from the DOM.
 **An air plant wanted repotting every nine years.** One typo in one column.
 `repotYears` is now bounded 0–5 with 0 meaning "not grown in compost", and every
 species is run through every care type on every build.
+
+**A guard that was doing too much read as a guard doing its job.** Guard 1b
+refused to ship any weather provider's name, as a word, anywhere in the file.
+That is a rule about licensing — free weather tiers are non-commercial and this
+is a paid product — and it was enforced by banning the name rather than the
+address. The consequence was a settings panel that explained at length why you
+must supply your own weather URL and never said where anybody might get one:
+correct, and useless, and it survived review because every individual sentence
+in it was true. The guard now bans addresses, the panel names the service that
+needs no account, and eleven cases in `verify:file` pin the difference — because
+a guard that has been loosened is the one worth testing.
 
 **A service worker that claims the page is not a service worker that updated
 it.** The worker calls `clients.claim()` so that a first visit is controlled and
