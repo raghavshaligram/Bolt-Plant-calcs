@@ -1,8 +1,10 @@
 ---
 // "Embed this calculator" UI, placed on every calculator page between the
 // FAQ and the Sources section. Free embeds are the site's backlink engine:
-// every site that embeds a widget links back to the matching full page here
-// via the non-removable attribution line baked into /embed/[calculator].astro.
+// every site that embeds a widget links back to the matching full page here,
+// both via the non-removable in-iframe attribution (EmbedLayout.astro) and
+// via a plain on-page link right in the copy-paste snippet below (see the
+// comment above iframeSnippet for why both exist).
 import type { Calculator } from '../data/calculators';
 
 export interface Props {
@@ -11,11 +13,23 @@ export interface Props {
 
 const { calculator } = Astro.props;
 const embedUrl = new URL(`/embed/${calculator.slug}/`, Astro.site).href;
+const fullPageUrl = new URL(calculator.href, Astro.site).href;
 const iframeId = `hm-embed-${calculator.slug}`;
 
+// The iframe already carries a non-removable "Powered by" link inside the
+// embed page itself (see EmbedLayout.astro) -- but a link that only exists
+// inside a cross-origin iframe document is a weaker backlink signal than an
+// ordinary link sitting directly in the embedder's own page HTML, since
+// search engines don't reliably attribute anchor text/link equity across
+// the iframe boundary. This caption puts a second, plain on-page link right
+// in the copy-paste snippet, outside the iframe, so the backlink lands even
+// if a crawler never credits the one inside the widget. Belt and suspenders:
+// this one is technically removable by whoever pastes the snippet; the
+// in-iframe one isn't.
 const iframeSnippet = `<iframe id="${iframeId}" src="${embedUrl}"
   width="100%" height="600" style="border:0;max-width:680px"
-  title="${calculator.title} by HarvestMath"></iframe>`;
+  title="${calculator.title} by HarvestMath"></iframe>
+<p style="font-size:12px;color:#64748b;margin:6px 0 0;max-width:680px;">Powered by <a href="${fullPageUrl}" style="color:#3f6b4a;text-decoration:none;font-weight:600;">HarvestMath</a></p>`;
 
 const resizeScript = `<script>
 (function () {
@@ -32,7 +46,7 @@ const resizeScript = `<script>
 <section id={`embed-this-calculator-${calculator.slug}`} class="not-prose mt-10 rounded-2xl border border-moss-100 bg-moss-50/50 p-6">
   <h2 class="font-display text-lg font-semibold text-bark-900">Embed this calculator on your site</h2>
   <p class="mt-2 text-sm text-bark-600">
-    Free to use on your own site — just include the attribution link.
+    Free to use on your own site — just keep the visible attribution link included below the widget.
   </p>
 
   <label class="mt-4 block text-xs font-semibold uppercase tracking-wide text-bark-500" for={`embed-snippet-${calculator.slug}`}>
@@ -42,7 +56,7 @@ const resizeScript = `<script>
     <textarea
       id={`embed-snippet-${calculator.slug}`}
       class="hm-embed-textarea w-full resize-none rounded-lg border border-moss-200 bg-white p-3 pr-16 font-mono text-xs leading-relaxed text-bark-700"
-      rows="4"
+      rows="5"
       readonly
       onfocus="this.select()"
     >{iframeSnippet}</textarea>
