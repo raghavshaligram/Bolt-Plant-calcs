@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: '4x8-raised-bed-soil',
+    title: 'How Much Soil for a 4x8 Raised Bed (Full Chart)',
+    description:
+      "32 cubic feet of soil fills a 4x8 raised bed at 12 inches deep -- exact amounts for every depth, in cubic feet, cubic yards, and bags, plus what actually fits once it's planted.",
+    pubDate: new Date('2026-09-14'),
+  },
+  {
     slug: 'plant-pot-sizes-explained',
     title: 'Plant Pot Sizes Explained (Gallon to Inches, and When to Size Up)',
     description:
