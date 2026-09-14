@@ -24,6 +24,7 @@
 import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous, Thermometer, Stethoscope } from 'lucide-react';
 import { leadMagnetCopy } from '../data/leadMagnetCopy';
 import { leadMagnetIcon } from '../data/leadMagnetIcon';
+import { leadMagnetBenefit } from '../data/leadMagnetBenefit';
 
 const iconMap: Record<string, any> = {
   Shovel,
@@ -64,7 +65,14 @@ const Icon = iconMap[leadMagnetIcon[clusterTag]] ?? null;
 // LeadMagnetForm.jsx uses on calculator pages.
 const dashIndex = resolvedHeadline.indexOf('—');
 const headingText = dashIndex === -1 ? resolvedHeadline : resolvedHeadline.slice(0, dashIndex).trim();
-const descriptionText = dashIndex === -1 ? 'Emailed once, no follow-up spam.' : resolvedHeadline.slice(dashIndex).trim();
+const descriptionText = dashIndex === -1 ? 'Free cheat sheet, no spam.' : resolvedHeadline.slice(dashIndex).trim();
+
+// Ongoing-value promise, per cluster (see leadMagnetBenefit.ts for why this
+// replaced the old generic "One email with the PDF. No newsletter list."
+// footer sitewide). undefined for an unmapped clusterTag (e.g. the one-off
+// companion-planting-chart list) -- the footer below falls back to a plain
+// no-spam line rather than inventing a promise the site has no plan to keep.
+const benefit = leadMagnetBenefit[clusterTag];
 
 const inputIdSuffix = variant === 'compact' ? '-compact' : '';
 const emailInputId = `lead-magnet-email${inputIdSuffix}-${clusterTag}`;
@@ -144,7 +152,7 @@ const headingSize = isFull ? 'text-lg sm:text-xl' : 'text-base';
           </div>
         </form>
         <p class="mt-3 text-xs text-[#5C4433]/80">
-          One email with the PDF. No newsletter list. By signing up, you agree to our{' '}
+          {benefit && <>{benefit}{' '}</>}No spam, unsubscribe anytime. By signing up, you agree to our{' '}
           <a href="/privacy-policy/" class="underline hover:text-[#3D6647]">Privacy Policy</a>.
         </p>
       </div>

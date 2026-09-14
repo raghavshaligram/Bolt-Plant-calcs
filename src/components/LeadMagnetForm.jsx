@@ -1,6 +1,7 @@
 import { useId, useState } from 'react';
 import { Shovel, FlaskConical, Droplets, Ruler, Sprout, Flower2, TreeDeciduous, Thermometer } from 'lucide-react';
 import { leadMagnetCopy } from '../data/leadMagnetCopy';
+import { leadMagnetBenefit } from '../data/leadMagnetBenefit';
 import { trackEvent } from '../lib/analytics';
 
 // Maps the string icon name coming from leadMagnetConfig (src/data/calculators.ts)
@@ -139,8 +140,21 @@ export default function LeadMagnetForm({
 
   const headline = headlineProp || (tag && leadMagnetCopy[tag]) || 'Get the free cheat sheet';
 
+  // Ongoing-value promise, per cluster (see leadMagnetBenefit.ts for why this
+  // replaced the old generic "...emailed once" line sitewide). Falls back to
+  // a plain no-spam line only for an unmapped tag (e.g. the one-off
+  // companion-planting-chart list, which has no recurring content planned).
   const cheatSheetDescription =
-    description ?? `A one-page PDF of the ${clusterName} math from this site, emailed once.`;
+    description ?? (tag && leadMagnetBenefit[tag]) ?? `A one-page PDF of the ${clusterName} math from this site. No spam, unsubscribe anytime.`;
+
+  // Short, single-line-friendly version of the same promise for the compact
+  // 'inline' strip below (sits directly under a calculator's result, so it
+  // can't afford the full card description's length). Reuses the same
+  // per-cluster leadMagnetBenefit string rather than maintaining a second
+  // copy of the promise that could drift out of sync with it.
+  const inlineBenefit = (tag && leadMagnetBenefit[tag])
+    ? leadMagnetBenefit[tag].replace(/^The (PDF|guide) now, plus /, 'free $1, plus ')
+    : 'free PDF, no spam.';
 
   if (variant === 'inline') {
     return (
@@ -164,7 +178,7 @@ export default function LeadMagnetForm({
               >
                 {headline}
               </span>{' '}
-              &mdash; free PDF, emailed once.
+              &mdash; {inlineBenefit}
             </p>
             <div className="flex shrink-0 gap-2">
               <label htmlFor={inputId} className="sr-only">
