@@ -58,6 +58,30 @@ export const sourceCategories: SourceCategory[] = [
         institution: 'N.C. Cooperative Extension (Lee County Center)',
         citedBy: [{ title: 'Mulch Calculator', href: '/calculators/mulch-calculator/' }],
       },
+      {
+        title: '"Hügelkultur: What Is It, and Should It Be Used in Home Gardens?"',
+        url: 'https://pubs.extension.wsu.edu/product/hugelkultur-what-is-it-and-should-it-be-used-in-home-gardens/',
+        institution: 'Washington State University Extension',
+        citedBy: [{ title: 'How Much Soil for a 4x8 Raised Bed (And What Fits In It)', href: '/blog/4x8-raised-bed-soil/' }],
+      },
+      {
+        title: '"Wood chips for mulch?"',
+        url: 'https://extension.oregonstate.edu/ask-extension/featured/wood-chips-mulch',
+        institution: 'Oregon State University Extension',
+        citedBy: [{ title: 'How Much Soil for a 4x8 Raised Bed (And What Fits In It)', href: '/blog/4x8-raised-bed-soil/' }],
+      },
+      {
+        title: 'Raised bed gardening guide',
+        url: 'https://extension.usu.edu/yardandgarden/research/raised-bed-gardening',
+        institution: 'Utah State University Extension',
+        citedBy: [{ title: 'How Much Soil for a 4x8 Raised Bed (And What Fits In It)', href: '/blog/4x8-raised-bed-soil/' }],
+      },
+      {
+        title: '"The Myth of Drainage Material in Container Plantings"',
+        url: 'https://wpcdn.web.wsu.edu/wp-puyallup/uploads/sites/403/2015/03/container-drainage.pdf',
+        institution: 'Washington State University Extension',
+        citedBy: [{ title: 'How to Fill a Raised Garden Bed (Without Overspending)', href: '/blog/how-to-fill-a-raised-garden-bed/' }],
+      },
     ],
   },
   {

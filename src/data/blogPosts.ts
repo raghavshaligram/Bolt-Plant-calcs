@@ -16,6 +16,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-fill-a-raised-garden-bed',
+    title: 'How to Fill a Raised Garden Bed (Without Overspending)',
+    description:
+      "The real raised bed soil mix, and how to fill a raised garden bed without buying the full depth in bagged soil -- what actually saves money, what to skip, and how much to expect it to settle.",
+    pubDate: new Date('2026-09-14'),
+  },
+  {
     slug: '4x8-raised-bed-soil',
     title: 'How Much Soil for a 4x8 Raised Bed (Full Chart)',
     description:
