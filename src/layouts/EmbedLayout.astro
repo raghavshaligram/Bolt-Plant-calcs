@@ -2,8 +2,10 @@
 // Bare, embeddable shell for a single calculator -- meant to be loaded
 // inside an <iframe> on someone else's site. Deliberately does NOT use
 // Layout.astro: no header, footer, nav, sidebar, TOC, lead-magnet form, or
-// app banner, and no site-wide GA4 tag (see the referrer-ping script below,
-// the only network call this page makes on its own).
+// app banner, and no site-wide GA4 tag. The analytics script near the
+// bottom of this file never loads gtag.js either -- it pings our own
+// /api/embed-view origin, which relays to GA4 server-side. Those are the
+// only network calls this page makes on its own.
 //
 // Used by the 25 individual src/pages/embed/<slug>.astro files, each of
 // which passes its one calculator component as the default slot child --
@@ -13,6 +15,26 @@
 // need the hydrated component to be a literal import at its own JSX call
 // site, not a value resolved at runtime from a slug -> component map, so
 // each embed page must import and render its own component directly.
+//
+// Design notes for the analytics script (kept out here, not inline in the
+// script block itself, since Astro ships inline script content byte-for-byte
+// to every embedder's page -- comments there are page weight, not just here):
+//  - No gtag.js in the embed: real weight to hand a stranger's page, and it
+//    would run inside a cross-origin iframe, which is exactly the pattern
+//    Safari ITP blocks cookies for outright and Chrome is phasing out --
+//    it would quietly stop measuring a growing share of visitors even if
+//    shipped. The server relay in api/embed-view.ts calls GA4's Measurement
+//    Protocol instead: a plain HTTPS POST from our function to Google, with
+//    a disposable client_id, so nothing here ever sets a cookie and nothing
+//    depends on any browser third-party/iframe cookie policy.
+//  - `embed_referrer` fallback order: document.referrer, then
+//    window.location.ancestorOrigins (Chromium only), then a reply on the
+//    resize script's existing postMessage channel (only reachable if the
+//    embedder pasted that optional script), then 'unknown'.
+//  - `embed_result_generated` mirrors `calculator_result_generated`'s
+//    "first input/change, once per pageview" rule from
+//    CalculatorLayout.astro, reimplemented here since embed pages don't
+//    load that layout, or gtag.js, at all.
 import '../styles/global.css';
 import type { Calculator } from '../data/calculators';
 
@@ -108,24 +130,72 @@ const title = `${calculator.title} — Embeddable Widget | HarvestMath`;
         setTimeout(postHeight, 500);
       })();
 
-      // 2. Lightweight referrer ping -- the one thing this page tracks. No
-      // GA4 tag, no third-party script load on the embedder's page. Fires
-      // once, fire-and-forget, and never throws into the page.
+      // 2. Analytics relay -- embed_loaded + embed_result_generated, no
+      // gtag.js. See the design notes in this file's frontmatter.
       (function () {
-        try {
-          var payload = JSON.stringify({
-            calculator: calculatorSlug,
-            referrer: document.referrer || '',
-            path: window.location.pathname,
-          });
-          if (navigator.sendBeacon) {
-            navigator.sendBeacon('/api/embed-view', new Blob([payload], { type: 'application/json' }));
-          } else {
-            fetch('/api/embed-view', { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json' }, keepalive: true }).catch(function () {});
-          }
-        } catch (e) {
-          /* never let this break the widget */
+        function send(eventName, extra) {
+          try {
+            var payload = JSON.stringify(
+              Object.assign({ event: eventName, calculator: calculatorSlug, path: window.location.pathname }, extra || {})
+            );
+            if (navigator.sendBeacon) {
+              navigator.sendBeacon('/api/embed-view', new Blob([payload], { type: 'application/json' }));
+            } else {
+              fetch('/api/embed-view', { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json' }, keepalive: true }).catch(function () {});
+            }
+          } catch (e) {}
         }
+
+        function hostnameOf(url) {
+          try {
+            return new URL(url).hostname;
+          } catch (e) {
+            return '';
+          }
+        }
+
+        (function resolveReferrerAndSend() {
+          var ref = hostnameOf(document.referrer);
+          if (ref) {
+            send('embed_loaded', { referrer: ref });
+            return;
+          }
+          try {
+            if (window.location.ancestorOrigins && window.location.ancestorOrigins.length) {
+              ref = hostnameOf(window.location.ancestorOrigins[0]);
+              if (ref) {
+                send('embed_loaded', { referrer: ref });
+                return;
+              }
+            }
+          } catch (e) {}
+
+          var settled = false;
+          function onPong(e) {
+            if (settled || !e || !e.data || e.data.type !== 'hm-embed-pong' || e.data.calculator !== calculatorSlug) return;
+            settled = true;
+            window.removeEventListener('message', onPong);
+            send('embed_loaded', { referrer: hostnameOf(e.origin) || 'unknown' });
+          }
+          window.addEventListener('message', onPong);
+          setTimeout(function () {
+            if (settled) return;
+            settled = true;
+            window.removeEventListener('message', onPong);
+            send('embed_loaded', { referrer: 'unknown' });
+          }, 400);
+        })();
+
+        var resultFired = false;
+        function onCalculatorInput(e) {
+          if (resultFired) return;
+          var t = e.target;
+          if (!t || typeof t.matches !== 'function' || !t.matches('input, select, textarea')) return;
+          resultFired = true;
+          send('embed_result_generated', {});
+        }
+        document.addEventListener('input', onCalculatorInput, { capture: true, passive: true });
+        document.addEventListener('change', onCalculatorInput, { capture: true, passive: true });
       })();
     </script>
   </body>
