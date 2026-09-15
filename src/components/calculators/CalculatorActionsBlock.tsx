@@ -43,8 +43,10 @@ export default function CalculatorActionsBlock({
       <div className="flex flex-wrap items-center gap-2">
         {/* Thumbs up / down -- same vote as the "Was this helpful?" prompt
             under the results; whichever one the visitor uses first wins,
-            and the other UI reflects it immediately (shared hook state). */}
-        <div className="inline-flex overflow-hidden rounded-lg ring-1 ring-inset ring-moss-200">
+            and the other UI reflects it immediately (shared hook state).
+            Flat, transparent icons (no white button chip) -- same visual
+            language as the site's other icon buttons (ShareButtons). */}
+        <div className="inline-flex items-center overflow-hidden rounded-full">
           <button
             type="button"
             disabled={sentiment !== null}
@@ -52,14 +54,13 @@ export default function CalculatorActionsBlock({
             aria-pressed={sentiment === 'yes'}
             aria-label="Yes, this calculator is helpful"
             title="Helpful"
-            className={`inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition disabled:cursor-default ${
-              sentiment === 'yes' ? 'bg-moss-700 text-white' : 'bg-white text-bark-700 hover:bg-moss-50'
+            className={`inline-flex h-8 items-center gap-1.5 rounded-full px-2.5 text-sm font-medium transition disabled:cursor-default ${
+              sentiment === 'yes' ? 'bg-moss-700 text-white' : 'bg-transparent text-bark-500 hover:bg-moss-50 hover:text-moss-800'
             }`}
           >
             <ThumbIcon className="h-4 w-4" />
             {helpfulCount !== null && helpfulCount > 0 && <span>{helpfulCount.toLocaleString()}</span>}
           </button>
-          <span className="w-px bg-moss-200" aria-hidden="true" />
           <button
             type="button"
             disabled={sentiment !== null}
@@ -67,8 +68,8 @@ export default function CalculatorActionsBlock({
             aria-pressed={sentiment === 'no'}
             aria-label="No, this calculator is not helpful"
             title="Not helpful"
-            className={`inline-flex items-center px-3 py-2 text-sm font-medium transition disabled:cursor-default ${
-              sentiment === 'no' ? 'bg-bark-700 text-white' : 'bg-white text-bark-700 hover:bg-moss-50'
+            className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition disabled:cursor-default ${
+              sentiment === 'no' ? 'bg-bark-700 text-white' : 'bg-transparent text-bark-500 hover:bg-moss-50 hover:text-moss-800'
             }`}
           >
             <ThumbIcon className="h-4 w-4 rotate-180" />
@@ -80,7 +81,7 @@ export default function CalculatorActionsBlock({
           onClick={() => onOpenModal('share')}
           aria-label="Share this calculator"
           title="Share"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white text-bark-700 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-50"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-bark-500 transition hover:bg-moss-50 hover:text-moss-800"
         >
           <ShareIcon className="h-4 w-4" />
         </button>
@@ -90,7 +91,7 @@ export default function CalculatorActionsBlock({
           onClick={() => onOpenModal('embed')}
           aria-label="Embed this calculator"
           title="Embed"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white text-xs font-bold text-bark-700 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-50"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-xs font-bold text-bark-500 transition hover:bg-moss-50 hover:text-moss-800"
         >
           &lt;/&gt;
         </button>
@@ -100,7 +101,7 @@ export default function CalculatorActionsBlock({
           onClick={() => onOpenModal('cite')}
           aria-label="Cite this calculator"
           title="Cite"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white text-base font-bold leading-none text-bark-700 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-50"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-base font-bold leading-none text-bark-500 transition hover:bg-moss-50 hover:text-moss-800"
         >
           &rdquo;
         </button>

@@ -96,14 +96,32 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
         {calculator.title}
       </h1>
 
-      <BylineRow
-        authorName={authorName}
-        authorUrl={authorUrl}
-        lastUpdated={lastUpdated}
-        shareTitle={calculator.title}
-        shareDescription={calculator.metaDescription}
-        shareImage={shareImage}
-      />
+      {stickyCalculator ? (
+        /* This page's action row (below) already has its own Share icon
+           (opening the full Share/Embed/Cite modal), so the standard
+           BylineRow's separate Pinterest/Facebook/X/copy-link row would be
+           a second, duplicate share control right next to it. Skip
+           BylineRow's share portion here rather than showing both --
+           every other calculator page is untouched and keeps the full
+           BylineRow with its own share icons. */
+        <div class="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-bark-500">
+          <span>
+            By{' '}
+            <a href={authorUrl} class="font-medium text-bark-700 hover:text-moss-800">{authorName}</a>
+          </span>
+          <span class="text-bark-300" aria-hidden="true">&bull;</span>
+          <time datetime={lastUpdated} class="text-bark-500">{formattedDate}</time>
+        </div>
+      ) : (
+        <BylineRow
+          authorName={authorName}
+          authorUrl={authorUrl}
+          lastUpdated={lastUpdated}
+          shareTitle={calculator.title}
+          shareDescription={calculator.metaDescription}
+          shareImage={shareImage}
+        />
+      )}
 
       <!-- Pilot only: the thumbs/share/embed/cite action row, right under the
            byline. A no-op on every other calculator page, which pass nothing
