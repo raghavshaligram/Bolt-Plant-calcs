@@ -22,7 +22,7 @@ export const prerender = false;
 // HIDE_BELOW_COUNT mirrors the "hard rule: no invented social proof" from
 // the build prompt -- the count is only ever real, but a real count of 1 or
 // 2 reads as suspicious/thin rather than as genuine social proof, so the
-// client-side UI (CalculatorActionPanel.tsx) hides the number below this
+// client-side UI (CalculatorActionsBlock.tsx / RaisedBedSoilCalculatorCard.tsx) hides the number below this
 // threshold and shows it once it's genuinely a real, presentable count.
 // That threshold lives here as the single source of truth so the GET
 // response and the UI can't drift apart on what "real enough to show" means.

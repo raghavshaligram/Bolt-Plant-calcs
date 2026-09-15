@@ -30,6 +30,14 @@ export interface Props {
   shareDescription?: string;
   /** Absolute URL to the image Pinterest should pin. */
   shareImage?: string;
+  /**
+   * Hides the trailing "Share:" icon row. Defaults to false so all existing
+   * pages are unaffected -- added for the Raised Bed Soil Calculator pilot,
+   * whose left-column action row now has its own dedicated Share icon
+   * (opening the Share/Embed/Cite modal), so repeating a second share
+   * control in the byline would be a duplicate.
+   */
+  hideShare?: boolean;
 }
 
 const {
@@ -40,6 +48,7 @@ const {
   shareTitle,
   shareDescription = '',
   shareImage,
+  hideShare = false,
 } = Astro.props;
 
 const formattedDate = lastUpdated
@@ -77,12 +86,16 @@ const formattedDate = lastUpdated
     </>
   )}
 
-  <span class="text-bark-300" aria-hidden="true">&bull;</span>
-  <span class="font-medium text-bark-500">Share:</span>
-  <ShareButtons
-    title={shareTitle}
-    description={shareDescription}
-    image={shareImage}
-    compact
-  />
+  {!hideShare && (
+    <>
+      <span class="text-bark-300" aria-hidden="true">&bull;</span>
+      <span class="font-medium text-bark-500">Share:</span>
+      <ShareButtons
+        title={shareTitle}
+        description={shareDescription}
+        image={shareImage}
+        compact
+      />
+    </>
+  )}
 </div>

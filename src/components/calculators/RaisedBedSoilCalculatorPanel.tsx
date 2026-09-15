@@ -1,36 +1,71 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import RaisedBedSoilCalculatorCard from './RaisedBedSoilCalculatorCard';
-import CalculatorActionPanel, { type RelatedLink } from './CalculatorActionPanel';
+import CalculatorActionsBlock from './CalculatorActionsBlock';
 import ShareEmbedCiteModal from './ShareEmbedCiteModal';
 import { useRaisedBedSoilCalculatorState } from './useRaisedBedSoilCalculatorState';
+import { useCalculatorFeedback } from './useCalculatorFeedback';
+
+type ModalTab = 'share' | 'embed' | 'cite';
 
 export interface RaisedBedSoilCalculatorPanelProps {
   calculatorSlug: string;
   calculatorTitle: string;
   canonicalPath: string;
   origin: string;
-  relatedLinks: RelatedLink[];
   googlePreferredSourcesUrl: string | null;
+  /**
+   * id of the empty placeholder <div> the layout puts in the sticky right
+   * column (see CalculatorLayout.astro's stickyCalculator grid). This
+   * component mounts in the LEFT column (at slot="actions") and portals
+   * the calculator card into that placeholder, so the card, the action
+   * row, and the modal all still share one piece of state -- despite now
+   * rendering in two different columns -- without any cross-island
+   * messaging.
+   */
+  calculatorPortalId: string;
 }
 
 /**
- * Sticky-layout pilot (Raised Bed Soil Calculator only -- see the Build
- * Prompt this implements). This is the single component mounted into the
- * layout's sticky sidebar column: it owns the calculator's state via
- * useRaisedBedSoilCalculatorState() and hands that same state down to the
- * card, the action panel (Reset/Feedback/Related), and the Share/Embed/Cite
- * modal, so all three stay in sync without any cross-island messaging.
+ * Correction Prompt: Calculator Page Pilot -- Fix Layout Placement.
+ *
+ * Previously this component rendered the card + action panel + modal all
+ * together in the sticky right column. That buried the share/feedback/
+ * related-calculator actions below the calculator's inputs and results,
+ * forcing users to scroll inside the sticky panel to reach them.
+ *
+ * This mounts instead at slot="actions" in the LEFT column (normal
+ * scrolling flow) and portals ONLY the calculator card into a plain
+ * placeholder div living in the sticky RIGHT column. One hook call each
+ * for the calculator state and the feedback vote/count still means the
+ * action row, the card's "Was this helpful?" prompt, and the Share/Embed/
+ * Cite modal all read and write the exact same state.
  */
 export default function RaisedBedSoilCalculatorPanel({
   calculatorSlug,
   calculatorTitle,
   canonicalPath,
   origin,
-  relatedLinks,
   googlePreferredSourcesUrl,
+  calculatorPortalId,
 }: RaisedBedSoilCalculatorPanelProps) {
   const calc = useRaisedBedSoilCalculatorState();
+  const feedback = useCalculatorFeedback(calculatorSlug);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalTab, setModalTab] = useState<ModalTab>('share');
+  const [portalTarget, setPortalTarget] = useState<Element | null>(null);
+
+  // The placeholder div is server-rendered markup elsewhere in the page, so
+  // it already exists by the time this island hydrates -- but we still look
+  // it up on mount rather than assuming, in case that ever changes.
+  useEffect(() => {
+    setPortalTarget(document.getElementById(calculatorPortalId));
+  }, [calculatorPortalId]);
+
+  const openModal = (tab: ModalTab) => {
+    setModalTab(tab);
+    setModalOpen(true);
+  };
 
   const shareParams = useMemo(
     () => ({
@@ -45,19 +80,25 @@ export default function RaisedBedSoilCalculatorPanel({
 
   return (
     <>
-      <RaisedBedSoilCalculatorCard calc={calc} />
-      <CalculatorActionPanel
-        calculatorSlug={calculatorSlug}
-        hasResult={calc.hasResult}
-        onReset={calc.reset}
-        onOpenShare={() => setModalOpen(true)}
-        relatedLinks={relatedLinks}
+      <CalculatorActionsBlock
+        sentiment={feedback.sentiment}
+        helpfulCount={feedback.helpfulCount}
+        showCount={feedback.showCount}
+        onVote={feedback.submitFeedback}
+        onOpenModal={openModal}
         googlePreferredSourcesUrl={googlePreferredSourcesUrl}
       />
+
+      {portalTarget &&
+        createPortal(
+          <RaisedBedSoilCalculatorCard calc={calc} sentiment={feedback.sentiment} onVote={feedback.submitFeedback} />,
+          portalTarget
+        )}
+
       <ShareEmbedCiteModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        initialTab="share"
+        initialTab={modalTab}
         calculatorSlug={calculatorSlug}
         calculatorTitle={calculatorTitle}
         canonicalPath={canonicalPath}

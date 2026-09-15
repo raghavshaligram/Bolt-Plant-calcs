@@ -16,13 +16,13 @@ const authorUrl = '/about/';
 const intro =
   'Figure out exactly how much soil you need for any raised bed — cubic feet, cubic yards, bags, and estimated weight. Pick a common bed size preset (4×4, 4×8, or 4×2) to auto-fill the dimensions, set your fill depth, and the raised bed soil calculator updates in real time as you type.';
 
-// Sticky-layout pilot (Build Prompt: Calculator Page Redesign) -- Raised Bed
-// Soil Calculator ONLY, per the pilot's explicit scope. The desktop TOC is
-// dropped for this page (see CalculatorLayout's stickyCalculator prop), so
-// this list now only feeds the mobile accordion and no longer includes
-// "Embed This Calculator" or "Related Calculators" -- both moved into the
-// sticky action panel / Share modal and no longer have their own page
-// sections to link to.
+// Sticky-layout pilot (Build Prompt: Calculator Page Redesign, corrected by
+// Correction Prompt: Calculator Page Pilot -- Fix Layout Placement) --
+// Raised Bed Soil Calculator ONLY, per the pilot's explicit scope. The
+// desktop TOC was dropped in the original build prompt and is restored by
+// the correction prompt -- it now renders in the left column (both the
+// mobile accordion and a desktop card, see slot="toc" below) instead of
+// living only in the mobile accordion.
 const tocItems = [
   { id: 'how-much-soil-do-i-need', label: 'How Much Soil Do I Need', icon: 'leaf' as const },
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
@@ -30,9 +30,11 @@ const tocItems = [
   { id: 'raised-bed-soil-calculator-faq', label: 'FAQ', icon: 'question' as const },
 ];
 
-// Part 4 -- compact related-calculators block, now living in the sticky
-// action panel instead of the page bottom. Kept to 5 links per the "3-5
-// links, not a full grid" instruction.
+// Part 4 -- compact related-calculators block. Originally placed inside the
+// sticky action panel; the correction prompt moved it out into the normal
+// content flow instead (right after the calculator on mobile, right after
+// the intro on desktop -- see slot="relatedCalculators" below). Kept to 5
+// links per the "3-5 links, not a full grid" instruction.
 const relatedLinks = [
   { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/' },
   { name: 'Compost Calculator', url: '/calculators/compost-calculator/' },
@@ -196,26 +198,52 @@ const softwareAppJsonLd = {
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
 
-  <!-- Sticky calculator panel (desktop: sticky right column; mobile: normal
-       flow, first thing after the intro -- see CalculatorLayout's
-       stickyCalculator mode). Replaces the old inline calculator + desktop
-       TOC sidebar with the calculator itself, its action panel (Share,
-       Reset, feedback, related calculators), and the Share/Embed/Cite
-       modal, all sharing one piece of state. -->
+  <!-- Correction Prompt: Calculator Page Pilot -- Fix Layout Placement.
+       This island mounts in the LEFT column (slot="actions") and renders
+       the helpful-count line, the thumbs/share/embed/cite icon row, and
+       the optional Google link. It portals the actual calculator card
+       (inputs, results, reset, "Was this helpful?") into the plain empty
+       div below, which lives in the sticky RIGHT column -- so the tool
+       itself is the ONLY thing in that sticky panel, while still sharing
+       all its state with the action row and the Share/Embed/Cite modal. -->
   <RaisedBedSoilCalculatorPanel
     client:load
-    slot="calculator"
+    slot="actions"
     calculatorSlug={calculator.slug}
     calculatorTitle={calculator.title}
     canonicalPath={calculator.href}
     origin={origin}
-    relatedLinks={relatedLinks}
     googlePreferredSourcesUrl={googlePreferredSourcesUrl}
+    calculatorPortalId="rb-calculator-portal"
   />
 
-  <!-- Mobile TOC accordion — collapsed by default, hidden on desktop. The
-       desktop sidebar TOC is intentionally gone in stickyCalculator mode. -->
-  <TableOfContents items={tocItems} variant="accordion" />
+  <div id="rb-calculator-portal" slot="calculator" />
+
+  <!-- Related calculators -- compact, 3-5 links, plain server-rendered
+       markup (no interactivity needed). Positioned by CalculatorLayout:
+       after the calculator on mobile, right after the intro on desktop. -->
+  <div slot="relatedCalculators" class="not-prose rounded-2xl bg-white p-5 shadow-card ring-1 ring-moss-100/60">
+    <p class="text-xs font-semibold uppercase tracking-wider text-bark-400">Related</p>
+    <ul class="mt-2 space-y-1.5">
+      {relatedLinks.map((link) => (
+        <li>
+          <a href={link.url} class="text-sm font-medium text-moss-700 hover:text-moss-900 hover:underline">
+            {link.name} &rarr;
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Table of contents -- restored. Accordion on mobile, a plain (non-
+       sticky -- the calculator owns the only sticky element in this
+       layout) card on desktop. -->
+  <div slot="toc">
+    <TableOfContents items={tocItems} variant="accordion" />
+    <div class="hidden rounded-2xl border border-moss-100 bg-white p-5 shadow-card lg:block">
+      <TableOfContents items={tocItems} variant="sidebar" />
+    </div>
+  </div>
 
   <LeadMagnetForm
     client:load

@@ -1,5 +1,6 @@
 import { PRESETS } from './useRaisedBedSoilCalculatorState';
 import type { RaisedBedSoilCalculatorState } from './useRaisedBedSoilCalculatorState';
+import type { Sentiment } from './useCalculatorFeedback';
 
 function round(value: number, decimals = 2): number {
   if (!Number.isFinite(value)) return 0;
@@ -7,14 +8,31 @@ function round(value: number, decimals = 2): number {
   return Math.round(value * factor) / factor;
 }
 
+export interface RaisedBedSoilCalculatorCardProps {
+  calc: RaisedBedSoilCalculatorState;
+  /**
+   * Correction Prompt: Calculator Page Pilot -- Fix Layout Placement.
+   * The sticky right panel keeps ONLY the tool: inputs, results, reset,
+   * and this "Was this helpful?" Yes/No prompt directly under the result
+   * (it's asking about the result specifically, so it stays here rather
+   * than moving to the left column's action row). Sentiment/onVote come
+   * from the same useCalculatorFeedback() instance that backs the compact
+   * thumbs-with-count icon up in the left column, so a vote from either
+   * place updates both immediately.
+   */
+  sentiment: Sentiment | null;
+  onVote: (value: Sentiment) => void;
+}
+
 /**
  * Pure presentational calculator card -- identical markup to the original
  * RaisedBedSoilCalculator.tsx, now driven entirely by the shared
  * useRaisedBedSoilCalculatorState() hook instead of owning its own state.
- * That's what lets the sticky action panel and the Share/Embed/Cite modal
- * (RaisedBedSoilCalculatorPanel.tsx) read and reset the same inputs/result.
+ * That's what lets the left column's action row and the Share/Embed/Cite
+ * modal (RaisedBedSoilCalculatorPanel.tsx) read and reset the same
+ * inputs/result even though they render in a different part of the DOM.
  */
-export default function RaisedBedSoilCalculatorCard({ calc }: { calc: RaisedBedSoilCalculatorState }) {
+export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }: RaisedBedSoilCalculatorCardProps) {
   const {
     unitSystem,
     setUnitSystem,
@@ -34,16 +52,29 @@ export default function RaisedBedSoilCalculatorCard({ calc }: { calc: RaisedBedS
     result,
     hasResult,
     exportPdf,
+    reset,
   } = calc;
 
   return (
     <div className="not-prose">
       <div className="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60">
-        {/* Card header */}
-        <div className="bg-moss-700 px-6 py-4">
+        {/* Card header -- includes Reset/Clear, since the sticky panel now
+            contains only the tool itself (inputs, results, reset, and the
+            "Was this helpful?" prompt) per the Correction Prompt. */}
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-6 py-4">
           <h2 className="font-display text-lg font-semibold text-white">
             Calculate Your Raised Bed Soil
           </h2>
+          <button
+            type="button"
+            onClick={reset}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-moss-800/60 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-moss-800"
+          >
+            <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 4v4h4M16 16v-4h-4M4.5 8A6 6 0 0 1 16 6.5M15.5 12A6 6 0 0 1 4 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Reset
+          </button>
         </div>
 
         <div className="flex flex-col gap-5 p-6">
@@ -269,6 +300,44 @@ export default function RaisedBedSoilCalculatorCard({ calc }: { calc: RaisedBedS
               </>
             )}
           </div>
+
+          {/* Was this helpful? -- stays directly under the result, since it's
+              asking about the result specifically. The aggregate count/icon
+              row lives up in the left column's action row instead. */}
+          {hasResult && (
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-3 ring-1 ring-moss-100">
+              <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
+              <div className="ml-auto flex items-center gap-2">
+                <button
+                  type="button"
+                  disabled={sentiment !== null}
+                  onClick={() => onVote('yes')}
+                  aria-pressed={sentiment === 'yes'}
+                  className={`rounded-lg px-3.5 py-1.5 text-sm font-medium ring-1 ring-inset transition disabled:cursor-default ${
+                    sentiment === 'yes'
+                      ? 'bg-moss-700 text-white ring-moss-700'
+                      : 'bg-white text-bark-700 ring-moss-200 hover:bg-moss-50 disabled:hover:bg-white'
+                  }`}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  disabled={sentiment !== null}
+                  onClick={() => onVote('no')}
+                  aria-pressed={sentiment === 'no'}
+                  className={`rounded-lg px-3.5 py-1.5 text-sm font-medium ring-1 ring-inset transition disabled:cursor-default ${
+                    sentiment === 'no'
+                      ? 'bg-bark-700 text-white ring-bark-700'
+                      : 'bg-white text-bark-700 ring-moss-200 hover:bg-moss-50 disabled:hover:bg-white'
+                  }`}
+                >
+                  No
+                </button>
+                {sentiment && <span className="text-xs text-bark-500">Thanks!</span>}
+              </div>
+            </div>
+          )}
 
           {/* Comparison table: 1.5 cu ft vs 2 cu ft bags */}
           {hasResult && (
