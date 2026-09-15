@@ -11,15 +11,14 @@ export interface CalculatorActionsBlockProps {
 }
 
 /**
- * Correction Prompt: Calculator Page Pilot -- Fix Layout Placement.
- *
- * Left column, directly under the byline: the helpful-count line, one
- * compact icon row (thumbs / share / embed / cite), and the optional
- * Google "preferred source" button. Nothing here is the calculator itself
- * -- that stays entirely in the sticky right panel (see
- * RaisedBedSoilCalculatorCard), which keeps its own plain-text "Was this
- * helpful? Yes/No" prompt right under the result. Both read/write the same
- * useCalculatorFeedback() state, so a vote from either place updates both.
+ * Renders directly under the byline row (in CalculatorLayout's hero band):
+ * the helpful-count line, one compact icon row (thumbs / share / embed /
+ * cite), and the optional Google "preferred source" button. Nothing here
+ * is the calculator itself -- that stays entirely in the sticky right
+ * panel (see RaisedBedSoilCalculatorCard), which keeps its own plain-text
+ * "Was this helpful? Yes/No" prompt right under the result. Both read/
+ * write the same useCalculatorFeedback() state, so a vote from either
+ * place updates both.
  */
 export default function CalculatorActionsBlock({
   sentiment,
@@ -30,7 +29,7 @@ export default function CalculatorActionsBlock({
   googlePreferredSourcesUrl,
 }: CalculatorActionsBlockProps) {
   return (
-    <div className="not-prose flex flex-col gap-3">
+    <div className="not-prose mt-3 flex flex-col gap-3">
       {showCount && helpfulCount !== null && (
         <p className="flex items-center gap-1.5 text-sm text-bark-600">
           <ThumbIcon className="h-4 w-4 shrink-0 text-moss-700" />
@@ -124,20 +123,17 @@ export default function CalculatorActionsBlock({
 
 function ThumbIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-      <path d="M6 8.5H3.5A1.5 1.5 0 0 0 2 10v6a1.5 1.5 0 0 0 1.5 1.5H6V8.5Z" />
-      <path d="M7.5 8.9 10.6 3a1 1 0 0 1 1.8.5v3.8h3.1a1.6 1.6 0 0 1 1.55 1.95l-1.2 5.5A2 2 0 0 1 14 16.5H7.5V8.9Z" />
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V3a.75.75 0 0 1 .75-.75A2.25 2.25 0 0 1 16.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904" />
+      <path d="M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
     </svg>
   );
 }
 
 function ShareIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path
-        d="M14 6.5a2.5 2.5 0 1 0-2.4-3.2L7.3 5.7a2.5 2.5 0 1 0 0 3.6l4.3 2.4a2.5 2.5 0 1 0 .7-1.3L8 8a2.5 2.5 0 0 0 0-1L12.3 4.5c.4.5 1 .8 1.7.8Z"
-        fill="currentColor"
-      />
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
     </svg>
   );
 }

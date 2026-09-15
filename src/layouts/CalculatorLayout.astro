@@ -92,10 +92,6 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
         <span class="text-bark-700">{calculator.shortTitle}</span>
       </nav>
 
-      {stickyCalculator && (
-        <p class="mt-1 text-xs text-bark-400">Last updated: {formattedDate}</p>
-      )}
-
       <h1 class="mt-3 font-display text-3xl font-semibold tracking-tight text-bark-900 sm:text-4xl">
         {calculator.title}
       </h1>
@@ -103,60 +99,59 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
       <BylineRow
         authorName={authorName}
         authorUrl={authorUrl}
-        lastUpdated={stickyCalculator ? undefined : lastUpdated}
+        lastUpdated={lastUpdated}
         shareTitle={calculator.title}
         shareDescription={calculator.metaDescription}
         shareImage={shareImage}
-        hideShare={stickyCalculator}
       />
+
+      <!-- Pilot only: the thumbs/share/embed/cite action row, right under the
+           byline. A no-op on every other calculator page, which pass nothing
+           into this slot. -->
+      <slot name="actions" />
     </div>
   </section>
 
   <!-- Two-column main area: intro+content left, sidebar right -->
   <div class="container-wide py-6 sm:py-8">
     {stickyCalculator ? (
-      /* Correction Prompt: Calculator Page Pilot -- Fix Layout Placement.
-         Six DOM items, in this exact order so mobile (no lg:grid) stacks
-         them precisely per the corrected spec: action row, calculator,
-         related calculators, TOC, intro, then the rest of the content. On
-         desktop, each left-column item gets an explicit lg:row-start so it
-         can be reordered independently of that DOM/mobile order (TOC needs
-         to appear BEFORE related calculators on desktop, but AFTER them on
-         mobile -- plain source order can't satisfy both, explicit grid
-         placement can). The calculator spans all 5 of those row tracks in
-         a second, sticky column, so it stays visible alongside the entire
-         left column and releases only at its bottom -- well above the
-         LeadMagnet/Footer sections that live outside this grid entirely.
-         Fixed 440px column (not content-sized) plus SSR'd markup from
-         client:load means no layout shift on load. */
+      /* Pilot layout, follow-up correction -- match the standard (non-
+         sticky) page's format as closely as possible: intro, then the
+         calculator immediately after it, then TOC, then the rest of the
+         content, then related calculators at the very end. That's a plain
+         top-to-bottom order that needs no independent reordering between
+         mobile and desktop, unlike the previous version of this layout --
+         DOM order IS both the mobile stacking order and (via lg:row-start)
+         the desktop left-column order. The calculator spans all 4 of those
+         row tracks in a second, sticky column on desktop, so it stays
+         visible alongside the entire left column and releases only at its
+         bottom -- well above the LeadMagnet/Footer sections that live
+         outside this grid entirely. Fixed 440px column (not content-sized)
+         plus SSR'd markup from client:load means no layout shift on load. */
       <div class="lg:grid lg:grid-cols-[1fr_440px] lg:items-start lg:gap-12">
         <div class="lg:col-start-1 lg:row-start-1">
-          <slot name="actions" />
-        </div>
-
-        <div class="lg:col-start-2 lg:row-start-1 lg:row-span-5 lg:sticky lg:top-24 lg:max-h-[calc(100vh-6.5rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:pb-2">
-          <slot name="calculator" />
-        </div>
-
-        <div class="mt-6 lg:col-start-1 lg:row-start-4 lg:mt-0">
-          <slot name="relatedCalculators" />
-        </div>
-
-        <div class="mt-6 lg:col-start-1 lg:row-start-2 lg:mt-0">
-          <slot name="toc" />
-        </div>
-
-        <div class="mt-6 lg:col-start-1 lg:row-start-3 lg:mt-0">
-          <p class="text-base leading-relaxed text-bark-600 sm:text-lg">
+          <p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg lg:mb-0">
             {intro}
           </p>
         </div>
 
-        <div class="min-w-0 lg:col-start-1 lg:row-start-5">
+        <div class="lg:col-start-2 lg:row-start-1 lg:row-span-4 lg:sticky lg:top-24 lg:max-h-[calc(100vh-6.5rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:pb-2">
+          <slot name="calculator" />
+        </div>
+
+        <div class="mt-6 lg:col-start-1 lg:row-start-2 lg:mt-6">
+          <slot name="toc" />
+        </div>
+
+        <div class="min-w-0 mt-6 lg:col-start-1 lg:row-start-3 lg:mt-6">
           <slot />
-          {lastUpdatedNote && (
-            <p class="mt-12 text-sm text-bark-500">{lastUpdatedNote}</p>
-          )}
+          <p class="mt-12 text-sm text-bark-500">
+            Last updated: {formattedDate}.{lastUpdatedNote && ` ${lastUpdatedNote}`}
+          </p>
+        </div>
+
+        <div class="mt-6 lg:col-start-1 lg:row-start-4 lg:mt-6">
+          <slot name="relatedCalculators" />
         </div>
       </div>
     ) : (

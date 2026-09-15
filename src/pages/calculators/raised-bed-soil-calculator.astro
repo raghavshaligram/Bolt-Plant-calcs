@@ -2,7 +2,6 @@
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 import RaisedBedSoilCalculatorPanel from '../../components/calculators/RaisedBedSoilCalculatorPanel.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
 import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
 
@@ -198,14 +197,14 @@ const softwareAppJsonLd = {
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
 
-  <!-- Correction Prompt: Calculator Page Pilot -- Fix Layout Placement.
-       This island mounts in the LEFT column (slot="actions") and renders
-       the helpful-count line, the thumbs/share/embed/cite icon row, and
-       the optional Google link. It portals the actual calculator card
-       (inputs, results, reset, "Was this helpful?") into the plain empty
-       div below, which lives in the sticky RIGHT column -- so the tool
-       itself is the ONLY thing in that sticky panel, while still sharing
-       all its state with the action row and the Share/Embed/Cite modal. -->
+  <!-- This island mounts right under the byline (slot="actions", rendered
+       in CalculatorLayout's hero band) and renders the helpful-count line,
+       the thumbs/share/embed/cite icon row, and the optional Google link.
+       It portals the actual calculator card (inputs, results, reset, "Was
+       this helpful?") into the plain empty div below, which lives in the
+       sticky RIGHT column -- so the tool itself is the ONLY thing in that
+       sticky panel, while still sharing all its state with the action row
+       and the Share/Embed/Cite modal. -->
   <RaisedBedSoilCalculatorPanel
     client:load
     slot="actions"
@@ -220,8 +219,8 @@ const softwareAppJsonLd = {
   <div id="rb-calculator-portal" slot="calculator" />
 
   <!-- Related calculators -- compact, 3-5 links, plain server-rendered
-       markup (no interactivity needed). Positioned by CalculatorLayout:
-       after the calculator on mobile, right after the intro on desktop. -->
+       markup (no interactivity needed). Positioned by CalculatorLayout at
+       the very end of the left column, after all other content. -->
   <div slot="relatedCalculators" class="not-prose rounded-2xl bg-white p-5 shadow-card ring-1 ring-moss-100/60">
     <p class="text-xs font-semibold uppercase tracking-wider text-bark-400">Related</p>
     <ul class="mt-2 space-y-1.5">
@@ -245,13 +244,11 @@ const softwareAppJsonLd = {
     </div>
   </div>
 
-  <LeadMagnetForm
-    client:load
-    listId={leadMagnet.listId}
-    tag={leadMagnet.tag}
-    clusterName={leadMagnet.clusterName}
-    icon={leadMagnet.icon}
-  />
+  <!-- No manually-placed LeadMagnetForm here -- CalculatorLayout already
+       renders the standard cluster-wide email optin once, automatically,
+       at the very bottom of the page (same as every other calculator
+       page). A second copy mid-page was redundant and sat too high up in
+       this pilot's reading order. -->
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
