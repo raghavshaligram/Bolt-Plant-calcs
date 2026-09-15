@@ -111,6 +111,12 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
           </span>
           <span class="text-bark-300" aria-hidden="true">&bull;</span>
           <time datetime={lastUpdated} class="text-bark-500">{formattedDate}</time>
+          <span class="text-bark-300" aria-hidden="true">&bull;</span>
+          <!-- Pilot only: the thumbs/share/embed/cite action row, right in
+               the byline line -- same spot "Share:" occupies on every other
+               calculator page (this flex row wraps it to its own line only
+               if it doesn't fit). -->
+          <slot name="actions" />
         </div>
       ) : (
         <BylineRow
@@ -122,11 +128,6 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
           shareImage={shareImage}
         />
       )}
-
-      <!-- Pilot only: the thumbs/share/embed/cite action row, right under the
-           byline. A no-op on every other calculator page, which pass nothing
-           into this slot. -->
-      <slot name="actions" />
     </div>
   </section>
 

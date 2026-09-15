@@ -29,18 +29,8 @@ export default function CalculatorActionsBlock({
   googlePreferredSourcesUrl,
 }: CalculatorActionsBlockProps) {
   return (
-    <div className="not-prose mt-3 flex flex-col gap-3">
-      {showCount && helpfulCount !== null && (
-        <p className="flex items-center gap-1.5 text-sm text-bark-600">
-          <ThumbIcon className="h-4 w-4 shrink-0 text-moss-700" />
-          <span>
-            <span className="font-semibold text-bark-800">{helpfulCount.toLocaleString()}</span>{' '}
-            {helpfulCount === 1 ? 'person finds' : 'people find'} this calculator helpful
-          </span>
-        </p>
-      )}
-
-      <div className="flex flex-wrap items-center gap-2">
+    <div className="not-prose inline-flex flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-1">
         {/* Thumbs up / down -- same vote as the "Was this helpful?" prompt
             under the results; whichever one the visitor uses first wins,
             and the other UI reflects it immediately (shared hook state).
@@ -106,6 +96,16 @@ export default function CalculatorActionsBlock({
           &rdquo;
         </button>
       </div>
+
+      {showCount && helpfulCount !== null && (
+        <p className="flex w-full items-center gap-1.5 text-sm text-bark-600">
+          <ThumbIcon className="h-4 w-4 shrink-0 text-moss-700" />
+          <span>
+            <span className="font-semibold text-bark-800">{helpfulCount.toLocaleString()}</span>{' '}
+            {helpfulCount === 1 ? 'person finds' : 'people find'} this calculator helpful
+          </span>
+        </p>
+      )}
 
       {googlePreferredSourcesUrl && (
         <a
