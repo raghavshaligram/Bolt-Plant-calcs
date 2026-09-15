@@ -1,37 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { jsPDF } from 'jspdf';
-import { trackEvent, getCalculatorName } from '../../lib/analytics';
-
-type UnitSystem = 'imperial' | 'metric';
-type BagSize = '1.5' | '2';
-
-// Preset bed sizes in feet (length × width) — depth auto-filled separately.
-type Preset = { label: string; length: string; width: string };
-
-const PRESETS: Preset[] = [
-  { label: '4×4', length: '4', width: '4' },
-  { label: '4×8', length: '4', width: '8' },
-  { label: '4×2', length: '4', width: '2' },
-  { label: 'Custom', length: '', width: '' },
-];
-
-const DEFAULT_DEPTH_IN = '10';
-const DEFAULT_DEPTH_CM = '25';
-
-// Weight estimate: ~40 lbs per 0.75 cu ft bag → ~53.3 lbs/cu ft → ~1,440 lbs/cu yd
-// Expressed as lbs per cubic foot for the weight calc.
-const LBS_PER_CU_FT = 40 / 0.75; // ≈ 53.33 lbs/cu ft (labeled as approximate)
-
-const STORAGE_KEY = 'raised-bed-soil-calculator-state-v1';
-
-interface SavedState {
-  unitSystem: UnitSystem;
-  presetIndex: number;
-  length: string;
-  width: string;
-  depth: string;
-  bagSize: BagSize;
-}
+import { PRESETS } from './useRaisedBedSoilCalculatorState';
+import type { RaisedBedSoilCalculatorState } from './useRaisedBedSoilCalculatorState';
 
 function round(value: number, decimals = 2): number {
   if (!Number.isFinite(value)) return 0;
@@ -39,220 +7,34 @@ function round(value: number, decimals = 2): number {
   return Math.round(value * factor) / factor;
 }
 
-function sanitizeNumericInput(raw: string): string {
-  if (typeof raw !== 'string') return '';
-  let cleaned = raw.replace(/<[^>]*>/g, '').replace(/[<>]/g, '');
-  cleaned = cleaned.replace(/[^\d.]/g, '');
-  cleaned = cleaned.replace(/^0+(?=\d)/, '');
-  const parts = cleaned.split('.');
-  if (parts.length > 2) cleaned = parts[0] + '.' + parts.slice(1).join('');
-  return cleaned;
-}
-
-function loadSavedState(): Partial<SavedState> {
-  if (typeof window === 'undefined') return {};
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return {};
-    const parsed = JSON.parse(raw);
-    if (typeof parsed !== 'object' || parsed === null) return {};
-    return parsed;
-  } catch {
-    return {};
-  }
-}
-
-function saveState(state: SavedState): void {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    // localStorage unavailable — fail silently.
-  }
-}
-
-const M_TO_FT = 3.28084;
-const CM_TO_IN = 0.393701;
-
-export default function RaisedBedSoilCalculator() {
-  const hasLoaded = useRef(false);
-
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>('imperial');
-  const [presetIndex, setPresetIndex] = useState<number>(1); // 4×8 default
-  const [length, setLength] = useState<string>('4');
-  const [width, setWidth] = useState<string>('8');
-  const [depth, setDepth] = useState<string>(DEFAULT_DEPTH_IN);
-  const [bagSize, setBagSize] = useState<BagSize>('1.5');
-
-  useEffect(() => {
-    const s = loadSavedState();
-    if (s.unitSystem) setUnitSystem(s.unitSystem);
-    if (s.presetIndex !== undefined && s.presetIndex >= 0 && s.presetIndex < PRESETS.length) {
-      setPresetIndex(s.presetIndex);
-    }
-    if (s.length !== undefined) setLength(s.length);
-    if (s.width !== undefined) setWidth(s.width);
-    if (s.depth !== undefined) setDepth(s.depth);
-    if (s.bagSize) setBagSize(s.bagSize);
-    hasLoaded.current = true;
-  }, []);
-
-  useEffect(() => {
-    if (!hasLoaded.current) return;
-    saveState({ unitSystem, presetIndex, length, width, depth, bagSize });
-  }, [unitSystem, presetIndex, length, width, depth, bagSize]);
-
-  const isMetric = unitSystem === 'metric';
-  const lengthUnit = isMetric ? 'm' : 'ft';
-  const depthUnit = isMetric ? 'cm' : 'in';
-
-  const handlePreset = (idx: number) => {
-    setPresetIndex(idx);
-    const preset = PRESETS[idx];
-    if (preset.label !== 'Custom') {
-      // Preset values are always in feet; convert to metric if needed.
-      if (isMetric) {
-        const toM = (v: string) => v ? round(parseFloat(v) / M_TO_FT, 2).toString() : '';
-        setLength(toM(preset.length));
-        setWidth(toM(preset.width));
-      } else {
-        setLength(preset.length);
-        setWidth(preset.width);
-      }
-    }
-  };
-
-  // When unit system changes, convert current values.
-  const prevUnit = useRef<UnitSystem>(unitSystem);
-  useEffect(() => {
-    if (!hasLoaded.current) return;
-    if (prevUnit.current === unitSystem) return;
-    prevUnit.current = unitSystem;
-    if (isMetric) {
-      // ft → m for dimensions
-      const toM = (v: string) => {
-        const n = parseFloat(v);
-        return Number.isFinite(n) ? round(n / M_TO_FT, 2).toString() : '';
-      };
-      setLength(toM(length));
-      setWidth(toM(width));
-      // in → cm for depth
-      const depIn = parseFloat(depth);
-      setDepth(Number.isFinite(depIn) ? round(depIn / CM_TO_IN, 1).toString() : DEFAULT_DEPTH_CM);
-    } else {
-      // m → ft
-      const toFt = (v: string) => {
-        const n = parseFloat(v);
-        return Number.isFinite(n) ? round(n * M_TO_FT, 2).toString() : '';
-      };
-      setLength(toFt(length));
-      setWidth(toFt(width));
-      // cm → in
-      const depCm = parseFloat(depth);
-      setDepth(Number.isFinite(depCm) ? round(depCm * CM_TO_IN, 1).toString() : DEFAULT_DEPTH_IN);
-    }
-  }, [unitSystem]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleNumericChange = (setter: (v: string) => void) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setter(sanitizeNumericInput(e.target.value));
-    };
-
-  const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPresetIndex(3); // switch to Custom
-    handleNumericChange(setLength)(e);
-  };
-
-  const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPresetIndex(3); // switch to Custom
-    handleNumericChange(setWidth)(e);
-  };
-
-  const result = useMemo(() => {
-    let l = parseFloat(length);
-    let w = parseFloat(width);
-    let depthRaw = parseFloat(depth);
-
-    if (!Number.isFinite(l)) l = 0;
-    if (!Number.isFinite(w)) w = 0;
-    if (!Number.isFinite(depthRaw)) depthRaw = 0;
-
-    // Convert to feet / inches.
-    if (isMetric) {
-      l = l * M_TO_FT;
-      w = w * M_TO_FT;
-      depthRaw = depthRaw * CM_TO_IN; // cm → in
-    }
-
-    const depthFt = depthRaw / 12;
-    const cubicFeet = Math.max(0, l * w * depthFt);
-    const cubicYards = cubicFeet / 27;
-    const bagSizeNum = parseFloat(bagSize);
-    const bags = cubicFeet > 0 ? Math.ceil(cubicFeet / bagSizeNum) : 0;
-    const weightLbs = cubicFeet * LBS_PER_CU_FT;
-
-    return { cubicFeet, cubicYards, bags, weightLbs, depthIn: depthRaw, sqft: l * w };
-  }, [unitSystem, length, width, depth, bagSize, isMetric]);
-
-  const hasResult = result.cubicFeet > 0;
-
-  const exportPdf = () => {
-    // Fires on the export click itself, before jsPDF runs, so a slow or
-    // failed PDF render still records the user's intent to export.
-    trackEvent('pdf_export_click', { calculator_name: getCalculatorName() });
-    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
-    const margin = 48;
-    let y = margin;
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(20);
-    doc.text('Raised Bed Soil Calculator Results', margin, y);
-    y += 28;
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(11);
-    doc.setTextColor(90, 90, 90);
-    const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    doc.text(`Generated ${dateStr} — HarvestMath.com`, margin, y);
-    y += 28;
-
-    doc.setTextColor(40, 40, 40);
-    doc.setFontSize(13);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Inputs', margin, y);
-    y += 20;
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(11);
-    [
-      `Length: ${length || 0} ${lengthUnit}`,
-      `Width: ${width || 0} ${lengthUnit}`,
-      `Depth: ${depth || 0} ${depthUnit}`,
-      `Bag size: ${bagSize} cu ft`,
-    ].forEach((line) => { doc.text(line, margin, y); y += 16; });
-
-    y += 12;
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(13);
-    doc.text('Results', margin, y);
-    y += 20;
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(11);
-    [
-      `Cubic feet: ${round(result.cubicFeet, 1).toLocaleString()} cu ft`,
-      `Cubic yards: ${round(result.cubicYards, 2).toLocaleString()} cu yd`,
-      `Bags (${bagSize} cu ft): ~${result.bags.toLocaleString()} bags`,
-      `Estimated weight: ~${Math.round(result.weightLbs).toLocaleString()} lbs (approximate)`,
-    ].forEach((line) => { doc.text(line, margin, y); y += 16; });
-
-    y += 24;
-    doc.setFontSize(9);
-    doc.setTextColor(120, 120, 120);
-    doc.text('Weight estimated at ~40 lbs per 0.75 cu ft bag. Actual weight varies by soil moisture and mix.', margin, y);
-
-    doc.save('raised-bed-soil-calculator-results.pdf');
-  };
+/**
+ * Pure presentational calculator card -- identical markup to the original
+ * RaisedBedSoilCalculator.tsx, now driven entirely by the shared
+ * useRaisedBedSoilCalculatorState() hook instead of owning its own state.
+ * That's what lets the sticky action panel and the Share/Embed/Cite modal
+ * (RaisedBedSoilCalculatorPanel.tsx) read and reset the same inputs/result.
+ */
+export default function RaisedBedSoilCalculatorCard({ calc }: { calc: RaisedBedSoilCalculatorState }) {
+  const {
+    unitSystem,
+    setUnitSystem,
+    presetIndex,
+    length,
+    width,
+    depth,
+    bagSize,
+    setBagSize,
+    isMetric,
+    lengthUnit,
+    depthUnit,
+    handlePreset,
+    handleLengthChange,
+    handleWidthChange,
+    handleDepthChange,
+    result,
+    hasResult,
+    exportPdf,
+  } = calc;
 
   return (
     <div className="not-prose">
@@ -367,7 +149,7 @@ export default function RaisedBedSoilCalculator() {
                 min="0"
                 step="1"
                 value={depth}
-                onChange={handleNumericChange(setDepth)}
+                onChange={handleDepthChange}
                 className="input-field mt-1.5"
               />
               <p className="mt-1.5 text-xs text-bark-500">
@@ -418,7 +200,7 @@ export default function RaisedBedSoilCalculator() {
           </div>
 
           {/* Results */}
-          <div className="overflow-hidden rounded-xl border border-moss-200 bg-moss-50">
+          <div id="rb-results" className="overflow-hidden rounded-xl border border-moss-200 bg-moss-50">
             {!hasResult ? (
               <p className="p-5 text-sm text-bark-500">
                 Enter your bed dimensions and depth above to see how much soil you need.
@@ -426,7 +208,6 @@ export default function RaisedBedSoilCalculator() {
             ) : (
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
-                  {/* Left: cubic feet */}
                   <div className="flex items-start gap-3 p-4 sm:p-5">
                     <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
@@ -446,7 +227,6 @@ export default function RaisedBedSoilCalculator() {
                     </div>
                   </div>
 
-                  {/* Right: bags */}
                   <div className="bg-moss-700 p-4 sm:p-5">
                     <p className="text-xs text-moss-200">That&apos;s about</p>
                     <p className="font-display text-2xl font-bold text-white sm:text-3xl">
@@ -458,7 +238,6 @@ export default function RaisedBedSoilCalculator() {
                   </div>
                 </div>
 
-                {/* Weight estimate */}
                 <div className="flex items-center gap-3 border-t border-moss-200 px-4 py-3 sm:px-5">
                   <div>
                     <p className="text-xs text-bark-500">Estimated weight</p>

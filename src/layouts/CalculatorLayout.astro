@@ -33,6 +33,19 @@ export interface Props {
    * calculator page keeps the standard bottom-of-page offer unchanged.
    */
   hideLeadMagnetForm?: boolean;
+  /**
+   * Pilot layout (Build Prompt: Calculator Page Redesign) -- ONE calculator
+   * only (Raised Bed Soil) while it's under review. When true:
+   *  - The right column becomes a sticky calculator panel (fed via the
+   *    `calculator` named slot below) instead of the TOC sidebar.
+   *  - The desktop TOC is dropped entirely for this page (two sticky
+   *    elements can't share one column, and the calculator wins). Mobile is
+   *    untouched either way -- `lg:` prefixes mean none of this applies
+   *    below the desktop breakpoint.
+   * Every other calculator page omits this prop and keeps the original
+   * TOC-sidebar layout unchanged.
+   */
+  stickyCalculator?: boolean;
 }
 
 const {
@@ -44,6 +57,7 @@ const {
   shareImage,
   lastUpdatedNote,
   hideLeadMagnetForm = false,
+  stickyCalculator = false,
 } = Astro.props;
 
 // Derived from git history (see src/lib/lastUpdated.ts) instead of a
@@ -95,34 +109,63 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
 
   <!-- Two-column main area: intro+content left, sidebar right -->
   <div class="container-wide py-6 sm:py-8">
-    <div class="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
-      <!-- Left column: intro + default slot (calculator, article, etc.) -->
-      <div class="min-w-0">
-        <p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg">
+    {stickyCalculator ? (
+      /* Pilot layout -- three DOM items in this exact order so mobile
+         (no lg:grid) stacks them precisely as before: intro, calculator,
+         rest of the content. On desktop, explicit grid placement moves the
+         calculator to a sticky right column regardless of DOM order, and
+         `lg:row-span-2` makes its sticky containing area span both the
+         intro row and the content row -- i.e. the calculator can stick
+         alongside the FULL left column, releasing only at its bottom, well
+         above the LeadMagnet/Footer sections that live outside this grid
+         entirely. Fixed 440px column (not content-sized) plus SSR'd
+         markup from client:load means no layout shift on load. */
+      <div class="lg:grid lg:grid-cols-[1fr_440px] lg:items-start lg:gap-12">
+        <p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg lg:col-start-1 lg:row-start-1 lg:mb-0">
           {intro}
         </p>
-        <slot />
-        <p class="mt-12 text-sm text-bark-500">
-          Last updated: {formattedDate}.{lastUpdatedNote && ` ${lastUpdatedNote}`}
-        </p>
-      </div>
 
-      <!-- Right column: sticky sidebar -->
-      <aside class="hidden lg:block">
-        <div class="sticky top-24">
-          <slot name="sidebar" />
+        <div class="lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-24 lg:max-h-[calc(100vh-6.5rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:pb-2">
+          <slot name="calculator" />
         </div>
-      </aside>
-    </div>
+
+        <div class="min-w-0 lg:col-start-1 lg:row-start-2">
+          <slot />
+          <p class="mt-12 text-sm text-bark-500">
+            Last updated: {formattedDate}.{lastUpdatedNote && ` ${lastUpdatedNote}`}
+          </p>
+        </div>
+      </div>
+    ) : (
+      <div class="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+        <!-- Left column: intro + default slot (calculator, article, etc.) -->
+        <div class="min-w-0">
+          <p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg">
+            {intro}
+          </p>
+          <slot />
+          <p class="mt-12 text-sm text-bark-500">
+            Last updated: {formattedDate}.{lastUpdatedNote && ` ${lastUpdatedNote}`}
+          </p>
+        </div>
+
+        <!-- Right column: sticky sidebar -->
+        <aside class="hidden lg:block">
+          <div class="sticky top-24">
+            <slot name="sidebar" />
+          </div>
+        </aside>
+      </div>
+    )}
   </div>
 
   {leadMagnet && !hideLeadMagnetForm && (
     <div class="container-wide">
-      {/* Same lg:grid grid-cols-[1fr_240px] template as the content area
-          above -- guarantees the form's column resolves to the exact same
-          pixel width as the article/calculator column, even with no second
-          item in this grid (the 240px track still reserves its own space). */}
-      <div class="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+      {/* Same column template as the content area above -- guarantees the
+          form's column resolves to the exact same pixel width as the
+          article/calculator column, even with no second item in this grid
+          (the second track still reserves its own space either way). */}
+      <div class={stickyCalculator ? 'lg:grid lg:grid-cols-[1fr_440px] lg:gap-12' : 'lg:grid lg:grid-cols-[1fr_240px] lg:gap-12'}>
         <div class="min-w-0">
           <LeadMagnetForm
             client:load
