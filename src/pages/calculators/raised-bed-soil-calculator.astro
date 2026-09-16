@@ -42,14 +42,10 @@ const relatedLinks = [
   { name: 'How to fill a raised garden bed', url: '/blog/how-to-fill-a-raised-garden-bed/' },
 ];
 
-// Part 5 -- verified before shipping: this sandbox's network policy blocks
-// direct requests to google.com, and a fetch through the available tooling
-// returned only bare meta tags with no visible page content -- inconclusive
-// either way. Per the build prompt ("if it doesn't resolve correctly, omit
-// it rather than shipping a broken link"), this ships omitted. Set to the
-// real URL once verified in an actual browser:
-// 'https://www.google.com/preferences/source?q=harvestmath.com'
-const googlePreferredSourcesUrl: string | null = null;
+// Part 5 -- this sandbox's network policy blocks direct requests to
+// google.com, so this URL couldn't be verified by fetching it here; it was
+// confirmed correct directly by the site owner instead.
+const googlePreferredSourcesUrl: string | null = 'https://www.google.com/preferences/source?q=harvestmath.com';
 
 const origin = new URL(Astro.site!).origin;
 
@@ -214,6 +210,7 @@ const softwareAppJsonLd = {
     origin={origin}
     googlePreferredSourcesUrl={googlePreferredSourcesUrl}
     calculatorPortalId="rb-calculator-portal"
+    referenceTablesPortalId="rb-reference-tables-portal"
   />
 
   <div id="rb-calculator-portal" slot="calculator" />
@@ -263,6 +260,11 @@ const softwareAppJsonLd = {
       <li>Choose your bag size (1.5 or 2 cu ft).</li>
       <li>Read your cubic feet, cubic yards, bag count, and weight.</li>
     </ol>
+
+    <!-- Bag-count comparison (live) + unit-conversion reference tables.
+         Moved out of the sticky calculator card so that panel is short
+         enough to stick without needing its own internal scrollbar. -->
+    <div id="rb-reference-tables-portal" class="not-prose my-8" />
 
     <h2 id="how-much-soil-do-i-need">How Much Soil Do I Need for a Raised Bed?</h2>
 

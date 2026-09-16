@@ -61,7 +61,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
         {/* Card header -- includes Reset/Clear, since the sticky panel now
             contains only the tool itself (inputs, results, reset, and the
             "Was this helpful?" prompt) per the Correction Prompt. */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-6 py-4">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
           <h2 className="font-display text-lg font-semibold text-white">
             Calculate Your Raised Bed Soil
           </h2>
@@ -77,7 +77,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
           </button>
         </div>
 
-        <div className="flex flex-col gap-5 p-6">
+        <div className="flex flex-col gap-3 p-5">
           {/* Preset buttons + unit toggle row */}
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
@@ -105,9 +105,6 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
                   </button>
                 ))}
               </div>
-              <p className="mt-1.5 text-xs text-bark-400">
-                Select a size to auto-fill length &amp; width, or enter custom dimensions below.
-              </p>
             </div>
 
             <div>
@@ -138,7 +135,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
           </div>
 
           {/* Dimension inputs */}
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-3">
             <div>
               <label htmlFor="rb-length" className="label-field">
                 Length <span className="text-bark-500">({lengthUnit})</span>
@@ -216,10 +213,20 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
             </div>
           </div>
 
-          {/* Formula display */}
-          <div className="rounded-lg bg-sand-50 px-4 py-3 text-sm text-bark-600 ring-1 ring-moss-100">
-            <p className="font-medium text-bark-700">The math:</p>
-            <p className="mt-1 font-mono text-xs text-bark-600 sm:text-sm">
+          {/* Formula display -- collapsed by default. It's useful reference,
+              not something most visitors need open while they work, and
+              keeping it closed is most of what lets this panel stay short
+              enough to stick without an internal scrollbar. */}
+          <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
+            <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
+              <span className="inline-flex items-center gap-1.5">
+                Show the math
+                <svg className="h-3.5 w-3.5 text-bark-400 transition group-open:rotate-180" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </summary>
+            <p className="mt-2 font-mono text-xs text-bark-600 sm:text-sm">
               Cubic Feet = Length × Width × (Depth ÷ 12)
             </p>
             <p className="mt-1 font-mono text-xs text-bark-500 sm:text-sm">
@@ -228,7 +235,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
             <p className="mt-1 font-mono text-xs text-bark-500 sm:text-sm">
               Bags = ⌈ Cubic Feet ÷ Bag Size ⌉ &nbsp;·&nbsp; Weight ≈ Cubic Feet × 53.3 lbs
             </p>
-          </div>
+          </details>
 
           {/* Results */}
           <div id="rb-results" className="overflow-hidden rounded-xl border border-moss-200 bg-moss-50">
@@ -239,7 +246,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
             ) : (
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
-                  <div className="flex items-start gap-3 p-4 sm:p-5">
+                  <div className="flex items-start gap-3 p-4">
                     <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                         <path d="M16 4c-3 4-5 7-5 11a5 5 0 0 0 10 0c0-4-2-7-5-11Z" />
@@ -258,7 +265,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
                     </div>
                   </div>
 
-                  <div className="bg-moss-700 p-4 sm:p-5">
+                  <div className="bg-moss-700 p-4">
                     <p className="text-xs text-moss-200">That&apos;s about</p>
                     <p className="font-display text-2xl font-bold text-white sm:text-3xl">
                       ~{result.bags.toLocaleString()}
@@ -269,21 +276,12 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 border-t border-moss-200 px-4 py-3 sm:px-5">
-                  <div>
-                    <p className="text-xs text-bark-500">Estimated weight</p>
-                    <p className="font-display text-xl font-bold text-moss-700">
-                      ~{Math.round(result.weightLbs).toLocaleString()} lbs
-                    </p>
-                    <p className="text-xs text-bark-400">
-                      Based on ~40 lbs per 0.75 cu ft bag. Varies with soil moisture and mix.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2.5">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2.5 sm:px-5">
                   <p className="text-xs text-bark-500">
-                    For {round(result.sqft, 1)} sq ft at {round(result.depthIn, 1)}&Prime; deep.
+                    <span className="font-semibold text-bark-700">
+                      ~{Math.round(result.weightLbs).toLocaleString()} lbs
+                    </span>{' '}
+                    &middot; For {round(result.sqft, 1)} sq ft at {round(result.depthIn, 1)}&Prime; deep.
                     Add 10–15% for settling.
                   </p>
                   <button
@@ -305,7 +303,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-3 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button
@@ -339,72 +337,12 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
             </div>
           )}
 
-          {/* Comparison table: 1.5 cu ft vs 2 cu ft bags */}
-          {hasResult && (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <caption className="mb-2 text-xs font-medium uppercase tracking-wider text-bark-400">
-                  Bag count comparison
-                </caption>
-                <thead>
-                  <tr className="border-b border-moss-100 text-bark-500">
-                    <th scope="col" className="py-2 pr-4 font-medium">Bag size</th>
-                    <th scope="col" className="py-2 pr-4 font-medium">Bags needed</th>
-                    <th scope="col" className="py-2 font-medium">Notes</th>
-                  </tr>
-                </thead>
-                <tbody className="text-bark-700">
-                  <tr className="border-b border-moss-50">
-                    <th scope="row" className="py-2 pr-4 font-medium text-bark-800">1.5 cu ft bag</th>
-                    <td className="py-2 pr-4">~{Math.ceil(result.cubicFeet / 1.5)}</td>
-                    <td className="py-2 text-bark-500">Common at hardware stores</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" className="py-2 pr-4 font-medium text-bark-800">2 cu ft bag</th>
-                    <td className="py-2 pr-4">~{Math.ceil(result.cubicFeet / 2)}</td>
-                    <td className="py-2 text-bark-500">Fewer bags, heavier to carry</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {/* Unit conversion reference table */}
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <caption className="mb-2 text-xs font-medium uppercase tracking-wider text-bark-400">
-                Soil volume unit conversions
-              </caption>
-              <thead>
-                <tr className="border-b border-moss-100 text-bark-500">
-                  <th scope="col" className="py-2 pr-4 font-medium">1 unit</th>
-                  <th scope="col" className="py-2 pr-4 font-medium">Cubic feet</th>
-                  <th scope="col" className="py-2 pr-4 font-medium">Cubic yards</th>
-                  <th scope="col" className="py-2 font-medium">1.5 cu ft bags</th>
-                </tr>
-              </thead>
-              <tbody className="text-bark-700">
-                <tr className="border-b border-moss-50">
-                  <th scope="row" className="py-2 pr-4 font-medium text-bark-800">1 cubic yard</th>
-                  <td className="py-2 pr-4">27</td>
-                  <td className="py-2 pr-4">1</td>
-                  <td className="py-2">18</td>
-                </tr>
-                <tr className="border-b border-moss-50">
-                  <th scope="row" className="py-2 pr-4 font-medium text-bark-800">1.5 cu ft bag</th>
-                  <td className="py-2 pr-4">1.5</td>
-                  <td className="py-2 pr-4">0.056</td>
-                  <td className="py-2">1</td>
-                </tr>
-                <tr>
-                  <th scope="row" className="py-2 pr-4 font-medium text-bark-800">2 cu ft bag</th>
-                  <td className="py-2 pr-4">2</td>
-                  <td className="py-2 pr-4">0.074</td>
-                  <td className="py-2">1.33</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {/* The bag-count comparison and unit-conversion reference tables
+              used to live here, but they were the main reason this sticky
+              panel needed an internal scrollbar to fit typical viewports.
+              They now render in the normal page content instead (see
+              RaisedBedSoilReferenceTables.tsx, portaled into the article),
+              so this panel stays short enough to stick without scrolling. */}
         </div>
       </div>
     </div>

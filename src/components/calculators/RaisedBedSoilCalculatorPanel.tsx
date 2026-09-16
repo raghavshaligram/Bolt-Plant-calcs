@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import RaisedBedSoilCalculatorCard from './RaisedBedSoilCalculatorCard';
+import RaisedBedSoilReferenceTables from './RaisedBedSoilReferenceTables';
 import CalculatorActionsBlock from './CalculatorActionsBlock';
 import ShareEmbedCiteModal from './ShareEmbedCiteModal';
 import { useRaisedBedSoilCalculatorState } from './useRaisedBedSoilCalculatorState';
@@ -24,6 +25,14 @@ export interface RaisedBedSoilCalculatorPanelProps {
    * messaging.
    */
   calculatorPortalId: string;
+  /**
+   * id of a second empty placeholder <div>, this one in the normal (non-
+   * sticky) article flow. The bag-count comparison and unit-conversion
+   * tables portal here instead of living in the sticky card -- that's what
+   * lets the sticky panel be short enough to stick without an internal
+   * scrollbar on typical screens.
+   */
+  referenceTablesPortalId: string;
 }
 
 /**
@@ -48,19 +57,22 @@ export default function RaisedBedSoilCalculatorPanel({
   origin,
   googlePreferredSourcesUrl,
   calculatorPortalId,
+  referenceTablesPortalId,
 }: RaisedBedSoilCalculatorPanelProps) {
   const calc = useRaisedBedSoilCalculatorState();
   const feedback = useCalculatorFeedback(calculatorSlug);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTab, setModalTab] = useState<ModalTab>('share');
   const [portalTarget, setPortalTarget] = useState<Element | null>(null);
+  const [referenceTarget, setReferenceTarget] = useState<Element | null>(null);
 
-  // The placeholder div is server-rendered markup elsewhere in the page, so
-  // it already exists by the time this island hydrates -- but we still look
-  // it up on mount rather than assuming, in case that ever changes.
+  // The placeholder divs are server-rendered markup elsewhere in the page,
+  // so they already exist by the time this island hydrates -- but we still
+  // look them up on mount rather than assuming, in case that ever changes.
   useEffect(() => {
     setPortalTarget(document.getElementById(calculatorPortalId));
-  }, [calculatorPortalId]);
+    setReferenceTarget(document.getElementById(referenceTablesPortalId));
+  }, [calculatorPortalId, referenceTablesPortalId]);
 
   const openModal = (tab: ModalTab) => {
     setModalTab(tab);
@@ -94,6 +106,8 @@ export default function RaisedBedSoilCalculatorPanel({
           <RaisedBedSoilCalculatorCard calc={calc} sentiment={feedback.sentiment} onVote={feedback.submitFeedback} />,
           portalTarget
         )}
+
+      {referenceTarget && createPortal(<RaisedBedSoilReferenceTables calc={calc} />, referenceTarget)}
 
       <ShareEmbedCiteModal
         isOpen={modalOpen}

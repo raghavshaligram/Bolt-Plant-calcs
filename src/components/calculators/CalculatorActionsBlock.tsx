@@ -91,9 +91,9 @@ export default function CalculatorActionsBlock({
           onClick={() => onOpenModal('cite')}
           aria-label="Cite this calculator"
           title="Cite"
-          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-base font-bold leading-none text-bark-500 transition hover:bg-moss-50 hover:text-moss-800"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent font-serif text-3xl font-bold leading-none text-bark-500 transition hover:bg-moss-50 hover:text-moss-800"
         >
-          &rdquo;
+          <span className="-mt-1">&rdquo;</span>
         </button>
       </div>
 
