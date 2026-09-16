@@ -91,9 +91,9 @@ export default function CalculatorActionsBlock({
           onClick={() => onOpenModal('cite')}
           aria-label="Cite this calculator"
           title="Cite"
-          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent font-serif text-3xl font-bold leading-none text-bark-500 transition hover:bg-moss-50 hover:text-moss-800"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-bark-500 transition hover:bg-moss-50 hover:text-moss-800"
         >
-          <span className="-mt-1">&rdquo;</span>
+          <CiteIcon className="h-5 w-5" />
         </button>
       </div>
 
@@ -135,6 +135,23 @@ function ShareIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+    </svg>
+  );
+}
+
+function CiteIcon({ className }: { className?: string }) {
+  // A bold "closing quotation marks" glyph, drawn as SVG rather than set as
+  // a real quote character. A real serif quote character (as this used to
+  // be) draws its ink near the top of its own line box -- quotation marks
+  // sit up near cap-height by design, with empty space below where a
+  // descender would go but isn't used -- so it visibly floats above the
+  // other icons even when the button centers it with flex. An SVG's
+  // viewBox *is* its bounding box, so the same items-center/justify-center
+  // centering that lines up ThumbIcon/ShareIcon lines this up too.
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M9.5 7.25c-2.35 0-4.25 1.9-4.25 4.25 0 2.06 1.47 3.78 3.42 4.16L7.15 19h2.4l1.78-4.71c.4-1.06.62-2.1.62-3.04 0-2.2-.7-4-2.45-4Z" />
+      <path d="M18.1 7.25c-2.35 0-4.25 1.9-4.25 4.25 0 2.06 1.47 3.78 3.42 4.16L15.75 19h2.4l1.78-4.71c.4-1.06.62-2.1.62-3.04 0-2.2-.7-4-2.45-4Z" />
     </svg>
   );
 }
