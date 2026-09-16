@@ -12,8 +12,8 @@ export interface CalculatorActionsBlockProps {
 
 /**
  * Renders directly under the byline row (in CalculatorLayout's hero band):
- * the helpful-count line, one compact icon row (thumbs / share / embed /
- * cite), and the optional Google "preferred source" button. Nothing here
+ * one compact icon row (thumbs / share / embed / cite / Google "preferred
+ * source" bookmark) and, below it, the helpful-count line. Nothing here
  * is the calculator itself -- that stays entirely in the sticky right
  * panel (see RaisedBedSoilCalculatorCard), which keeps its own plain-text
  * "Was this helpful? Yes/No" prompt right under the result. Both read/
@@ -96,12 +96,12 @@ export default function CalculatorActionsBlock({
           <CiteIcon className="h-5 w-5" />
         </button>
 
-        {/* Compact version of the "Add as preferred on Google" action,
-            right in the icon row next to Cite -- same bookmark glyph as
-            the button below, so someone scanning the icon row (rather
-            than reading the labeled button underneath) can still reach
-            it in one click. The labeled button stays too, since it's the
-            more prominent, readable version of the same action. */}
+        {/* "Add as preferred on Google" -- a compact bookmark-icon button,
+            right in the icon row next to Cite. This used to also have a
+            separate labeled pill button below the row; that was dropped
+            once the action existed here too, since showing the same link
+            twice was redundant (same reasoning as the earlier duplicate
+            Share row removal). */}
         {googlePreferredSourcesUrl && (
           <a
             href={googlePreferredSourcesUrl}
@@ -124,18 +124,6 @@ export default function CalculatorActionsBlock({
             {helpfulCount === 1 ? 'person finds' : 'people find'} this calculator helpful
           </span>
         </p>
-      )}
-
-      {googlePreferredSourcesUrl && (
-        <a
-          href={googlePreferredSourcesUrl}
-          target="_blank"
-          rel="noopener"
-          className="inline-flex w-fit items-center gap-2 rounded-full border border-moss-200 bg-white px-3.5 py-1.5 text-xs font-medium text-bark-700 transition hover:bg-moss-50"
-        >
-          <GoogleIcon className="h-3.5 w-3.5" />
-          Add as preferred on Google
-        </a>
       )}
     </div>
   );
@@ -179,17 +167,6 @@ function BookmarkIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M6.75 3.75c-.83 0-1.5.67-1.5 1.5v14.5a.75.75 0 0 0 1.164.625L12 16.24l5.586 4.135a.75.75 0 0 0 1.164-.625V5.25c0-.83-.67-1.5-1.5-1.5h-10.5Z" />
-    </svg>
-  );
-}
-
-function GoogleIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 18 18" aria-hidden="true">
-      <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62Z" />
-      <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18Z" />
-      <path fill="#FBBC05" d="M3.97 10.72A5.4 5.4 0 0 1 3.68 9c0-.6.1-1.18.29-1.72V4.95H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.05l3.01-2.33Z" />
-      <path fill="#EA4335" d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.59-2.59C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58Z" />
     </svg>
   );
 }
