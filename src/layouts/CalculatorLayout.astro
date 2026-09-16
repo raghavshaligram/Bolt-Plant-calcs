@@ -143,14 +143,32 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
          calculator immediately after it, then TOC, then the rest of the
          content, then related calculators at the very end. That's a plain
          top-to-bottom order that needs no independent reordering between
-         mobile and desktop, unlike the previous version of this layout --
-         DOM order IS both the mobile stacking order and (via lg:row-start)
-         the desktop left-column order. The calculator spans all 4 of those
-         row tracks in a second, sticky column on desktop, so it stays
-         visible alongside the entire left column and releases only at its
-         bottom -- well above the LeadMagnet/Footer sections that live
-         outside this grid entirely. Fixed 440px column (not content-sized)
-         plus SSR'd markup from client:load means no layout shift on load. */
+         mobile and desktop -- DOM order (intro, then calculator, then a
+         wrapper holding TOC/content/related) IS both the mobile stacking
+         order and, via lg:col/row-start below, the desktop order.
+
+         Two row tracks, not one per left-column piece: an earlier version
+         gave each piece (intro/TOC/content/related) its own
+         lg:row-start-N track, with the sticky calculator column spanning
+         all 4 via lg:row-span-4. That works fine as long as every row is
+         about as tall as it always was, but CSS Grid distributes a
+         spanning item's extra required height across whichever auto
+         tracks it spans -- so once the TOC became collapsible (short when
+         closed), the grid still reserved the same total height across
+         rows 1-4 to fit the tall sticky panel, and the leftover landed as
+         blank space in the TOC's own row track, below its now-short
+         content. Grouping TOC + content + related into one wrapper (one
+         row track, row 2) fixes that: that row's height comes from the
+         wrapper's real total content -- which is always dominated by the
+         long article body -- regardless of whether the TOC inside it is
+         open or collapsed, so there's no separate short track left for
+         the grid to inflate. Row 1 is just the intro paragraph, above it.
+         The calculator spans both rows (row-span-2, down from -4) in a
+         second, sticky column, so it still stays visible alongside the
+         entire left column and releases only at its bottom -- well above
+         the LeadMagnet/Footer sections that live outside this grid
+         entirely. Fixed 440px column (not content-sized) plus SSR'd
+         markup from client:load means no layout shift on load. */
       <div class="lg:grid lg:grid-cols-[1fr_440px] lg:items-start lg:gap-12">
         <div class="lg:col-start-1 lg:row-start-1">
           <p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg lg:mb-0">
@@ -158,23 +176,23 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
           </p>
         </div>
 
-        <div class="lg:col-start-2 lg:row-start-1 lg:row-span-4 lg:sticky lg:top-24 lg:max-h-[calc(100vh-6.5rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:pb-2">
+        <div class="lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-24 lg:max-h-[calc(100vh-6.5rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:pb-2">
           <slot name="calculator" />
         </div>
 
         <div class="mt-6 lg:col-start-1 lg:row-start-2 lg:mt-6">
           <slot name="toc" />
-        </div>
 
-        <div class="min-w-0 mt-6 lg:col-start-1 lg:row-start-3 lg:mt-6">
-          <slot />
-          <p class="mt-12 text-sm text-bark-500">
-            Last updated: {formattedDate}.{lastUpdatedNote && ` ${lastUpdatedNote}`}
-          </p>
-        </div>
+          <div class="min-w-0 mt-6">
+            <slot />
+            <p class="mt-12 text-sm text-bark-500">
+              Last updated: {formattedDate}.{lastUpdatedNote && ` ${lastUpdatedNote}`}
+            </p>
+          </div>
 
-        <div class="mt-6 lg:col-start-1 lg:row-start-4 lg:mt-6">
-          <slot name="relatedCalculators" />
+          <div class="mt-6">
+            <slot name="relatedCalculators" />
+          </div>
         </div>
       </div>
     ) : (
