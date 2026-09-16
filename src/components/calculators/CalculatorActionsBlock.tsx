@@ -95,6 +95,25 @@ export default function CalculatorActionsBlock({
         >
           <CiteIcon className="h-5 w-5" />
         </button>
+
+        {/* Compact version of the "Add as preferred on Google" action,
+            right in the icon row next to Cite -- same bookmark glyph as
+            the button below, so someone scanning the icon row (rather
+            than reading the labeled button underneath) can still reach
+            it in one click. The labeled button stays too, since it's the
+            more prominent, readable version of the same action. */}
+        {googlePreferredSourcesUrl && (
+          <a
+            href={googlePreferredSourcesUrl}
+            target="_blank"
+            rel="noopener"
+            aria-label="Add as preferred on Google"
+            title="Add as preferred on Google"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-bark-500 transition hover:bg-moss-50 hover:text-moss-800"
+          >
+            <BookmarkIcon className="h-4 w-4" />
+          </a>
+        )}
       </div>
 
       {showCount && helpfulCount !== null && (
@@ -152,6 +171,14 @@ function CiteIcon({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M9.5 7.25c-2.35 0-4.25 1.9-4.25 4.25 0 2.06 1.47 3.78 3.42 4.16L7.15 19h2.4l1.78-4.71c.4-1.06.62-2.1.62-3.04 0-2.2-.7-4-2.45-4Z" />
       <path d="M18.1 7.25c-2.35 0-4.25 1.9-4.25 4.25 0 2.06 1.47 3.78 3.42 4.16L15.75 19h2.4l1.78-4.71c.4-1.06.62-2.1.62-3.04 0-2.2-.7-4-2.45-4Z" />
+    </svg>
+  );
+}
+
+function BookmarkIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M6.75 3.75c-.83 0-1.5.67-1.5 1.5v14.5a.75.75 0 0 0 1.164.625L12 16.24l5.586 4.135a.75.75 0 0 0 1.164-.625V5.25c0-.83-.67-1.5-1.5-1.5h-10.5Z" />
     </svg>
   );
 }
