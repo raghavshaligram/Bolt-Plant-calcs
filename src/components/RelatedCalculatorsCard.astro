@@ -1,0 +1,45 @@
+---
+// Compact "Related" card for the sticky-calculator page layout (Build
+// Prompt: Calculator Page Redesign -- Roll Out to All Remaining
+// Calculators). Renders in CalculatorLayout's slot="relatedCalculators" --
+// the very end of the left column, same placement the Raised Bed Soil
+// Calculator pilot established -- as a small rounded card rather than the
+// plain <section>/<ul> RelatedCalculatorsList.astro renders, since this one
+// lives outside the .prose article wrapper and needs its own compact
+// styling.
+//
+// Accepts the same item shape as RelatedCalculatorsList.astro (name, url,
+// anchorText, note) so each page's existing, hand-curated related-calculator
+// list -- already written to be genuinely relevant per calculator, not a
+// generic repeated list -- can move here unchanged, notes included, instead
+// of being rewritten.
+
+export interface RelatedItem {
+  name: string;
+  url: string;
+  anchorText?: string;
+  note?: string;
+}
+
+export interface Props {
+  id?: string;
+  items: RelatedItem[];
+  heading?: string;
+}
+
+const { id = 'related-calculators', items, heading = 'Related' } = Astro.props;
+---
+
+<div id={id} class="not-prose rounded-2xl bg-white p-5 shadow-card ring-1 ring-moss-100/60">
+  <p class="text-xs font-semibold uppercase tracking-wider text-bark-400">{heading}</p>
+  <ul class="mt-2 space-y-2.5">
+    {items.map((item) => (
+      <li>
+        <a href={item.url} class="text-sm font-medium text-moss-700 hover:text-moss-900 hover:underline">
+          {item.anchorText ?? item.name} &rarr;
+        </a>
+        {item.note && <p class="mt-0.5 text-xs text-bark-500">{item.note}</p>}
+      </li>
+    ))}
+  </ul>
+</div>

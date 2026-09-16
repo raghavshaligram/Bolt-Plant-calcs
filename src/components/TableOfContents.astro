@@ -15,9 +15,21 @@ export interface TocItem {
 export interface Props {
   items: TocItem[];
   variant: 'sidebar' | 'accordion';
+  /**
+   * Sticky-calculator page rollout (Build Prompt: Calculator Page Redesign
+   * -- Roll Out to All Remaining Calculators) -- only meaningful with
+   * variant="sidebar". When true, wraps the sidebar nav in a collapsible
+   * <details> card (collapsed by default, same chevron/interaction as the
+   * accordion variant) instead of the plain always-open <nav>, matching the
+   * desktop TOC card the Raised Bed Soil Calculator pilot introduced.
+   * Defaults to false so every existing caller (blog posts, cluster pillar
+   * pages, and the old right-rail calculator layout) keeps its current
+   * always-open sidebar behavior unchanged.
+   */
+  collapsible?: boolean;
 }
 
-const { items, variant } = Astro.props;
+const { items, variant, collapsible = false } = Astro.props;
 
 // Icon SVG paths + background colors, keyed by icon name.
 const iconMeta: Record<IconName, { path: string; bg: string; color: string }> = {
@@ -50,33 +62,70 @@ const iconMeta: Record<IconName, { path: string; bg: string; color: string }> = 
 ---
 
 {variant === 'sidebar' ? (
-  <nav aria-label="On this page">
-    <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-bark-400">
-      On this page
-    </p>
-    <ol class="space-y-0.5">
-      {items.map((item) => {
-        const meta = item.icon ? iconMeta[item.icon] : null;
-        return (
-          <li>
-            <a
-              href={`#${item.id}`}
-              class="group flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-bark-600 transition hover:bg-moss-50 hover:text-moss-800"
-            >
-              {meta && (
-                <span class={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${meta.bg} ${meta.color}`}>
-                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d={meta.path} />
-                  </svg>
-                </span>
-              )}
-              <span class="leading-tight">{item.label}</span>
-            </a>
-          </li>
-        );
-      })}
-    </ol>
-  </nav>
+  collapsible ? (
+    <details class="toc-desktop-collapsible group rounded-2xl border border-moss-100 bg-white shadow-card">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-2 rounded-2xl px-5 py-4 transition hover:bg-moss-50/60">
+        <span class="text-xs font-semibold uppercase tracking-wider text-bark-400">
+          On this page
+        </span>
+        <svg class="h-4 w-4 shrink-0 text-bark-400 transition group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <nav aria-label="On this page" class="px-3 pb-4">
+        <ol class="space-y-0.5">
+          {items.map((item) => {
+            const meta = item.icon ? iconMeta[item.icon] : null;
+            return (
+              <li>
+                <a
+                  href={`#${item.id}`}
+                  class="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-bark-600 transition hover:bg-moss-50 hover:text-moss-800"
+                >
+                  {meta && (
+                    <span class={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${meta.bg} ${meta.color}`}>
+                      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d={meta.path} />
+                      </svg>
+                    </span>
+                  )}
+                  <span class="leading-tight">{item.label}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+    </details>
+  ) : (
+    <nav aria-label="On this page">
+      <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-bark-400">
+        On this page
+      </p>
+      <ol class="space-y-0.5">
+        {items.map((item) => {
+          const meta = item.icon ? iconMeta[item.icon] : null;
+          return (
+            <li>
+              <a
+                href={`#${item.id}`}
+                class="group flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-bark-600 transition hover:bg-moss-50 hover:text-moss-800"
+              >
+                {meta && (
+                  <span class={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${meta.bg} ${meta.color}`}>
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d={meta.path} />
+                    </svg>
+                  </span>
+                )}
+                <span class="leading-tight">{item.label}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  )
 ) : (
   <details class="toc-accordion group my-5 rounded-xl border border-moss-100 bg-moss-50/40 lg:hidden">
     <summary class="flex cursor-pointer list-none items-center justify-between gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-bark-700 transition hover:bg-moss-50">
@@ -109,4 +158,5 @@ const iconMeta: Record<IconName, { path: string; bg: string; color: string }> = 
 
 <style>
   .toc-accordion summary::-webkit-details-marker { display: none; }
+  .toc-desktop-collapsible summary::-webkit-details-marker { display: none; }
 </style>

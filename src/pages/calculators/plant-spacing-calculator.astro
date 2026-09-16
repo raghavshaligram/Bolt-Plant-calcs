@@ -1,11 +1,9 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
-import PlantSpacingCalculator from '../../components/calculators/PlantSpacingCalculator.tsx';
+import PlantSpacingCalculatorPanel from '../../components/calculators/PlantSpacingCalculatorPanel.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
-import EmbedSnippet from '../../components/EmbedSnippet.astro';
-import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('plant-spacing-calculator')!;
@@ -28,9 +26,11 @@ const tocItems = [
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'plant-spacing-calculator-faq', label: 'FAQ', icon: 'question' as const },
-  { id: 'embed-this-calculator-plant-spacing-calculator', label: 'Embed This Calculator', icon: 'grid' as const },
-  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
 ];
+
+const googlePreferredSourcesUrl: string | null = 'https://www.google.com/preferences/source?q=harvestmath.com';
+
+const origin = new URL(Astro.site!).origin;
 
 const faqs = [
   {
@@ -166,25 +166,58 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage} stickyCalculator>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
 
-  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
-
-  <PlantSpacingCalculator client:load />
-
-  <TableOfContents items={tocItems} variant="accordion" />
-
-  <LeadMagnetForm
+  <!-- This island mounts right under the byline (slot="actions", rendered
+       in CalculatorLayout's hero band) and renders the helpful-count line,
+       the thumbs/share/embed/cite icon row, and the optional Google link.
+       It portals the actual calculator card (inputs, results, reset, "Was
+       this helpful?") into the plain empty div below, which lives in the
+       sticky RIGHT column -- so the tool itself is the ONLY thing in that
+       sticky panel, while still sharing all its state with the action row
+       and the Share/Embed/Cite modal. -->
+  <PlantSpacingCalculatorPanel
     client:load
-    listId={leadMagnet.listId}
-    tag={leadMagnet.tag}
-    clusterName={leadMagnet.clusterName}
-    icon={leadMagnet.icon}
+    slot="actions"
+    calculatorSlug={calculator.slug}
+    calculatorTitle={calculator.title}
+    canonicalPath={calculator.href}
+    origin={origin}
+    googlePreferredSourcesUrl={googlePreferredSourcesUrl}
+    calculatorPortalId="ps-calculator-portal"
   />
+
+  <div id="ps-calculator-portal" slot="calculator" />
+
+  <!-- Related calculators -- compact card, positioned by CalculatorLayout
+       at the very end of the left column. Same items+notes as the old
+       in-article RelatedCalculatorsList, just relocated. -->
+  <RelatedCalculatorsCard id="related-calculators" slot="relatedCalculators" items={[
+    { ...clusterGuideLink('spacing-and-planting'), note: 'Stage 3 of 4 — from frost date through seed starting, spacing, and yield.' },
+    { ...clusterGuideLink('trees-and-shrubs'), note: 'watering by age, mulching, and feeding, once your trees are planted.' },
+    { name: 'Tree Age Calculator', url: '/calculators/tree-age-calculator/', note: 'estimate a tree\'s age from trunk diameter once it\'s established.' },
+    { name: 'Raised Bed Soil Calculator', url: '/calculators/raised-bed-soil-calculator/', note: 'figure out how much soil you need before you plant.' },
+    { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'for pots, containers, and irregular beds.' },
+    { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'calculate how much mulch to add around your planted beds.' },
+  ]} />
+
+  <!-- Table of contents -- accordion on mobile; a matching collapsible card
+       on desktop too. Non-sticky either way -- the calculator owns the
+       only sticky element in this layout. -->
+  <div slot="toc">
+    <TableOfContents items={tocItems} variant="accordion" />
+    <div class="hidden lg:block">
+      <TableOfContents items={tocItems} variant="sidebar" collapsible />
+    </div>
+  </div>
+
+  <!-- No manually-placed LeadMagnetForm here -- CalculatorLayout already
+       renders the standard cluster-wide email optin once, automatically,
+       at the very bottom of the page. -->
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
@@ -560,20 +593,9 @@ const softwareAppJsonLd = {
 
     <FAQBlock id="plant-spacing-calculator-faq" heading="Plant Spacing Calculator FAQ" faqs={faqs} />
 
-    <EmbedSnippet calculator={calculator} />
-
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
       Spacing values in the chart above are based on recommendations from university cooperative extension services. For plant quantity formulas, see Iowa State University Extension&rsquo;s <a href="https://yardandgarden.extension.iastate.edu/how-to/how-determine-plant-quantity-planting-beds" rel="noopener noreferrer">&ldquo;How to Determine Plant Quantity for Planting Beds&rdquo;</a>. For fruit tree spacing by rootstock, see the <a href="https://extension.umaine.edu/fruit/growing-fruit-trees-in-maine/spacing/" rel="noopener noreferrer">University of Maine Cooperative Extension&rsquo;s guide to spacing trees in an orchard</a>. For pecan spacing, see the University of Georgia&rsquo;s <a href="https://fieldreport.caes.uga.edu/publications/B1348/pecan-trees-for-the-home-or-backyard-orchard/" rel="noopener noreferrer">&ldquo;Pecan Trees for the Home or Backyard Orchard&rdquo;</a>. For landscape shrub spacing, see <a href="https://rocklandcce.org/resources/spacing-landscape-plants" rel="noopener noreferrer">Cornell Cooperative Extension&rsquo;s &ldquo;Spacing Landscape Plants&rdquo;</a>. For more on how we source and validate the formulas used on this site, see our <a href="/methodology/">methodology page</a>.
     </p>
-
-    <RelatedCalculatorsList id="related-calculators" items={[
-      { ...clusterGuideLink('spacing-and-planting'), note: 'Stage 3 of 4 — from frost date through seed starting, spacing, and yield.' },
-      { ...clusterGuideLink('trees-and-shrubs'), note: 'watering by age, mulching, and feeding, once your trees are planted.' },
-      { name: 'Tree Age Calculator', url: '/calculators/tree-age-calculator/', note: 'estimate a tree\'s age from trunk diameter once it\'s established.' },
-      { name: 'Raised Bed Soil Calculator', url: '/calculators/raised-bed-soil-calculator/', note: 'figure out how much soil you need before you plant.' },
-      { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'for pots, containers, and irregular beds.' },
-      { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'calculate how much mulch to add around your planted beds.' },
-    ]} />
   </article>
 </CalculatorLayout>

@@ -1,11 +1,10 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
-import GrassSeedCalculator from '../../components/calculators/GrassSeedCalculator.tsx';
+import GrassSeedCalculatorPanel from '../../components/calculators/GrassSeedCalculatorPanel.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
-import EmbedSnippet from '../../components/EmbedSnippet.astro';
-import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('grass-seed-calculator')!;
@@ -25,11 +24,13 @@ const tocItems = [
   { id: 'covering-seed-with-straw', label: 'Covering Seed With Straw', icon: 'leaf' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'grass-seed-calculator-faq', label: 'FAQ', icon: 'question' as const },
-  { id: 'embed-this-calculator-grass-seed-calculator', label: 'Embed This Calculator', icon: 'grid' as const },
-  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
 ];
 
 const shareImage = new URL('/grass-seed-calculator-broadcast-spreader.png', Astro.site).href;
+
+const googlePreferredSourcesUrl: string | null = 'https://www.google.com/preferences/source?q=harvestmath.com';
+
+const origin = new URL(Astro.site!).origin;
 
 const faqs = [
   {
@@ -157,24 +158,59 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage} stickyCalculator>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
 
-  <!-- Desktop sticky TOC in the right sidebar column -->
-  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+  <!-- This island mounts right under the byline (slot="actions", rendered
+       in CalculatorLayout's hero band) and renders the helpful-count line,
+       the thumbs/share/embed/cite icon row, and the optional Google link.
+       It portals the actual calculator card (inputs, results, reset, "Was
+       this helpful?") into the plain empty div below, which lives in the
+       sticky RIGHT column -- so the tool itself is the ONLY thing in that
+       sticky panel, while still sharing all its state with the action row
+       and the Share/Embed/Cite modal. -->
+  <GrassSeedCalculatorPanel
+    client:load
+    slot="actions"
+    calculatorSlug={calculator.slug}
+    calculatorTitle={calculator.title}
+    canonicalPath={calculator.href}
+    origin={origin}
+    googlePreferredSourcesUrl={googlePreferredSourcesUrl}
+    calculatorPortalId="gs-calculator-portal"
+    referenceTablesPortalId="gs-reference-tables-portal"
+  />
 
-  <!-- Calculator tool — immediately after intro, visible without scrolling -->
-  <GrassSeedCalculator client:load />
+  <div id="gs-calculator-portal" slot="calculator" />
 
   <p class="mt-3 text-sm text-bark-500">
     Overseeding an existing lawn instead? Use our <a href="/calculators/overseeding-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Overseeding Calculator</a> for a rate tuned to your lawn's condition, plus a topdressing amount. Laying sod instead of seeding? Use our <a href="/calculators/sod-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Sod Calculator</a> for pallets and pieces instead of pounds and bags.
   </p>
 
-  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
-  <TableOfContents items={tocItems} variant="accordion" />
+  <!-- Related calculators -- compact, plain server-rendered markup (no
+       interactivity needed). Positioned by CalculatorLayout at the very end
+       of the left column, after all other content. Items copied
+       byte-identical from the old in-article RelatedCalculatorsList. -->
+  <RelatedCalculatorsCard id="related-calculators" items={[
+    { ...clusterGuideLink('lawn-and-landscaping'), note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
+    { name: 'Sod Calculator', url: '/calculators/sod-calculator/', note: 'want an instant lawn instead of waiting on seed? get pallets and pieces for your lawn\'s shape and grass type.' },
+    { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'once your new lawn or beds are seeded, use this to figure out mulch for surrounding borders.' },
+    { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'if you need to level or add topsoil before seeding, check volumes here first.' },
+    { name: 'Growing Degree Days Calculator', url: '/calculators/growing-degree-days-calculator/', note: 'time a crabgrass pre-emergent application against a real published GDD threshold instead of a calendar guess.' },
+  ]} slot="relatedCalculators" />
+
+  <!-- Table of contents -- accordion on mobile; a matching collapsible card
+       on desktop too. Non-sticky either way -- the calculator owns the
+       only sticky element in this layout. -->
+  <div slot="toc">
+    <TableOfContents items={tocItems} variant="accordion" />
+    <div class="hidden lg:block">
+      <TableOfContents items={tocItems} variant="sidebar" collapsible />
+    </div>
+  </div>
 
   <LeadMagnetForm
     client:load
@@ -193,6 +229,11 @@ const softwareAppJsonLd = {
       <li>Enter your lawn area (length &times; width, sq ft, or acres).</li>
       <li>Read your pounds of seed, bag count, and per-acre rate.</li>
     </ol>
+
+    <!-- "Grass seed rate reference by type" table -- moved out of the sticky
+         calculator card so that panel is short enough to stick without
+         needing its own internal scrollbar. -->
+    <div id="gs-reference-tables-portal" class="not-prose my-8" />
 
     <h2 id="how-much-grass-seed-do-i-need">How Much Grass Seed Do I Need?</h2>
     <p>
@@ -323,19 +364,9 @@ const softwareAppJsonLd = {
 
     <FAQBlock id="grass-seed-calculator-faq" heading="Grass Seed Calculator FAQ" faqs={faqs} />
 
-    <EmbedSnippet calculator={calculator} />
-
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
       Seeding rate guidance in this article draws on general recommendations from university cooperative extension turfgrass programs, including UMass Extension&rsquo;s <a href="https://www.umass.edu/agriculture-food-environment/home-lawn-garden/fact-sheets/seeding-rate-considerations" rel="noopener">&ldquo;Seeding Rate Considerations&rdquo;</a> fact sheet. The straw mulch coverage and thickness guidance comes from University of Tennessee Extension&rsquo;s <a href="https://utia.tennessee.edu/publications/wp-content/uploads/sites/269/2023/10/W160-B.pdf" rel="noopener">&ldquo;Turfgrass Establishment: Seeding&rdquo;</a> (W160-B). For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>. For grass type selection, overseeding an existing lawn, and lawn care timing, see our <a href="/clusters/lawn-and-landscaping/">complete guide to lawn care</a>.
     </p>
-
-    <RelatedCalculatorsList id="related-calculators" items={[
-      { ...clusterGuideLink('lawn-and-landscaping'), note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
-      { name: 'Sod Calculator', url: '/calculators/sod-calculator/', note: 'want an instant lawn instead of waiting on seed? get pallets and pieces for your lawn\'s shape and grass type.' },
-      { name: 'Mulch Calculator', url: '/calculators/mulch-calculator/', note: 'once your new lawn or beds are seeded, use this to figure out mulch for surrounding borders.' },
-      { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'if you need to level or add topsoil before seeding, check volumes here first.' },
-      { name: 'Growing Degree Days Calculator', url: '/calculators/growing-degree-days-calculator/', note: 'time a crabgrass pre-emergent application against a real published GDD threshold instead of a calendar guess.' },
-    ]} />
   </article>
 </CalculatorLayout>

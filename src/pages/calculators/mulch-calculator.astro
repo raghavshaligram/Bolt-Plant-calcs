@@ -1,11 +1,9 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
-import MulchCalculator from '../../components/calculators/MulchCalculator.tsx';
+import MulchCalculatorPanel from '../../components/calculators/MulchCalculatorPanel.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
-import EmbedSnippet from '../../components/EmbedSnippet.astro';
-import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
 import { getCalculator, getCluster, leadMagnetConfig } from '../../data/calculators';
 
 const calculator = getCalculator('mulch-calculator')!;
@@ -16,6 +14,10 @@ const authorName = 'HarvestMath Editors';
 const authorUrl = '/about/';
 const shareImage = new URL('/mulch-calculator-bed-depth-example.png', Astro.site).href;
 
+const googlePreferredSourcesUrl: string | null = 'https://www.google.com/preferences/source?q=harvestmath.com';
+
+const origin = new URL(Astro.site!).origin;
+
 const intro =
   'Figure out exactly how much mulch you need for any garden bed, border, or landscape area. Enter your bed size and desired depth, and the tool converts it into cubic feet, cubic yards, and standard 2-cubic-foot bags — the units you actually buy mulch in. Built for gardeners, landscapers, and anyone standing in a store aisle doing long division on their phone.';
 
@@ -25,43 +27,41 @@ const tocItems = [
   { id: 'pine-straw-coverage', label: 'Pine Straw Coverage', icon: 'leaf' as const },
   { id: 'common-mulch-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'mulch-calculator-faq', label: 'FAQ', icon: 'question' as const },
-  { id: 'embed-this-calculator-mulch-calculator', label: 'Embed This Calculator', icon: 'grid' as const },
-  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
 ];
 
 // FAQ data — FAQBlock component injects FAQPage schema automatically.
 const faqs = [
   {
     q: 'How many bags of mulch do I need?',
-    a: 'Take your bed\u2019s square footage, multiply by your depth in inches divided by 12 to get cubic feet, then divide by 2 (the size of a standard bag). A 4\u00d78 bed at 3 inches deep needs 8 cubic feet, which is 4 bags. The calculator above does this live as you type.',
+    a: 'Take your bed’s square footage, multiply by your depth in inches divided by 12 to get cubic feet, then divide by 2 (the size of a standard bag). A 4×8 bed at 3 inches deep needs 8 cubic feet, which is 4 bags. The calculator above does this live as you type.',
   },
   {
     q: 'How often should I reapply mulch?',
-    a: 'Most beds need a top-up every 1\u20132 years because mulch decomposes and settles. You don\u2019t always need a full depth \u2014 a 1-inch refresh is usually enough to keep weed suppression and moisture retention where they should be. Pull back the old mulch first if it has matted into a dense layer.',
+    a: 'Most beds need a top-up every 1–2 years because mulch decomposes and settles. You don’t always need a full depth — a 1-inch refresh is usually enough to keep weed suppression and moisture retention where they should be. Pull back the old mulch first if it has matted into a dense layer.',
   },
   {
     q: 'Does mulch depth differ for trees vs flower beds?',
-    a: 'Yes. Flower and vegetable beds do well at 2\u20133 inches. Trees and shrubs want 2\u20134 inches spread evenly to the drip line, but keep a 3\u20136 inch gap around the trunk so the bark can breathe. Going deeper than 4 inches around a tree suffocates roots and invites rot.',
+    a: 'Yes. Flower and vegetable beds do well at 2–3 inches. Trees and shrubs want 2–4 inches spread evenly to the drip line, but keep a 3–6 inch gap around the trunk so the bark can breathe. Going deeper than 4 inches around a tree suffocates roots and invites rot.',
   },
   {
-    q: 'Bagged or bulk mulch \u2014 which is cheaper?',
+    q: 'Bagged or bulk mulch — which is cheaper?',
     a: 'Bulk (sold by the cubic yard) usually wins past about 3 cubic yards, which is roughly 40 standard bags. Below that, bags are easier and not much more expensive once you factor in delivery fees. Get a bulk quote if your calculator output is over 14 bags.',
   },
   {
     q: 'How much does mulch coverage vary by type (wood chips vs shredded vs rubber)?',
-    a: 'Coverage is set by depth, not material \u2014 a 3-inch layer of wood chips, shredded hardwood, or rubber mulch all covers the same square footage per cubic yard. What changes is settling: shredded mulch compacts 10\u201315% in the first rain, so buy a little extra. Rubber and stone don\u2019t settle and don\u2019t decompose, so one application lasts years.',
+    a: 'Coverage is set by depth, not material — a 3-inch layer of wood chips, shredded hardwood, or rubber mulch all covers the same square footage per cubic yard. What changes is settling: shredded mulch compacts 10–15% in the first rain, so buy a little extra. Rubber and stone don’t settle and don’t decompose, so one application lasts years.',
   },
   {
     q: 'How do I calculate mulch for a circular bed or tree ring?',
-    a: 'Measure the radius (distance from the center to the outer edge, i.e. half the diameter). Square the radius and multiply by \u03c0 (3.14159) to get square feet, then multiply by depth in feet. Use the Circle toggle in the calculator above \u2014 just enter the radius and it handles the \u03c0 \u00d7 r\u00b2 math for you. For a tree ring, the radius is the distance from the trunk to the outer edge of the mulched area. A 6-foot-diameter ring has a 3-foot radius, giving 3\u00b2 \u00d7 \u03c0 \u2248 28.3 square feet \u2014 which many people significantly underestimate when buying bags.',
+    a: 'Measure the radius (distance from the center to the outer edge, i.e. half the diameter). Square the radius and multiply by π (3.14159) to get square feet, then multiply by depth in feet. Use the Circle toggle in the calculator above — just enter the radius and it handles the π × r² math for you. For a tree ring, the radius is the distance from the trunk to the outer edge of the mulched area. A 6-foot-diameter ring has a 3-foot radius, giving 3² × π ≈ 28.3 square feet — which many people significantly underestimate when buying bags.',
   },
   {
     q: 'How many bales of pine straw do I need?',
-    a: 'It depends on your area and depth, but as a reference point, a standard 40 lb bale covers roughly 100 sq ft at a 2-inch depth (North Carolina Cooperative Extension, citing Texas AgriLife Extension Service). Switch to the Pine Straw option in the calculator above, enter your area and depth, and it converts that reference figure into an exact bale count, rounded up since you can\u2019t buy a partial bale.',
+    a: 'It depends on your area and depth, but as a reference point, a standard 40 lb bale covers roughly 100 sq ft at a 2-inch depth (North Carolina Cooperative Extension, citing Texas AgriLife Extension Service). Switch to the Pine Straw option in the calculator above, enter your area and depth, and it converts that reference figure into an exact bale count, rounded up since you can’t buy a partial bale.',
   },
   {
     q: 'Why is pine straw popular for landscaping?',
-    a: 'Mainly cost and handling: pine straw is often the least expensive mulch available across the Southeast, it\u2019s lightweight enough to spread by hand, and it interlocks as it settles, which helps it stay put on slopes better than loose mulches do. One popular belief about it doesn\u2019t actually hold up \u2014 North Carolina Cooperative Extension\u2019s soil scientists have found pine straw doesn\u2019t meaningfully acidify soil any more than other mulches do, so it\u2019s not a special pick for acid-loving plants on that basis.',
+    a: 'Mainly cost and handling: pine straw is often the least expensive mulch available across the Southeast, it’s lightweight enough to spread by hand, and it interlocks as it settles, which helps it stay put on slopes better than loose mulches do. One popular belief about it doesn’t actually hold up — North Carolina Cooperative Extension’s soil scientists have found pine straw doesn’t meaningfully acidify soil any more than other mulches do, so it’s not a special pick for acid-loving plants on that basis.',
   },
 ];
 
@@ -158,29 +158,55 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage} stickyCalculator>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
 
-  <!-- Desktop sticky TOC in the right sidebar column -->
-  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
-
-  <!-- Left column content: calculator → mobile TOC → lead magnet → article -->
-  <!-- Calculator tool — immediately after intro, visible without scrolling -->
-  <MulchCalculator client:load />
-
-  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
-  <TableOfContents items={tocItems} variant="accordion" />
-
-  <LeadMagnetForm
+  <!-- This island mounts right under the byline (slot="actions", rendered
+       in CalculatorLayout's hero band) and renders the helpful-count line,
+       the thumbs/share/embed/cite icon row, and the optional Google link.
+       It portals the actual calculator card (inputs, results, reset, "Was
+       this helpful?") into the plain empty div below, which lives in the
+       sticky RIGHT column -- so the tool itself is the ONLY thing in that
+       sticky panel, while still sharing all its state with the action row
+       and the Share/Embed/Cite modal. -->
+  <MulchCalculatorPanel
     client:load
-    listId={leadMagnet.listId}
-    tag={leadMagnet.tag}
-    clusterName={leadMagnet.clusterName}
-    icon={leadMagnet.icon}
+    slot="actions"
+    calculatorSlug={calculator.slug}
+    calculatorTitle={calculator.title}
+    canonicalPath={calculator.href}
+    origin={origin}
+    googlePreferredSourcesUrl={googlePreferredSourcesUrl}
+    calculatorPortalId="mulch-calculator-portal"
+    referenceTablesPortalId="mulch-reference-tables-portal"
   />
+
+  <div id="mulch-calculator-portal" slot="calculator" />
+
+  <!-- Related calculators -- compact, plain server-rendered markup (no
+       interactivity needed). Positioned by CalculatorLayout at the very end
+       of the left column, after all other content. Items/notes copied
+       byte-identical from the old in-article RelatedCalculatorsList. -->
+  <RelatedCalculatorsCard id="related-calculators" items={[
+    { name: 'Compost Calculator', url: '/calculators/compost-calculator/', note: 'feeding the soil, not just covering it? Figure out how much compost to work in instead.' },
+    { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'same idea, for raised beds and round pots. Use it to figure out how much soil to put under the mulch.' },
+    { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'figure out how many plants fit in the bed you just mulched around.' },
+    { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'for the lawn parts of the yard.' },
+    { name: 'Cubic Yard Calculator', url: '/calculators/cubic-yard-calculator/', note: 'need to convert your result into a different unit — tons, square feet, or metric? use our Cubic Yard Calculator.' },
+  ]} slot="relatedCalculators" />
+
+  <!-- Table of contents -- accordion on mobile; a matching collapsible card
+       on desktop too. Non-sticky either way -- the calculator owns the
+       only sticky element in this layout. -->
+  <div slot="toc">
+    <TableOfContents items={tocItems} variant="accordion" />
+    <div class="hidden lg:block">
+      <TableOfContents items={tocItems} variant="sidebar" collapsible />
+    </div>
+  </div>
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
     <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
@@ -189,6 +215,11 @@ const softwareAppJsonLd = {
       <li>Enter your desired mulch depth in inches.</li>
       <li>Read your result in cubic feet, cubic yards, and bag count.</li>
     </ol>
+
+    <!-- "Quick unit conversions" + "Bag-size comparison" reference tables.
+         Moved out of the sticky calculator card so that panel is short
+         enough to stick without needing its own internal scrollbar. -->
+    <div id="mulch-reference-tables-portal" class="not-prose my-8" />
 
     <h2 id="how-much-mulch-do-i-actually-need">How Much Mulch Do I Actually Need?</h2>
     <p>
@@ -253,8 +284,6 @@ const softwareAppJsonLd = {
 
     <FAQBlock id="mulch-calculator-faq" heading="Mulch Calculator FAQ" faqs={faqs} />
 
-    <EmbedSnippet calculator={calculator} />
-
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
       Mulch depth and coverage guidance in this article draws on general recommendations from university cooperative extension services (such as your state&rsquo;s land-grant extension office) and the USDA Natural Resources Conservation Service. The pine straw bale coverage figure and the note on pine straw and soil pH both come from North Carolina Cooperative Extension&rsquo;s <a href="https://lee.ces.ncsu.edu/news/pine-needle-mulch-the-myths-and-legends/" rel="noopener">&ldquo;Pine Needle Mulch &mdash; the Myths and Legends&rdquo;</a>, which itself cites Texas AgriLife Extension Service for the bale figure. For more on how we source and review the formulas behind every calculator, see our <a href="/methodology/">methodology page</a>. For region-specific guidance &mdash; especially on mulch type, fire risk, and pest considerations &mdash; search &ldquo;<a href="https://extension.org/search/?q=mulch">mulch</a>&rdquo; on Extension.org or your local extension office&rsquo;s website.
@@ -262,13 +291,5 @@ const softwareAppJsonLd = {
     <p>
       For how mulch fits with topsoil, garden soil, and compost as part of a full planting project, see our <a href="/clusters/soil-and-amendments/">complete guide to soil and amendments</a>.
     </p>
-
-    <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Compost Calculator', url: '/calculators/compost-calculator/', note: 'feeding the soil, not just covering it? Figure out how much compost to work in instead.' },
-      { name: 'Soil Volume Calculator', url: '/calculators/soil-volume-calculator/', note: 'same idea, for raised beds and round pots. Use it to figure out how much soil to put under the mulch.' },
-      { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'figure out how many plants fit in the bed you just mulched around.' },
-      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'for the lawn parts of the yard.' },
-      { name: 'Cubic Yard Calculator', url: '/calculators/cubic-yard-calculator/', note: 'need to convert your result into a different unit — tons, square feet, or metric? use our Cubic Yard Calculator.' },
-    ]} />
   </article>
 </CalculatorLayout>

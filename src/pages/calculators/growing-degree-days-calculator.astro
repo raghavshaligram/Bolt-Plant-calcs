@@ -1,11 +1,9 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
-import GrowingDegreeDaysCalculator from '../../components/calculators/GrowingDegreeDaysCalculator.tsx';
+import GrowingDegreeDaysCalculatorPanel from '../../components/calculators/GrowingDegreeDaysCalculatorPanel.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
-import EmbedSnippet from '../../components/EmbedSnippet.astro';
-import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('growing-degree-days-calculator')!;
@@ -26,9 +24,11 @@ const tocItems = [
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'growing-degree-days-faq', label: 'FAQ', icon: 'question' as const },
-  { id: 'embed-this-calculator-growing-degree-days-calculator', label: 'Embed This Calculator', icon: 'grid' as const },
-  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
 ];
+
+const googlePreferredSourcesUrl: string | null = 'https://www.google.com/preferences/source?q=harvestmath.com';
+
+const origin = new URL(Astro.site!).origin;
 
 const shareImage = new URL('/growing-degree-days-calculator-heat-accumulation.png', Astro.site).href;
 
@@ -150,28 +150,57 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage} stickyCalculator>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
 
-  <!-- Desktop sticky TOC in the right sidebar column -->
-  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
-
-  <!-- Calculator tool — immediately after intro, visible without scrolling -->
-  <GrowingDegreeDaysCalculator client:load />
-
-  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
-  <TableOfContents items={tocItems} variant="accordion" />
-
-  <LeadMagnetForm
+  <!-- This island mounts right under the byline (slot="actions", rendered
+       in CalculatorLayout's hero band) and renders the helpful-count line,
+       the thumbs/share/embed/cite icon row, and the optional Google link.
+       It portals the actual calculator card (inputs, results, reset, "Was
+       this helpful?") into the plain empty div below, which lives in the
+       sticky RIGHT column -- so the tool itself is the ONLY thing in that
+       sticky panel, while still sharing all its state with the action row
+       and the Share/Embed/Cite modal. -->
+  <GrowingDegreeDaysCalculatorPanel
     client:load
-    listId={leadMagnet.listId}
-    tag={leadMagnet.tag}
-    clusterName={leadMagnet.clusterName}
-    icon={leadMagnet.icon}
+    slot="actions"
+    calculatorSlug={calculator.slug}
+    calculatorTitle={calculator.title}
+    canonicalPath={calculator.href}
+    origin={origin}
+    googlePreferredSourcesUrl={googlePreferredSourcesUrl}
+    calculatorPortalId="gdd-calculator-portal"
   />
+
+  <div id="gdd-calculator-portal" slot="calculator" />
+
+  <!-- Related calculators -- compact card, positioned by CalculatorLayout
+       at the very end of the left column. Same items+notes as the old
+       in-article RelatedCalculatorsList, just relocated. -->
+  <RelatedCalculatorsCard id="related-calculators" slot="relatedCalculators" items={[
+    { name: 'Frost Date Calculator', url: '/calculators/frost-date-calculator/', note: 'know your frost window first — it sets the season this calculator tracks heat across.' },
+    { name: 'Seed Starting Calendar', url: '/calculators/seed-starting-calculator/', note: 'turns your frost dates into exact per-crop indoor-start and transplant dates.' },
+    { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'timing a new lawn around the same spring pre-emergent window? Get your seeding rate here.' },
+    { ...clusterGuideLink('spacing-and-planting'), note: 'frost date, seed starting, spacing, and yield, all in one place.' },
+  ]} />
+
+  <!-- Table of contents -- accordion on mobile, a matching collapsible
+       card on desktop too (the sidebar variant's own `collapsible` prop
+       handles that card now that the calculator, not the TOC, owns the
+       sticky right column). -->
+  <div slot="toc">
+    <TableOfContents items={tocItems} variant="accordion" />
+    <div class="hidden lg:block">
+      <TableOfContents items={tocItems} variant="sidebar" collapsible />
+    </div>
+  </div>
+
+  <!-- No manually-placed LeadMagnetForm here -- CalculatorLayout already
+       renders the standard cluster-wide email optin once, automatically,
+       at the very bottom of the page. -->
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
@@ -283,18 +312,9 @@ const softwareAppJsonLd = {
 
     <FAQBlock id="growing-degree-days-faq" heading="Growing Degree Days FAQ" faqs={faqs} />
 
-    <EmbedSnippet calculator={calculator} />
-
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
       The GDD formula, the negative-days-count-as-zero rule, and general home-garden application draw on Iowa State University Extension&rsquo;s <a href="https://yardandgarden.extension.iastate.edu/how-to/using-growing-degree-days-manage-home-garden" rel="noopener">&ldquo;Using Growing Degree Days to Manage the Home Garden&rdquo;</a>. Pest emergence thresholds come from the University of Wisconsin Extension&rsquo;s <a href="https://hort.extension.wisc.edu/degree-days-for-common-insect-pests/" rel="noopener">&ldquo;Degree Days for Common Insect Pests&rdquo;</a> (bagworm figure from University of Massachusetts Amherst Extension). The base-32&deg;F crabgrass model, its 250&ndash;500 GDD32 range, and the February 15 GDDTracker start date come directly from <a href="https://gddtracker.msu.edu/about" rel="noopener">Michigan State University Extension&rsquo;s GDDTracker</a>. The base-50&deg;F crabgrass germination figures come from West Virginia University Extension&rsquo;s <a href="https://extension.wvu.edu/lawn-gardening-pests/publications/ipm-chronicle-archives/2018/05/18/using-growing-degree-days-to-predict-germination" rel="noopener">&ldquo;Using growing degree days to predict germination&rdquo;</a>. For more on how we source and review the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a> and the full <a href="/sources/">source list</a>.
     </p>
-
-    <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Frost Date Calculator', url: '/calculators/frost-date-calculator/', note: 'know your frost window first — it sets the season this calculator tracks heat across.' },
-      { name: 'Seed Starting Calendar', url: '/calculators/seed-starting-calculator/', note: 'turns your frost dates into exact per-crop indoor-start and transplant dates.' },
-      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'timing a new lawn around the same spring pre-emergent window? Get your seeding rate here.' },
-      { ...clusterGuideLink('spacing-and-planting'), note: 'frost date, seed starting, spacing, and yield, all in one place.' },
-    ]} />
   </article>
 </CalculatorLayout>

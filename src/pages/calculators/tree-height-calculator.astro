@@ -1,11 +1,9 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
-import TreeHeightCalculator from '../../components/calculators/TreeHeightCalculator.tsx';
+import TreeHeightCalculatorPanel from '../../components/calculators/TreeHeightCalculatorPanel.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
-import EmbedSnippet from '../../components/EmbedSnippet.astro';
-import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('tree-height-calculator')!;
@@ -14,6 +12,10 @@ const leadMagnet = leadMagnetConfig[cluster.slug]!;
 
 const authorName = 'HarvestMath Editors';
 const authorUrl = '/about/';
+
+const googlePreferredSourcesUrl: string | null = 'https://www.google.com/preferences/source?q=harvestmath.com';
+
+const origin = new URL(Astro.site!).origin;
 
 const intro =
   'Trees outgrow any ladder or tape measure, so how to measure the height of a tree without climbing it comes down to three practical methods: an angle and some trigonometry, a shadow on a sunny day, or nothing more than a stick held at arm’s length. This tree height calculator runs the math for whichever method you can use right now, including the slope correction most free calculators skip when the ground under a tree isn’t level. Pick a method, enter your measurements, and get a height in seconds.';
@@ -28,8 +30,6 @@ const tocItems = [
   { id: 'worked-example', label: 'Worked Example', icon: 'table' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'tree-height-faq', label: 'FAQ', icon: 'question' as const },
-  { id: 'embed-this-calculator-tree-height-calculator', label: 'Embed This Calculator', icon: 'grid' as const },
-  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
 ];
 
 const shareImage = new URL('/tree-height-calculator-angle-method.png', Astro.site).href;
@@ -152,28 +152,52 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage} stickyCalculator>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
 
-  <!-- Desktop sticky TOC in the right sidebar column -->
-  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
-
-  <!-- Calculator tool — immediately after intro, visible without scrolling -->
-  <TreeHeightCalculator client:load />
-
-  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
-  <TableOfContents items={tocItems} variant="accordion" />
-
-  <LeadMagnetForm
+  <!-- This island mounts right under the byline (slot="actions", rendered
+       in CalculatorLayout's hero band) and renders the helpful-count line,
+       the thumbs/share/embed/cite icon row, and the optional Google link.
+       It portals the actual calculator card (inputs, results, reset, "Was
+       this helpful?") into the plain empty div below, which lives in the
+       sticky RIGHT column -- so the tool itself is the ONLY thing in that
+       sticky panel, while still sharing all its state with the action row
+       and the Share/Embed/Cite modal. -->
+  <TreeHeightCalculatorPanel
     client:load
-    listId={leadMagnet.listId}
-    tag={leadMagnet.tag}
-    clusterName={leadMagnet.clusterName}
-    icon={leadMagnet.icon}
+    slot="actions"
+    calculatorSlug={calculator.slug}
+    calculatorTitle={calculator.title}
+    canonicalPath={calculator.href}
+    origin={origin}
+    googlePreferredSourcesUrl={googlePreferredSourcesUrl}
+    calculatorPortalId="th-calculator-portal"
   />
+
+  <div id="th-calculator-portal" slot="calculator" />
+
+  <!-- Related calculators -- compact, plain server-rendered markup (no
+       interactivity needed). Positioned by CalculatorLayout at the very end
+       of the left column, after all other content. Items/notes copied
+       byte-identical from the old in-article RelatedCalculatorsList. -->
+  <RelatedCalculatorsCard id="related-calculators" items={[
+    { name: 'Tree Age Calculator', url: '/calculators/tree-age-calculator/', note: 'the other thing people want to know about a tree they can’t cut down — estimate age from trunk circumference.' },
+    { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'switch to Trees & Shrubs mode for mature canopy spacing on fruit trees, pecans, and landscape shrubs.' },
+    { ...clusterGuideLink('trees-and-shrubs'), note: 'watering by age, mulching correctly, and when feeding actually helps.' },
+  ]} slot="relatedCalculators" />
+
+  <!-- Table of contents -- accordion on mobile; a matching collapsible card
+       on desktop too. Non-sticky either way -- the calculator owns the
+       only sticky element in this layout. -->
+  <div slot="toc">
+    <TableOfContents items={tocItems} variant="accordion" />
+    <div class="hidden lg:block">
+      <TableOfContents items={tocItems} variant="sidebar" collapsible />
+    </div>
+  </div>
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
 
@@ -339,17 +363,9 @@ const softwareAppJsonLd = {
 
     <FAQBlock id="tree-height-faq" heading="Tree Height FAQ" faqs={faqs} />
 
-    <EmbedSnippet calculator={calculator} />
-
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
       For a fuller walkthrough of clinometer technique, including how to read topo and percent scales and how slope affects the reading, see Iowa State University&rsquo;s <a href="https://grazingland.cssm.iastate.edu/measuring-tree-height-using-clinometer" rel="noopener">&ldquo;Measuring Tree Height using a Clinometer.&rdquo;</a> For how foresters standardize tree measurements more broadly, see the Texas A&amp;M Forest Service&rsquo;s <a href="https://tfsweb.tamu.edu/elibrary-item/tree-measurement-guidelines/" rel="noopener">Tree Measurement Guidelines</a>. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a> and the full list of sources cited sitewide on our <a href="/sources/">sources page</a>.
     </p>
-
-    <RelatedCalculatorsList id="related-calculators" items={[
-      { name: 'Tree Age Calculator', url: '/calculators/tree-age-calculator/', note: 'the other thing people want to know about a tree they can’t cut down — estimate age from trunk circumference.' },
-      { name: 'Plant Spacing Calculator', url: '/calculators/plant-spacing-calculator/', note: 'switch to Trees & Shrubs mode for mature canopy spacing on fruit trees, pecans, and landscape shrubs.' },
-      { ...clusterGuideLink('trees-and-shrubs'), note: 'watering by age, mulching correctly, and when feeding actually helps.' },
-    ]} />
   </article>
 </CalculatorLayout>

@@ -1,11 +1,9 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
-import SodCalculator from '../../components/calculators/SodCalculator.tsx';
+import SodCalculatorPanel from '../../components/calculators/SodCalculatorPanel.tsx';
 import TableOfContents from '../../components/TableOfContents.astro';
-import LeadMagnetForm from '../../components/LeadMagnetForm.jsx';
 import FAQBlock from '../../components/FAQBlock.astro';
-import EmbedSnippet from '../../components/EmbedSnippet.astro';
-import RelatedCalculatorsList from '../../components/RelatedCalculatorsList.astro';
+import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('sod-calculator')!;
@@ -25,9 +23,11 @@ const tocItems = [
   { id: 'sod-vs-seed', label: 'Sod vs. Seed', icon: 'leaf' as const },
   { id: 'common-mistakes', label: 'Common Mistakes', icon: 'warning' as const },
   { id: 'sod-calculator-faq', label: 'FAQ', icon: 'question' as const },
-  { id: 'embed-this-calculator-sod-calculator', label: 'Embed This Calculator', icon: 'grid' as const },
-  { id: 'related-calculators', label: 'Related Calculators', icon: 'grid' as const },
 ];
+
+const googlePreferredSourcesUrl: string | null = 'https://www.google.com/preferences/source?q=harvestmath.com';
+
+const origin = new URL(Astro.site!).origin;
 
 const shareImage = new URL('/sod-calculator-laying-sod.png', Astro.site).href;
 
@@ -161,32 +161,61 @@ const softwareAppJsonLd = {
 };
 ---
 
-<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage}>
+<CalculatorLayout calculator={calculator} cluster={cluster} intro={intro} authorName={authorName} authorUrl={authorUrl} shareImage={shareImage} stickyCalculator>
   <script type="application/ld+json" set:html={JSON.stringify(howToJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(softwareAppJsonLd)} slot="head" />
 
-  <!-- Desktop sticky TOC in the right sidebar column -->
-  <TableOfContents items={tocItems} variant="sidebar" slot="sidebar" />
+  <!-- This island mounts right under the byline (slot="actions", rendered
+       in CalculatorLayout's hero band) and renders the helpful-count line,
+       the thumbs/share/embed/cite icon row, and the optional Google link.
+       It portals the actual calculator card (inputs, results, reset, "Was
+       this helpful?") into the plain empty div below, which lives in the
+       sticky RIGHT column -- so the tool itself is the ONLY thing in that
+       sticky panel, while still sharing all its state with the action row
+       and the Share/Embed/Cite modal. -->
+  <SodCalculatorPanel
+    client:load
+    slot="actions"
+    calculatorSlug={calculator.slug}
+    calculatorTitle={calculator.title}
+    canonicalPath={calculator.href}
+    origin={origin}
+    googlePreferredSourcesUrl={googlePreferredSourcesUrl}
+    calculatorPortalId="sod-calculator-portal"
+  />
 
-  <!-- Calculator tool — immediately after intro, visible without scrolling -->
-  <SodCalculator client:load />
+  <div id="sod-calculator-portal" slot="calculator" />
 
   <p class="mt-3 text-sm text-bark-500">
     Seeding instead of laying sod? Use our <a href="/calculators/grass-seed-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Grass Seed Calculator</a> for a new lawn, or the <a href="/calculators/overseeding-calculator/" class="text-moss-700 underline underline-offset-2 hover:text-moss-900">Overseeding Calculator</a> for an existing one.
   </p>
 
-  <!-- Mobile TOC accordion — below the calculator, collapsed by default, hidden on desktop -->
-  <TableOfContents items={tocItems} variant="accordion" />
+  <!-- Related calculators -- compact card, positioned by CalculatorLayout
+       at the very end of the left column. Same items+notes as the old
+       in-article RelatedCalculatorsList, just relocated. -->
+  <RelatedCalculatorsCard id="related-calculators" slot="relatedCalculators" items={[
+    { ...clusterGuideLink('lawn-and-landscaping'), note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
+    { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'seeding a new lawn from bare soil instead of laying sod? use this for the exact rate.' },
+    { name: 'Overseeding Calculator', url: '/calculators/overseeding-calculator/', note: 'thickening an existing lawn rather than starting fresh? use the reduced overseeding rate.' },
+    { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'need to add or level soil before laying sod? get the exact volume here.' },
+  ]} />
 
-  <LeadMagnetForm
-    client:load
-    listId={leadMagnet.listId}
-    tag={leadMagnet.tag}
-    clusterName={leadMagnet.clusterName}
-    icon={leadMagnet.icon}
-  />
+  <!-- Table of contents -- accordion on mobile, a matching collapsible
+       card on desktop too (the sidebar variant's own `collapsible` prop
+       handles that card now that the calculator, not the TOC, owns the
+       sticky right column). -->
+  <div slot="toc">
+    <TableOfContents items={tocItems} variant="accordion" />
+    <div class="hidden lg:block">
+      <TableOfContents items={tocItems} variant="sidebar" collapsible />
+    </div>
+  </div>
+
+  <!-- No manually-placed LeadMagnetForm here -- CalculatorLayout already
+       renders the standard cluster-wide email optin once, automatically,
+       at the very bottom of the page. -->
 
   <article class="prose prose-bark mt-8 max-w-none prose-headings:font-display prose-headings:text-bark-900 prose-h2:mt-12 prose-h2:scroll-mt-24 prose-h2:text-2xl prose-h2:font-semibold prose-h3:text-lg prose-h3:font-semibold prose-a:text-moss-700 prose-strong:text-bark-900">
     <h2 id="how-to-use-this-calculator">How to Use This Calculator</h2>
@@ -314,18 +343,9 @@ const softwareAppJsonLd = {
 
     <FAQBlock id="sod-calculator-faq" heading="Sod Calculator FAQ" faqs={faqs} />
 
-    <EmbedSnippet calculator={calculator} />
-
     <h2 id="sources-and-further-reading">Sources &amp; further reading</h2>
     <p>
       Pallet coverage, ordering, and installation guidance in this article follows Mississippi State University Extension&rsquo;s <a href="https://extension.msstate.edu/publications/sod-installation-and-maintenance" rel="noopener">&ldquo;Sod Installation and Maintenance&rdquo;</a> (Publication 2951), and the 450 sq ft industry-standard pallet figure comes from <a href="https://turfgrasssod.org/" rel="noopener">Turfgrass Producers International</a>, the trade association for commercial sod producers. For more on how we source and review the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>, or see our <a href="/sources/">Sources page</a> for the full list of citations used across HarvestMath. For grass type selection, seeding, and lawn care timing beyond sod, see our <a href="/clusters/lawn-and-landscaping/">complete guide to lawn care</a>.
     </p>
-
-    <RelatedCalculatorsList id="related-calculators" items={[
-      { ...clusterGuideLink('lawn-and-landscaping'), note: 'new lawns, overseeding, sod, grass type selection, and seasonal timing all in one place.' },
-      { name: 'Grass Seed Calculator', url: '/calculators/grass-seed-calculator/', note: 'seeding a new lawn from bare soil instead of laying sod? use this for the exact rate.' },
-      { name: 'Overseeding Calculator', url: '/calculators/overseeding-calculator/', note: 'thickening an existing lawn rather than starting fresh? use the reduced overseeding rate.' },
-      { name: 'Topsoil Calculator', url: '/calculators/topsoil-calculator/', note: 'need to add or level soil before laying sod? get the exact volume here.' },
-    ]} />
   </article>
 </CalculatorLayout>
