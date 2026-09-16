@@ -29,6 +29,36 @@ const tocItems = [
   { id: 'raised-bed-soil-calculator-faq', label: 'FAQ', icon: 'question' as const },
 ];
 
+// Icon badge paths for the page's own collapsible desktop TOC card below --
+// duplicated from TableOfContents.astro's sidebar-variant iconMeta (only the
+// 4 icons this page actually uses) rather than changing that shared
+// component. TableOfContents.astro's "sidebar" variant renders an always-
+// open card and is used as-is on all 24 other calculator pages; making it
+// collapsible there would change every one of them, so this page builds its
+// own collapsible version locally instead.
+const tocIconMeta: Record<'leaf' | 'table' | 'warning' | 'question', { path: string; bg: string; color: string }> = {
+  leaf: {
+    bg: 'bg-moss-100',
+    color: 'text-moss-700',
+    path: 'M12 2C9 6 7 9 7 13a5 5 0 0 0 10 0c0-4-2-7-5-11ZM12 26c-2-3-4-5-4-8a4 4 0 0 1 8 0c0 3-2 5-4 8Z',
+  },
+  table: {
+    bg: 'bg-moss-100',
+    color: 'text-moss-700',
+    path: 'M3 5h18v14H3V5zm0 4h18M3 13h18M8 5v14M14 5v14',
+  },
+  warning: {
+    bg: 'bg-sand-100',
+    color: 'text-sand-700',
+    path: 'M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4m0 4h.01',
+  },
+  question: {
+    bg: 'bg-moss-100',
+    color: 'text-moss-600',
+    path: 'M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3m.08 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+};
+
 // Part 4 -- compact related-calculators block. Originally placed inside the
 // sticky action panel; the correction prompt moved it out into the normal
 // content flow instead (right after the calculator on mobile, right after
@@ -231,14 +261,45 @@ const softwareAppJsonLd = {
     </ul>
   </div>
 
-  <!-- Table of contents -- restored. Accordion on mobile, a plain (non-
-       sticky -- the calculator owns the only sticky element in this
-       layout) card on desktop. -->
+  <!-- Table of contents -- restored. Accordion on mobile; a matching
+       collapsible card on desktop too (open by default, same items/icons
+       as the old always-open card, just toggleable now like the mobile
+       version). Non-sticky either way -- the calculator owns the only
+       sticky element in this layout. -->
   <div slot="toc">
     <TableOfContents items={tocItems} variant="accordion" />
-    <div class="hidden rounded-2xl border border-moss-100 bg-white p-5 shadow-card lg:block">
-      <TableOfContents items={tocItems} variant="sidebar" />
-    </div>
+    <details open class="toc-desktop group hidden rounded-2xl border border-moss-100 bg-white shadow-card lg:block">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-2 rounded-2xl px-5 py-4 transition hover:bg-moss-50/60">
+        <span class="text-xs font-semibold uppercase tracking-wider text-bark-400">
+          On this page
+        </span>
+        <svg class="h-4 w-4 shrink-0 text-bark-400 transition group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <nav aria-label="On this page" class="px-3 pb-4">
+        <ol class="space-y-0.5">
+          {tocItems.map((item) => {
+            const meta = tocIconMeta[item.icon];
+            return (
+              <li>
+                <a
+                  href={`#${item.id}`}
+                  class="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-bark-600 transition hover:bg-moss-50 hover:text-moss-800"
+                >
+                  <span class={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${meta.bg} ${meta.color}`}>
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d={meta.path} />
+                    </svg>
+                  </span>
+                  <span class="leading-tight">{item.label}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+    </details>
   </div>
 
   <!-- No manually-placed LeadMagnetForm here -- CalculatorLayout already
@@ -353,3 +414,7 @@ const softwareAppJsonLd = {
     </p>
   </article>
 </CalculatorLayout>
+
+<style>
+  .toc-desktop summary::-webkit-details-marker { display: none; }
+</style>
