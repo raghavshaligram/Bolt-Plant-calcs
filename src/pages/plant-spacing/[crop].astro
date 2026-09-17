@@ -28,11 +28,23 @@ const shareImage = new URL('/plant-spacing-calculator-garden-grid.png', Astro.si
 // "check before assuming" -- confirmed directly against the calculator's own
 // CROP_PRESETS list rather than trusted from the data file alone, so a
 // future rename of a preset can't silently produce a dead/no-op query param.
-const presetIsValid = crop.calculatorPreset
-  ? CROP_PRESETS.some((p) => p.name === crop.calculatorPreset)
-  : false;
-const calculatorHref = presetIsValid
-  ? `/calculators/plant-spacing-calculator/?crop=${encodeURIComponent(crop.calculatorPreset!)}`
+//
+// IMPORTANT: readStateFromUrl() in usePlantSpacingCalculatorState.ts only
+// treats a URL as carrying shared state at all when it has "length" or
+// "width" -- a crop-only `?crop=X` link is silently discarded in favor of
+// the visitor's own cached localStorage state (or the hook's hardcoded
+// default). A working preset link therefore has to reproduce the full
+// shape of the calculator's own "Share" link (see buildShareParams in
+// PlantSpacingCalculatorPanel.tsx: mode/units/crop/length/width/inRow/
+// betweenRow/sqftPerPlant), not just `crop` alone. We use the same 8x4 bed
+// used in this page's own "bedPlantsNote" worked example so the numbers
+// the visitor lands on match what they just read.
+const matchedPreset = crop.calculatorPreset
+  ? CROP_PRESETS.find((p) => p.name === crop.calculatorPreset)
+  : undefined;
+const presetIsValid = !!matchedPreset;
+const calculatorHref = matchedPreset
+  ? `/calculators/plant-spacing-calculator/?mode=row&units=imperial&crop=${encodeURIComponent(matchedPreset.name)}&length=8&width=4&inRow=${matchedPreset.inRowIn}&betweenRow=${matchedPreset.betweenRowIn}&sqftPerPlant=${matchedPreset.sqftPerPlant}`
   : '/calculators/plant-spacing-calculator/';
 
 const formattedDate = new Date(crop.lastUpdated + 'T00:00:00').toLocaleDateString('en-US', {
