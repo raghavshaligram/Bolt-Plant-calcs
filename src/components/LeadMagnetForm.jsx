@@ -140,6 +140,22 @@ export default function LeadMagnetForm({
 
   const headline = headlineProp || (tag && leadMagnetCopy[tag]) || 'Get the free cheat sheet';
 
+  // Every entry in leadMagnetCopy is shaped "Get the X Cheat Sheet — what's
+  // in it, in one page." -- one string doing two jobs. Rendering the whole
+  // thing as the <h3> put ~180 characters of contents at display-serif
+  // heading size: six wrapped lines, which also dragged the icon badge into
+  // the middle of the text block because it's vertically centred against the
+  // heading. Splitting on the em-dash gives a real one-line title and a
+  // supporting line, with no copy rewrite. Falls back to the whole string as
+  // the title if a custom `headline` prop has no em-dash.
+  const emDash = headline.indexOf(' \u2014 ');
+  const headlineTitle = emDash === -1 ? headline : headline.slice(0, emDash);
+  const headlineDetailRaw = emDash === -1 ? null : headline.slice(emDash + 3);
+  // It was a mid-sentence fragment; standing alone it needs a capital.
+  const headlineDetail = headlineDetailRaw
+    ? headlineDetailRaw.charAt(0).toUpperCase() + headlineDetailRaw.slice(1)
+    : null;
+
   // Ongoing-value promise, per cluster (see leadMagnetBenefit.ts for why this
   // replaced the old generic "...emailed once" line sitewide). Falls back to
   // a plain no-spam line only for an unmapped tag (e.g. the one-off
@@ -242,35 +258,45 @@ export default function LeadMagnetForm({
           </p>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-5">
-          <PlanterIllustration className="h-12 w-12 shrink-0 sm:h-24 sm:w-24" />
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:gap-5">
+          <PlanterIllustration className="h-14 w-14 shrink-0 sm:h-20 sm:w-20" />
 
-          <div className="w-full flex-1 text-center sm:text-left">
-            <div className="flex items-center justify-center gap-3 sm:justify-start">
+          <div className="w-full min-w-0 flex-1 text-center sm:text-left">
+            {/* Badge sits beside a one-line title now, so centring it reads as
+                intended instead of stranding it against a six-line block. */}
+            <div className="flex items-center justify-center gap-2.5 sm:justify-start">
               {icon && iconMap[icon] && (
                 (() => {
                   const Icon = iconMap[icon];
                   return (
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E8A94A]/25 text-[#3D6647] sm:h-11 sm:w-11">
-                      <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E8A94A]/25 text-[#3D6647]">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
                     </span>
                   );
                 })()
               )}
               <h3
-                className="text-lg font-semibold text-[#3D6647] sm:text-xl"
+                className="text-base font-semibold leading-snug text-[#3D6647] sm:text-lg"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                {headline}
+                {headlineTitle}
               </h3>
             </div>
-            <p className="mt-1.5 mb-4 font-sans text-sm leading-relaxed text-[#5C4433] sm:mt-2 sm:mb-5">
-              {cheatSheetDescription}
-            </p>
 
-            <form onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-                <div className="flex-1">
+            {headlineDetail && (
+              <p className="mt-1.5 font-sans text-sm leading-relaxed text-[#5C4433]">
+                {headlineDetail}
+              </p>
+            )}
+
+            {/* Form stacks rather than sitting inline. This card renders both
+                in a wide blog column and in the calculator pages' ~490px
+                column; side by side, the latter squeezed the field to 138px
+                and clipped the placeholder. Capped width keeps it from
+                stretching oddly in the wide case. */}
+            <form onSubmit={handleSubmit} className="mt-4 w-full sm:max-w-sm">
+              <div className="flex flex-col gap-2.5">
+                <div className="min-w-0">
                   <label htmlFor={inputId} className="sr-only">
                     Email address
                   </label>
@@ -294,12 +320,18 @@ export default function LeadMagnetForm({
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-[#3D6647] px-5 py-2.5 font-sans text-sm font-semibold text-[#F5F1E8] shadow-sm transition-colors duration-200 hover:bg-[#4A7C59] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-[#3D6647]/70"
+                  className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-md bg-[#3D6647] px-5 py-2.5 font-sans text-sm font-semibold text-[#F5F1E8] shadow-sm transition-colors duration-200 hover:bg-[#4A7C59] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-[#3D6647]/70"
                 >
                   {status === 'loading' ? 'Sending…' : 'Get the Cheat Sheet'}
                 </button>
               </div>
             </form>
+
+            {/* What they're signing up for belongs next to the submit, not
+                above the fold of the card as a second paragraph. */}
+            <p className="mt-2.5 font-sans text-xs leading-relaxed text-[#5C4433]/80">
+              {cheatSheetDescription}
+            </p>
           </div>
         </div>
       )}
