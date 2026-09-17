@@ -15,7 +15,7 @@ const authorName = 'HarvestMath Editors';
 const authorUrl = '/about/';
 
 const intro =
-  'This cubic yard calculator is a unit-conversion tool for dirt, gravel, and mulch — not a "how much do I need" calculator. Searching for a soil cubic yard calculator, a cubic yard calculator soil conversion, a calculator for soil yardage, or a dirt calculator cubic yards conversion? This tool covers all of that, plus gravel. If you already have a measurement in one form (dimensions, a delivery weight, or a square footage) and need it converted into cubic yards, cubic feet, or tons, it handles that too. Figuring out how much material a project actually needs in the first place? Use the Topsoil, Mulch, or Soil Volume Calculator instead.';
+  'This cubic yard calculator is a unit-conversion tool for dirt, gravel, and mulch — not a "how much do I need" calculator. If you already have a measurement in one form (dimensions, a delivery weight, or a square footage) and need it converted into cubic yards, cubic feet, or tons, this is the tool for it. Figuring out how much material a project actually needs in the first place? Use the Topsoil, Mulch, or Soil Volume Calculator instead.';
 
 const tocItems = [
   { id: 'how-do-you-calculate-cubic-yards', label: 'How Do You Calculate Cubic Yards?', icon: 'leaf' as const },
@@ -55,8 +55,12 @@ const faqs = [
     a: "It depends on the depth you're spreading it and the gravel's weight per cubic yard. At roughly 2,700 lbs per cubic yard, 20 tons (40,000 lbs) works out to about 14.8 cubic yards — enter that into the calculator above with your planned depth to get the exact square footage it will cover.",
   },
   {
+    q: 'Can I use this as a soil cubic yard calculator?',
+    a: "Yes — select Dirt/Soil as the material and every mode becomes a cubic yard calculator soil conversion. The arithmetic is identical for soil, gravel and mulch; the only thing the material setting changes is the weight per cubic yard behind the tonnage estimate, which for soil is roughly 2,400 lbs.",
+  },
+  {
     q: 'How do you measure cubic yards of dirt?',
-    a: "Here's how to measure cubic yards of dirt in three steps: measure length × width × depth in feet to get cubic feet, then divide by 27 to convert to cubic yards. If you only know a delivery weight instead of dimensions, divide the weight in pounds by roughly 2,400 lbs (dirt's typical weight per cubic yard) to get the same result. The calculator above handles both methods automatically — just switch between Dimensions and Weight ↔ Volume mode with Dirt/Soil selected as the material.",
+    a: "Here's how to measure cubic yards of dirt in three steps: measure length × width × depth in feet to get cubic feet, then divide by 27 to convert to cubic yards. If you only know a delivery weight instead of dimensions, divide the weight in pounds by roughly 2,400 lbs (dirt's typical weight per cubic yard) to get the same result. The calculator above handles both methods automatically — just switch between Dimensions and Weight ↔ Volume mode with Dirt/Soil selected as the material. Both routes run the same dirt calculator cubic yards conversion — they only start from a different measurement.",
   },
 ];
 
@@ -181,6 +185,9 @@ const softwareAppJsonLd = {
       <li>Enter your known measurement.</li>
       <li>Read the converted result in cubic feet, cubic yards, cubic meters, or tons.</li>
     </ol>
+    <p>
+      Working from a delivery quote rather than a tape measure? Weight &harr; Volume mode runs it backwards, turning a tonnage figure into yardage &mdash; which is the usual reason to want a calculator for soil yardage after the material has already been priced.
+    </p>
 
     <h2 id="how-do-you-calculate-cubic-yards">How Do You Calculate Cubic Yards?</h2>
     <p>
