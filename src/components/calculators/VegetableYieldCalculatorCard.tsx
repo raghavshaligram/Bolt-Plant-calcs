@@ -56,7 +56,7 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
         {/* Card header -- includes Reset/Clear, since the sticky panel now
             contains only the tool itself (inputs, results, reset, and the
             "Was this helpful?" prompt), matching the raised-bed-soil pilot. */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">
             Vegetable Yield Calculator
           </h2>
@@ -72,18 +72,20 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
           </button>
         </div>
 
-        <div className="flex flex-col gap-2 p-4">
-          {/* Mode + unit toggles */}
-          <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="flex flex-col gap-4 p-5">
+          {/* Mode + unit toggles -- two sibling toggle groups share one row
+              rather than a 50/50 grid, so the short Units group only takes
+              the width it needs (see CALC_SPACING_PATTERN.md). */}
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
               <span className="label-field">Estimate by</span>
-              <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+              <div className="mt-1.5 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
                 <button
                   type="button"
                   role="tab"
                   aria-selected={mode === 'plants'}
                   onClick={() => setMode('plants')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'plants'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -96,7 +98,7 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
                   role="tab"
                   aria-selected={mode === 'area'}
                   onClick={() => setMode('area')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'area'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -110,7 +112,7 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
             {mode === 'area' && (
               <div>
                 <span className="label-field">Units</span>
-                <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+                <div className="mt-1.5 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
                   <button
                     type="button"
                     aria-pressed={!isMetric}
@@ -140,64 +142,67 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
             )}
           </div>
 
-          {/* Crop selector */}
-          <div>
-            <label htmlFor="vyc-crop" className="label-field">Crop</label>
-            <select
-              id="vyc-crop"
-              value={cropId}
-              onChange={(e) => setCropId(e.target.value)}
-              className="input-field mt-1.5"
-            >
-              {CROPS.map((c) => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
-            <p className="mt-1.5 text-xs text-bark-500">
-              {crop.note}
-            </p>
-          </div>
-
-          {/* Plants or area input */}
-          {mode === 'plants' ? (
+          {/* Crop selector + the plants/area input share one row -- at 560px
+              a select and a number input sit comfortably side by side, and
+              each one's helper line fills the space under its own control. */}
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="vyc-plants" className="label-field">Number of plants</label>
-              <input
-                id="vyc-plants"
-                type="number"
-                inputMode="numeric"
-                min="0"
-                step="1"
-                value={plants}
-                onChange={handlePlantsChange}
+              <label htmlFor="vyc-crop" className="label-field">Crop</label>
+              <select
+                id="vyc-crop"
+                value={cropId}
+                onChange={(e) => setCropId(e.target.value)}
                 className="input-field mt-1.5"
-              />
-            </div>
-          ) : (
-            <div>
-              <label htmlFor="vyc-area" className="label-field">
-                Growing area <span className="text-bark-500">({areaUnit})</span>
-              </label>
-              <input
-                id="vyc-area"
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step="1"
-                value={area}
-                onChange={handleAreaChange}
-                className="input-field mt-1.5"
-              />
+              >
+                {CROPS.map((c) => (
+                  <option key={c.id} value={c.id}>{c.name}</option>
+                ))}
+              </select>
               <p className="mt-1.5 text-xs text-bark-500">
-                Plant count is estimated at {crop.sqftPerPlant} sq ft per {crop.name.toLowerCase()} plant.
+                {crop.note}
               </p>
             </div>
-          )}
+
+            {mode === 'plants' ? (
+              <div>
+                <label htmlFor="vyc-plants" className="label-field">Number of plants</label>
+                <input
+                  id="vyc-plants"
+                  type="number"
+                  inputMode="numeric"
+                  min="0"
+                  step="1"
+                  value={plants}
+                  onChange={handlePlantsChange}
+                  className="input-field mt-1.5"
+                />
+              </div>
+            ) : (
+              <div>
+                <label htmlFor="vyc-area" className="label-field">
+                  Growing area <span className="text-bark-500">({areaUnit})</span>
+                </label>
+                <input
+                  id="vyc-area"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="1"
+                  value={area}
+                  onChange={handleAreaChange}
+                  className="input-field mt-1.5"
+                />
+                <p className="mt-1.5 text-xs text-bark-500">
+                  Plant count is estimated at {crop.sqftPerPlant} sq ft per {crop.name.toLowerCase()} plant.
+                </p>
+              </div>
+            )}
+          </div>
 
           {/* Formula display -- collapsed by default, same as the pilot, to
               help keep this panel short enough to stick without an
               internal scrollbar. */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -231,7 +236,7 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
             ) : (
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
-                  <div className="flex items-center gap-3 p-3.5">
+                  <div className="flex items-center gap-3 p-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M12 2c3 4 6 8 6 12a6 6 0 0 1-12 0c0-4 3-8 6-12Z" />
@@ -246,7 +251,7 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
                     </div>
                   </div>
 
-                  <div className="bg-moss-700 p-3.5">
+                  <div className="bg-moss-700 p-4">
                     <p className="text-xs text-moss-200">Plants</p>
                     <p className="font-display text-xl font-bold text-white">
                       {result.plantCount.toLocaleString()}
@@ -258,7 +263,7 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-start justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2">
+                <div className="flex flex-wrap items-start justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-xs text-bark-500">
                     Estimate only — real yield varies with variety, climate, soil, and care.
                   </p>
@@ -266,7 +271,7 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
                     <button
                       type="button"
                       onClick={exportPdf}
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                     >
                       <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                         <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -283,7 +288,7 @@ export default function VegetableYieldCalculatorCard({ calc, sentiment, onVote }
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

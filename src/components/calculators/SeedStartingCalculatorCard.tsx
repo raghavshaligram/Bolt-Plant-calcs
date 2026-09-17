@@ -57,7 +57,7 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
             contains only the tool itself (inputs, result, reset, and the
             "Was this helpful?" prompt), same as the pilot pattern. The
             original component had no Reset button; this is new. */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">Seed Starting Calendar</h2>
           <button
             type="button"
@@ -71,10 +71,10 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
           </button>
         </div>
 
-        <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col gap-3 p-4">
           <div>
             <span className="label-field">Find your zone by</span>
-            <div className="mt-2 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
+            <div className="mt-1.5 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
               {([
                 { id: 'zip', label: 'ZIP Code' },
                 { id: 'zone', label: 'Hardiness Zone' },
@@ -85,7 +85,7 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
                   role="tab"
                   aria-selected={inputMode === m.id}
                   onClick={() => setInputMode(m.id)}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     inputMode === m.id ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
@@ -107,7 +107,7 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
                 value={zip}
                 onChange={handleZipChange}
                 placeholder="e.g. 60601"
-                className="input-field mt-1.5 max-w-[10rem]"
+                className="input-field mt-1.55 max-w-[10rem]"
               />
               {zip.length === 5 && !zipLookup && (
                 <p className="mt-2 text-sm text-amber-700">
@@ -124,7 +124,7 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
           ) : (
             <div>
               <label htmlFor="ss-zone" className="label-field">USDA Plant Hardiness Zone</label>
-              <select id="ss-zone" value={zone} onChange={(e) => setZone(e.target.value)} className="input-field mt-1.5 max-w-[10rem]">
+              <select id="ss-zone" value={zone} onChange={(e) => setZone(e.target.value)} className="input-field mt-1.55 max-w-[10rem]">
                 {ALL_ZONES.map((z) => (
                   <option key={z} value={z}>Zone {z}</option>
                 ))}
@@ -161,7 +161,7 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
 
           <div className="overflow-hidden rounded-xl border border-moss-200 bg-moss-50">
             {zoneIsFrostFree ? (
-              <div className="p-5">
+              <div className="p-4">
                 <p className="text-sm font-semibold text-moss-800">Zone {activeZone} rarely sees frost.</p>
                 <p className="mt-1 text-sm text-bark-600">
                   Frost-based seed starting math doesn&rsquo;t apply here — plant on a temperature and rainfall-based calendar instead.
@@ -174,11 +174,11 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
                 <div className="grid grid-cols-1 divide-y divide-moss-200 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
                   {result.method === 'indoor' ? (
                     <>
-                      <div className="p-3.5">
+                      <div className="p-4">
                         <p className="text-xs text-bark-500">Start seeds indoors</p>
                         <p className="font-display text-xl font-bold text-moss-700 sm:text-2xl">{fmtDate(result.indoorStart!)}&ndash;{fmtDate(result.indoorEnd!)}</p>
                       </div>
-                      <div className="bg-moss-700 p-3.5">
+                      <div className="bg-moss-700 p-4">
                         <p className="text-xs text-moss-200">Transplant outdoors</p>
                         <p className="font-display text-xl font-bold text-white sm:text-2xl">{fmtDate(result.transplantStart!)}&ndash;{fmtDate(result.transplantEnd!)}</p>
                       </div>
@@ -191,7 +191,7 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
                     </div>
                   )}
                 </div>
-                <div className="border-t border-moss-200 bg-white px-4 py-2 text-xs text-bark-600">
+                <div className="border-t border-moss-200 bg-white px-4 py-2.5 text-xs text-bark-600">
                   <strong className="text-bark-700">Estimated last spring frost:</strong> {fmtDate(result.lastStart)}&ndash;{fmtDate(result.lastEnd)}. {crop.note}
                 </div>
               </>
@@ -203,7 +203,7 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
               type="button"
               onClick={exportPdf}
               disabled={!result}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -216,7 +216,7 @@ export default function SeedStartingCalculatorCard({ calc, sentiment, onVote }: 
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {result && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

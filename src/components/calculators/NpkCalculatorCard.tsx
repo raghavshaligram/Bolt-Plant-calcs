@@ -48,7 +48,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
   return (
     <div className="not-prose">
       <div className="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60">
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-4 py-1">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">NPK Calculator</h2>
           <button
             type="button"
@@ -62,12 +62,12 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
           </button>
         </div>
 
-        <div className="flex flex-col gap-0.5 p-1.5">
+        <div className="flex flex-col gap-4 p-5">
           {/* Mode + unit toggles */}
-          <div className="grid grid-cols-2 items-start gap-2 leading-none">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
-              <span className="label-field leading-tight">Calculation type</span>
-              <div className="mt-0.5 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
+              <span className="label-field">Calculation type</span>
+              <div className="mt-1.5 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
                 {(['granular', 'liquid', 'blend'] as Mode[]).map((m) => (
                   <button
                     key={m}
@@ -75,7 +75,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                     role="tab"
                     aria-selected={mode === m}
                     onClick={() => setMode(m)}
-                    className={`rounded-md px-2.5 py-1 text-sm font-medium capitalize transition ${
+                    className={`rounded-md px-3 py-1.5 text-sm font-medium capitalize transition ${
                       mode === m ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                     }`}
                   >
@@ -85,13 +85,13 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
               </div>
             </div>
             <div>
-              <span className="label-field leading-tight">Units</span>
-              <div className="mt-0.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+              <span className="label-field">Units</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
                 <button
                   type="button"
                   aria-pressed={!isMetric}
                   onClick={() => setUnitSystem('imperial')}
-                  className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     !isMetric ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
@@ -101,7 +101,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                   type="button"
                   aria-pressed={isMetric}
                   onClick={() => setUnitSystem('metric')}
-                  className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     isMetric ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
@@ -114,7 +114,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
           {/* ---------------- GRANULAR ---------------- */}
           {mode === 'granular' && (
             <>
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-3">
                 <div>
                   <label htmlFor="npk-gran-n" className="label-field">N %</label>
                   <input id="npk-gran-n" type="number" inputMode="decimal" min="0" max="100" step="1"
@@ -131,7 +131,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                     value={granK} onChange={handleNumericChange(setGranK)} className="input-field mt-1.5" />
                 </div>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="npk-gran-rate" className="label-field">
                     Target rate <span className="text-bark-500">({isMetric ? 'g N/m²' : 'lb/1000ft²'})</span>
@@ -170,12 +170,12 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                   <p className="p-5 text-sm text-bark-500">Enter your fertilizer&rsquo;s N%, target rate, and area to see how much product you need.</p>
                 ) : (
                   <div className="grid grid-cols-2 divide-x divide-moss-200">
-                    <div className="p-3.5">
+                    <div className="p-4">
                       <p className="text-xs text-bark-500">Total actual N needed</p>
                       <p className="font-display text-2xl font-bold text-moss-700 sm:text-3xl">{round(granResult.totalN, 2)}</p>
                       <p className="text-xs font-medium text-bark-600">{granResult.unit}</p>
                     </div>
-                    <div className="bg-moss-700 p-3.5">
+                    <div className="bg-moss-700 p-4">
                       <p className="text-xs text-moss-200">Fertilizer product needed</p>
                       <p className="font-display text-2xl font-bold text-white sm:text-3xl">{round(granResult.product, 2)}</p>
                       <p className="text-xs text-moss-200">{granResult.unit} of {granN}-{granP}-{granK}</p>
@@ -189,21 +189,21 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
           {/* ---------------- LIQUID ---------------- */}
           {mode === 'liquid' && (
             <>
-              <div className="grid gap-2 sm:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-3">
                 <div>
                   <label htmlFor="npk-liq-n" className="label-field">N %</label>
                   <input id="npk-liq-n" type="number" inputMode="decimal" min="0" max="100" step="1"
-                    value={liqN} onChange={handleNumericChange(setLiqN)} className="input-field mt-1" />
+                    value={liqN} onChange={handleNumericChange(setLiqN)} className="input-field mt-1.5" />
                 </div>
                 <div>
                   <label htmlFor="npk-liq-p" className="label-field">P %</label>
                   <input id="npk-liq-p" type="number" inputMode="decimal" min="0" max="100" step="1"
-                    value={liqP} onChange={handleNumericChange(setLiqP)} className="input-field mt-1" />
+                    value={liqP} onChange={handleNumericChange(setLiqP)} className="input-field mt-1.5" />
                 </div>
                 <div>
                   <label htmlFor="npk-liq-k" className="label-field">K %</label>
                   <input id="npk-liq-k" type="number" inputMode="decimal" min="0" max="100" step="1"
-                    value={liqK} onChange={handleNumericChange(setLiqK)} className="input-field mt-1" />
+                    value={liqK} onChange={handleNumericChange(setLiqK)} className="input-field mt-1.5" />
                 </div>
               </div>
 
@@ -212,12 +212,12 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                 <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
                   <button type="button" role="tab" aria-selected={liqInputMode === 'ppm'}
                     onClick={() => setLiqInputMode('ppm')}
-                    className={`rounded-md px-3 py-1 text-sm font-medium transition ${liqInputMode === 'ppm' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'}`}>
+                    className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${liqInputMode === 'ppm' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'}`}>
                     Target PPM
                   </button>
                   <button type="button" role="tab" aria-selected={liqInputMode === 'ratio'}
                     onClick={() => setLiqInputMode('ratio')}
-                    className={`rounded-md px-3 py-1 text-sm font-medium transition ${liqInputMode === 'ratio' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'}`}>
+                    className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${liqInputMode === 'ratio' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'}`}>
                     Dilution Ratio
                   </button>
                 </div>
@@ -227,23 +227,23 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                 <div>
                   <label htmlFor="npk-liq-ppm" className="label-field">Target PPM (N)</label>
                   <input id="npk-liq-ppm" type="number" inputMode="decimal" min="0" step="1"
-                    value={liqTargetPpm} onChange={handleNumericChange(calc.setLiqTargetPpm)} className="input-field mt-1" />
+                    value={liqTargetPpm} onChange={handleNumericChange(calc.setLiqTargetPpm)} className="input-field mt-1.5" />
                 </div>
               ) : (
-                <div className="grid gap-2 sm:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="npk-liq-ratio-amt" className="label-field">
                       Fertilizer amount <span className="text-bark-500">({isMetric ? 'g' : 'oz'})</span>
                     </label>
                     <input id="npk-liq-ratio-amt" type="number" inputMode="decimal" min="0" step="0.1"
-                      value={liqRatioAmt} onChange={handleNumericChange(calc.setLiqRatioAmt)} className="input-field mt-1" />
+                      value={liqRatioAmt} onChange={handleNumericChange(calc.setLiqRatioAmt)} className="input-field mt-1.5" />
                   </div>
                   <div>
                     <label htmlFor="npk-liq-ratio-vol" className="label-field">
                       Per water volume <span className="text-bark-500">({isMetric ? 'L' : 'gal'})</span>
                     </label>
                     <input id="npk-liq-ratio-vol" type="number" inputMode="decimal" min="0" step="0.1"
-                      value={liqRatioVol} onChange={handleNumericChange(calc.setLiqRatioVol)} className="input-field mt-1" />
+                      value={liqRatioVol} onChange={handleNumericChange(calc.setLiqRatioVol)} className="input-field mt-1.5" />
                   </div>
                 </div>
               )}
@@ -253,10 +253,10 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                   Container size <span className="text-bark-500">({isMetric ? 'L' : 'gal'})</span>
                 </label>
                 <input id="npk-liq-container" type="number" inputMode="decimal" min="0" step="1"
-                  value={liqContainer} onChange={handleNumericChange(calc.setLiqContainer)} className="input-field mt-1" />
+                  value={liqContainer} onChange={handleNumericChange(calc.setLiqContainer)} className="input-field mt-1.5" />
               </div>
 
-              <details className="group rounded-lg bg-sand-50 px-4 py-1 text-sm text-bark-600 ring-1 ring-moss-100">
+              <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
                 <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
                   <span className="inline-flex items-center gap-1.5">
                     Show the math
@@ -277,13 +277,13 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                 {!liqResult ? (
                   <p className="p-5 text-sm text-bark-500">Enter your fertilizer&rsquo;s N%, desired strength, and container size to see how much concentrate to add.</p>
                 ) : (
-                  <div className="grid grid-cols-2 divide-x divide-moss-200">
-                    <div className="p-3.5">
+                  <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
+                    <div className="p-4">
                       <p className="text-xs text-bark-500">Concentrate for container</p>
                       <p className="font-display text-2xl font-bold text-moss-700 sm:text-3xl">{round(liqResult.totalConcentrate, 2)}</p>
                       <p className="text-xs font-medium text-bark-600">{liqResult.unit} ({round(liqResult.ratePerVol, 3)} {liqResult.unit}/{liqResult.volUnit})</p>
                     </div>
-                    <div className="bg-moss-700 p-3.5">
+                    <div className="bg-moss-700 p-4">
                       <p className="text-xs text-moss-200">Resulting strength</p>
                       <p className="font-display text-2xl font-bold text-white sm:text-3xl">{round(liqResult.resultingPpm, 1)}</p>
                       <p className="text-xs text-moss-200">PPM (N)</p>
@@ -298,84 +298,84 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
           {mode === 'blend' && (
             <>
               <div>
-                <span className="label-field leading-tight">Fertilizers to blend</span>
-                <div className="mt-0.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+                <span className="label-field">Fertilizers to blend</span>
+                <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
                   <button type="button" role="tab" aria-selected={blendCount === 2}
                     onClick={() => setBlendSize(2)}
-                    className={`rounded-md px-4 py-1 text-sm font-medium transition ${blendCount === 2 ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'}`}>
+                    className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${blendCount === 2 ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'}`}>
                     2
                   </button>
                   <button type="button" role="tab" aria-selected={blendCount === 3}
                     onClick={() => setBlendSize(3)}
-                    className={`rounded-md px-4 py-1 text-sm font-medium transition ${blendCount === 3 ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'}`}>
+                    className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${blendCount === 3 ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'}`}>
                     3
                   </button>
                 </div>
               </div>
 
-              <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {blendProducts.slice(0, blendCount).map((p, i) => (
                   <div key={i} className="rounded-lg border border-moss-100 p-1 leading-none">
-                    <label htmlFor={`npk-blend-name-${i}`} className="label-field leading-tight">Fertilizer {i + 1}</label>
+                    <label htmlFor={`npk-blend-name-${i}`} className="label-field">Fertilizer {i + 1}</label>
                     <input id={`npk-blend-name-${i}`} type="text" value={p.name}
-                      onChange={handleBlendProductChange(i, 'name')} className="input-field mt-0.5 py-1" />
-                    <div className="mt-1 grid grid-cols-3 gap-1">
+                      onChange={handleBlendProductChange(i, 'name')} className="input-field mt-1.5" />
+                    <div className="mt-1 grid grid-cols-3 gap-4">
                       <div>
-                        <label htmlFor={`npk-blend-n-${i}`} className="label-field leading-tight">N%</label>
+                        <label htmlFor={`npk-blend-n-${i}`} className="label-field">N%</label>
                         <input id={`npk-blend-n-${i}`} type="number" inputMode="decimal" min="0" max="100" step="1"
-                          value={p.n} onChange={handleBlendProductChange(i, 'n')} className="input-field mt-0.5 py-1" />
+                          value={p.n} onChange={handleBlendProductChange(i, 'n')} className="input-field mt-1.5" />
                       </div>
                       <div>
-                        <label htmlFor={`npk-blend-p-${i}`} className="label-field leading-tight">P%</label>
+                        <label htmlFor={`npk-blend-p-${i}`} className="label-field">P%</label>
                         <input id={`npk-blend-p-${i}`} type="number" inputMode="decimal" min="0" max="100" step="1"
-                          value={p.p} onChange={handleBlendProductChange(i, 'p')} className="input-field mt-0.5 py-1" />
+                          value={p.p} onChange={handleBlendProductChange(i, 'p')} className="input-field mt-1.5" />
                       </div>
                       <div>
-                        <label htmlFor={`npk-blend-k-${i}`} className="label-field leading-tight">K%</label>
+                        <label htmlFor={`npk-blend-k-${i}`} className="label-field">K%</label>
                         <input id={`npk-blend-k-${i}`} type="number" inputMode="decimal" min="0" max="100" step="1"
-                          value={p.k} onChange={handleBlendProductChange(i, 'k')} className="input-field mt-0.5 py-1" />
+                          value={p.k} onChange={handleBlendProductChange(i, 'k')} className="input-field mt-1.5" />
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="grid gap-2 sm:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-3">
                 <div>
-                  <label htmlFor="npk-blend-tn" className="label-field leading-tight">Target N</label>
+                  <label htmlFor="npk-blend-tn" className="label-field">Target N</label>
                   <input id="npk-blend-tn" type="number" inputMode="decimal" min="0" step="1"
-                    value={blendTargetN} onChange={handleNumericChange(calc.setBlendTargetN)} className="input-field mt-0.5 py-1" />
+                    value={blendTargetN} onChange={handleNumericChange(calc.setBlendTargetN)} className="input-field mt-1.5" />
                 </div>
                 <div>
-                  <label htmlFor="npk-blend-tp" className="label-field leading-tight">Target P</label>
+                  <label htmlFor="npk-blend-tp" className="label-field">Target P</label>
                   <input id="npk-blend-tp" type="number" inputMode="decimal" min="0" step="1"
-                    value={blendTargetP} onChange={handleNumericChange(calc.setBlendTargetP)} className="input-field mt-0.5 py-1" />
+                    value={blendTargetP} onChange={handleNumericChange(calc.setBlendTargetP)} className="input-field mt-1.5" />
                 </div>
                 <div>
-                  <label htmlFor="npk-blend-tk" className="label-field leading-tight">Target K</label>
+                  <label htmlFor="npk-blend-tk" className="label-field">Target K</label>
                   <input id="npk-blend-tk" type="number" inputMode="decimal" min="0" step="1"
-                    value={blendTargetK} onChange={handleNumericChange(calc.setBlendTargetK)} className="input-field mt-0.5 py-1" />
+                    value={blendTargetK} onChange={handleNumericChange(calc.setBlendTargetK)} className="input-field mt-1.5" />
                 </div>
               </div>
 
-              <div className="grid gap-2 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="npk-blend-rate" className="label-field leading-tight">
+                  <label htmlFor="npk-blend-rate" className="label-field">
                     Target N rate <span className="text-bark-500">({isMetric ? 'g N/m²' : 'lb/1000ft²'})</span>
                   </label>
                   <input id="npk-blend-rate" type="number" inputMode="decimal" min="0" step="0.1"
-                    value={blendRate} onChange={handleNumericChange(calc.setBlendRate)} className="input-field mt-0.5 py-1" />
+                    value={blendRate} onChange={handleNumericChange(calc.setBlendRate)} className="input-field mt-1.5" />
                 </div>
                 <div>
-                  <label htmlFor="npk-blend-area" className="label-field leading-tight">
+                  <label htmlFor="npk-blend-area" className="label-field">
                     Area <span className="text-bark-500">({isMetric ? 'm²' : 'sq ft'})</span>
                   </label>
                   <input id="npk-blend-area" type="number" inputMode="decimal" min="0" step="1"
-                    value={blendArea} onChange={handleNumericChange(calc.setBlendArea)} className="input-field mt-0.5 py-1" />
+                    value={blendArea} onChange={handleNumericChange(calc.setBlendArea)} className="input-field mt-1.5" />
                 </div>
               </div>
 
-              <details className="group rounded-lg bg-sand-50 px-4 py-1 text-sm text-bark-600 ring-1 ring-moss-100">
+              <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
                 <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
                   <span className="inline-flex items-center gap-1.5">
                     Show the math
@@ -402,7 +402,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                 {!blendResult ? (
                   <p className="p-5 text-sm text-bark-500">Fill in each fertilizer&rsquo;s N-P-K, your target ratio, rate, and area to see the blend.</p>
                 ) : !blendResult.weights ? (
-                  <div className="p-5">
+                  <div className="p-4">
                     <p className="text-sm font-semibold text-sand-700">Can&rsquo;t solve this blend</p>
                     <p className="mt-1 text-sm text-bark-600">{blendResult.reason}</p>
                   </div>
@@ -429,7 +429,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
                       ))}
                     </div>
                     {!blendResult.exact && blendResult.resultingK !== null && (
-                      <div className="border-t border-moss-200 bg-white px-4 py-0.5 text-xs text-bark-600">
+                      <div className="border-t border-moss-200 bg-white px-4 py-2.5 text-xs text-bark-600">
                         Resulting K: {round(blendResult.resultingK, 2)} {blendResult.unit} vs. target {round(blendResult.targetKAmt, 2)} {blendResult.unit}
                       </div>
                     )}
@@ -449,7 +449,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
             <button
               type="button"
               onClick={exportPdf}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
             >
               <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -457,7 +457,7 @@ export default function NpkCalculatorCard({ calc, sentiment, onVote }: NpkCalcul
               Export PDF
             </button>
             {hasResult && (
-              <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-3 py-1 ring-1 ring-moss-100">
+              <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-3 py-2.5 ring-1 ring-moss-100">
                 <p className="text-sm font-medium text-bark-700">Helpful?</p>
                 <button
                   type="button"

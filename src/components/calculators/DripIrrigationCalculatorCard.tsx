@@ -55,7 +55,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
   return (
     <div className="not-prose">
       <div className="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60">
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-2">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
           <h2 className="font-display text-lg font-semibold text-white">
             Drip Irrigation Calculator
           </h2>
@@ -71,18 +71,18 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
           </button>
         </div>
 
-        <div className="flex flex-col gap-1 p-3">
+        <div className="flex flex-col gap-3 p-4">
           {/* Mode + unit toggles */}
-          <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
               <span className="label-field">Water amount by</span>
-              <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+              <div className="mt-1.5 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
                 <button
                   type="button"
                   role="tab"
                   aria-selected={mode === 'per-plant'}
                   onClick={() => setMode('per-plant')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'per-plant'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -95,7 +95,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
                   role="tab"
                   aria-selected={mode === 'area'}
                   onClick={() => setMode('area')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'area'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -108,7 +108,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
 
             <div>
               <span className="label-field">Units</span>
-              <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+              <div className="mt-1.5 inline-flex gap-1 rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
                 <button
                   type="button"
                   aria-pressed={!isMetric}
@@ -142,10 +142,10 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
               fit comfortably side by side, which is what keeps this card
               short enough to avoid an internal scrollbar in the sticky
               panel. */}
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label htmlFor="di-emitters" className="label-field">
-                Emitters
+                Number of emitters
               </label>
               <input
                 id="di-emitters"
@@ -155,18 +155,18 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
                 step="1"
                 value={emitterCount}
                 onChange={handleIntegerChange(setEmitterCount)}
-                className="input-field mt-1"
+                className="input-field mt-1.5"
               />
             </div>
             <div>
               <label htmlFor="di-flow-preset" className="label-field">
-                Flow rate
+                Emitter flow rate
               </label>
               <select
                 id="di-flow-preset"
                 value={flowPreset}
                 onChange={(e) => setFlowPreset(e.target.value as typeof flowPreset)}
-                className="input-field mt-1"
+                className="input-field mt-1.5"
               >
                 {FLOW_PRESETS.map((p) => (
                   <option key={p.value} value={p.value}>
@@ -191,7 +191,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
             </div>
             <div>
               <label htmlFor="di-sessions" className="label-field">
-                Sessions/wk
+                Sessions per week
               </label>
               <input
                 id="di-sessions"
@@ -201,31 +201,33 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
                 step="1"
                 value={sessionsPerWeek}
                 onChange={handleIntegerChange(setSessionsPerWeek)}
-                className="input-field mt-1"
+                className="input-field mt-1.5"
               />
             </div>
           </div>
           <p className="text-xs text-bark-500">
-            Emitters running together on this line or zone. Leave sessions/wk blank to skip the weekly total.
+            Emitters running together on this line or zone. Sessions per week is optional.
           </p>
 
           {/* Water amount inputs */}
           {mode === 'per-plant' ? (
-            <div>
-              <label htmlFor="di-per-plant" className="label-field">
-                Water per plant <span className="text-bark-500">({volumeUnit})</span>
-              </label>
-              <input
-                id="di-per-plant"
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step="0.25"
-                value={perPlantAmount}
-                onChange={handleNumericChange(setPerPlantAmount)}
-                className="input-field mt-1"
-              />
-              <p className="mt-1 text-xs text-bark-500">
+            <div className="grid items-center gap-x-4 gap-y-1.5 sm:grid-cols-2">
+              <div>
+                <label htmlFor="di-per-plant" className="label-field">
+                  Water per plant <span className="text-bark-500">({volumeUnit})</span>
+                </label>
+                <input
+                  id="di-per-plant"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.25"
+                  value={perPlantAmount}
+                  onChange={handleNumericChange(setPerPlantAmount)}
+                  className="input-field mt-1.5"
+                />
+              </div>
+              <p className="text-xs text-bark-500">
                 Assumes one emitter per plant, so run time is set by a single emitter&rsquo;s flow rate.
               </p>
             </div>
@@ -243,7 +245,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
                   step="1"
                   value={areaValue}
                   onChange={handleNumericChange(setAreaValue)}
-                  className="input-field mt-1"
+                  className="input-field mt-1.5"
                 />
               </div>
               <div>
@@ -258,7 +260,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
                   step="0.25"
                   value={depthValue}
                   onChange={handleNumericChange(setDepthValue)}
-                  className="input-field mt-1"
+                  className="input-field mt-1.5"
                 />
               </div>
             </div>
@@ -269,7 +271,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
               it closed is most of what lets this panel stay short enough to
               stick without an internal scrollbar (same treatment as the
               pilot and NPK calculators). */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-1.5 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -305,7 +307,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
             ) : (
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
-                  <div className="flex items-center gap-3 p-3">
+                  <div className="flex items-center gap-3 p-3.5">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M12 2c3 4 6 8 6 12a6 6 0 0 1-12 0c0-4 3-8 6-12Z" />
@@ -320,32 +322,30 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
                     </div>
                   </div>
 
-                  <div className="bg-moss-700 p-3">
-                    <p className="text-xs text-moss-200">Water delivered</p>
+                  <div className="bg-moss-700 p-3.5">
+                    <p className="text-xs text-moss-200">Water delivered this session</p>
                     <p className="font-display text-xl font-bold text-white">
                       {round(gphToDisplay(result.totalDeliveredGal), 1)} {volumeUnit}
                     </p>
-                    <p className="mt-1 text-xs text-moss-200">this session</p>
-                    <p className="mt-1 text-xs text-moss-300">
+                    <p className="mt-1.5 text-xs text-moss-300">
                       {round(gphToDisplay(result.totalFlowGph), 2)} {flowUnit} total system flow
                     </p>
+                    {result.weeklyTotalGal !== null && (
+                      <p className="mt-1 text-xs text-moss-300">
+                        Weekly total at {sessionsPerWeek}x/week: ~{round(gphToDisplay(result.weeklyTotalGal), 1)} {volumeUnit}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                {result.weeklyTotalGal !== null && (
-                  <div className="border-t border-moss-100 bg-moss-50/60 px-4 py-1.5 text-xs text-bark-500">
-                    Weekly total at {sessionsPerWeek}x/week: ~{round(gphToDisplay(result.weeklyTotalGal), 1)} {volumeUnit}
-                  </div>
-                )}
-
-                <div className="flex items-center justify-between border-t border-moss-200 bg-white px-4 py-1.5">
+                <div className="flex items-center justify-between border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-xs text-bark-500">
                     Estimate for home garden zones. Not a substitute for professional system design.
                   </p>
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -360,7 +360,7 @@ export default function DripIrrigationCalculatorCard({ calc, sentiment, onVote }
           {/* Was this helpful? -- stays directly under the result, since
               it's asking about the result specifically. */}
           {result && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

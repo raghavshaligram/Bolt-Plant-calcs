@@ -61,7 +61,7 @@ export default function MulchCalculatorCard({ calc, sentiment, onVote }: MulchCa
         {/* Card header -- includes Reset, since the sticky panel now contains
             only the tool itself (inputs, results, reset, and the "Was this
             helpful?" prompt), same as the pilot's card. */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-1">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
           <h2 className="font-display text-lg font-semibold text-white">
             Calculate Your Mulch Needs
           </h2>
@@ -77,31 +77,54 @@ export default function MulchCalculatorCard({ calc, sentiment, onVote }: MulchCa
           </button>
         </div>
 
-        <div className="flex flex-col gap-1 p-3">
-          {/* Unit system toggle */}
-          <div className="grid grid-cols-2 gap-1.5">
+        <div className="flex flex-col gap-3 p-4">
+          {/* Bed shape and "total area" are ONE control: circle vs rectangle
+              is only meaningful when you're entering dimensions, so folding
+              the shape toggle and the dimensions/area toggle into a single
+              three-way pill group drops a whole row and reads more directly
+              ("how is the bed shaped?" rather than two nested questions). */}
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
-              <span className="label-field leading-none">How do you want to enter your area?</span>
-              <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+              <span className="label-field">How do you want to enter your area?</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
                 <button
                   type="button"
                   role="tab"
-                  aria-selected={mode === 'dimensions'}
-                  onClick={() => setMode('dimensions')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
-                    mode === 'dimensions'
+                  aria-selected={mode === 'dimensions' && shape === 'rectangle'}
+                  onClick={() => {
+                    setMode('dimensions');
+                    setShape('rectangle');
+                  }}
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    mode === 'dimensions' && shape === 'rectangle'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
-                  Length &times; width
+                  Rectangle
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={mode === 'dimensions' && shape === 'circle'}
+                  onClick={() => {
+                    setMode('dimensions');
+                    setShape('circle');
+                  }}
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    mode === 'dimensions' && shape === 'circle'
+                      ? 'bg-white text-moss-800 shadow-sm'
+                      : 'text-bark-600 hover:text-moss-800'
+                  }`}
+                >
+                  Circle
                 </button>
                 <button
                   type="button"
                   role="tab"
                   aria-selected={mode === 'area'}
                   onClick={() => setMode('area')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'area'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -113,231 +136,197 @@ export default function MulchCalculatorCard({ calc, sentiment, onVote }: MulchCa
             </div>
 
             <div>
-              <span className="label-field leading-none">Units</span>
-              <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+              <span className="label-field">Units</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
                 <button
                   type="button"
                   aria-pressed={!isMetric}
                   onClick={() => setUnitSystem('imperial')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     !isMetric
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
-                  Imperial (ft, in)
+                  Imperial
                 </button>
                 <button
                   type="button"
                   aria-pressed={isMetric}
                   onClick={() => setUnitSystem('metric')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     isMetric
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
-                  Metric (m, cm)
+                  Metric
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Material selector — pine straw is sold by the bale, not by cubic
-              yard, so it swaps the "Bag size" input below for a bale-count
-              result. */}
-          <div>
-            <span className="label-field leading-none">Material</span>
-            <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="tablist" aria-label="Mulch material">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={material === 'generic'}
-                onClick={() => setMaterial('generic')}
-                className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
-                  material === 'generic'
-                    ? 'bg-white text-moss-800 shadow-sm'
-                    : 'text-bark-600 hover:text-moss-800'
-                }`}
-              >
-                Bark, wood chips &amp; other mulch
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={material === 'pine-straw'}
-                onClick={() => setMaterial('pine-straw')}
-                className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
-                  material === 'pine-straw'
-                    ? 'bg-white text-moss-800 shadow-sm'
-                    : 'text-bark-600 hover:text-moss-800'
-                }`}
-              >
-                Pine straw
-              </button>
-            </div>
-          </div>
-
-          {/* Bed shape toggle — only relevant when entering dimensions, not total area */}
-          {mode === 'dimensions' && (
+          {/* Material + bag size share one row -- pine straw is sold by the
+              bale, not by cubic yard, so picking it simply drops the bag-size
+              control (the note under the inputs explains why) and the result
+              switches to a bale count. */}
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
-              <span className="label-field leading-none">Bed shape</span>
-              <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+              <span className="label-field">Material</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist" aria-label="Mulch material">
                 <button
                   type="button"
                   role="tab"
-                  aria-selected={shape === 'rectangle'}
-                  onClick={() => setShape('rectangle')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
-                    shape === 'rectangle'
+                  aria-selected={material === 'generic'}
+                  onClick={() => setMaterial('generic')}
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    material === 'generic'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
-                  Rectangle
+                  Bark, wood chips &amp; other mulch
                 </button>
                 <button
                   type="button"
                   role="tab"
-                  aria-selected={shape === 'circle'}
-                  onClick={() => setShape('circle')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
-                    shape === 'circle'
+                  aria-selected={material === 'pine-straw'}
+                  onClick={() => setMaterial('pine-straw')}
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    material === 'pine-straw'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
-                  Circle
+                  Pine straw
                 </button>
               </div>
             </div>
-          )}
 
-          {/* Inputs */}
-          <div className="grid gap-1 sm:grid-cols-2">
-            {mode === 'dimensions' ? (
-              shape === 'rectangle' ? (
-                <>
-                  <div>
-                    <label htmlFor="mulch-length" className="label-field leading-none">
-                      Length <span className="text-bark-500">({lengthUnit})</span>
-                    </label>
-                    <input
-                      id="mulch-length"
-                      type="number"
-                      inputMode="decimal"
-                      min="0"
-                      step="0.1"
-                      value={length}
-                      onChange={handleLengthChange}
-                      className="input-field mt-1 py-2"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="mulch-width" className="label-field leading-none">
-                      Width <span className="text-bark-500">({lengthUnit})</span>
-                    </label>
-                    <input
-                      id="mulch-width"
-                      type="number"
-                      inputMode="decimal"
-                      min="0"
-                      step="0.1"
-                      value={width}
-                      onChange={handleWidthChange}
-                      className="input-field mt-1 py-2"
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className="sm:col-span-2">
-                  <label htmlFor="mulch-radius" className="label-field leading-none">
-                    Radius <span className="text-bark-500">({lengthUnit})</span>
-                  </label>
-                  <input
-                    id="mulch-radius"
-                    type="number"
-                    inputMode="decimal"
-                    min="0"
-                    step="0.5"
-                    value={radius}
-                    onChange={handleRadiusChange}
-                    className="input-field mt-1 py-2"
-                  />
-                  <p className="mt-1 text-xs text-bark-500">
-                    Half the full width of the bed (diameter &divide; 2).
-                  </p>
-                </div>
-              )
-            ) : (
-              <div className="sm:col-span-2">
-                <label htmlFor="mulch-area" className="label-field leading-none">
-                  Total area <span className="text-bark-500">({areaUnit})</span>
-                </label>
-                <input
-                  id="mulch-area"
-                  type="number"
-                  inputMode="decimal"
-                  min="0"
-                  step="1"
-                  value={area}
-                  onChange={handleAreaChange}
-                  className="input-field mt-1 py-2"
-                />
-              </div>
-            )}
-
-            <div>
-              <label htmlFor="mulch-depth" className="label-field leading-none">
-                Desired depth <span className="text-bark-500">({depthUnit})</span>
-              </label>
-              <input
-                id="mulch-depth"
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step="0.25"
-                value={depth}
-                onChange={handleDepthChange}
-                className="input-field mt-1 py-2"
-              />
-              <p className="mt-1 text-xs text-bark-500">
-                {isMetric ? '5–8 cm is typical for garden beds.' : '2–3″ is typical for garden beds.'}
-              </p>
-            </div>
-
-            {material === 'pine-straw' ? (
-              <div className="rounded-lg bg-sand-50 px-3.5 py-2 ring-1 ring-moss-100">
-                <span className="label-field leading-none">Sold by the bale</span>
-                <p className="mt-1 text-xs text-bark-500">
-                  Pine straw is sold by the bale, not by bag or cubic yard, so there&rsquo;s no bag size to pick &mdash; the result below gives you a bale count directly.
-                </p>
-              </div>
-            ) : (
-              <div>
-                <label htmlFor="mulch-bag-size" className="label-field leading-none">
-                  Bag size <span className="text-bark-500">(cubic feet)</span>
+            {material === 'generic' && (
+              <div className="w-36">
+                <label htmlFor="mulch-bag-size" className="label-field">
+                  Bag size <span className="text-bark-500">(cu ft)</span>
                 </label>
                 <select
                   id="mulch-bag-size"
                   value={bagSize}
                   onChange={(e) => setBagSize(e.target.value)}
-                  className="input-field mt-1 py-2"
+                  className="input-field mt-1.5"
                 >
-                  <option value="2">2 cu ft (standard bagged mulch)</option>
+                  <option value="2">2 cu ft</option>
                   <option value="1.5">1.5 cu ft</option>
                   <option value="1">1 cu ft</option>
-                  <option value="3">3 cu ft (bulk bag)</option>
+                  <option value="3">3 cu ft</option>
                 </select>
-                <p className="mt-1 text-xs text-bark-500">Most home-store bags are 2 cu ft.</p>
               </div>
             )}
+          </div>
+
+          {/* Inputs -- all of them fit on ONE row at this panel width, with
+              the guidance notes folded into a single caption underneath
+              instead of a caption under each field. */}
+          <div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {mode === 'dimensions' ? (
+                shape === 'rectangle' ? (
+                  <>
+                    <div>
+                      <label htmlFor="mulch-length" className="label-field">
+                        Length <span className="text-bark-500">({lengthUnit})</span>
+                      </label>
+                      <input
+                        id="mulch-length"
+                        type="number"
+                        inputMode="decimal"
+                        min="0"
+                        step="0.1"
+                        value={length}
+                        onChange={handleLengthChange}
+                        className="input-field mt-1.5"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="mulch-width" className="label-field">
+                        Width <span className="text-bark-500">({lengthUnit})</span>
+                      </label>
+                      <input
+                        id="mulch-width"
+                        type="number"
+                        inputMode="decimal"
+                        min="0"
+                        step="0.1"
+                        value={width}
+                        onChange={handleWidthChange}
+                        className="input-field mt-1.5"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="sm:col-span-2">
+                    <label htmlFor="mulch-radius" className="label-field">
+                      Radius <span className="text-bark-500">({lengthUnit})</span>
+                    </label>
+                    <input
+                      id="mulch-radius"
+                      type="number"
+                      inputMode="decimal"
+                      min="0"
+                      step="0.5"
+                      value={radius}
+                      onChange={handleRadiusChange}
+                      className="input-field mt-1.5"
+                    />
+                  </div>
+                )
+              ) : (
+                <div className="sm:col-span-2">
+                  <label htmlFor="mulch-area" className="label-field">
+                    Total area <span className="text-bark-500">({areaUnit})</span>
+                  </label>
+                  <input
+                    id="mulch-area"
+                    type="number"
+                    inputMode="decimal"
+                    min="0"
+                    step="1"
+                    value={area}
+                    onChange={handleAreaChange}
+                    className="input-field mt-1.5"
+                  />
+                </div>
+              )}
+
+              <div>
+                <label htmlFor="mulch-depth" className="label-field">
+                  Desired depth <span className="text-bark-500">({depthUnit})</span>
+                </label>
+                <input
+                  id="mulch-depth"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.25"
+                  value={depth}
+                  onChange={handleDepthChange}
+                  className="input-field mt-1.5"
+                />
+              </div>
+            </div>
+
+            <p className="mt-2 text-xs text-bark-500">
+              {mode === 'dimensions' && shape === 'circle' && 'Radius is half the full width of the bed (diameter ÷ 2). '}
+              {isMetric ? '5–8 cm is typical for garden beds.' : '2–3″ is typical for garden beds.'}{' '}
+              {material === 'pine-straw'
+                ? 'Pine straw is sold by the bale, so there is no bag size to pick.'
+                : 'Most home-store bags are 2 cu ft.'}
+            </p>
           </div>
 
           {/* Formula display -- collapsed by default, same convention as the
               other converted calculators, so this panel stays short enough
               to stick without an internal scrollbar. */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-0.5 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -368,7 +357,7 @@ export default function MulchCalculatorCard({ calc, sentiment, onVote }: MulchCa
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
                   {/* Left: cubic feet */}
-                  <div className="flex items-center gap-3 p-2.5">
+                  <div className="flex items-center gap-3 p-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                         <path d="M16 4c-3 4-5 7-5 11a5 5 0 0 0 10 0c0-4-2-7-5-11Z" />
@@ -392,7 +381,7 @@ export default function MulchCalculatorCard({ calc, sentiment, onVote }: MulchCa
                   </div>
 
                   {/* Right: bag count (or bale count for pine straw) */}
-                  <div className="bg-moss-700 p-2.5">
+                  <div className="bg-moss-700 p-3.5">
                     {material === 'pine-straw' ? (
                       <>
                         <p className="text-xs text-moss-200">That's about</p>
@@ -423,15 +412,15 @@ export default function MulchCalculatorCard({ calc, sentiment, onVote }: MulchCa
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-1">
-                  <p className="text-xs text-bark-500">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2">
+                  <p className="min-w-0 flex-1 text-xs text-bark-500">
                     For {round(result.sqft, 1).toLocaleString()} sq ft at {round(result.depthIn, 1)}&Prime; deep.
                     Add 10% extra for settling.
                   </p>
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -447,7 +436,7 @@ export default function MulchCalculatorCard({ calc, sentiment, onVote }: MulchCa
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-0.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

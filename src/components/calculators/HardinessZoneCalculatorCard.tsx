@@ -22,7 +22,7 @@ export default function HardinessZoneCalculatorCard({ calc, sentiment, onVote }:
   return (
     <div className="not-prose">
       <div className="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60">
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">Hardiness Zone Finder</h2>
           <button
             type="button"
@@ -36,7 +36,7 @@ export default function HardinessZoneCalculatorCard({ calc, sentiment, onVote }:
           </button>
         </div>
 
-        <div className="flex flex-col gap-3 p-4">
+        <div className="flex flex-col gap-4 p-5">
           <div>
             <label htmlFor="hz-zip" className="label-field">US ZIP code</label>
             <input
@@ -67,16 +67,16 @@ export default function HardinessZoneCalculatorCard({ calc, sentiment, onVote }:
                   <p className="mt-1 font-display text-4xl font-bold text-white sm:text-5xl">Zone {lookup.zone}</p>
                 </div>
                 <div className="grid grid-cols-1 divide-y divide-moss-200 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-                  <div className="p-3.5">
+                  <div className="p-4">
                     <p className="text-xs text-bark-500">Avg. annual minimum (&deg;F)</p>
                     <p className="font-display text-lg font-bold text-moss-700 sm:text-xl">{formatTempRangeF(band)}</p>
                   </div>
-                  <div className="p-3.5">
+                  <div className="p-4">
                     <p className="text-xs text-bark-500">Avg. annual minimum (&deg;C)</p>
                     <p className="font-display text-lg font-bold text-moss-700 sm:text-xl">{formatTempRangeC(band)}</p>
                   </div>
                 </div>
-                <div className="border-t border-moss-200 bg-white px-4 py-2">
+                <div className="border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-xs text-bark-500">
                     Nearest reference point: <strong className="text-bark-700">{lookup.refCity}</strong>
                   </p>
@@ -85,7 +85,7 @@ export default function HardinessZoneCalculatorCard({ calc, sentiment, onVote }:
             )}
           </div>
 
-          <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 How accurate is this?
@@ -103,7 +103,7 @@ export default function HardinessZoneCalculatorCard({ calc, sentiment, onVote }:
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button
@@ -142,7 +142,7 @@ export default function HardinessZoneCalculatorCard({ calc, sentiment, onVote }:
               type="button"
               onClick={exportPdf}
               disabled={!hasResult}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

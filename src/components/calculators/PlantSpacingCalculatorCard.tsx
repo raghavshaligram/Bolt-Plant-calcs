@@ -82,7 +82,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
           </button>
         </div>
 
-        <div className="flex flex-col gap-1.5 p-3.5">
+        <div className="flex flex-col gap-3 p-5">
           {/* Mode + unit toggles */}
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
@@ -93,7 +93,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
                   role="tab"
                   aria-selected={mode === 'row'}
                   onClick={() => setMode('row')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'row'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -106,7 +106,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
                   role="tab"
                   aria-selected={mode === 'sqft'}
                   onClick={() => setMode('sqft')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'sqft'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -119,7 +119,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
                   role="tab"
                   aria-selected={mode === 'trees'}
                   onClick={() => setMode('trees')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'trees'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -161,90 +161,98 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
             </div>
           </div>
 
-          {/* Crop selector */}
-          {mode === 'trees' ? (
-            <div>
-              <label htmlFor="ps-tree-type" className="label-field">Tree or shrub</label>
-              <select
-                id="ps-tree-type"
-                value={treeType}
-                onChange={handleTreeTypeChange}
-                className="input-field mt-1.5"
-              >
-                <option value="Custom">Custom</option>
-                {TREE_PRESET_GROUPS.map((group) => (
-                  <optgroup key={group} label={group}>
-                    {TREE_PRESETS.filter((p) => p.group === group).map((p) => (
+          {/* What you're planting + the bed it goes in. At 560px the selector
+              and both bed dimensions share one row, which is what keeps this
+              card inside the sticky column's height budget without having to
+              tighten any of the spacing. The "recommended spacing" helper sits
+              under the whole row so it gets the full width and stays one line
+              instead of wrapping inside a narrow grid cell. */}
+          <div>
+            <div className="grid gap-4 sm:grid-cols-[1.6fr_1fr_1fr]">
+              {mode === 'trees' ? (
+                <div>
+                  <label htmlFor="ps-tree-type" className="label-field">Tree or shrub</label>
+                  <select
+                    id="ps-tree-type"
+                    value={treeType}
+                    onChange={handleTreeTypeChange}
+                    className="input-field mt-1.5"
+                  >
+                    <option value="Custom">Custom</option>
+                    {TREE_PRESET_GROUPS.map((group) => (
+                      <optgroup key={group} label={group}>
+                        {TREE_PRESETS.filter((p) => p.group === group).map((p) => (
+                          <option key={p.name} value={p.name}>{p.name}</option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                </div>
+              ) : (
+                <div>
+                  <label htmlFor="ps-crop" className="label-field">Crop</label>
+                  <select
+                    id="ps-crop"
+                    value={crop}
+                    onChange={handleCropChange}
+                    className="input-field mt-1.5"
+                  >
+                    {CROP_PRESETS.map((p) => (
                       <option key={p.name} value={p.name}>{p.name}</option>
                     ))}
-                  </optgroup>
-                ))}
-              </select>
-              {treeType !== 'Custom' && selectedTreePreset && (
-                <p className="mt-1.5 text-xs text-bark-500">
-                  Recommended mature spacing: {selectedTreePreset.spacingFt} ft
-                </p>
+                  </select>
+                </div>
               )}
-            </div>
-          ) : (
-            <div>
-              <label htmlFor="ps-crop" className="label-field">Crop</label>
-              <select
-                id="ps-crop"
-                value={crop}
-                onChange={handleCropChange}
-                className="input-field mt-1.5"
-              >
-                {CROP_PRESETS.map((p) => (
-                  <option key={p.name} value={p.name}>{p.name}</option>
-                ))}
-              </select>
-              {crop !== 'Custom' && selectedPreset && (
-                <p className="mt-1.5 text-xs text-bark-500">
-                  Recommended: {selectedPreset.inRowIn}&Prime; in-row &times; {selectedPreset.betweenRowIn}&Prime; between rows
-                  {mode === 'sqft' && ` (${selectedPreset.sqftPerPlant} sq ft per plant in SFG)`}
-                </p>
-              )}
-            </div>
-          )}
 
-          {/* Bed dimensions */}
-          <div className="grid gap-2.5 sm:grid-cols-2">
-            <div>
-              <label htmlFor="ps-length" className="label-field">
-                Bed length <span className="text-bark-500">({lengthUnit})</span>
-              </label>
-              <input
-                id="ps-length"
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step="0.5"
-                value={bedLength}
-                onChange={handleBedLengthChange}
-                className="input-field mt-1.5"
-              />
+              <div>
+                <label htmlFor="ps-length" className="label-field">
+                  Bed length <span className="text-bark-500">({lengthUnit})</span>
+                </label>
+                <input
+                  id="ps-length"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.5"
+                  value={bedLength}
+                  onChange={handleBedLengthChange}
+                  className="input-field mt-1.5"
+                />
+              </div>
+              <div>
+                <label htmlFor="ps-width" className="label-field">
+                  Bed width <span className="text-bark-500">({lengthUnit})</span>
+                </label>
+                <input
+                  id="ps-width"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.5"
+                  value={bedWidth}
+                  onChange={handleBedWidthChange}
+                  className="input-field mt-1.5"
+                />
+              </div>
             </div>
-            <div>
-              <label htmlFor="ps-width" className="label-field">
-                Bed width <span className="text-bark-500">({lengthUnit})</span>
-              </label>
-              <input
-                id="ps-width"
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step="0.5"
-                value={bedWidth}
-                onChange={handleBedWidthChange}
-                className="input-field mt-1.5"
-              />
-            </div>
+
+            {mode === 'trees'
+              ? treeType !== 'Custom' && selectedTreePreset && (
+                  <p className="mt-1.5 text-xs text-bark-500">
+                    Recommended mature spacing for {treeType}: {selectedTreePreset.spacingFt} ft
+                  </p>
+                )
+              : crop !== 'Custom' && selectedPreset && (
+                  <p className="mt-1.5 text-xs text-bark-500">
+                    Recommended: {selectedPreset.inRowIn}&Prime; in-row &times; {selectedPreset.betweenRowIn}&Prime; between rows
+                    {mode === 'sqft' && ` (${selectedPreset.sqftPerPlant} sq ft per plant in SFG)`}
+                  </p>
+                )}
           </div>
 
           {/* Spacing inputs */}
           {mode === 'row' ? (
-            <div className="grid gap-2.5 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="ps-in-row" className="label-field">
                   In-row spacing <span className="text-bark-500">({spacingUnit})</span>
@@ -293,10 +301,10 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
               />
             </div>
           ) : (
-            <div>
+            <div className="grid items-end gap-4 sm:grid-cols-[1fr_1.7fr]">
               <div>
                 <label htmlFor="ps-tree-spacing" className="label-field">
-                  Spacing between trees/shrubs <span className="text-bark-500">({lengthUnit})</span>
+                  Tree/shrub spacing <span className="text-bark-500">({lengthUnit})</span>
                 </label>
                 <input
                   id="ps-tree-spacing"
@@ -309,7 +317,10 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
                   className="input-field mt-1.5"
                 />
               </div>
-              <details className="group mt-3 rounded-lg bg-[#E8A94A]/10 px-4 py-2 text-xs text-bark-700 ring-1 ring-[#E8A94A]/40">
+              {/* Sits beside the spacing input rather than under it -- trees
+                  mode is the tallest of the three, and this is the row that
+                  had the spare width. */}
+              <details className="group rounded-lg bg-[#E8A94A]/10 px-4 py-2 text-xs text-bark-700 ring-1 ring-[#E8A94A]/40">
                 <summary className="cursor-pointer list-none font-medium text-bark-800 marker:hidden [&::-webkit-details-marker]:hidden">
                   <span className="inline-flex items-center gap-1.5">
                     Use mature spacing, not planting size
@@ -327,7 +338,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
 
           {/* Formula -- collapsed by default, same convention as the other
               converted calculators. */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-1.5 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -370,7 +381,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
             ) : (
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
-                  <div className="flex items-center gap-3 p-3">
+                  <div className="flex items-center gap-3 p-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <circle cx="5" cy="5" r="2" />
@@ -399,7 +410,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
                     </div>
                   </div>
 
-                  <div className="bg-moss-700 p-3">
+                  <div className="bg-moss-700 p-3.5">
                     {result.mode === 'row' ? (
                       <>
                         <p className="text-xs text-moss-200">Layout</p>
@@ -444,7 +455,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -460,7 +471,7 @@ export default function PlantSpacingCalculatorCard({ calc, sentiment, onVote }: 
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {result && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

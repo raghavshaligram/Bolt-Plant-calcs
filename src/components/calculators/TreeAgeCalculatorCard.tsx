@@ -74,12 +74,12 @@ export default function TreeAgeCalculatorCard({ calc, sentiment, onVote }: TreeA
           </button>
         </div>
 
-        <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col gap-4 p-5">
           {/* Unit system toggle */}
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
               <span className="label-field">Units</span>
-              <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
                 <button
                   type="button"
                   aria-pressed={!isMetric}
@@ -108,40 +108,47 @@ export default function TreeAgeCalculatorCard({ calc, sentiment, onVote }: TreeA
             </div>
           </div>
 
-          {/* Species selector */}
+          {/* Species + measurement: the two inputs share one row at 560px,
+              with the "where to measure" note under the whole row so it keeps
+              the full width. That recovered row is what keeps the card inside
+              the sticky column's height budget without tightening spacing. */}
           <div>
-            <label htmlFor="ta-species" className="label-field">
-              Tree species <span className="text-bark-500">(growth factor: {preset.growthFactor} yr/in)</span>
-            </label>
-            <select
-              id="ta-species"
-              value={species}
-              onChange={(e) => setSpecies(e.target.value)}
-              className="input-field mt-1.5"
-            >
-              {SPECIES_PRESETS.map((p) => (
-                <option key={p.name} value={p.name}>{p.name}</option>
-              ))}
-            </select>
-          </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="ta-species" className="label-field">
+                  Tree species <span className="text-bark-500">(growth factor: {preset.growthFactor} yr/in)</span>
+                </label>
+                <select
+                  id="ta-species"
+                  value={species}
+                  onChange={(e) => setSpecies(e.target.value)}
+                  className="input-field mt-1.5"
+                >
+                  {SPECIES_PRESETS.map((p) => (
+                    <option key={p.name} value={p.name}>{p.name}</option>
+                  ))}
+                </select>
+              </div>
 
-          {/* Circumference input */}
-          <div>
-            <label htmlFor="ta-circumference" className="label-field">
-              Trunk circumference at breast height <span className="text-bark-500">({circUnit})</span>
-            </label>
-            <input
-              id="ta-circumference"
-              type="number"
-              inputMode="decimal"
-              min="0"
-              step="0.5"
-              value={circumference}
-              onChange={handleCircumferenceChange}
-              className="input-field mt-1.5"
-            />
+              <div>
+                <label htmlFor="ta-circumference" className="label-field">
+                  Trunk circumference <span className="text-bark-500">({circUnit})</span>
+                </label>
+                <input
+                  id="ta-circumference"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.5"
+                  value={circumference}
+                  onChange={handleCircumferenceChange}
+                  className="input-field mt-1.5"
+                />
+              </div>
+            </div>
+
             <p className="mt-1.5 text-xs text-bark-500">
-              Measure at ~4.5 ft (1.4 m) above ground &mdash; the standard DBH point.
+              Measure the circumference at breast height &mdash; ~4.5 ft (1.4 m) above ground.
             </p>
           </div>
 
@@ -180,7 +187,7 @@ export default function TreeAgeCalculatorCard({ calc, sentiment, onVote }: TreeA
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
                   {/* Left: diameter (intermediate step) */}
-                  <div className="flex items-center gap-3 p-3.5">
+                  <div className="flex items-center gap-3 p-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                         <path d="M16 4c-3 4-5 7-5 11a5 5 0 0 0 10 0c0-4-2-7-5-11Z" />
@@ -221,14 +228,14 @@ export default function TreeAgeCalculatorCard({ calc, sentiment, onVote }: TreeA
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-1.5">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2">
                   <p className="text-xs text-bark-500">
                     An estimate, not a precise measurement &mdash; only ring counting gives an exact age.
                   </p>
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -244,7 +251,7 @@ export default function TreeAgeCalculatorCard({ calc, sentiment, onVote }: TreeA
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

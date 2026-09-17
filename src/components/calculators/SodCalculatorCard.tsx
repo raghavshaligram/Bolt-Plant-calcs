@@ -68,7 +68,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
   return (
     <div className="not-prose">
       <div className="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60">
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">Calculate How Much Sod You Need</h2>
           <button
             type="button"
@@ -82,9 +82,9 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
           </button>
         </div>
 
-        <div className="flex flex-col gap-1 p-4">
-          {/* Units */}
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-col gap-3 p-4">
+          {/* Lawn shape + Units -- two sibling toggle groups share one row */}
+          <div className="flex flex-wrap items-start gap-x-4 gap-y-4">
             <div>
               <span className="label-field">Lawn shape</span>
               <div className="mt-1.5 inline-flex flex-wrap rounded-lg bg-sand-100 p-1" role="tablist" aria-label="Lawn shape">
@@ -95,7 +95,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
                     role="tab"
                     aria-selected={shape === tab.id}
                     onClick={() => setShape(tab.id)}
-                    className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                    className={`rounded-md px-2.5 py-1.5 text-sm font-medium transition ${
                       shape === tab.id ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                     }`}
                   >
@@ -112,7 +112,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
                   type="button"
                   aria-pressed={!isMetric}
                   onClick={() => setUnitSystem('imperial')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     !isMetric ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
@@ -122,7 +122,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
                   type="button"
                   aria-pressed={isMetric}
                   onClick={() => setUnitSystem('metric')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     isMetric ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
@@ -252,7 +252,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
                 <option value="custom">Custom &mdash; enter my supplier's coverage</option>
               </select>
               {grassType === 'custom' ? (
-                <div className="mt-2">
+                <div className="mt-3">
                   <label htmlFor="sod-custom-coverage" className="label-field">Supplier's pallet coverage <span className="text-bark-500">(sq ft)</span></label>
                   <input
                     id="sod-custom-coverage"
@@ -266,12 +266,12 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
                   />
                 </div>
               ) : grassType === 'unsure' ? (
-                <p className="mt-1 text-xs text-bark-500">
-                  ~{GRASS_COVERAGE[grassType]} sq ft/pallet, industry std. (confirm w/ supplier).
+                <p className="mt-1.5 text-xs text-bark-500">
+                  ~{GRASS_COVERAGE[grassType]} sq ft/pallet &mdash; industry standard. Confirm with supplier.
                 </p>
               ) : (
-                <p className="mt-1 text-xs text-bark-500">
-                  ~{GRASS_COVERAGE[grassType]} sq ft/pallet, sold as {soldAs} (confirm w/ supplier).
+                <p className="mt-1.5 text-xs text-bark-500">
+                  ~{GRASS_COVERAGE[grassType]} sq ft/pallet, sold as {soldAs}. Confirm with supplier.
                 </p>
               )}
             </div>
@@ -288,7 +288,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
                 <option value="10">10% &mdash; curved edges</option>
                 <option value="15">15% &mdash; complex / multiple obstacles</option>
               </select>
-              <p className="mt-1 text-xs text-bark-500">Covers offcuts from trimming to fit.</p>
+              <p className="mt-1.5 text-xs text-bark-500">Accounts for offcuts from fitting rectangular pieces to your lawn&rsquo;s edges.</p>
             </div>
           </div>
 
@@ -296,7 +296,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
               not something most visitors need open while they work, and
               keeping it closed is most of what lets this panel stay short
               enough to stick without an internal scrollbar. */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-1 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -326,7 +326,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
             ) : (
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
-                  <div className="flex items-center gap-3 p-2.5">
+                  <div className="flex items-center gap-3 p-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                         <path d="M4 24h24v4H4zM6 22V10l7-4 7 4v12M6 22h14M9 22v-6h4v6" opacity="0.85" />
@@ -343,7 +343,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
                     </div>
                   </div>
 
-                  <div className="bg-moss-700 p-2.5">
+                  <div className="bg-moss-700 p-4">
                     <p className="text-xs text-moss-200">Or in pieces</p>
                     <p className="font-display text-2xl font-bold text-white sm:text-3xl">
                       {result.pieces.toLocaleString()}
@@ -355,7 +355,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-0.5">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-xs text-bark-500">
                     Lawn area: {round(result.sqft, 1).toLocaleString()} sq ft, before the {wasteFactor}% waste factor.
                   </p>
@@ -379,7 +379,7 @@ export default function SodCalculatorCard({ calc, sentiment, onVote }: SodCalcul
               count/icon row lives up in the left column's action row
               instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

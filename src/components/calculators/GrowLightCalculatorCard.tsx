@@ -76,7 +76,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
             only the tool itself (inputs, results, reset, and the "Was this
             helpful?" prompt). The original component had no Reset button;
             this is added new per the rollout pattern. */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-2.5">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">
             Calculate Your Grow Light Needs
           </h2>
@@ -92,12 +92,12 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
           </button>
         </div>
 
-        <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col gap-3.5 p-4">
           {/* Mode + unit toggles */}
-          <div className="flex flex-wrap items-start justify-between gap-2">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
               <span className="label-field">Mode</span>
-              <div className="mt-2 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
+              <div className="mt-1.5 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
                 <button
                   type="button"
                   role="tab"
@@ -143,7 +143,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
             {(mode === 'coverage' || mode === 'distance') && (
               <div>
                 <span className="label-field">Units</span>
-                <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+                <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
                   <button
                     type="button"
                     aria-pressed={!isMetric}
@@ -239,6 +239,9 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
                     onChange={handleElectricityRateChange}
                     className="input-field mt-1.5"
                   />
+                  <p className="mt-1.5 text-xs text-bark-500">
+                    Defaults to a recent US residential average. Edit to match your bill.
+                  </p>
                 </div>
               </div>
 
@@ -247,7 +250,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
                   they work, and keeping it closed is most of what lets this
                   panel stay short enough to stick without an internal
                   scrollbar. */}
-              <details className="group rounded-lg bg-sand-50 px-4 py-1.5 text-sm text-bark-600 ring-1 ring-moss-100">
+              <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
                 <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
                   <span className="inline-flex items-center gap-1.5">
                     Show the math
@@ -272,7 +275,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
                 ) : (
                   <>
                     <div className="grid grid-cols-2 divide-x divide-moss-200">
-                      <div className="flex items-center gap-3 p-3.5">
+                      <div className="flex items-center gap-3 p-4">
                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                           <svg className="h-5 w-5 text-moss-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2ZM10 21h4" stroke="currentColor" strokeWidth="0.5"/>
@@ -287,7 +290,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
                         </div>
                       </div>
 
-                      <div className="bg-moss-700 p-3.5">
+                      <div className="bg-moss-700 p-4">
                         <p className="text-xs text-moss-200">Estimated cost</p>
                         {coverageResult.dailyCost !== null ? (
                           <>
@@ -306,14 +309,14 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-moss-200 bg-white px-4 py-1.5">
+                    <div className="flex items-center justify-between border-t border-moss-200 bg-white px-4 py-2.5">
                       <p className="text-xs text-bark-500">
                         Rule-of-thumb ranges, not a professional lighting design.
                       </p>
                       <button
                         type="button"
                         onClick={exportPdf}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                       >
                         <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                           <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -387,7 +390,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
 
               {/* Formula display -- collapsed by default, same convention as
                   the Coverage mode above. */}
-              <details className="group rounded-lg bg-sand-50 px-4 py-1.5 text-sm text-bark-600 ring-1 ring-moss-100">
+              <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
                 <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
                   <span className="inline-flex items-center gap-1.5">
                     Show the math
@@ -408,7 +411,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
                   </p>
                 ) : (
                   <>
-                    <div className="p-3.5">
+                    <div className="p-4">
                       <p className="text-xs text-bark-500">Calculated DLI</p>
                       <p className="font-display text-3xl font-bold text-moss-700">
                         {round(dliResult.dli, 1)} <span className="text-lg font-semibold">mol/m&sup2;/day</span>
@@ -423,14 +426,14 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
                         </p>
                       )}
                     </div>
-                    <div className="flex items-center justify-between border-t border-moss-200 bg-white px-4 py-1.5">
+                    <div className="flex items-center justify-between border-t border-moss-200 bg-white px-4 py-2.5">
                       <p className="text-xs text-bark-500">
                         Target ranges are typical guidance, not a fixed requirement.
                       </p>
                       <button
                         type="button"
                         onClick={exportPdf}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                       >
                         <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                           <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -480,7 +483,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
 
               {/* Explanatory content -- collapsed by default, same
                   "Show the math" convention as the other two modes above. */}
-              <details className="group rounded-lg bg-sand-50 px-4 py-1.5 text-sm text-bark-600 ring-1 ring-moss-100">
+              <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
                 <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
                   <span className="inline-flex items-center gap-1.5">
                     Show the logic
@@ -495,7 +498,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
               </details>
 
               <div className="overflow-hidden rounded-xl border border-moss-200 bg-moss-50">
-                <div className="p-3.5">
+                <div className="p-4">
                   <p className="text-xs text-bark-500">Recommended hanging distance</p>
                   <p className="font-display text-3xl font-bold text-moss-700">
                     {distanceResult.low}&ndash;{distanceResult.high} {distanceUnit}
@@ -504,14 +507,14 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
                     above the plant canopy
                   </p>
                 </div>
-                <div className="flex items-center justify-between border-t border-moss-200 bg-white px-4 py-1.5">
+                <div className="flex items-center justify-between border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-xs text-bark-500">
                     Typical manufacturer guidance &mdash; check your fixture&rsquo;s spec sheet too.
                   </p>
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -528,7 +531,7 @@ export default function GrowLightCalculatorCard({ calc, sentiment, onVote }: Gro
               original calculators had this; it's added new per the rollout
               pattern. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

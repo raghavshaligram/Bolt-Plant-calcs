@@ -81,12 +81,12 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
           </button>
         </div>
 
-        <div className="flex flex-col gap-1.5 p-4">
+        <div className="flex flex-col gap-3 p-5">
           {/* Units + method */}
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
               <span className="label-field">Units</span>
-              <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="tablist" aria-label="Unit system">
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist" aria-label="Unit system">
                 <button type="button" role="tab" aria-selected={!isMetric} onClick={() => setUnitSystem('imperial')} className={tabButtonClass(!isMetric)}>
                   Feet
                 </button>
@@ -98,7 +98,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
 
             <div>
               <span className="label-field">Method</span>
-              <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="tablist" aria-label="Measurement method">
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist" aria-label="Measurement method">
                 <button type="button" role="tab" aria-selected={method === 'angle'} onClick={() => setMethod('angle')} className={tabButtonClass(method === 'angle')}>
                   Angle
                 </button>
@@ -112,10 +112,13 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
             </div>
           </div>
 
-          {/* ANGLE METHOD */}
+          {/* ANGLE METHOD -- the three measurements share one row at 560px
+              (the third one swaps between eye height and the base angle
+              depending on the slope choice below), which is what lets this
+              method fit the sticky column without tightening spacing. */}
           {method === 'angle' && (
-            <div className="flex flex-col gap-2">
-              <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex flex-col gap-3">
+              <div className="grid gap-4 sm:grid-cols-3">
                 <div>
                   <label htmlFor="th-distance" className="label-field">Distance to tree ({lengthUnit})</label>
                   <input
@@ -124,7 +127,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                     inputMode="decimal"
                     value={angleDistance}
                     onChange={handleAngleDistanceChange}
-                    className="input-field mt-1.5 py-2"
+                    className="input-field mt-1.5"
                   />
                 </div>
                 <div>
@@ -135,20 +138,45 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                     inputMode="decimal"
                     value={angleTop}
                     onChange={handleAngleTopChange}
-                    className="input-field mt-1.5 py-2"
+                    className="input-field mt-1.5"
                   />
                 </div>
+                {slopeMode === 'none' ? (
+                  <div>
+                    <label htmlFor="th-eye-height" className="label-field">Your eye height ({lengthUnit})</label>
+                    <input
+                      id="th-eye-height"
+                      type="text"
+                      inputMode="decimal"
+                      value={eyeHeight}
+                      onChange={handleEyeHeightChange}
+                      className="input-field mt-1.5"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <label htmlFor="th-angle-base" className="label-field">
+                      Angle {slopeMode === 'below' ? 'down' : 'up'} to base (&deg;)
+                    </label>
+                    <input
+                      id="th-angle-base"
+                      type="text"
+                      inputMode="decimal"
+                      value={angleBase}
+                      onChange={handleAngleBaseChange}
+                      className="input-field mt-1.5"
+                    />
+                  </div>
+                )}
               </div>
 
-              <div className="rounded-lg bg-sand-50 px-3 py-1.5 ring-1 ring-moss-100">
-                <p className="text-xs text-bark-500">
-                  Use your phone&rsquo;s level/compass app to read the angle &mdash; no clinometer needed.
-                </p>
-              </div>
+              <p className="text-xs text-bark-500">
+                Use your phone&rsquo;s level/compass app to read the angle &mdash; no clinometer needed.
+              </p>
 
               <div>
                 <span className="label-field">Ground between you and the tree</span>
-                <div className="mt-1.5 grid gap-2 sm:grid-cols-3">
+                <div className="mt-1.5 grid gap-4 sm:grid-cols-3">
                   <button
                     type="button"
                     onClick={() => setSlopeMode('none')}
@@ -182,35 +210,10 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                 </div>
               </div>
 
-              {slopeMode === 'none' ? (
-                <div>
-                  <label htmlFor="th-eye-height" className="label-field">Your eye height ({lengthUnit})</label>
-                  <input
-                    id="th-eye-height"
-                    type="text"
-                    inputMode="decimal"
-                    value={eyeHeight}
-                    onChange={handleEyeHeightChange}
-                    className="input-field mt-1.5 py-2 max-w-xs"
-                  />
-                </div>
-              ) : (
-                <div>
-                  <label htmlFor="th-angle-base" className="label-field">
-                    Angle {slopeMode === 'below' ? 'down' : 'up'} to the tree&rsquo;s base (°)
-                  </label>
-                  <input
-                    id="th-angle-base"
-                    type="text"
-                    inputMode="decimal"
-                    value={angleBase}
-                    onChange={handleAngleBaseChange}
-                    className="input-field mt-1.5 py-2 max-w-xs"
-                  />
-                  <p className="mt-1 text-xs text-bark-500">
-                    Sloped ground needs this second angle to correct the simple formula. See &ldquo;Measuring on a Slope&rdquo; below.
-                  </p>
-                </div>
+              {slopeMode !== 'none' && (
+                <p className="text-xs text-bark-500">
+                  Sloped ground needs this second angle &mdash; see &ldquo;Measuring on a Slope&rdquo; below.
+                </p>
               )}
             </div>
           )}
@@ -227,7 +230,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                     inputMode="decimal"
                     value={treeShadow}
                     onChange={handleTreeShadowChange}
-                    className="input-field mt-1.5 py-2"
+                    className="input-field mt-1.5"
                   />
                 </div>
                 <div>
@@ -238,7 +241,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                     inputMode="decimal"
                     value={refHeight}
                     onChange={handleRefHeightChange}
-                    className="input-field mt-1.5 py-2"
+                    className="input-field mt-1.5"
                   />
                 </div>
                 <div>
@@ -249,7 +252,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                     inputMode="decimal"
                     value={refShadow}
                     onChange={handleRefShadowChange}
-                    className="input-field mt-1.5 py-2"
+                    className="input-field mt-1.5"
                   />
                 </div>
               </div>
@@ -271,7 +274,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                     inputMode="decimal"
                     value={stickLength}
                     onChange={handleStickLengthChange}
-                    className="input-field mt-1.5 py-2"
+                    className="input-field mt-1.5"
                   />
                 </div>
                 <div>
@@ -282,7 +285,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                     inputMode="decimal"
                     value={armDistance}
                     onChange={handleArmDistanceChange}
-                    className="input-field mt-1.5 py-2"
+                    className="input-field mt-1.5"
                   />
                 </div>
                 <div>
@@ -293,7 +296,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
                     inputMode="decimal"
                     value={stickDistance}
                     onChange={handleStickDistanceChange}
-                    className="input-field mt-1.5 py-2"
+                    className="input-field mt-1.5"
                   />
                 </div>
               </div>
@@ -308,7 +311,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
               keeping it closed is most of what lets this panel stay short
               enough to stick without an internal scrollbar. */}
           {formulaLine && (
-            <details className="group rounded-lg bg-sand-50 px-4 py-1 text-sm text-bark-600 ring-1 ring-moss-100">
+            <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
               <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
                 <span className="inline-flex items-center gap-1.5">
                   Show the math
@@ -327,20 +330,20 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
               <p className="p-5 text-sm text-bark-500">Enter your measurements above to see the estimated height.</p>
             ) : (
               <>
-                <div className="p-2.5">
+                <div className="p-4">
                   <p className="text-xs text-bark-500">Estimated tree height ({methodLabel})</p>
                   <p className="font-display text-3xl font-bold text-moss-700">
                     {round(activeResult.height)} <span className="text-lg font-medium text-bark-500">{lengthUnit}</span>
                   </p>
                 </div>
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-1">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2">
                   <p className="text-xs text-bark-500">
                     {method === 'angle' && slopeMode !== 'none' ? 'Slope-corrected' : 'Method'}: {methodLabel}
                   </p>
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -355,7 +358,7 @@ export default function TreeHeightCalculatorCard({ calc, sentiment, onVote }: Tr
           {/* Was this helpful? -- stays directly under the result, since it's
               asking about the result specifically. */}
           {activeResult.valid && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

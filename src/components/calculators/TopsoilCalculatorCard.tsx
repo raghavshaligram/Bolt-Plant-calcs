@@ -61,7 +61,7 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
         {/* Card header -- includes Reset, since the sticky panel now
             contains only the tool itself (inputs, results, reset, and the
             "Was this helpful?" prompt). */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-1">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
           <h2 className="font-display text-lg font-semibold text-white">
             Calculate Your Topsoil Needs
           </h2>
@@ -77,18 +77,18 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
           </button>
         </div>
 
-        <div className="flex flex-col gap-1 p-2.5">
+        <div className="flex flex-col gap-3 p-4">
           {/* Use case toggle + unit system toggle */}
-          <div className="grid grid-cols-2 gap-1.5">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
-              <span className="label-field leading-none">What are you doing?</span>
-              <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+              <span className="label-field">What are you doing?</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
                 <button
                   type="button"
                   role="tab"
                   aria-selected={useCase === 'fill-bed'}
                   onClick={() => setUseCase('fill-bed')}
-                  className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     useCase === 'fill-bed'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -101,7 +101,7 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
                   role="tab"
                   aria-selected={useCase === 'topdress-lawn'}
                   onClick={() => setUseCase('topdress-lawn')}
-                  className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     useCase === 'topdress-lawn'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -113,13 +113,13 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
             </div>
 
             <div>
-              <span className="label-field leading-none">Units</span>
-              <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+              <span className="label-field">Units</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
                 <button
                   type="button"
                   aria-pressed={!isMetric}
                   onClick={() => setUnitSystem('imperial')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     !isMetric
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -131,7 +131,7 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
                   type="button"
                   aria-pressed={isMetric}
                   onClick={() => setUnitSystem('metric')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     isMetric
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -145,14 +145,14 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
 
           {/* Area input mode toggle */}
           <div>
-            <span className="label-field leading-none">How do you want to enter your area?</span>
-            <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+            <span className="label-field">How do you want to enter your area?</span>
+            <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
               <button
                 type="button"
                 role="tab"
                 aria-selected={mode === 'dimensions'}
                 onClick={() => setMode('dimensions')}
-                className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                   mode === 'dimensions'
                     ? 'bg-white text-moss-800 shadow-sm'
                     : 'text-bark-600 hover:text-moss-800'
@@ -165,7 +165,7 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
                 role="tab"
                 aria-selected={mode === 'area'}
                 onClick={() => setMode('area')}
-                className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                   mode === 'area'
                     ? 'bg-white text-moss-800 shadow-sm'
                     : 'text-bark-600 hover:text-moss-800'
@@ -176,85 +176,90 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
             </div>
           </div>
 
-          {/* Inputs */}
-          <div className="grid gap-1.5 sm:grid-cols-2">
-            {mode === 'dimensions' ? (
-              <>
-                <div>
-                  <label htmlFor="topsoil-length" className="label-field leading-none">
-                    Length <span className="text-bark-500">({lengthUnit})</span>
+          {/* Inputs -- every dimension fits on ONE row at this panel width,
+              with the depth guidance folded into a single full-width caption
+              underneath instead of a caption inside the depth cell. */}
+          <div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {mode === 'dimensions' ? (
+                <>
+                  <div>
+                    <label htmlFor="topsoil-length" className="label-field">
+                      Length <span className="text-bark-500">({lengthUnit})</span>
+                    </label>
+                    <input
+                      id="topsoil-length"
+                      type="number"
+                      inputMode="decimal"
+                      min="0"
+                      step="0.1"
+                      value={length}
+                      onChange={handleLengthChange}
+                      className="input-field mt-1.5"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="topsoil-width" className="label-field">
+                      Width <span className="text-bark-500">({lengthUnit})</span>
+                    </label>
+                    <input
+                      id="topsoil-width"
+                      type="number"
+                      inputMode="decimal"
+                      min="0"
+                      step="0.1"
+                      value={width}
+                      onChange={handleWidthChange}
+                      className="input-field mt-1.5"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="sm:col-span-2">
+                  <label htmlFor="topsoil-area" className="label-field">
+                    Total area <span className="text-bark-500">({areaUnit})</span>
                   </label>
                   <input
-                    id="topsoil-length"
+                    id="topsoil-area"
                     type="number"
                     inputMode="decimal"
                     min="0"
-                    step="0.1"
-                    value={length}
-                    onChange={handleLengthChange}
-                    className="input-field mt-1 py-2"
+                    step="1"
+                    value={area}
+                    onChange={handleAreaChange}
+                    className="input-field mt-1.5"
                   />
                 </div>
-                <div>
-                  <label htmlFor="topsoil-width" className="label-field leading-none">
-                    Width <span className="text-bark-500">({lengthUnit})</span>
-                  </label>
-                  <input
-                    id="topsoil-width"
-                    type="number"
-                    inputMode="decimal"
-                    min="0"
-                    step="0.1"
-                    value={width}
-                    onChange={handleWidthChange}
-                    className="input-field mt-1 py-2"
-                  />
-                </div>
-              </>
-            ) : (
-              <div className="sm:col-span-2">
-                <label htmlFor="topsoil-area" className="label-field leading-none">
-                  Total area <span className="text-bark-500">({areaUnit})</span>
+              )}
+
+              <div>
+                <label htmlFor="topsoil-depth" className="label-field">
+                  Desired depth <span className="text-bark-500">({depthUnit})</span>
                 </label>
                 <input
-                  id="topsoil-area"
+                  id="topsoil-depth"
                   type="number"
                   inputMode="decimal"
                   min="0"
-                  step="1"
-                  value={area}
-                  onChange={handleAreaChange}
-                  className="input-field mt-1 py-2"
+                  step={useCase === 'fill-bed' ? '1' : '0.125'}
+                  value={depth}
+                  onChange={handleDepthChange}
+                  className="input-field mt-1.5"
                 />
               </div>
-            )}
-
-            <div>
-              <label htmlFor="topsoil-depth" className="label-field leading-none">
-                Desired depth <span className="text-bark-500">({depthUnit})</span>
-              </label>
-              <input
-                id="topsoil-depth"
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step={useCase === 'fill-bed' ? '1' : '0.125'}
-                value={depth}
-                onChange={handleDepthChange}
-                className="input-field mt-1 py-2"
-              />
-              <p className="mt-1 text-xs text-bark-500">
-                {useCase === 'fill-bed'
-                  ? (isMetric ? '20–30 cm is typical for raised beds.' : '8–12″ is typical for raised beds.')
-                  : (isMetric ? '0.5–1 cm is typical for topdressing a lawn.' : '0.25–0.5″ is typical for topdressing a lawn.')}
-              </p>
             </div>
+
+            <p className="mt-2 text-xs text-bark-500">
+              {useCase === 'fill-bed'
+                ? (isMetric ? '20–30 cm is typical for raised beds.' : '8–12″ is typical for raised beds.')
+                : (isMetric ? '0.5–1 cm is typical for topdressing a lawn.' : '0.25–0.5″ is typical for topdressing a lawn.')}
+            </p>
           </div>
 
           {/* Formula display -- collapsed by default, same as the pilot, so
               this panel stays short enough to stick without an internal
               scrollbar. */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-0.5 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -284,7 +289,7 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
                   {/* Left: cubic feet */}
-                  <div className="flex items-center gap-3 p-2">
+                  <div className="flex items-center gap-3 p-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                         <path d="M16 4c-3 4-5 7-5 11a5 5 0 0 0 10 0c0-4-2-7-5-11Z" />
@@ -308,7 +313,7 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
                   </div>
 
                   {/* Right: tons + cubic yards */}
-                  <div className="bg-moss-700 p-2">
+                  <div className="bg-moss-700 p-3.5">
                     <p className="text-xs text-moss-200">That's about</p>
                     <p className="font-display text-2xl font-bold text-white sm:text-3xl">
                       ~{round(result.tons, 2).toLocaleString()} tons
@@ -322,34 +327,33 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 border-t border-moss-200 px-4 py-0.5">
-                  <div>
-                    <p className="text-xs text-bark-500">Also approximately</p>
+                {/* Bag count + caption + Export share ONE footer row: the bag
+                    figure reads as a single line rather than a three-line
+                    stat stack, and the Export button sits beside it instead
+                    of claiming a row of its own. */}
+                <div className="border-t border-moss-200 bg-white px-4 py-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <p className="font-display text-2xl font-bold text-moss-700">
-                      ~{result.bags40lb.toLocaleString()}
+                      ~{result.bags40lb.toLocaleString()}{' '}
+                      <span className="text-sm font-medium text-bark-600">
+                        bags of topsoil (40 lb)
+                      </span>
                     </p>
-                    <p className="text-xs font-medium text-bark-600">
-                      bags of topsoil (40 lb){' '}
-                      <span className="font-normal text-bark-400">avg. 0.75 cu ft/bag</span>
-                    </p>
+                    <button
+                      type="button"
+                      onClick={exportPdf}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    >
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      Export PDF
+                    </button>
                   </div>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-1">
-                  <p className="text-xs text-bark-500">
-                    For {round(result.sqft, 1).toLocaleString()} sq ft at {round(result.depthIn, 2)}&Prime; deep.
-                    Add 10% extra for settling.
+                  <p className="mt-0.5 text-xs text-bark-500">
+                    For {round(result.sqft, 1).toLocaleString()} sq ft at {round(result.depthIn, 2)}&Prime; deep,
+                    0.75 cu ft/bag. Add 10% for settling.
                   </p>
-                  <button
-                    type="button"
-                    onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
-                  >
-                    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Export PDF
-                  </button>
                 </div>
               </>
             )}
@@ -360,7 +364,7 @@ export default function TopsoilCalculatorCard({ calc, sentiment, onVote }: Topso
               count/icon row lives up in the left column's action row
               instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-0.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

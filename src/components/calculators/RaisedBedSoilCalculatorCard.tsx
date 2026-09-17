@@ -61,7 +61,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
         {/* Card header -- includes Reset/Clear, since the sticky panel now
             contains only the tool itself (inputs, results, reset, and the
             "Was this helpful?" prompt) per the Correction Prompt. */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">
             Calculate Your Raised Bed Soil
           </h2>
@@ -77,7 +77,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
           </button>
         </div>
 
-        <div className="flex flex-col gap-3 p-5">
+        <div className="flex flex-col gap-4 p-5">
           {/* Preset buttons + unit toggle row */}
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
@@ -134,8 +134,11 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
             </div>
           </div>
 
-          {/* Dimension inputs */}
-          <div className="grid gap-3 sm:grid-cols-3">
+          {/* Dimension inputs + bag size. At 560px the three dimensions and
+              the bag-size toggle all fit on one row, which is where this
+              card's last row of height came from -- the spacing itself is
+              untouched. */}
+          <div className="grid gap-4 sm:grid-cols-[1fr_1fr_1fr_auto]">
             <div>
               <label htmlFor="rb-length" className="label-field">
                 Length <span className="text-bark-500">({lengthUnit})</span>
@@ -184,32 +187,32 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
                 {isMetric ? '20–30 cm is typical.' : '8–12″ is typical.'}
               </p>
             </div>
-          </div>
 
-          {/* Bag size selector */}
-          <div>
-            <span className="label-field">Bag size</span>
-            <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Bag size">
-              <button
-                type="button"
-                aria-pressed={bagSize === '1.5'}
-                onClick={() => setBagSize('1.5')}
-                className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
-                  bagSize === '1.5' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
-                }`}
-              >
-                1.5 cu ft
-              </button>
-              <button
-                type="button"
-                aria-pressed={bagSize === '2'}
-                onClick={() => setBagSize('2')}
-                className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
-                  bagSize === '2' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
-                }`}
-              >
-                2 cu ft
-              </button>
+            {/* Bag size selector */}
+            <div>
+              <span className="label-field">Bag size</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Bag size">
+                <button
+                  type="button"
+                  aria-pressed={bagSize === '1.5'}
+                  onClick={() => setBagSize('1.5')}
+                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                    bagSize === '1.5' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
+                  }`}
+                >
+                  1.5 cu ft
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={bagSize === '2'}
+                  onClick={() => setBagSize('2')}
+                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                    bagSize === '2' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
+                  }`}
+                >
+                  2 cu ft
+                </button>
+              </div>
             </div>
           </div>
 
@@ -287,7 +290,7 @@ export default function RaisedBedSoilCalculatorCard({ calc, sentiment, onVote }:
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

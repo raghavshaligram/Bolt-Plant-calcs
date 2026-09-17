@@ -167,9 +167,9 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
          second, sticky column, so it still stays visible alongside the
          entire left column and releases only at its bottom -- well above
          the LeadMagnet/Footer sections that live outside this grid
-         entirely. Fixed 440px column (not content-sized) plus SSR'd
+         entirely. Fixed 560px column (not content-sized) plus SSR'd
          markup from client:load means no layout shift on load. */
-      <div class="lg:grid lg:grid-cols-[1fr_440px] lg:items-start lg:gap-12">
+      <div class="lg:grid lg:grid-cols-[1fr_560px] lg:items-start lg:gap-12">
         <div class="lg:col-start-1 lg:row-start-1">
           <p class="mb-5 text-base leading-relaxed text-bark-600 sm:text-lg lg:mb-0">
             {intro}
@@ -224,7 +224,7 @@ const leadMagnet = leadMagnetConfig[cluster.slug];
           form's column resolves to the exact same pixel width as the
           article/calculator column, even with no second item in this grid
           (the second track still reserves its own space either way). */}
-      <div class={stickyCalculator ? 'lg:grid lg:grid-cols-[1fr_440px] lg:gap-12' : 'lg:grid lg:grid-cols-[1fr_240px] lg:gap-12'}>
+      <div class={stickyCalculator ? 'lg:grid lg:grid-cols-[1fr_560px] lg:gap-12' : 'lg:grid lg:grid-cols-[1fr_240px] lg:gap-12'}>
         <div class="min-w-0">
           <LeadMagnetForm
             client:load

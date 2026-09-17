@@ -74,35 +74,7 @@ export default function OverseedingCalculatorCard({ calc, sentiment, onVote }: O
           </button>
         </div>
 
-        <div className="flex flex-col gap-1 p-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <span className="label-field">Units</span>
-              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
-                <button
-                  type="button"
-                  aria-pressed={!isMetric}
-                  onClick={() => setUnitSystem('imperial')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
-                    !isMetric ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
-                  }`}
-                >
-                  Imperial
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={isMetric}
-                  onClick={() => setUnitSystem('metric')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
-                    isMetric ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
-                  }`}
-                >
-                  Metric
-                </button>
-              </div>
-            </div>
-          </div>
-
+        <div className="flex flex-col gap-3 p-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="os-area" className="label-field">
@@ -116,7 +88,7 @@ export default function OverseedingCalculatorCard({ calc, sentiment, onVote }: O
                 step="1"
                 value={area}
                 onChange={handleAreaChange}
-                className="input-field mt-1.5 py-1.5"
+                className="input-field mt-1.5"
               />
             </div>
             <div>
@@ -127,7 +99,7 @@ export default function OverseedingCalculatorCard({ calc, sentiment, onVote }: O
                 id="os-grass"
                 value={grass}
                 onChange={(e) => setGrass(e.target.value as GrassKey)}
-                className="input-field mt-1.5 py-1.5"
+                className="input-field mt-1.5"
               >
                 {(Object.keys(GRASS_RATES) as GrassKey[]).map((key) => (
                   <option key={key} value={key}>
@@ -138,76 +110,111 @@ export default function OverseedingCalculatorCard({ calc, sentiment, onVote }: O
             </div>
           </div>
 
-          <div>
-            <label htmlFor="os-condition" className="label-field">
-              Lawn condition <span className="text-bark-500">(sets the rate within the range)</span>
-            </label>
-            <select
-              id="os-condition"
-              value={condition}
-              onChange={(e) => setCondition(e.target.value as 'thin' | 'patchy' | 'very-thin')}
-              className="input-field mt-1.5 py-1.5"
-            >
-              <option value="thin">Thin but mostly green</option>
-              <option value="patchy">Patchy</option>
-              <option value="very-thin">Very thin with bare spots</option>
-            </select>
+          {/* Lawn condition + Units share one row -- the Units toggle is
+              short enough that a row of its own was mostly empty space. */}
+          <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
+            <div className="min-w-[16rem] flex-1">
+              <label htmlFor="os-condition" className="label-field">
+                Lawn condition <span className="text-bark-500">(sets the rate within the range)</span>
+              </label>
+              <select
+                id="os-condition"
+                value={condition}
+                onChange={(e) => setCondition(e.target.value as 'thin' | 'patchy' | 'very-thin')}
+                className="input-field mt-1.5"
+              >
+                <option value="thin">Thin but mostly green</option>
+                <option value="patchy">Patchy</option>
+                <option value="very-thin">Very thin with bare spots</option>
+              </select>
+            </div>
+
+            <div>
+              <span className="label-field">Units</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+                <button
+                  type="button"
+                  aria-pressed={!isMetric}
+                  onClick={() => setUnitSystem('imperial')}
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    !isMetric ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
+                  }`}
+                >
+                  Imperial
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={isMetric}
+                  onClick={() => setUnitSystem('metric')}
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    isMetric ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
+                  }`}
+                >
+                  Metric
+                </button>
+              </div>
+            </div>
           </div>
 
+          {/* Topdressing -- the opt-in checkbox sits on the SAME row as the
+              two fields it reveals, so turning it on costs one row instead
+              of two. */}
           <div className="rounded-lg bg-sand-50 p-2 ring-1 ring-moss-100">
-            <label className="flex items-center gap-2.5 text-sm font-medium text-bark-800">
-              <input
-                type="checkbox"
-                checked={useTopdressing}
-                onChange={(e) => setUseTopdressing(e.target.checked)}
-                className="h-4 w-4 rounded border-bark-300 text-moss-700 focus:ring-2 focus:ring-moss-500"
-              />
-              Also calculate topdressing
-            </label>
+            <div className={useTopdressing ? 'grid items-end gap-4 sm:grid-cols-3' : ''}>
+              <label className="flex items-center gap-2.5 py-2 text-sm font-medium text-bark-800">
+                <input
+                  type="checkbox"
+                  checked={useTopdressing}
+                  onChange={(e) => setUseTopdressing(e.target.checked)}
+                  className="h-4 w-4 shrink-0 rounded border-bark-300 text-moss-700 focus:ring-2 focus:ring-moss-500"
+                />
+                Also calculate topdressing
+              </label>
 
-            {useTopdressing && (
-              <div className="mt-1.5 grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="os-topdress-material" className="label-field">
-                    Topdressing material
-                  </label>
-                  <select
-                    id="os-topdress-material"
-                    value={topdressMaterial}
-                    onChange={(e) => setTopdressMaterial(e.target.value as TopdressMaterial)}
-                    className="input-field mt-1.5 py-1.5"
-                  >
-                    {(Object.keys(TOPDRESS_OPTIONS) as TopdressMaterial[]).map((key) => (
-                      <option key={key} value={key}>
-                        {TOPDRESS_OPTIONS[key]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="os-depth" className="label-field">
-                    Depth <span className="text-bark-500">({depthUnit}, &frac14;&Prime; typical)</span>
-                  </label>
-                  <input
-                    id="os-depth"
-                    type="number"
-                    inputMode="decimal"
-                    min="0"
-                    step="0.125"
-                    value={depth}
-                    onChange={handleDepthChange}
-                    className="input-field mt-1.5 py-1.5"
-                  />
-                </div>
-              </div>
-            )}
+              {useTopdressing && (
+                <>
+                  <div>
+                    <label htmlFor="os-topdress-material" className="label-field">
+                      Topdressing material
+                    </label>
+                    <select
+                      id="os-topdress-material"
+                      value={topdressMaterial}
+                      onChange={(e) => setTopdressMaterial(e.target.value as TopdressMaterial)}
+                      className="input-field mt-1.5"
+                    >
+                      {(Object.keys(TOPDRESS_OPTIONS) as TopdressMaterial[]).map((key) => (
+                        <option key={key} value={key}>
+                          {TOPDRESS_OPTIONS[key]}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="os-depth" className="label-field">
+                      Depth <span className="text-bark-500">({depthUnit}, &frac14;&Prime; typical)</span>
+                    </label>
+                    <input
+                      id="os-depth"
+                      type="number"
+                      inputMode="decimal"
+                      min="0"
+                      step="0.125"
+                      value={depth}
+                      onChange={handleDepthChange}
+                      className="input-field mt-1.5"
+                    />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Formula display -- collapsed by default. It's useful reference,
               not something most visitors need open while they work, and
               keeping it closed is most of what lets this panel stay short
               enough to stick without an internal scrollbar. */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-1 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -235,7 +242,7 @@ export default function OverseedingCalculatorCard({ calc, sentiment, onVote }: O
             ) : (
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
-                  <div className="flex items-center gap-3 p-2">
+                  <div className="flex items-center gap-3 p-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                         <path d="M16 4c-3 4-5 7-5 11a5 5 0 0 0 10 0c0-4-2-7-5-11Z" />
@@ -251,7 +258,7 @@ export default function OverseedingCalculatorCard({ calc, sentiment, onVote }: O
                     </div>
                   </div>
 
-                  <div className="bg-moss-700 p-2">
+                  <div className="bg-moss-700 p-3.5">
                     <p className="text-xs text-moss-200">That&rsquo;s about</p>
                     <p className="font-display text-2xl font-bold text-white sm:text-3xl">
                       {result.bags50lb.toLocaleString()}
@@ -262,43 +269,45 @@ export default function OverseedingCalculatorCard({ calc, sentiment, onVote }: O
                   </div>
                 </div>
 
-                {useTopdressing && (
-                  <div className="flex items-center gap-3 border-t border-moss-200 px-4 py-0.5">
-                    <div>
+                {/* Topdressing figure, run-of-calculation caption and Export
+                    share ONE footer row instead of two stacked rows. */}
+                <div className="border-t border-moss-200 bg-white px-4 py-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    {useTopdressing ? (
                       <p className="font-display text-2xl font-bold text-moss-700">
                         {round(result.topdressCubicFt, 1).toLocaleString()}{' '}
-                        <span className="text-sm font-medium text-bark-500">cu ft topdressing</span>
-                      </p>
-                      <p className="text-xs font-medium text-bark-600">
-                        {TOPDRESS_OPTIONS[topdressMaterial]}{' '}
-                        <span className="font-normal text-bark-400">
-                          (~{round(result.topdressCubicYd, 2)} cu yd{isMetric ? `, ${round(result.topdressCubicM, 2)} m³` : ''})
+                        <span className="text-sm font-medium text-bark-500">
+                          cu ft {TOPDRESS_OPTIONS[topdressMaterial].toLowerCase()} topdressing
                         </span>
                       </p>
-                    </div>
+                    ) : (
+                      <p className="min-w-0 flex-1 text-xs text-bark-500">
+                        For {round(result.sqft, 0).toLocaleString()} sq ft, {CONDITION_LABELS[condition].toLowerCase()}.
+                      </p>
+                    )}
+                    <button
+                      type="button"
+                      onClick={exportPdf}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    >
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path
+                          d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      Export PDF
+                    </button>
                   </div>
-                )}
-
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-1">
-                  <p className="text-xs text-bark-500">
-                    For {round(result.sqft, 0).toLocaleString()} sq ft, {CONDITION_LABELS[condition].toLowerCase()}.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
-                  >
-                    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path
-                        d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    Export PDF
-                  </button>
+                  {useTopdressing && (
+                    <p className="mt-0.5 text-xs text-bark-500">
+                      For {round(result.sqft, 0).toLocaleString()} sq ft, {CONDITION_LABELS[condition].toLowerCase()}.
+                      {' '}Topdressing ~{round(result.topdressCubicYd, 2)} cu yd{isMetric ? `, ${round(result.topdressCubicM, 2)} m³` : ''}.
+                    </p>
+                  )}
                 </div>
               </>
             )}
@@ -310,7 +319,7 @@ export default function OverseedingCalculatorCard({ calc, sentiment, onVote }: O
               the 24 calculators had this before the sticky-layout rollout;
               it's added new here per CALC_ROLLOUT_PATTERN.md. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

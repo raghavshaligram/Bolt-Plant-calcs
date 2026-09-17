@@ -61,7 +61,7 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
         {/* Card header -- includes Reset/Clear, since the sticky panel now
             contains only the tool itself (inputs, results, reset, and the
             "Was this helpful?" prompt), matching the raised-bed-soil pilot. */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">Compost Calculator</h2>
           <button
             type="button"
@@ -75,7 +75,7 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
           </button>
         </div>
 
-        <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col gap-3.5 p-5">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <span className="label-field">Enter area as</span>
@@ -85,7 +85,7 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
                   role="tab"
                   aria-selected={mode === 'dimensions'}
                   onClick={() => setMode('dimensions')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'dimensions' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
@@ -96,7 +96,7 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
                   role="tab"
                   aria-selected={mode === 'area'}
                   onClick={() => setMode('area')}
-                  className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     mode === 'area' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                   }`}
                 >
@@ -132,7 +132,7 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
           </div>
 
           {mode === 'dimensions' ? (
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="compost-length" className="label-field">Length ({lengthUnit})</label>
                 <input id="compost-length" type="number" inputMode="decimal" min="0" step="0.1"
@@ -152,7 +152,7 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
             </div>
           )}
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="compost-depth" className="label-field">
                 Depth ({depthUnit}) <span className="text-bark-500">(1-3&Prime; top-dressing, deeper for mixing in)</span>
@@ -173,7 +173,7 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
           {/* Formula display -- collapsed by default, same as the pilot, to
               help keep this panel short enough to stick without an
               internal scrollbar. */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-1.5 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -196,19 +196,19 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
             ) : (
               <>
                 <div className="grid grid-cols-2 divide-x divide-y divide-moss-200 sm:grid-cols-4 sm:divide-y-0">
-                  <div className="p-3.5">
+                  <div className="p-4">
                     <p className="text-xs text-bark-500">Cubic feet</p>
                     <p className="font-display text-xl font-bold text-moss-700 sm:text-2xl">{round(result.cubicFeet, 1)}</p>
                   </div>
-                  <div className="p-3.5">
+                  <div className="p-4">
                     <p className="text-xs text-bark-500">Cubic yards</p>
                     <p className="font-display text-xl font-bold text-moss-700 sm:text-2xl">{round(result.cubicYards, 2)}</p>
                   </div>
-                  <div className="p-3.5">
+                  <div className="p-4">
                     <p className="text-xs text-bark-500">Bags ({parsedBagSize || 1.5} cu ft)</p>
                     <p className="font-display text-xl font-bold text-moss-700 sm:text-2xl">{result.bags}</p>
                   </div>
-                  <div className="bg-moss-700 p-3.5">
+                  <div className="bg-moss-700 p-4">
                     <p className="text-xs text-moss-200">Est. weight</p>
                     <p className="font-display text-xl font-bold text-white sm:text-2xl">
                       {round(result.weightLbLow, 0)}&ndash;{round(result.weightLbHigh, 0)}
@@ -216,14 +216,14 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
                     <p className="text-xs text-moss-200">lb ({round(result.weightLbMid * 0.453592, 0)} kg)</p>
                   </div>
                 </div>
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-1.5">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-xs text-bark-500">
                     Actual weight varies with moisture and material.
                   </p>
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -239,7 +239,7 @@ export default function CompostCalculatorCard({ calc, sentiment, onVote }: Compo
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

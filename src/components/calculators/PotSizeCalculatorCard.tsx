@@ -103,7 +103,7 @@ export default function PotSizeCalculatorCard({ calc, sentiment, onVote }: PotSi
 
         <div className="flex flex-col gap-3 p-4">
           {/* Mode + unit toggles */}
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
               <span className="label-field">Calculation type</span>
               <div className="mt-2 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">

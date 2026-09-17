@@ -53,7 +53,7 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
     <div className="not-prose">
       <div className="overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-moss-100/60">
         {/* Card header */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-1.5">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
           <h2 className="font-display text-lg font-semibold text-white">
             Calculate Your Soil Volume
           </h2>
@@ -69,18 +69,18 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
           </button>
         </div>
 
-        <div className="flex flex-col gap-1 p-2.5">
+        <div className="flex flex-col gap-3 p-4">
           {/* Shape + Units toggles */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-wrap items-start gap-x-6 gap-y-4">
             <div>
-              <span className="label-field leading-none">Shape</span>
-              <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+              <span className="label-field">Shape</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
                 <button
                   type="button"
                   role="tab"
                   aria-selected={shape === 'rectangle'}
                   onClick={() => setShape('rectangle')}
-                  className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     shape === 'rectangle'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -93,7 +93,7 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
                   role="tab"
                   aria-selected={shape === 'cylinder'}
                   onClick={() => setShape('cylinder')}
-                  className={`rounded-md px-2.5 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     shape === 'cylinder'
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -105,13 +105,13 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
             </div>
 
             <div>
-              <span className="label-field leading-none">Units</span>
-              <div className="mt-1 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
+              <span className="label-field">Units</span>
+              <div className="mt-1.5 inline-flex rounded-lg bg-sand-100 p-1" role="group" aria-label="Unit system">
                 <button
                   type="button"
                   aria-pressed={!isMetric}
                   onClick={() => setUnitSystem('imperial')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     !isMetric
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -123,7 +123,7 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
                   type="button"
                   aria-pressed={isMetric}
                   onClick={() => setUnitSystem('metric')}
-                  className={`rounded-md px-3 py-1 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                     isMetric
                       ? 'bg-white text-moss-800 shadow-sm'
                       : 'text-bark-600 hover:text-moss-800'
@@ -135,90 +135,92 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
             </div>
           </div>
 
-          {/* Inputs */}
-          <div className="grid gap-2 sm:grid-cols-2">
-            {shape === 'rectangle' ? (
-              <>
-                <div>
-                  <label htmlFor="sv-length" className="label-field leading-none">
-                    Length <span className="text-bark-500">({lengthUnit})</span>
+          {/* Inputs -- all dimensions sit on ONE row at this panel width, with
+              the guidance notes folded into a single full-width caption below
+              instead of a caption under each field. */}
+          <div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {shape === 'rectangle' ? (
+                <>
+                  <div>
+                    <label htmlFor="sv-length" className="label-field">
+                      Length <span className="text-bark-500">({lengthUnit})</span>
+                    </label>
+                    <input
+                      id="sv-length"
+                      type="number"
+                      inputMode="decimal"
+                      min="0"
+                      step="0.5"
+                      value={length}
+                      onChange={handleLengthChange}
+                      className="input-field mt-1.5"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="sv-width" className="label-field">
+                      Width <span className="text-bark-500">({lengthUnit})</span>
+                    </label>
+                    <input
+                      id="sv-width"
+                      type="number"
+                      inputMode="decimal"
+                      min="0"
+                      step="0.5"
+                      value={width}
+                      onChange={handleWidthChange}
+                      className="input-field mt-1.5"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="sm:col-span-2">
+                  <label htmlFor="sv-diameter" className="label-field">
+                    Diameter <span className="text-bark-500">({lengthUnit})</span>
                   </label>
                   <input
-                    id="sv-length"
+                    id="sv-diameter"
                     type="number"
                     inputMode="decimal"
                     min="0"
-                    step="0.5"
-                    value={length}
-                    onChange={handleLengthChange}
-                    className="input-field mt-1 py-2"
+                    step="0.25"
+                    value={diameter}
+                    onChange={handleDiameterChange}
+                    className="input-field mt-1.5"
                   />
                 </div>
-                <div>
-                  <label htmlFor="sv-width" className="label-field leading-none">
-                    Width <span className="text-bark-500">({lengthUnit})</span>
-                  </label>
-                  <input
-                    id="sv-width"
-                    type="number"
-                    inputMode="decimal"
-                    min="0"
-                    step="0.5"
-                    value={width}
-                    onChange={handleWidthChange}
-                    className="input-field mt-1 py-2"
-                  />
-                </div>
-              </>
-            ) : (
-              <div className="sm:col-span-2">
-                <label htmlFor="sv-diameter" className="label-field leading-none">
-                  Diameter <span className="text-bark-500">({lengthUnit})</span>
+              )}
+
+              <div>
+                <label htmlFor="sv-depth" className="label-field">
+                  Fill depth <span className="text-bark-500">({depthUnit})</span>
                 </label>
                 <input
-                  id="sv-diameter"
+                  id="sv-depth"
                   type="number"
                   inputMode="decimal"
                   min="0"
-                  step="0.25"
-                  value={diameter}
-                  onChange={handleDiameterChange}
-                  className="input-field mt-1 py-2"
+                  step={shape === 'cylinder' ? '0.5' : '1'}
+                  value={depth}
+                  onChange={handleDepthChange}
+                  className="input-field mt-1.5"
                 />
-                {!isMetric && (
-                  <p className="mt-1 text-xs text-bark-500">
-                    In feet: 6&Prime; pot&nbsp;= 0.5&nbsp;ft, 12&Prime;&nbsp;= 1&nbsp;ft, 16&Prime;&nbsp;= 1.33&nbsp;ft, 24&Prime;&nbsp;= 2&nbsp;ft.
-                  </p>
-                )}
               </div>
-            )}
-
-            <div className="sm:col-span-2">
-              <label htmlFor="sv-depth" className="label-field leading-none">
-                Fill depth <span className="text-bark-500">({depthUnit})</span>
-              </label>
-              <input
-                id="sv-depth"
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step={shape === 'cylinder' ? '0.5' : '1'}
-                value={depth}
-                onChange={handleDepthChange}
-                className="input-field mt-1 py-2"
-              />
-              <p className="mt-1 text-xs text-bark-500">
-                {shape === 'cylinder'
-                  ? (isMetric ? 'Leave 3–5 cm from the rim for watering headspace.' : 'Leave 1–2″ from the rim for watering headspace.')
-                  : (isMetric ? 'Typical raised bed: 20–30 cm. New lawn: 10–15 cm.' : 'Typical raised bed: 6–12″. New lawn: 4–6″.')}
-              </p>
             </div>
+
+            <p className="mt-2 text-xs text-bark-500">
+              {shape === 'cylinder'
+                ? (isMetric
+                    ? 'Leave 3–5 cm from the rim for watering headspace.'
+                    : 'Pot diameter in feet: 6″ = 0.5, 12″ = 1, 16″ = 1.33, 24″ = 2. Leave 1–2″ from the rim.')
+                : (isMetric ? 'Typical raised bed: 20–30 cm. New lawn: 10–15 cm.' : 'Typical raised bed: 6–12″. New lawn: 4–6″.')}
+            </p>
           </div>
 
           {/* Formula display -- collapsed by default, same as the pilot, to
               keep this panel short enough to stick without an internal
               scrollbar. */}
-          <details className="group rounded-lg bg-sand-50 px-4 py-1 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -239,6 +241,9 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
             <p className="mt-1 font-mono text-xs text-bark-500 sm:text-sm">
               Liters = Cubic Feet × 28.32 &nbsp;·&nbsp; Cu Yd = Cubic Feet ÷ 27
             </p>
+            <p className="mt-1 font-mono text-xs text-bark-500 sm:text-sm">
+              Weight ≈ Cubic Feet × 40 lbs/cu ft
+            </p>
           </details>
 
           {/* Results */}
@@ -251,7 +256,7 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
               <>
                 <div className="grid grid-cols-2 divide-x divide-moss-200">
                   {/* Left: cubic feet */}
-                  <div className="flex items-center gap-3 p-2.5">
+                  <div className="flex items-center gap-3 p-4">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-moss-700/10">
                       <svg className="h-5 w-5 text-moss-700" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                         <path d="M16 4c-3 4-5 7-5 11a5 5 0 0 0 10 0c0-4-2-7-5-11Z" />
@@ -275,7 +280,7 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
                   </div>
 
                   {/* Right: liters + cubic yards */}
-                  <div className="bg-moss-700 p-2.5">
+                  <div className="bg-moss-700 p-3.5">
                     <p className="text-xs text-moss-200">That's about</p>
                     <p className="font-display text-2xl font-bold text-white sm:text-3xl">
                       {round(result.liters, 1).toLocaleString()} L
@@ -289,11 +294,14 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
                   </div>
                 </div>
 
-                <div className="border-t border-moss-100 bg-moss-50/60 px-4 py-1.5">
-                  <p className="text-xs font-medium uppercase tracking-wider text-bark-400">
-                    Or buy in bags (standard retail potting mix sizes)
+                {/* Bag counts -- the "Or buy in bags" caption sits beside the
+                    three bag cells rather than on its own line above them, so
+                    this strip is one row instead of two. */}
+                <div className="flex items-center gap-3 border-t border-moss-100 bg-moss-50/60 px-4 py-2">
+                  <p className="w-20 shrink-0 text-xs font-medium uppercase tracking-wider text-bark-400">
+                    Or in bags
                   </p>
-                  <div className="mt-1.5 grid grid-cols-3 gap-2">
+                  <div className="grid flex-1 grid-cols-3 gap-3">
                     {BAG_SIZES_QT.map((qt) => (
                       <div key={qt} className="rounded-lg bg-white px-3 py-1 text-center ring-1 ring-moss-100">
                         <p className="font-display text-lg font-bold text-moss-700">
@@ -305,15 +313,15 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-1">
-                  <p className="text-xs text-bark-500">
-                    ~{round(result.weightLbs, 0).toLocaleString()} lbs&nbsp;/&nbsp;~{round(result.weightKg, 0).toLocaleString()} kg &mdash; est. weight at 40 lbs/cu ft.
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-moss-200 bg-white px-4 py-2">
+                  <p className="min-w-0 flex-1 text-xs text-bark-500">
+                    Est. ~{round(result.weightLbs, 0).toLocaleString()} lbs&nbsp;/&nbsp;~{round(result.weightKg, 0).toLocaleString()} kg.
                     Add 10–15% for settling.
                   </p>
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -329,7 +337,7 @@ export default function SoilVolumeCalculatorCard({ calc, sentiment, onVote }: So
               asking about the result specifically. The aggregate count/icon
               row lives up in the left column's action row instead. */}
           {hasResult && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button

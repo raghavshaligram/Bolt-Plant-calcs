@@ -65,7 +65,7 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
             contains only the tool itself (inputs, result, reset, and the
             "Was this helpful?" prompt), same as the pilot pattern. The
             original component had no Reset button; this is new. */}
-        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3">
+        <div className="flex items-center justify-between gap-3 bg-moss-700 px-5 py-3.5">
           <h2 className="font-display text-lg font-semibold text-white">Classify Your Soil Texture</h2>
           <button
             type="button"
@@ -85,16 +85,16 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
           </button>
         </div>
 
-        <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col gap-3 p-5">
           <div>
             <span className="label-field">Input method</span>
-            <div className="mt-2 inline-flex rounded-lg bg-sand-100 p-1" role="tablist">
+            <div className="mt-1.5 inline-flex flex-wrap gap-1 rounded-lg bg-sand-100 p-1" role="tablist">
               <button
                 type="button"
                 role="tab"
                 aria-selected={mode === 'percent'}
                 onClick={() => setMode('percent')}
-                className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                   mode === 'percent' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                 }`}
               >
@@ -105,7 +105,7 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
                 role="tab"
                 aria-selected={mode === 'jar-test'}
                 onClick={() => setMode('jar-test')}
-                className={`rounded-md px-3.5 py-1.5 text-sm font-medium transition ${
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                   mode === 'jar-test' ? 'bg-white text-moss-800 shadow-sm' : 'text-bark-600 hover:text-moss-800'
                 }`}
               >
@@ -115,7 +115,7 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
           </div>
 
           {mode === 'percent' ? (
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <label htmlFor="st-sand" className="label-field">
                   Sand <span className="text-bark-500">(%)</span>
@@ -169,7 +169,7 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
               )}
             </div>
           ) : (
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-3">
               <div>
                 <label htmlFor="st-jar-sand" className="label-field">
                   Sand layer height
@@ -221,7 +221,7 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
             </div>
           )}
 
-          <details className="group rounded-lg bg-sand-50 px-4 py-2 text-sm text-bark-600 ring-1 ring-moss-100">
+          <details className="group rounded-lg bg-sand-50 px-4 py-2.5 text-sm text-bark-600 ring-1 ring-moss-100">
             <summary className="cursor-pointer list-none font-medium text-bark-700 marker:hidden [&::-webkit-details-marker]:hidden">
               <span className="inline-flex items-center gap-1.5">
                 Show the math
@@ -243,7 +243,7 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
               </p>
             ) : (
               <>
-                <div className="p-3.5">
+                <div className="p-4">
                   <p className="text-xs text-bark-500">Your soil texture class is</p>
                   <p className="font-display text-3xl font-bold capitalize text-moss-700">{result.textureClass}</p>
                   <p className="mt-1 text-xs text-bark-500">
@@ -254,11 +254,11 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
                 <div className="border-t border-moss-200 bg-white px-4 py-2.5">
                   <p className="text-sm leading-relaxed text-bark-600">{TEXTURE_INFO[result.textureClass]}</p>
                 </div>
-                <div className="flex justify-end border-t border-moss-200 bg-white px-4 py-1.5">
+                <div className="flex justify-end border-t border-moss-200 bg-white px-4 py-2">
                   <button
                     type="button"
                     onClick={exportPdf}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3 py-1.5 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-moss-50 px-3.5 py-2 text-xs font-semibold text-moss-800 ring-1 ring-inset ring-moss-200 transition hover:bg-moss-100"
                   >
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                       <path
@@ -282,7 +282,7 @@ export default function SoilTypeCalculatorCard({ calc, sentiment, onVote }: Soil
               instead. None of the 24 calculators had this yet; adding new,
               same as the pilot did. */}
           {result.hasInput && (
-            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-1.5 ring-1 ring-moss-100">
+            <div className="flex items-center gap-2 rounded-lg bg-sand-50 px-4 py-2.5 ring-1 ring-moss-100">
               <p className="text-sm font-medium text-bark-700">Was this helpful?</p>
               <div className="ml-auto flex items-center gap-2">
                 <button
