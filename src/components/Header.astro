@@ -71,6 +71,13 @@ const isActive = (href: string) =>
       </div>
 
       <a
+        href="/plant-spacing/"
+        class={`rounded-md px-3 py-2 text-sm font-medium transition ${
+          isActive('/plant-spacing/') ? 'text-moss-800' : 'text-bark-600 hover:text-moss-800'
+        }`}
+      >Plant Spacing</a>
+
+      <a
         href="/blog/"
         class={`rounded-md px-3 py-2 text-sm font-medium transition ${
           isActive('/blog/') ? 'text-moss-800' : 'text-bark-600 hover:text-moss-800'

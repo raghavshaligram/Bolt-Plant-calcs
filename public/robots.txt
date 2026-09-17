@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://harvestmath.com/sitemap-index.xml
+Sitemap: https://harvestmath.com/sitemap-spacing-crops.xml

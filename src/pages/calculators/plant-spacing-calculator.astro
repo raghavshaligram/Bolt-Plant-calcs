@@ -4,6 +4,7 @@ import PlantSpacingCalculatorPanel from '../../components/calculators/PlantSpaci
 import TableOfContents from '../../components/TableOfContents.astro';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
+import CropSpacingIndexBlock from '../../components/CropSpacingIndexBlock.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('plant-spacing-calculator')!;
@@ -598,4 +599,6 @@ const softwareAppJsonLd = {
       Spacing values in the chart above are based on recommendations from university cooperative extension services. For plant quantity formulas, see Iowa State University Extension&rsquo;s <a href="https://yardandgarden.extension.iastate.edu/how-to/how-determine-plant-quantity-planting-beds" rel="noopener noreferrer">&ldquo;How to Determine Plant Quantity for Planting Beds&rdquo;</a>. For fruit tree spacing by rootstock, see the <a href="https://extension.umaine.edu/fruit/growing-fruit-trees-in-maine/spacing/" rel="noopener noreferrer">University of Maine Cooperative Extension&rsquo;s guide to spacing trees in an orchard</a>. For pecan spacing, see the University of Georgia&rsquo;s <a href="https://fieldreport.caes.uga.edu/publications/B1348/pecan-trees-for-the-home-or-backyard-orchard/" rel="noopener noreferrer">&ldquo;Pecan Trees for the Home or Backyard Orchard&rdquo;</a>. For landscape shrub spacing, see <a href="https://rocklandcce.org/resources/spacing-landscape-plants" rel="noopener noreferrer">Cornell Cooperative Extension&rsquo;s &ldquo;Spacing Landscape Plants&rdquo;</a>. For more on how we source and validate the formulas used on this site, see our <a href="/methodology/">methodology page</a>.
     </p>
   </article>
+
+  <CropSpacingIndexBlock />
 </CalculatorLayout>

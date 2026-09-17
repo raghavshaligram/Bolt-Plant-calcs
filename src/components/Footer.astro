@@ -51,6 +51,19 @@ const year = new Date().getFullYear();
             </a>
           </li>
         </ul>
+
+        {/* Per-crop plant spacing guides -- same rationale as the state
+            guides above: this hub is the only sitewide entry point into the
+            15 /plant-spacing/[crop]/ pages, so it lives in the footer on
+            every page rather than being reachable only via breadcrumb. */}
+        <h2 class="mt-8 text-xs font-semibold uppercase tracking-wider text-bark-500">Guides by crop</h2>
+        <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <li>
+            <a href="/plant-spacing/" class="text-sm text-bark-700 transition hover:text-moss-800">
+              Plant Spacing by Crop
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
 

@@ -1,0 +1,36 @@
+---
+// A crawlable, plain-HTML index of all 15 /plant-spacing/[crop]/ pages, for
+// placement at the bottom of the Plant Spacing Calculator -- the parent
+// calculator for that pSEO set. Same rationale as StateIndexBlock.astro for
+// the growing-zones/planting-calendar sets: these are real server-rendered
+// <a> elements present in the initial HTML with no JS required, so a
+// crawler that reaches this calculator can walk straight out to every crop
+// page from here. Kept visually compact and placed in the scrolling left
+// column, well outside the sticky calculator panel.
+
+import { cropSpacing } from '../data/crop-spacing';
+
+const sorted = [...cropSpacing].sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<section id="browse-spacing-by-crop" class="not-prose mt-12 border-t border-moss-100 pt-8">
+  <h2 class="font-display text-xl font-semibold text-bark-900">Browse Spacing by Crop</h2>
+  <p class="mt-2 max-w-3xl text-sm text-bark-600">
+    Want the exact figures, real varietal differences, and the extension sources behind one specific crop instead of the full chart above? Each guide below goes deeper on a single crop.
+  </p>
+  <ul class="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3 lg:grid-cols-4">
+    {sorted.map((c) => (
+      <li>
+        <a
+          href={`/plant-spacing/${c.slug}/`}
+          class="text-sm font-medium text-moss-700 underline underline-offset-2 transition hover:text-moss-900"
+        >
+          {c.name} spacing
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="mt-5 text-sm text-bark-600">
+    See the <a href="/plant-spacing/" class="font-medium text-moss-700 underline underline-offset-2 hover:text-moss-900">Plant Spacing hub</a> for the full index.
+  </p>
+</section>

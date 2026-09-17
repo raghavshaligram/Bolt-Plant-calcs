@@ -1,0 +1,43 @@
+---
+// CropSiblingLinks — real, curated lateral links between plant-spacing pages
+// (companion planting pairs, botanical family, or shared spacing regime),
+// modeled directly on StateSiblingLinks.astro's role in the growing-zones
+// pSEO set. The point is the same: crawlable, server-rendered <a> elements
+// that give search engines (and readers) a real path between related pages
+// in this set, using genuine relationships rather than an alphabetical or
+// random pick.
+
+import { getCropSiblings, type CropSpacingEntry } from '../data/crop-spacing';
+
+export interface Props {
+  crop: CropSpacingEntry;
+}
+
+const { crop } = Astro.props;
+const siblings = getCropSiblings(crop);
+---
+
+{siblings.length > 0 && (
+  <section class="not-prose mt-12 border-t border-moss-100 pt-8">
+    <h2 class="font-display text-xl font-semibold text-bark-900">Related Spacing Guides</h2>
+    <p class="mt-2 max-w-3xl text-sm text-bark-600">
+      Real relationships, not a random pick &mdash; companion pairings, shared botanical family, or a similar spacing regime.
+    </p>
+    <ul class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {siblings.map(({ entry, relationshipLabel }) => (
+        <li class="rounded-xl border border-moss-100 bg-white p-4 shadow-card">
+          <a
+            href={`/plant-spacing/${entry.slug}/`}
+            class="font-display text-base font-semibold text-moss-700 underline underline-offset-2 hover:text-moss-900"
+          >
+            {entry.name} plant spacing
+          </a>
+          <p class="mt-1 text-xs text-bark-500">{relationshipLabel}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-5 text-sm text-bark-600">
+      See every crop in this set on the <a href="/plant-spacing/" class="font-medium text-moss-700 underline underline-offset-2 hover:text-moss-900">Plant Spacing hub</a>.
+    </p>
+  </section>
+)}
