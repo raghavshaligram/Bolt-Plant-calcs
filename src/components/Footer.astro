@@ -32,6 +32,25 @@ const year = new Date().getFullYear();
             </li>
           ))}
         </ul>
+
+        {/* The two state-by-state guide sets. These live in the footer on
+            every page because they are the only sitewide entry point into
+            those 102 pages -- without them the state guides are reachable
+            only from their own breadcrumb, which you can't follow unless
+            you're already on one. */}
+        <h2 class="mt-8 text-xs font-semibold uppercase tracking-wider text-bark-500">Guides by state</h2>
+        <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <li>
+            <a href="/growing-zones/" class="text-sm text-bark-700 transition hover:text-moss-800">
+              Growing Zones by State
+            </a>
+          </li>
+          <li>
+            <a href="/planting-calendar/" class="text-sm text-bark-700 transition hover:text-moss-800">
+              Planting Calendars by State
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
 

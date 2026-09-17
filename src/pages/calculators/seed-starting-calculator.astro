@@ -4,6 +4,7 @@ import SeedStartingCalculatorPanel from '../../components/calculators/SeedStarti
 import TableOfContents from '../../components/TableOfContents.astro';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
+import StateIndexBlock from '../../components/StateIndexBlock.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('seed-starting-calculator')!;
@@ -317,4 +318,13 @@ const softwareAppJsonLd = {
       Crop-by-crop indoor seed starting and transplant timing draws on the <a href="https://extension.missouri.edu/publications/g6570" rel="noopener">University of Missouri Extension&rsquo;s "Starting Plants Indoors From Seeds" (G6570)</a> and the <a href="https://extension.umd.edu/resource/when-plant-vegetables" rel="noopener">University of Maryland Extension&rsquo;s Vegetable Planting Calendar</a>, both of which list weeks-before-or-after-last-frost windows by crop. Frost date estimates themselves use the same USDA Plant Hardiness Zone approach as our Frost Date Calculator &mdash; see that page for the underlying sourcing. Choosing between light types for your seed-starting setup? See our <a href="/blog/led-vs-fluorescent-grow-lights/">LED vs. Fluorescent Grow Lights comparison</a>. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
     </p>
   </article>
+
+  {/* Crawlable index of the state guides this calculator parents. Sits at
+      the bottom of the scrolling left column, well below the fold and
+      outside the sticky panel, so it costs the calculator nothing. */}
+  <StateIndexBlock
+    set="planting-calendar"
+    heading="Planting calendars by state"
+    intro={"Working out one crop at a time here? Each state calendar lays out every crop's indoor-sow, transplant and direct-sow windows from that state's own average frost dates."}
+  />
 </CalculatorLayout>

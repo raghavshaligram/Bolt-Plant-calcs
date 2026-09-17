@@ -4,6 +4,7 @@ import FrostDateCalculatorPanel from '../../components/calculators/FrostDateCalc
 import TableOfContents from '../../components/TableOfContents.astro';
 import FAQBlock from '../../components/FAQBlock.astro';
 import RelatedCalculatorsCard from '../../components/RelatedCalculatorsCard.astro';
+import StateIndexBlock from '../../components/StateIndexBlock.astro';
 import { getCalculator, getCluster, leadMagnetConfig, clusterGuideLink } from '../../data/calculators';
 
 const calculator = getCalculator('frost-date-calculator')!;
@@ -288,4 +289,11 @@ const softwareAppJsonLd = {
       General frost-timing guidance and the importance of the last and first frost dates for garden planning draw on <a href="https://gardening.ces.ncsu.edu/weather-2-2/average-first-and-last-frost-dates/" rel="noopener">NC State Extension&rsquo;s average first and last freeze dates resource</a> and the <a href="https://extension.umd.edu/resource/spring-frost-or-freeze-dates-maryland" rel="noopener">University of Maryland Extension&rsquo;s frost and freeze dates guide</a>, both of which also point to station-level tools (Purdue&rsquo;s county Freeze Date Tool, the National Gardening Association&rsquo;s ZIP-code frost lookup) for more precise, address-level data than the zone-based estimate here provides. Hardiness zone reference points were checked against the USDA Plant Hardiness Zone Map. For more on how we build and verify the formulas behind every calculator on this site, see our <a href="/methodology/">methodology page</a>.
     </p>
   </article>
+
+  {/* Crawlable index of the state guides this calculator parents. Sits at
+      the bottom of the scrolling left column, well below the fold and
+      outside the sticky panel, so it costs the calculator nothing. */}
+  <StateIndexBlock
+    set="planting-calendar"
+  />
 </CalculatorLayout>

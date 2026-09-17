@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { liveStates, type LiveState } from '../../data/states';
 import { buildStateCalendar, getStateFrostAverages, formatDate } from '../../data/plantingCalendar';
+import StateSiblingLinks from '../../components/StateSiblingLinks.astro';
 
 export function getStaticPaths() {
   return liveStates.map((state) => ({
@@ -144,6 +145,8 @@ const articleJsonLd = {
           {' '}For more on how we build and verify reference data across this site, see our <a href="/methodology/">methodology page</a>.
         </p>
       </div>
+
+      <StateSiblingLinks slug={state.slug} set="planting-calendar" />
     </div>
   </section>
 </Layout>

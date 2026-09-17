@@ -1,0 +1,64 @@
+---
+// A crawlable, plain-HTML index of every state page in one pSEO set, for
+// placement at the bottom of the calculator that parents that set.
+//
+// The point is discovery, not decoration: these are real <a> elements rendered
+// server-side, present in the initial HTML with no JS and no interaction
+// required, so a crawler that reaches the Hardiness Zone Finder can walk
+// straight out to all 51 growing-zone pages from there. Kept visually compact
+// -- it's a directory, not a feature.
+import { liveStates } from '../data/states';
+
+export interface Props {
+  set: 'growing-zones' | 'planting-calendar';
+  /** Optional override for the heading, e.g. on the Seed Starting Calculator. */
+  heading?: string;
+  /** Optional override for the one-line intro above the list. */
+  intro?: string;
+  id?: string;
+}
+
+const { set, heading, intro, id } = Astro.props;
+
+const config =
+  set === 'growing-zones'
+    ? {
+        base: '/growing-zones/',
+        id: 'growing-zones-by-state',
+        heading: 'Growing zones by state',
+        intro:
+          'Prefer a state-level overview to a ZIP lookup? Each guide covers the full zone range, major city zones, average frost dates, and what grows well there.',
+        hubLabel: 'Growing Zones hub',
+      }
+    : {
+        base: '/planting-calendar/',
+        id: 'planting-calendars-by-state',
+        heading: 'Planting calendars by state',
+        intro:
+          "Want a whole season mapped out instead of one crop at a time? Each state calendar works out every crop's planting windows from that state's own average frost dates.",
+        hubLabel: 'Planting Calendars hub',
+      };
+
+const sorted = [...liveStates].sort((a, b) => a.name.localeCompare(b.name));
+const sectionId = id ?? config.id;
+---
+
+<section id={sectionId} class="not-prose mt-12 border-t border-moss-100 pt-8">
+  <h2 class="font-display text-xl font-semibold text-bark-900">{heading ?? config.heading}</h2>
+  <p class="mt-2 max-w-3xl text-sm text-bark-600">{intro ?? config.intro}</p>
+  <ul class="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3 lg:grid-cols-4">
+    {sorted.map((s) => (
+      <li>
+        <a
+          href={`${config.base}${s.slug}/`}
+          class="text-sm text-bark-700 transition hover:text-moss-800 hover:underline"
+        >
+          {s.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="mt-5 text-sm text-bark-600">
+    See the <a href={config.base} class="font-medium text-moss-700 underline underline-offset-2 hover:text-moss-900">{config.hubLabel}</a> for the full index.
+  </p>
+</section>

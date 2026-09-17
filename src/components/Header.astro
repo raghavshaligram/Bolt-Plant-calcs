@@ -43,6 +43,33 @@ const isActive = (href: string) =>
         </div>
       </div>
 
+      {/* State-by-state guides. Kept as its own small dropdown rather than
+          folded into Calculators: these are reference guides, not calculators,
+          and this way the eight calculator clusters keep their position. */}
+      <div class="group relative">
+        <button
+          class={`rounded-md px-3 py-2 text-sm font-medium transition ${
+            isActive('/growing-zones/') || isActive('/planting-calendar/')
+              ? 'text-moss-800'
+              : 'text-bark-600 hover:text-moss-800'
+          }`}
+          aria-haspopup="true"
+        >
+          By State
+          <svg class="ml-0.5 inline h-3 w-3" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="invisible absolute left-0 top-full w-60 translate-y-1 rounded-xl border border-moss-100 bg-white p-2 opacity-0 shadow-card transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+          <a
+            href="/growing-zones/"
+            class="block rounded-lg px-3 py-2 text-sm text-bark-700 transition hover:bg-moss-50 hover:text-moss-800"
+          >Growing Zones by State</a>
+          <a
+            href="/planting-calendar/"
+            class="block rounded-lg px-3 py-2 text-sm text-bark-700 transition hover:bg-moss-50 hover:text-moss-800"
+          >Planting Calendars by State</a>
+        </div>
+      </div>
+
       <a
         href="/blog/"
         class={`rounded-md px-3 py-2 text-sm font-medium transition ${

@@ -1,0 +1,72 @@
+---
+// Lateral links between neighbouring state pages, for both pSEO sets.
+//
+// Both sets shipped as leaf pages: a state linked up to its hub and across to
+// its counterpart in the other set, but never sideways to another state. That
+// left no path for a crawler to walk from one state page to the next, which is
+// why all 102 sat in "Discovered -- currently not indexed". This block is that
+// path. Neighbours come from the shared adjacency map, never from per-page
+// hardcoding -- see src/data/stateAdjacency.ts.
+import { getNeighborSlugs, CLIMATE_PROXIES } from '../data/stateAdjacency';
+import { getState } from '../data/states';
+
+export interface Props {
+  /** Slug of the state whose page this is rendering on. */
+  slug: string;
+  /** Which pSEO set we're linking within -- neighbours stay in the same set. */
+  set: 'growing-zones' | 'planting-calendar';
+}
+
+const { slug, set } = Astro.props;
+
+const current = getState(slug);
+const neighbors = getNeighborSlugs(slug)
+  .map((s) => getState(s))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+
+// Alaska and Hawaii border nothing, so their list is climate-comparable
+// states rather than neighbours -- say so instead of calling Minnesota a
+// neighbour of Alaska.
+const isProxyList = slug in CLIMATE_PROXIES;
+
+const config =
+  set === 'growing-zones'
+    ? {
+        base: '/growing-zones/',
+        hubLabel: 'all 51 state growing-zone guides',
+        suffix: 'growing zones',
+        heading: isProxyList ? 'Growing zones in comparable climates' : 'Growing zones in nearby states',
+        intro: isProxyList
+          ? `${current?.name ?? 'This state'} doesn't border another state, so these are the closest comparisons by climate:`
+          : `Gardening near a state line? Zones don't stop at the border:`,
+      }
+    : {
+        base: '/planting-calendar/',
+        hubLabel: 'all 51 state planting calendars',
+        suffix: 'planting calendar',
+        heading: isProxyList ? 'Planting calendars for comparable climates' : 'Planting calendars for nearby states',
+        intro: isProxyList
+          ? `${current?.name ?? 'This state'} doesn't border another state, so these are the closest comparisons by climate:`
+          : `Frost dates shift gradually across state lines, not sharply:`,
+      };
+---
+
+<section class="not-prose mt-12 rounded-2xl border border-moss-200 bg-moss-50/60 p-6">
+  <h2 class="font-display text-lg font-semibold text-bark-900">{config.heading}</h2>
+  <p class="mt-1 text-sm text-bark-600">{config.intro}</p>
+  <ul class="mt-4 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+    {neighbors.map((s) => (
+      <li>
+        <a
+          href={`${config.base}${s.slug}/`}
+          class="text-sm font-medium text-moss-700 underline underline-offset-2 transition hover:text-moss-900"
+        >
+          {s.name} {config.suffix}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="mt-4 text-sm text-bark-600">
+    Or browse <a href={config.base} class="font-medium text-moss-700 underline underline-offset-2 hover:text-moss-900">{config.hubLabel}</a>.
+  </p>
+</section>
