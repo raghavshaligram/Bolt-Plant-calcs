@@ -75,6 +75,17 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Fraunces', 'Georgia', 'serif'],
       },
+      fontSize: {
+        // The root font size is 90% (14.4px) -- see `html` in global.css.
+        // Everything on the rem scale shrinks with it, which is the point.
+        // `text-xs` is the exception: at Tailwind's default 0.75rem it would
+        // land at 10.8px, below the 12px legibility floor, and it's used ~850
+        // times (captions, bylines, table labels, helper text, the action
+        // row). Pinning it in px -- not rem -- holds it at exactly 12px
+        // regardless of the root scale, which is what a legibility floor should
+        // do, and avoids patching 850 call sites.
+        xs: ['12px', { lineHeight: '16px' }],
+      },
       boxShadow: {
         card: '0 1px 2px rgba(38, 54, 35, 0.04), 0 4px 16px rgba(38, 54, 35, 0.06)',
         cardHover: '0 2px 4px rgba(38, 54, 35, 0.06), 0 12px 32px rgba(38, 54, 35, 0.1)',

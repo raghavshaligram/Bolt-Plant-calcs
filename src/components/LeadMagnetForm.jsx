@@ -194,7 +194,7 @@ export default function LeadMagnetForm({
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 disabled={status === 'loading'}
-                className="w-40 rounded-md border border-[#5C4433] bg-white px-3 py-2 font-sans text-sm text-[#5C4433] placeholder:text-[#5C4433]/50 shadow-sm transition focus:border-[#3D6647] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] disabled:opacity-60 sm:w-52"
+                className="w-40 rounded-md border border-[#5C4433] bg-white px-3 py-2 font-sans text-[#5C4433] placeholder:text-[#5C4433]/50 shadow-sm transition focus:border-[#3D6647] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] disabled:opacity-60 sm:w-52"
               />
               <button
                 type="submit"
@@ -284,7 +284,7 @@ export default function LeadMagnetForm({
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     disabled={status === 'loading'}
-                    className="w-full rounded-md border border-[#5C4433] bg-[#F5F1E8] px-4 py-2.5 font-sans text-sm text-[#5C4433] placeholder:text-[#5C4433]/50 shadow-sm transition focus:border-[#3D6647] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] focus:shadow-inner disabled:opacity-60"
+                    className="w-full rounded-md border border-[#5C4433] bg-[#F5F1E8] px-4 py-2.5 font-sans text-[#5C4433] placeholder:text-[#5C4433]/50 shadow-sm transition focus:border-[#3D6647] focus:outline-none focus:ring-2 focus:ring-[#E8A94A] focus:shadow-inner disabled:opacity-60"
                   />
                   {status === 'error' && (
                     <p className="mt-1.5 font-sans text-sm text-red-600">{errorMessage}</p>

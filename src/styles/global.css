@@ -7,6 +7,13 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Sitewide 0.9x typographic scale: 16px -> 14.4px base. Everything on the
+       rem scale follows automatically, including rem-based padding and gaps,
+       which is what makes this read as a coherent 90% zoom rather than just
+       smaller text. Two deliberate exceptions: `text-xs` is pinned in
+       tailwind.config.js so it stays at 12px, and form controls are pinned at
+       16px below. */
+    font-size: 90%;
   }
   body {
     @apply bg-sand-50 text-bark-900 font-sans antialiased;
@@ -33,9 +40,32 @@
     @apply rounded-2xl bg-white p-6 shadow-card ring-1 ring-moss-100/60;
   }
   .input-field {
-    @apply block w-full rounded-lg border-0 bg-sand-50 px-3.5 py-2.5 text-bark-900 shadow-sm ring-1 ring-inset ring-bark-200 placeholder:text-bark-400 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-moss-500 sm:text-sm sm:leading-6;
+    @apply block w-full rounded-lg border-0 bg-sand-50 px-3.5 py-2.5 text-bark-900 shadow-sm ring-1 ring-inset ring-bark-200 placeholder:text-bark-400 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-moss-500 sm:leading-6;
   }
   .label-field {
     @apply block text-sm font-medium leading-6 text-bark-800;
   }
+}
+
+/* iOS Safari zooms the viewport whenever a focused form control renders below
+   16px, which on a calculator page means the layout jumps and the visitor has
+   to pinch back out. The 0.9x scale would have taken every input to 14.4px, so
+   form controls are pinned at 16px instead.
+
+   This is deliberately unlayered: `.input-field` sets `sm:text-sm` via @apply
+   inside @layer components, and an unlayered rule wins over any layered one no
+   matter the specificity. It is also unconditional rather than scoped to a
+   breakpoint -- iPhones in landscape are wide enough to match `sm:`, so a
+   breakpoint-scoped fix would still zoom when the phone is turned sideways.
+   That case zooms on the current site too; this fixes it.
+
+   Note: `.input-field` used to set `sm:text-sm` here, which won on
+   specificity -- Tailwind v3's @layer is build-time sorting, not a real CSS
+   cascade layer, so an unlayered element rule has no precedence over a
+   class. That declaration has been removed from `.input-field` so this rule
+   is the single source of truth for form-control sizing. */
+input,
+select,
+textarea {
+  font-size: 16px;
 }
